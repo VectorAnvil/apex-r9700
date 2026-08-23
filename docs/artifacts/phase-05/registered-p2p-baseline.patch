@@ -1,0 +1,313 @@
+diff --git a/ggml/src/ggml-cuda/allreduce.cu b/ggml/src/ggml-cuda/allreduce.cu
+index d56129a22..c703df254 100644
+--- a/ggml/src/ggml-cuda/allreduce.cu
++++ b/ggml/src/ggml-cuda/allreduce.cu
+@@ -952,13 +952,277 @@ bool ggml_cuda_ar_allreduce(
+     return ok;
+ }
+ 
+-#else // defined(GGML_USE_HIP) || defined(GGML_USE_MUSA)
++#elif defined(GGML_USE_HIP)
++
++// ---------------------------------------------------------------------------
++// HIP "Droga B" direct-P2P AllReduce for 2 RDNA GPUs over PCIe (no NVLink, no
++// RCCL).  Each GPU publishes its partial into a peer-visible VRAM buffer,
++// signals arrival via a pinned-host flag, then reads the peer's VRAM buffer
++// DIRECTLY over PCIe (1 traversal) and sums.  Half the PCIe traffic of the
++// host-staged CUDA path (which does D2H + H2D = 2 traversals).
++// Measured peer bandwidth on 2x R9700: ~14 GB/s, full-duplex.
++// ---------------------------------------------------------------------------
++
++#include "convert.cuh"
++#include "ggml-impl.h"
++#include <algorithm>
++#include <cstdlib>
++#include <cstring>
++#include <limits>
++
++#define GGML_AR_HIP_BLOCKS   4
++#define GGML_AR_HIP_THREADS  256
++#define GGML_AR_HIP_POOL     2
++#define GGML_AR_HIP_MAXBYTES (8u * 1024 * 1024) // per-slot staging per device
++
++static __device__ __forceinline__ void ggml_ar_hip_sleep() {
++#if defined(__HIP_DEVICE_COMPILE__)
++    __builtin_amdgcn_s_sleep(2);
++#endif
++}
++
++// One block per arrival slot; thread 0 signals/spins on its block's flag.
++template <typename T>
++static __global__ void ggml_ar_hip_kernel(
++        const T * __restrict__ sendbuf,
++        T       * __restrict__ recvbuf,
++        T       * __restrict__ buf_mine,   // own VRAM, peer-readable
++        const T * __restrict__ buf_peer,   // peer VRAM, read over P2P
++        int                    count,
++        int                    compute_mine,
++        volatile int *         my_inbox,    // MY VRAM inbox (spin locally) [BLOCKS]
++        volatile int *         peer_inbox,  // PEER VRAM inbox (write my arrival)
++        int *                  dev_token,   // RANK1: per-block device-resident counter [BLOCKS]
++        int                    sync_flags) {  // RANK3: bit0=skip signal-fence, bit1=skip acquire-fence
++    const int bid  = blockIdx.x;
++    const int gtid = blockIdx.x * blockDim.x + threadIdx.x;
++    const int gnt  = gridDim.x  * blockDim.x;
++
++    // Phase 1: publish my partial (or zero if this shard wasn't computed).
++    for (int i = gtid; i < count; i += gnt) {
++        buf_mine[i] = compute_mine ? sendbuf[i] : (T) 0;
++    }
++    if (!(sync_flags & 4)) __threadfence_system(); // RANK3+: gate release fence A (data-before-signal)
++    __syncthreads();
++
++    // Phase 2: write my arrival into the PEER's VRAM inbox (one PCIe write),
++    // then spin on MY OWN VRAM inbox (local reads — far cheaper than polling
++    // pinned host memory over PCIe).
++    if (threadIdx.x == 0) {
++        // RANK1: device-resident monotonic token (per block). Strictly increases
++        // across kernel re-executions (incl. HIP-graph replays). Only this block's
++        // thread 0 touches dev_token[bid], so no atomic is needed.
++        const int token = ++dev_token[bid];
++        peer_inbox[bid] = token;
++        if (!(sync_flags & 1)) __threadfence_system(); // RANK3: gate signal-push fence
++        while (my_inbox[bid] != token) {
++            ggml_ar_hip_sleep();
++        }
++    }
++    __syncthreads();
++    if (!(sync_flags & 2)) __threadfence_system(); // RANK3: gate acquire fence
++
++    // Phase 3: read peer's VRAM directly over PCIe, sum in fp32, write back.
++    for (int i = gtid; i < count; i += gnt) {
++        const float mine = compute_mine ? ggml_cuda_cast<float>(sendbuf[i]) : 0.0f;
++        const float peer = ggml_cuda_cast<float>(buf_peer[i]);
++        recvbuf[i] = ggml_cuda_cast<T>(mine + peer);
++    }
++}
++
++struct ggml_cuda_ar_pipeline {
++    int       n_devices;
++    int       devices[2];
++    char *    dev_buf[2];        // POOL * MAXBYTES per device, peer-accessible
++    int *     inbox[2];          // per-device VRAM arrival inbox: [POOL][BLOCKS]
++    int *     dev_token[2];      // RANK1: per-device [BLOCKS] device-resident monotonic
++                                 // rendezvous counter. Replaces the host-incremented
++                                 // token so the flag value keeps strictly increasing
++                                 // across HIP-graph REPLAYS (a baked host token would
++                                 // repeat and cause a stale-flag race). Never reset.
++    uint64_t  call_count;
++    size_t    last_ar_bytes = 0; // RANK1: size of most recent AR (decode/prefill gate)
++};
++
++ggml_cuda_ar_pipeline * ggml_cuda_ar_pipeline_init(const int * devices, size_t n_devices) {
++    if (n_devices != 2) {
++        return nullptr;
++    }
++    // Require working bidirectional P2P; otherwise let the caller fall back.
++    for (int i = 0; i < 2; ++i) {
++        int peer = 1 - i;
++        int can = 0;
++        ggml_cuda_set_device(devices[i]);
++        if (hipDeviceCanAccessPeer(&can, devices[i], devices[peer]) != hipSuccess || !can) {
++            return nullptr;
++        }
++        hipError_t e = hipDeviceEnablePeerAccess(devices[peer], 0);
++        if (e != hipSuccess && e != hipErrorPeerAccessAlreadyEnabled) {
++            return nullptr;
++        }
++        // CRITICAL: hipDeviceEnablePeerAccess leaves a STICKY error in the
++        // last-error state when peer access is already enabled. If not cleared,
++        // the next ggml_cuda_kernel_launch's hipGetLastError() trips on it and
++        // aborts (manifests as a spurious "ROCm error" in an unrelated kernel
++        // during prefill+decode). Clear it here.
++        (void) hipGetLastError();
++    }
++
++    ggml_cuda_ar_pipeline * p = new ggml_cuda_ar_pipeline{};
++    p->n_devices = 2;
++    p->devices[0] = devices[0];
++    p->devices[1] = devices[1];
++
++    const size_t buf_bytes = (size_t) GGML_AR_HIP_POOL * GGML_AR_HIP_MAXBYTES;
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(devices[i]);
++        if (hipMalloc((void **) &p->dev_buf[i], buf_bytes) != hipSuccess) {
++            for (int j = 0; j < i; ++j) { ggml_cuda_set_device(devices[j]); hipFree(p->dev_buf[j]); }
++            delete p;
++            return nullptr;
++        }
++    }
++
++    // Per-device VRAM arrival inboxes (peer writes my arrival; I spin locally).
++    const size_t inbox_bytes = (size_t) GGML_AR_HIP_POOL * GGML_AR_HIP_BLOCKS * sizeof(int);
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(devices[i]);
++        if (hipMalloc((void **) &p->inbox[i], inbox_bytes) != hipSuccess ||
++            hipMemset(p->inbox[i], 0, inbox_bytes) != hipSuccess) {
++            for (int j = 0; j < i; ++j) { ggml_cuda_set_device(devices[j]); hipFree(p->inbox[j]); }
++            for (int j = 0; j < 2; ++j) { ggml_cuda_set_device(devices[j]); hipFree(p->dev_buf[j]); }
++            delete p;
++            return nullptr;
++        }
++    }
++
++    // RANK1: per-device device-resident rendezvous counters ([BLOCKS] ints, zeroed).
++    const size_t token_bytes = (size_t) GGML_AR_HIP_BLOCKS * sizeof(int);
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(devices[i]);
++        if (hipMalloc((void **) &p->dev_token[i], token_bytes) != hipSuccess ||
++            hipMemset(p->dev_token[i], 0, token_bytes) != hipSuccess) {
++            for (int j = 0; j < i; ++j) { ggml_cuda_set_device(devices[j]); hipFree(p->dev_token[j]); }
++            for (int j = 0; j < 2; ++j) { ggml_cuda_set_device(devices[j]); hipFree(p->inbox[j]); hipFree(p->dev_buf[j]); }
++            delete p;
++            return nullptr;
++        }
++    }
++
++    GGML_LOG_INFO("%s: HIP direct-P2P AllReduce ready (2 GPUs, %u KB/slot staging)\n",
++                  __func__, GGML_AR_HIP_MAXBYTES >> 10);
++    return p;
++}
++
++void ggml_cuda_ar_pipeline_free(ggml_cuda_ar_pipeline * p) {
++    if (!p) {
++        return;
++    }
++    for (int i = 0; i < p->n_devices; ++i) {
++        ggml_cuda_set_device(p->devices[i]);
++        hipDeviceSynchronize();
++        if (p->dev_buf[i])   { hipFree(p->dev_buf[i]); }
++        if (p->inbox[i])     { hipFree(p->inbox[i]); }
++        if (p->dev_token[i]) { hipFree(p->dev_token[i]); }
++    }
++    delete p;
++}
++
++template <typename T>
++static void ggml_ar_hip_launch(ggml_cuda_ar_pipeline * p, ggml_backend_t * backends,
++                               ggml_tensor ** tensors, int64_t ne) {
++    const int    nblk     = GGML_AR_HIP_BLOCKS;
++    const size_t max_elem = GGML_AR_HIP_MAXBYTES / sizeof(T);
++    // RANK3: gate the signal-push (bit0) and acquire (bit1) system fences.
++    // Default 2 = skip the acquire fence (bit1): PPL-VALIDATED bit-identical to
++    // baseline on gfx1201 (peer-VRAM P2P reads are coherent without it), +0.9%
++    // decode. The signal-push fence (bit0) is kept ON for cross-GPU liveness.
++    static const int sync_flags = [] {
++        const char * e = getenv("JV8_AR_SYNCFLAGS");
++        return e ? (int) strtol(e, nullptr, 10) : 2;
++    }();
++
++    for (int64_t off = 0; off < ne; off += (int64_t) max_elem) {
++        const int    count = (int) std::min((int64_t) max_elem, ne - off);
++        // RANK1: host call_count still drives the staging SLOT (a stable
++        // alternating pattern, safe to bake into a captured graph); the rendezvous
++        // flag VALUE now comes from the device-resident counter for replay-safety.
++        const int    slot  = (int) (++p->call_count) % GGML_AR_HIP_POOL;
++
++        for (int i = 0; i < 2; ++i) {
++            const int peer = 1 - i;
++            auto * ctx = (ggml_backend_cuda_context *) backends[i]->context;
++            ggml_cuda_set_device(p->devices[i]);
++
++            T * send = (T *) tensors[i]->data + off;
++            T * mine = (T *) (p->dev_buf[i]    + (size_t) slot * GGML_AR_HIP_MAXBYTES);
++            T * peerb = (T *) (p->dev_buf[peer] + (size_t) slot * GGML_AR_HIP_MAXBYTES);
++            int * my_inbox   = p->inbox[i]    + (size_t) slot * nblk; // spin locally
++            int * peer_inbox = p->inbox[peer] + (size_t) slot * nblk; // write my arrival
++            const int compute = (tensors[i]->flags & GGML_TENSOR_FLAG_COMPUTE) != 0;
++
++            ggml_ar_hip_kernel<T><<<nblk, GGML_AR_HIP_THREADS, 0, ctx->stream()>>>(
++                send, send, mine, peerb, count, compute, my_inbox, peer_inbox, p->dev_token[i], sync_flags);
++            CUDA_CHECK(cudaGetLastError());
++        }
++    }
++}
++
++bool ggml_cuda_ar_allreduce(ggml_cuda_ar_pipeline * p, ggml_backend_t * backends,
++                            ggml_tensor ** tensors) {
++    GGML_ASSERT(p != nullptr && p->n_devices == 2);
++    // DIAGNOSTIC: JV8_AR_DBG syncs both devices and prints any pending error
++    // BEFORE this AllReduce (catches async errors from a prior op).
++    static const bool ar_dbg = getenv("JV8_AR_DBG") != nullptr;
++    if (ar_dbg) {
++        for (int i = 0; i < 2; ++i) {
++            ggml_cuda_set_device(p->devices[i]);
++            hipError_t e = hipDeviceSynchronize();
++            if (e != hipSuccess) {
++                fprintf(stderr, "[JV8-AR-DBG] pre-AR error on dev%d: %s (ne=%lld type=%d)\n",
++                        i, hipGetErrorString(e), (long long) ggml_nelements(tensors[0]),
++                        (int) tensors[0]->type);
++                (void) hipGetLastError();
++            }
++        }
++    }
++    // DIAGNOSTIC: GGML_AR_NOOP skips the reduction entirely (WRONG results) to
++    // measure the tensor-split decode ceiling without comm/barrier cost.
++    static const bool ar_noop = getenv("GGML_AR_NOOP") != nullptr;
++    if (ar_noop) { return true; }
++
++    // SIZE DISPATCH: the chunked direct-P2P kernel is latency-optimal for small
++    // (decode, batch=1) reductions but does NOT overlap the peer transfer with
++    // compute, so it regresses large (prefill ubatch) reductions. Hand large
++    // tensors back to the meta-backend butterfly (return false) which overlaps
++    // fine. Threshold separates decode (~tens of KB) from prefill (~MBs).
++    static const size_t ar_max_bytes = [] {
++        const char * e = getenv("GGML_AR_HIP_MAXSIZE");
++        return e ? (size_t) strtoull(e, nullptr, 10) : (size_t) (512 * 1024);
++    }();
++    p->last_ar_bytes = ggml_nbytes(tensors[0]);
++    if (p->last_ar_bytes > ar_max_bytes) {
++        return false; // butterfly handles large (prefill) reductions without regression
++    }
++
++    const int64_t ne = ggml_nelements(tensors[0]);
++    GGML_ASSERT(ne > 0 && ne <= std::numeric_limits<int>::max());
++
++    switch (tensors[0]->type) {
++        case GGML_TYPE_F32:  ggml_ar_hip_launch<float>      (p, backends, tensors, ne); break;
++        case GGML_TYPE_F16:  ggml_ar_hip_launch<half>       (p, backends, tensors, ne); break;
++        case GGML_TYPE_BF16: ggml_ar_hip_launch<nv_bfloat16>(p, backends, tensors, ne); break;
++        default: return false;
++    }
++    return true;
++}
++
++size_t ggml_cuda_ar_last_bytes(ggml_cuda_ar_pipeline * p) {
++    return p ? p->last_ar_bytes : 0;
++}
++
++#else // MUSA: keep the stub (internal AllReduce stays CUDA/HIP-only)
+ 
+-// HIP and MUSA lack the host-mapped pinned-memory APIs (cudaHostAllocPortable
+-// / cudaHostAllocMapped / cudaHostGetDevicePointer) and __nanosleep that this
+-// implementation relies on, so the internal AllReduce is a CUDA-only feature.
+-// The dispatcher in ggml-cuda.cu treats a nullptr pipeline as "init failed"
+-// and silently falls back to the meta backend's generic AllReduce.
+ ggml_cuda_ar_pipeline * ggml_cuda_ar_pipeline_init(const int *, size_t) {
+     return nullptr;
+ }
+@@ -967,5 +1231,8 @@ void ggml_cuda_ar_pipeline_free(ggml_cuda_ar_pipeline *) {
+ bool ggml_cuda_ar_allreduce(ggml_cuda_ar_pipeline *, ggml_backend_t *, ggml_tensor **) {
+     return false;
+ }
++size_t ggml_cuda_ar_last_bytes(ggml_cuda_ar_pipeline *) {
++    return 0;
++}
+ 
+ #endif // !defined(GGML_USE_HIP) && !defined(GGML_USE_MUSA)
+diff --git a/ggml/src/ggml-cuda/allreduce.cuh b/ggml/src/ggml-cuda/allreduce.cuh
+index 0f2c9518d..68f594090 100644
+--- a/ggml/src/ggml-cuda/allreduce.cuh
++++ b/ggml/src/ggml-cuda/allreduce.cuh
+@@ -17,6 +17,11 @@ ggml_cuda_ar_pipeline * ggml_cuda_ar_pipeline_init(
+ // Release all resources owned by the pipeline.
+ void ggml_cuda_ar_pipeline_free(ggml_cuda_ar_pipeline * pipeline);
+ 
++// RANK1: byte size of the most recent AllReduce tensor (0 if none yet). Used by
++// the whole-token graph-capture gate to distinguish decode (small) from prefill
++// (large) without capturing the host-orchestrated butterfly fallback.
++size_t ggml_cuda_ar_last_bytes(ggml_cuda_ar_pipeline * pipeline);
++
+ // Execute an in-place AllReduce (sum) across tensors[0..n_devices-1].
+ // tensors[i] must live on the device managed by backends[i] and be
+ // contiguous F32, F16, or BF16.

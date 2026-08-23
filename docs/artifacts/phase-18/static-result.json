@@ -1,0 +1,66 @@
+{
+  "schema_version": "apex.phase18.static_result.v1",
+  "task_fingerprint": "24504366fcca672e6b926831562533671b18371de26da38fb61bb168ba0ad801",
+  "decision": "static_gate_fail",
+  "production_candidate_built": true,
+  "gpu_work_authorized": false,
+  "k2_overlap": {
+    "status": "preserved_partial_overlap",
+    "evidence": "In the fused candidate ISA, current-primary dot8 instructions occur at 0xE3D8C-0xE3DE0; next-kbx packet VMEM occurs at 0xE3F98-0xE4098; current-gate dot8 instructions follow at 0xE434C-0xE43A0.",
+    "interpretation": "The compiler retains Phase16C's useful partial schedule: primary compute, next-K prefetch, then current gate compute. It does not prefetch before current-primary compute."
+  },
+  "native_dot8": {
+    "status": "pass",
+    "instruction": "v_dot8_i32_iu4",
+    "fused_candidate_count": 32,
+    "fused_control_dp4a_count": 8,
+    "scalarized": false
+  },
+  "unfused_identity": {
+    "status": "pass",
+    "control_machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d",
+    "candidate_machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d"
+  },
+  "fused_resources": {
+    "control": {
+      "vgpr": 60,
+      "sgpr": 42,
+      "lds_bytes": 1792,
+      "private_bytes": 0,
+      "spills": 0,
+      "global_loads": 30,
+      "instruction_lines": 918
+    },
+    "candidate": {
+      "vgpr": 66,
+      "sgpr": 42,
+      "lds_bytes": 1792,
+      "private_bytes": 0,
+      "spills": 0,
+      "global_loads": 30,
+      "instruction_lines": 1095
+    },
+    "frozen_vgpr_ceiling": 64,
+    "vgpr_gate": "fail",
+    "memory_and_spill_gate": "pass"
+  },
+  "instruction_delta": {
+    "instruction_lines": 177,
+    "global_loads": 0,
+    "v_dot4": -8,
+    "v_dot8": 32,
+    "s_wait_loadcnt": 1,
+    "s_wait_alu_candidate": 67,
+    "v_and": 84,
+    "v_lshr": 48,
+    "v_lshl": 12,
+    "v_or": 16
+  },
+  "provenance": {
+    "candidate_llama_bench_sha256": "272ed8bcf8bd72df9b6235cf966848202bd4826a090bd08e0de138f2b71f2c6c",
+    "candidate_libggml_hip_sha256": "db7d1de694170eb768f694566b57acec4150bafbfa5299161c7e967066c25e3a",
+    "candidate_hsaco_sha256": "95050ca081936ec2a3d0e3359dd72d2b2ea70f8d79a757b357ef4436f321ecc8",
+    "control_hsaco_sha256": "1e08a9aaaa49ab9bcd190182119ae358a6db75e69e77c738d675cdecc48d7718",
+    "resource_summary_sha256": "52be3b9744d23fd7eb31c0f95a41a3b5768cb2e9c870a39c4e3ad0de6e4eab26"
+  }
+}

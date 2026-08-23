@@ -1,0 +1,19 @@
+{
+  "schema_version": "apex.phase14a.compact.v1",
+  "decision": "authorize_phase15_paired_y64_w4",
+  "normal_graph_pp": {"process_avg_ts": [1041.862081, 1042.195278, 1042.375178], "mean_ts": 1042.144179, "relative_spread": 0.0004923474},
+  "graph_witness": {"hipStreamBeginCapture": 514, "hipStreamEndCapture": 514, "hipGraphInstantiate": 514, "hipGraphLaunch": 514},
+  "trace": {"mode": "profiler-induced no-graph diagnostic", "summed_gpu_kernel_time_ns": 3384818655, "q6_k_mmq_duration_ns": 2631943816, "q6_k_mmq_share": 0.7775672112, "exact_join": true, "repeats_per_device": 6, "unmatched": 0, "ambiguous": 0},
+  "operations": [
+    {"name": "ffn_up", "shape_mnk": [8704, 512, 5120], "duration_ns": 590523049, "share": 0.1744609279},
+    {"name": "ffn_gate", "shape_mnk": [8704, 512, 5120], "duration_ns": 588459112, "share": 0.1738511696},
+    {"name": "ffn_down", "shape_mnk": [5120, 512, 8704], "duration_ns": 569632452, "share": 0.1682891232},
+    {"name": "attn_qkv", "shape_mnk": [5120, 512, 5120], "duration_ns": 252011102, "share": 0.0744527936},
+    {"name": "attn_gate", "shape_mnk": [3072, 512, 5120], "duration_ns": 157011071, "share": 0.0463864995},
+    {"name": "ssm_out", "shape_mnk": [5120, 512, 3072], "duration_ns": 153796603, "share": 0.0454368345}
+  ],
+  "gpu_balance": {"gpu0_q6_k_ns": 1333053355, "gpu1_q6_k_ns": 1298890461, "absolute_imbalance": 0.0129801000, "slow_fast_ratio": 1.0263015974},
+  "communication": {"runtime_copy_buffer_calls": 1280, "runtime_copy_buffer_duration_ns": 5466415, "runtime_copy_buffer_share": 0.0016149680, "ggml_ar_hip_kernel_calls": 0, "double_counted": false},
+  "resources": {"static_vgpr": [252, 253], "static_sgpr": [27, 30], "runtime_vgpr": 256, "runtime_sgpr": 128, "dynamic_lds_bytes": 57856, "private_bytes": 0, "scratch_bytes": 0, "spills": 0, "workgroup_threads": 256, "waves": 8},
+  "counters": {"achieved_occupancy": null, "achieved_bandwidth": null, "status": "unavailable; prior corrected both-device gfx1201 attempts abort in unordered_map::at"}
+}

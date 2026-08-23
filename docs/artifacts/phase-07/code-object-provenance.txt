@@ -1,0 +1,30 @@
+Phase 7 static code-object provenance
+
+Target: hipv4-amdgcn-amd-amdhsa--gfx1201
+Tools:
+  /opt/rocm-7.2.0/lib/llvm/bin/llvm-objcopy --version
+  /opt/rocm-7.2.0/lib/llvm/bin/clang-offload-bundler --version
+  /opt/rocm-7.2.0/lib/llvm/bin/llvm-readobj --version
+All report AMD LLVM version 22.0.0git, optimized build.
+
+For each variant, the reproducible extraction sequence was:
+  llvm-objcopy --dump-section .hip_fatbin=<variant>-mmq.hip_fatbin <build>/.../mmq.cu.o
+  clang-offload-bundler -type=o -unbundle -targets=hipv4-amdgcn-amd-amdhsa--gfx1201 \
+    -input=<variant>-mmq.hip_fatbin -output=<variant>-mmq-gfx1201.hsaco
+  llvm-readobj --notes <variant>-mmq-gfx1201.hsaco > <variant>-mmq-amdhsa-notes.txt
+
+The same sequence was run against builds/<variant>/bin/libggml-hip.so.0 and
+produced <variant>-libggml-hip.{hip_fatbin,gfx1201.hsaco,amdhsa-notes.txt}.
+
+Source fact: the pinned ggml.h defines GGML_TYPE_Q6_K as 14. The requested
+symbol token is mul_mat_qIL9ggml_type14ELi128, with final bool false/true for
+need_check. The generic mmq.cu.o and final linked libggml-hip bundles do not
+contain that token because Q6_K is compiled in a separate template-instantiation
+translation unit. The correct artifacts are
+<variant>-mmq-q6_k.{hip_fatbin,gfx1201.hsaco,amdhsa-notes.txt}, extracted from
+builds/<variant>/.../template-instances/mmq-instance-q6_k.cu.o. They contain
+both expected Q6_K MMQ-128 symbols and are the sole static resource evidence
+for this Phase 7 hotspot.
+
+The generic MMQ compilation-unit bundle contains type-41 MMQ-128 symbols with
+both need_check values. Type 41 is Q1_0 and is not treated as Q6_K evidence.

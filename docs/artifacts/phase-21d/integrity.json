@@ -1,0 +1,76 @@
+{
+  "schema_version": "apex.phase21d.integrity.v1",
+  "decision": "pass",
+  "task_v2_sha256": "4fb07b0268f9efc8391e89864c6f03da6b73a0fba03a0614482039750088d188",
+  "parity": {
+    "baseline_tokens": 192,
+    "recorder_r1_exact": true,
+    "recorder_r2_exact": true,
+    "content_exact": true
+  },
+  "cycles": {
+    "total": 55,
+    "full_12_position": 50,
+    "terminal_short": 5,
+    "semantic_payload_exact_between_runs": true,
+    "distribution_cycle_ids": [
+      1,
+      55
+    ],
+    "target_stage_cycle_ids": [
+      1,
+      55
+    ]
+  },
+  "distribution": {
+    "all_rows_valid": true,
+    "top_k": 32,
+    "normalization": "full-vocabulary log-sum-exp",
+    "canonical_positions": 630,
+    "canonical_in_top32": 496,
+    "canonical_top32_rate": 0.7873015873015873,
+    "canonical_rank_counts_zero_based": {
+      "0": 218,
+      "1": 64,
+      "2": 38,
+      "3": 28,
+      "4": 23,
+      "5": 17,
+      "6": 11,
+      "7": 9,
+      "8": 5,
+      "9": 5,
+      "10": 9,
+      "11": 5,
+      "12": 7,
+      "13": 4,
+      "14": 3,
+      "15": 6,
+      "16": 5,
+      "17": 5,
+      "18": 4,
+      "19": 4,
+      "20": 4,
+      "21": 2,
+      "22": 2,
+      "23": 2,
+      "24": 3,
+      "25": 2,
+      "26": 1,
+      "27": 3,
+      "28": 3,
+      "29": 3,
+      "30": 1
+    }
+  },
+  "hashes": {
+    "r1_distributions": "d306c19b33d23df7283a2dc3b829fab03d5ba7f8ad774f61964f458fd4080bbf",
+    "r2_distributions": "69d61806c40d1d33cbcf79f4b6ed26e86d337d7211ddc618045832ae8bd29a3f",
+    "ddtree_py": "8d0ecd9d07a7266d3825eefd176811502313a0da7cedfcdc8aec1a4971c3a99b"
+  },
+  "limits": [
+    "The five terminal cycles are complete for their server-requested widths but are excluded from 12-position policy replay.",
+    "Canonical-path replay uses the exact serial token stream; it does not prove alternate-branch target logits or recurrent-state correctness.",
+    "Stage timings are instrumentation diagnostics, not stable performance measurements."
+  ]
+}

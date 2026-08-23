@@ -1,0 +1,40 @@
+{
+  "schema": "apex.phase20.n5_isa_map.v1",
+  "n5_symbol": {
+    "isa_sha256": "4b9abed2a76e489e06d83b2b331bfaf7e5b4d1d5aff5e5df8c74f04ebcfabaf1",
+    "resources": {
+      "vgpr": 50,
+      "sgpr": 32,
+      "lds_bytes": 0,
+      "private_bytes": 0,
+      "spills": 0,
+      "wave_size": 32
+    },
+    "loop_body": {
+      "q6_weight_loads": 5,
+      "q8_activation_loads": 20,
+      "total_global_loads": 25,
+      "dp4a": 10,
+      "accumulator_chains": 5,
+      "wave_reductions": 5,
+      "stores": 5
+    },
+    "line_map": {
+      "q8_and_weight_load_region": "isa-q6k-n5-unfused.txt:88-142",
+      "q6_weight_fields": "lines 121-124 and 142: ql, qh, scales[0/4], d",
+      "first_dp4a_group": "lines 204-208",
+      "second_dp4a_group": "lines 227-231",
+      "progressive_load_waits": "lines 151-159 and 248-256",
+      "five_reductions_and_stores": "lines 298-436"
+    },
+    "interpretation": "The compiler hoists the five Q6 fields across all columns. The remaining twenty loads are four required Q8_1 fields for each of five distinct activation columns. Loads are grouped before dependent dot work; no next-K or vector-width claim is carried forward."
+  },
+  "registered_r2_precedent": {
+    "isa_sha256": "5c572fa93533e3125dd93ab545302626877af859b60fa2dcfba2e92f1a0f10fc",
+    "relevant_global_loads": 14,
+    "ids_loads": 1,
+    "dp4a": 4,
+    "model_without_reuse_loads": 18,
+    "proof": "Two Q6 weight rows contribute ten weight-field loads while one Q8_1 column contributes four shared activation loads. The emitted 14 relevant loads prove register-level Q8_1 reuse without LDS or barriers."
+  }
+}

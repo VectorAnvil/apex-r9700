@@ -1,0 +1,21 @@
+{
+  "exact_shape": {
+    "k": 5120,
+    "m": 8704,
+    "n": 512
+  },
+  "gpu_execution": false,
+  "passed": true,
+  "required": [
+    "both_device_candidate_and_fallback_dispatch",
+    "cpu_oracle_f32_glu_parity",
+    "normal_graph_capture_replay",
+    "static_resources",
+    "dynamic_occupancy_if_feasible",
+    "non_multiplexed_counters_or_unavailable",
+    "three_round_same_build_timing",
+    "three_process_normal_graph_whole_pp"
+  ],
+  "schema_version": "apex.phase10.evaluation_plan.v0",
+  "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907"
+}

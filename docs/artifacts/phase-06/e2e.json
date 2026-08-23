@@ -1,0 +1,10 @@
+{
+  "candidate_registered": false,
+  "existing_registered_assets_changed": false,
+  "normal_graphs_required": true,
+  "permitted": false,
+  "reason": "The exact fused ffn_up gate failed on both physical GPUs; device-0 attn_kv also failed the frozen stability gate.",
+  "run": false,
+  "schema_version": "apex.phase6.e2e.v1",
+  "task_fingerprint": "4542409930c19a8897fad3c35b4c41e066e6e8e14b76c4f863d25fcb777debff"
+}

@@ -1,0 +1,196 @@
+{
+  "attempt_id": "rdna4-q6k-nwarps4-confirmation",
+  "candidate_patch": {
+    "path": "evidence/apex-phase3-nwarps4.patch",
+    "sha256": "bdbe7b5098e860e8d2870fac2cad24020a8c4937f5998de4286646fb9a847d6b"
+  },
+  "cases": [
+    {
+      "baseline": {
+        "mad_us": 0.28999999999999915,
+        "max_us": 123.8,
+        "mean_us": 123.26833333333333,
+        "median_us": 123.24000000000001,
+        "min_us": 122.73,
+        "raw_us": [
+          123.42,
+          123.8,
+          123.06,
+          123.59,
+          122.73,
+          123.01
+        ],
+        "relative_spread": 0.00868224602401812,
+        "stddev_us": 0.4022644238143177
+      },
+      "candidate": {
+        "mad_us": 0.6899999999999977,
+        "max_us": 122.32,
+        "mean_us": 121.19666666666667,
+        "median_us": 120.98,
+        "min_us": 120.29,
+        "raw_us": [
+          122.32,
+          120.98,
+          120.29
+        ],
+        "relative_spread": 0.01677963299718951,
+        "stddev_us": 1.0321983013613805
+      },
+      "case": "type_a=q6_K,type_b=f32,m=17408,n=1,k=5120",
+      "speedup": 1.0186807736816004,
+      "status": "microbenchmark_win"
+    },
+    {
+      "baseline": {
+        "mad_us": 1.154999999999987,
+        "max_us": 115.38,
+        "mean_us": 112.91666666666667,
+        "median_us": 114.02000000000001,
+        "min_us": 109.51,
+        "raw_us": [
+          113.26,
+          109.6,
+          109.51,
+          114.78,
+          114.97,
+          115.38
+        ],
+        "relative_spread": 0.05148219610594624,
+        "stddev_us": 2.7011010100821227
+      },
+      "candidate": {
+        "mad_us": 0.1599999999999966,
+        "max_us": 103.66,
+        "mean_us": 103.46,
+        "median_us": 103.5,
+        "min_us": 103.22,
+        "raw_us": [
+          103.5,
+          103.66,
+          103.22
+        ],
+        "relative_spread": 0.0042512077294685775,
+        "stddev_us": 0.22271057451319995
+      },
+      "case": "type_a=q6_K,type_b=f32,m=5120,n=1,k=17408",
+      "speedup": 1.1016425120772948,
+      "status": "unstable"
+    },
+    {
+      "baseline": {
+        "mad_us": 0.08000000000000007,
+        "max_us": 12.34,
+        "mean_us": 12.203333333333333,
+        "median_us": 12.18,
+        "min_us": 12.09,
+        "raw_us": [
+          12.09,
+          12.11,
+          12.11,
+          12.25,
+          12.32,
+          12.34
+        ],
+        "relative_spread": 0.020525451559934318,
+        "stddev_us": 0.11378341999899072
+      },
+      "candidate": {
+        "mad_us": 0.03999999999999915,
+        "max_us": 11.85,
+        "mean_us": 11.783333333333333,
+        "median_us": 11.77,
+        "min_us": 11.73,
+        "raw_us": [
+          11.73,
+          11.77,
+          11.85
+        ],
+        "relative_spread": 0.010195412064570877,
+        "stddev_us": 0.06110100926607753
+      },
+      "case": "type_a=q6_K,type_b=f32,m=1024,n=1,k=5120",
+      "speedup": 1.0348343245539506,
+      "status": "microbenchmark_win"
+    },
+    {
+      "baseline": {
+        "mad_us": 0.13000000000000256,
+        "max_us": 39.19,
+        "mean_us": 39.015,
+        "median_us": 39.05,
+        "min_us": 38.72,
+        "raw_us": [
+          38.72,
+          38.91,
+          39.05,
+          39.05,
+          39.19,
+          39.17
+        ],
+        "relative_spread": 0.012035851472471163,
+        "stddev_us": 0.17615334229017668
+      },
+      "candidate": {
+        "mad_us": 0.00999999999999801,
+        "max_us": 37.13,
+        "mean_us": 36.98,
+        "median_us": 36.91,
+        "min_us": 36.9,
+        "raw_us": [
+          36.91,
+          36.9,
+          37.13
+        ],
+        "relative_spread": 0.00623137361148751,
+        "stddev_us": 0.13000000000000284
+      },
+      "case": "type_a=q6_K,type_b=f32,m=5120,n=1,k=6144",
+      "speedup": 1.0579788675155783,
+      "status": "microbenchmark_win"
+    }
+  ],
+  "code_object": "candidates/rdna4-q6k-nwarps4/code_object.json",
+  "correctness": {
+    "baseline": [
+      {
+        "path": "baseline/correctness-deterministic.csv",
+        "rows": 4,
+        "sha256": "8a9b81ec9d584f8b0efd3399c79a297d4b2cd60474941e950c740fb06b6e86b6",
+        "valid": true
+      },
+      {
+        "path": "baseline/correctness-fused-deterministic.csv",
+        "rows": 1,
+        "sha256": "6c65af9d2c290a8cb1e6bb32fc4447d58d2ef1e6349843ff2f4300d916c66fe2",
+        "valid": true
+      }
+    ],
+    "candidate": [
+      {
+        "path": "candidates/rdna4-q6k-nwarps4/correctness-deterministic.csv",
+        "rows": 4,
+        "sha256": "8a9b81ec9d584f8b0efd3399c79a297d4b2cd60474941e950c740fb06b6e86b6",
+        "valid": true
+      },
+      {
+        "path": "candidates/rdna4-q6k-nwarps4/correctness-fused-deterministic.csv",
+        "rows": 1,
+        "sha256": "6c65af9d2c290a8cb1e6bb32fc4447d58d2ef1e6349843ff2f4300d916c66fe2",
+        "valid": true
+      }
+    ],
+    "max_nmse": 0.0005,
+    "oracle": "GGML CPU backend",
+    "valid": true
+  },
+  "decision": "retain for later runtime-attributed and end-to-end evaluation; do not promote in Phase 3",
+  "limitations": [
+    "GGUF-derived shapes are not joined to exact runtime operations or per-agent slices.",
+    "The M=5120,N=1,K=17408 baseline exceeds the frozen variance threshold.",
+    "No registered llama.cpp build, model, service, or Phase 4 end-to-end path was modified or evaluated."
+  ],
+  "schema_version": "apex.phase3.result.v0",
+  "status": "promising_not_promotion_ready",
+  "task_fingerprint": "297a07be77dbabde2a93c9429c45ef9c75928a1f9e0d4ec2cfdbd4a0d209c9b0"
+}

@@ -1,0 +1,91 @@
+{
+  "candidate_status": "not_integrated",
+  "findings": {
+    "correctness_plan": {
+      "evidence": [
+        "CPU oracle preserving current F32 output"
+      ],
+      "status": "supported"
+    },
+    "dispatch_plan": {
+      "evidence": [
+        "both-device exact paired tile/symbol witness"
+      ],
+      "status": "supported"
+    },
+    "fusion_api_fit": {
+      "evidence": [
+        "fit determination: existing MMV fusion is N=1 and cannot serve PP N=512 MMQ; a new API boundary is required"
+      ],
+      "status": "supported"
+    },
+    "graph_adjacency": {
+      "evidence": [
+        "64 exact adjacent pairs/device/capture state"
+      ],
+      "status": "supported"
+    },
+    "implementation_boundary": {
+      "evidence": [
+        "new paired Q6_K MMQ+SwiGLU kernel/dispatcher required"
+      ],
+      "status": "supported"
+    },
+    "numerical_swiglu_contract": {
+      "evidence": [
+        "pinned ggml_swiglu_split F32 output/parity semantics; no SuperSonic BF16 rounding rule imposed"
+      ],
+      "status": "supported"
+    },
+    "resource_plan": {
+      "evidence": [
+        "static AMDHSA plus dynamic gfx1201 limits; achieved BW only exact reliable counter"
+      ],
+      "status": "supported"
+    },
+    "rollback_default_off_selector": {
+      "evidence": [
+        "exact shape-gated default-off candidate with baseline fallback"
+      ],
+      "status": "supported"
+    },
+    "shared_input_layouts": {
+      "evidence": [
+        "same F32 RHS and Q8_1_MMQ layout"
+      ],
+      "status": "supported"
+    },
+    "tensor_parallel_ownership": {
+      "evidence": [
+        "per-device matched source tensors and geometry"
+      ],
+      "status": "supported"
+    },
+    "timing_plan": {
+      "evidence": [
+        "same-build 3-round interleaved timing, no trimming"
+      ],
+      "status": "supported"
+    },
+    "whole_pp_plan": {
+      "evidence": [
+        "three normal-graph PP processes; joint gate"
+      ],
+      "status": "supported"
+    }
+  },
+  "modeled_intermediate": {
+    "bytes_per_layer_device": 71303168,
+    "status": "modeled_not_measured"
+  },
+  "pair_proof_sha256": "1bd1a49144936203df703870ea7e993b77cfb8a80d9835f7ccd3ec5eadf346a9",
+  "phase9_no_code": true,
+  "quantization_correlation": {
+    "exact_trace_placement": "unavailable",
+    "status": "source_proven_independent_calls"
+  },
+  "schema_version": "apex.phase9.findings.v1",
+  "source_feasibility_sha256": "b252e975d4b8e6de0f472ee3985510a8e3a7b2f6035358ad504e2661199a1cfd",
+  "task_fingerprint": "49cfade573e77d500a701cc8e411867c4e82478e7e770f62274819d73ec475b3",
+  "task_sha256": "506f6b44cf750cac78d5f3a1827d646b771edb6e7517786b509829a3188b1914"
+}

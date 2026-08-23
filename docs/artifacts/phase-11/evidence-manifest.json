@@ -1,0 +1,85 @@
+{
+  "schema_version": "apex.phase11.evidence_manifest.v1",
+  "artifacts": [
+    {
+      "path": "task.json",
+      "bytes": 4261,
+      "sha256": "c503b73eb69aad55b84a64b6cb055e337afe186369041f5868e0844d8b8a865f"
+    },
+    {
+      "path": "lane-audit.json",
+      "bytes": 7064,
+      "sha256": "0bb409b7e769fc1413ebe211798d0bf52e8f60571ecc3b850322380cbbd64f31"
+    },
+    {
+      "path": "reference-analysis.json",
+      "bytes": 2268,
+      "sha256": "fea4195ba2aa6b7070f7fc3dc793eebd1fbe0a139fd9dd479e2e9e1c0fb61215"
+    },
+    {
+      "path": "roadmap-status.json",
+      "bytes": 527,
+      "sha256": "1727f2d7bdb14b48dd4406e8ff2b9766f78dcae9463c5523f2a064a2720c85eb"
+    },
+    {
+      "path": "PROCEDURE.md",
+      "bytes": 1094,
+      "sha256": "dd965de0dcbce7efdfd54dc2c9774c5daa71e3231ffb546ff99a70bc662f906d"
+    },
+    {
+      "path": "capabilities/rocminfo.txt",
+      "bytes": 23886,
+      "sha256": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef"
+    },
+    {
+      "path": "capabilities/rocm-smi.txt",
+      "bytes": 2582,
+      "sha256": "53eddbf776ecfbb7829776dcc691e70a46c272612ace2c552c8ecb4f5d02877c"
+    },
+    {
+      "path": "capabilities/rocprof-list-avail.txt",
+      "bytes": 60137,
+      "sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841"
+    },
+    {
+      "path": "evidence/phase3-code-object-notes.txt",
+      "bytes": 684018,
+      "sha256": "811e7464d753b6ff60bc63f35fb8b9c52a0c4eada9b5bd8944c4bb4fd08fc3a3"
+    },
+    {
+      "path": "evidence/phase3-code-object-symbols.txt",
+      "bytes": 350410,
+      "sha256": "6d013a9f83819f9adb4844b4435bd04ac4e64ce9ae525219dc61c00f9c27817c"
+    },
+    {
+      "path": "evidence/phase3-isa-q6k-false.txt",
+      "bytes": 28111,
+      "sha256": "2ba15bad747e1b73cebfe40571a8656b3acf0e2de70df4bd2aa0296ca792eda9"
+    },
+    {
+      "path": "evidence/phase3-isa-q6k-true.txt",
+      "bytes": 64980,
+      "sha256": "8503018731199aefaacaa0a52769f90b6859c718be410d6fb84398910fb57fbe"
+    },
+    {
+      "path": "evidence/phase3-mmvq-gfx1201.hsaco",
+      "bytes": 1724704,
+      "sha256": "23c590e31a77f55c0e3f702c740796ebd8261df7c6c0aa220ad94ce3cc6de835"
+    },
+    {
+      "path": "tools/make_task.py",
+      "bytes": 4113,
+      "sha256": "29e7074a6ba02bcf2ce8ddc11f2ff6b6500bcdb9a75cbf13814a0953f71669af"
+    },
+    {
+      "path": "tools/run_audit.py",
+      "bytes": 6833,
+      "sha256": "da154e73577edca85e30281431fbcc3fcbddff971c73cf4becea43bdb5ffd573"
+    },
+    {
+      "path": "tools/finalize_evidence.py",
+      "bytes": 1750,
+      "sha256": "be2f8406f9e3e0316ce4526009c040901ede4602e2f7c7c13602a1edd3c4e531"
+    }
+  ]
+}

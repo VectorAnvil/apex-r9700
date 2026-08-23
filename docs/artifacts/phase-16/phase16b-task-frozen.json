@@ -1,0 +1,68 @@
+{
+  "schema_version": "apex.phase16b.q6k_n1_k2_task.v1",
+  "immutable_after_fingerprint": true,
+  "objective": "Test a depth-one K2 packet pipeline for registered gfx1201 Q6_K N=1 MMVQ",
+  "authorization": {
+    "phase16a_task_sha256": "420442f86076a7cf96398989b862f59b713cbf12f0b1710a6426c134d27d2201",
+    "phase16a_decision": "complete_go",
+    "gap": "registered fused and unfused ISA issues no next-kbx VMEM before current-block DP4A and loop backedge"
+  },
+  "baseline": {
+    "source": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "registered_lib_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "historical_tg128_ts": 36.72697
+  },
+  "candidate": {
+    "target": "gfx1201/RDNA4 Q6_K ncols_dst=1 ordinary MMVQ",
+    "pipeline_depth": 2,
+    "changed_file_allowlist": ["ggml/src/ggml-cuda/mmvq.cu", "ggml/src/ggml-cuda/vecdotq.cuh"],
+    "compile_gate": "GGML_CUDA_EXPERIMENT_RDNA4_Q6K_MMVQ_K2",
+    "schedule": "load next kbx+8 Q8/primary Q6/optional gate Q6 packet before consuming current; rotate; guarded epilogue",
+    "must_preserve": ["increasing-K accumulation order", "fused primary/gate Q8 reuse", "block/grid geometry", "fallback source loop", "post-reduction GLU", "P2P", "graphs"],
+    "excluded": ["K4", "Stream-K", "MMQ", "MTP", "vector-load changes", "wave-count changes"]
+  },
+  "build": {
+    "cmake_common": ["-DGGML_HIP=ON", "-DAMDGPU_TARGETS=gfx1201", "-DCMAKE_BUILD_TYPE=Release"],
+    "candidate_hip_flag": "-DGGML_CUDA_EXPERIMENT_RDNA4_Q6K_MMVQ_K2=1",
+    "targets": ["llama-bench", "test-backend-ops"],
+    "baseline_worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase16b_q6k_tg_k2_20260808/worktrees/baseline",
+    "candidate_worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase16b_q6k_tg_k2_20260808/worktrees/candidate"
+  },
+  "model": {
+    "path": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "devices": [0, 1],
+    "split_mode": "tensor"
+  },
+  "workloads": {
+    "tg128": ["-p", "0", "-n", "128", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"],
+    "pp512": ["-p", "0", "-n", "0", "-pg", "512,0", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"],
+    "microbench_mnk": [[3072, 1, 3072], [3072, 1, 5120], [5120, 1, 8704], [8704, 1, 5120]]
+  },
+  "gates": {
+    "provenance": "isolated identical base/P2P/cast plus exact patch/build/code-object hashes",
+    "static_dispatch": "candidate future-kbx VMEM before current DP4A in both Q6_K N=1 symbols; unchanged 32x8 launch and fallback",
+    "correctness": {"devices": [0, 1], "repeats": 3, "oracle": "CPU/F32 backend-op", "nmse_max": 0.0005, "required_pass_fraction": 1.0},
+    "resources": "fresh fused and unfused VGPR/SGPR/LDS/private/scratch/spills/wave; reject spills/private or absent codegen pipeline",
+    "microbench": {"devices": [0, 1], "interleaved_rounds": 3, "relative_spread_max": 0.035, "minimum_combined_speedup": 1.02, "no_device_below": 1.0},
+    "tg128": {"interleaved_pairs": 3, "relative_spread_max": 0.05, "minimum_speedup": 1.005},
+    "pp512": {"interleaved_pairs": 3, "relative_spread_max": 0.05, "minimum_speedup": 0.99},
+    "graph_tp_p2p": "TG graph capture/replay and both-device tensor/P2P dispatch equivalence required",
+    "counters": "report achieved occupancy/bandwidth only when joinable; otherwise unavailable"
+  },
+  "decision": {
+    "reject_on_any_failed_gate": true,
+    "registration_requires_all_gates": true,
+    "rollback": "discard isolated candidate; registered build remains untouched",
+    "finding_requires_what_didnt_work": true
+  },
+  "write_boundary": {
+    "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase16b_q6k_tg_k2_20260808",
+    "registered_source_mutation": false,
+    "registered_build_mutation": false,
+    "prior_result_mutation": false
+  }
+}

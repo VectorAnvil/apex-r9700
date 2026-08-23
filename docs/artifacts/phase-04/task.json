@@ -1,0 +1,170 @@
+{
+  "cases": [
+    {
+      "fusion": false,
+      "id": "ssm",
+      "k": 5120,
+      "m": 24,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_kv",
+      "k": 5120,
+      "m": 512,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_gate",
+      "k": 5120,
+      "m": 3072,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "m5120_k3072",
+      "k": 3072,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_qkv",
+      "k": 5120,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "ffn_down",
+      "k": 8704,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_q",
+      "k": 5120,
+      "m": 6144,
+      "n": 1
+    },
+    {
+      "fusion": true,
+      "id": "ffn_up",
+      "k": 5120,
+      "m": 8704,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "lm_head",
+      "k": 5120,
+      "m": 124160,
+      "n": 1
+    }
+  ],
+  "created_at": "2026-08-08T17:20:59.943397+00:00",
+  "fingerprint_fields": {
+    "attribution_run_sha256": "0c1fe928449e232dbf46daf0654945930faf33c0824b7a1945877dd5c49c5b4f",
+    "attribution_sha256": "c03da40fc58b6fda6fe4463c208027c73b89522066e5cd1488a1672e247c93d6",
+    "builds": {
+      "baseline": {
+        "binary": "d8b00ee7fe81db55050edd7fe567c03410f8c9f47e3b22040da893785de40f18",
+        "cmake_cache": "11fe5b8c04990fa309024355fc5c721108013656875f752ee57270afbef66639",
+        "compile_commands": "c428c1f779dbd1ff0b12d06946e18f67f1ef637406e1b890142411af993826b2",
+        "harness_source": "9d74d7fe87791019e9a8bcfb8f86db46e195c281d9ccc4587576cd70f570ac24",
+        "mmvq_object": "ff64a12b28f4128b8e3bb20a5a8425966410704b3b17458108cbfb7dca5d2b8c"
+      },
+      "candidate-nwarps4": {
+        "binary": "3caaabb2339fd9673d5726921534d6dd8a1b508c5ef38878ef7a458986fb8a4f",
+        "cmake_cache": "8fd05397ba7015ab4a86f8774fbba7e401c19d011603d67cb991c6b761541385",
+        "compile_commands": "e41aca44c4c717e128b57f6b43e8d0a17315698fc961a22da449e4e79f2c5729",
+        "harness_source": "9d74d7fe87791019e9a8bcfb8f86db46e195c281d9ccc4587576cd70f570ac24",
+        "mmvq_object": "1a5d7396b228733c59e54d46381a04810103c9f794123350cd9a024d13468fc4"
+      }
+    },
+    "candidate": "rdna4-q6k-nwarps4",
+    "candidate_patch_sha256": "8003dba642a37092a6fb1a9601d13d0c4dd1c7338a2d9c532bbbf4dd9026ad62",
+    "gpus": {
+      "cards": {
+        "card0": {
+          "Card Model": "0x7551",
+          "Card SKU": "APM107573",
+          "Card Series": "AMD Radeon AI PRO R9700",
+          "Card Vendor": "Advanced Micro Devices, Inc. [AMD/ATI]",
+          "Device Rev": "0xc0",
+          "GFX Version": "gfx1201",
+          "GUID": "23334",
+          "Node ID": "1",
+          "Subsystem ID": "0x5413",
+          "Unique ID": "0x86a5ac00defd863b"
+        },
+        "card1": {
+          "Card Model": "0x7551",
+          "Card SKU": "48WD6SHD1",
+          "Card Series": "AMD Radeon AI PRO R9700",
+          "Card Vendor": "Advanced Micro Devices, Inc. [AMD/ATI]",
+          "Device Rev": "0xc0",
+          "GFX Version": "gfx1201",
+          "GUID": "34774",
+          "Node ID": "2",
+          "Subsystem ID": "-0x67ff",
+          "Unique ID": "0xdd6000eaf2977111"
+        }
+      },
+      "rocminfo_sha256": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef",
+      "smi_sha256": "c230a1152e790361ac2e5864a8a573e54f2393bfc4b2e21c6d80c76ba69b0596",
+      "target": "gfx1201",
+      "wavefront": 32
+    },
+    "harness_patch_sha256": "1b822039c4835d8e6f2aa123e9324cdbceb79f46bd4578c0fc95805f55e96547",
+    "inputs_sha256": "941d4dab19d4d0259c311669693e954faaf3e8d1a29d386d8beffef3cd3233b0",
+    "phase3_result_sha256": "6860ea76a8c5a37306df68c476a2b9afd2f6cba828c52f34e51749ca240caefc",
+    "phase3_task_sha256": "806d4646a1ac5e96ba133ecb37e78317cd372eaac627883ea1103b2eaade5cab",
+    "policy": {
+      "cpu_oracle_max_nmse": 0.0005,
+      "normal_graphs_required": true,
+      "regression_speedup_min": 0.99,
+      "rounds": 3,
+      "schedule": [
+        "d0-a",
+        "d1-a",
+        "d0-b",
+        "d1-b",
+        "d1-a",
+        "d0-a"
+      ],
+      "stability_relative_spread_max": 0.035,
+      "win_speedup_min": 1.01
+    },
+    "procedure_revision": {
+      "idle_policy": "preserve every sample; wait up to 60 seconds for one <=5% use and <=5% VRAM snapshot before each launch",
+      "reason": "single telemetry snapshot repeatedly reported transient 6-11% use with zero VRAM and no /dev/kfd owner",
+      "supersedes_task_fingerprint": "87dda33f07dbe5c59c2e5c5f96e8e26d3812204287c4856fb49dc0e48acdadda",
+      "threshold_changed": false
+    },
+    "registered_case": {
+      "build_id": 2,
+      "hip_visible_devices": "0,1",
+      "model_id": 2,
+      "profile_id": 5,
+      "suite_id": 2
+    },
+    "tools": {
+      "finalize_gate_v1.py": "223a4c5ff50d7a8e8af7742a9681068008079d367b6feac1b3c6d96473031f2a",
+      "make_task_v1.py": "fdb7c1db292d245667d98fcf62f3daf1e26dd964109b8401c4a43f1471f6893e",
+      "run_gate_v1.py": "9a8d91cdd8d7e4d3a96b27be9886d976883fe97c181cf1b6f86f2dd794af6e54"
+    },
+    "trace_join_sha256": "f508c7257f0d1797bf11d7d7a4166e174977e91a1e69ac092caa5fe93021bb6a"
+  },
+  "immutable": true,
+  "schema_version": "apex.phase4.runtime_slice_task.v1",
+  "target_fingerprint": "12f47b5b9a632cf32e0c3ce95008fc531b1dc33617326f31b863c59b01f9218b",
+  "task_id": "q6k-mmv-nwarps4-runtime-slice-gate-sustained-idle",
+  "write_boundary": {
+    "registered_build_mutation": false,
+    "registered_source_mutation": false,
+    "results_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase04_q6k_nwarps4_20260808"
+  }
+}

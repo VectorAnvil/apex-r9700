@@ -1,0 +1,237 @@
+{
+  "schema_version": "apex.phase11.q6k_tg_lane_audit.v1",
+  "task_fingerprint": "97b597f7014179d7277dd584321c0813758102add929b93ac2b52edbcb193c82",
+  "capability_result": {
+    "devices": 2,
+    "architecture": "gfx1201",
+    "compute_units_each": 64,
+    "physical_wave_size": 32,
+    "source": [
+      "capabilities/rocminfo.txt",
+      "capabilities/rocm-smi.txt",
+      "capabilities/rocprof-list-avail.txt"
+    ]
+  },
+  "matched_kernel": {
+    "family": "mul_mat_vec_q<GGML_TYPE_Q6_K,1,*,false>",
+    "block": [
+      32,
+      8,
+      1
+    ],
+    "static_resources": {
+      "unfused": {
+        "vgpr": 26,
+        "sgpr": 26,
+        "dynamic_lds_bytes": 896,
+        "private_segment_bytes": 0,
+        "spills": 0
+      },
+      "fused": {
+        "vgpr": 35,
+        "sgpr": 42,
+        "dynamic_lds_bytes": 1792,
+        "private_segment_bytes": 0,
+        "spills": 0
+      }
+    },
+    "dynamic_occupancy": {
+      "status": "unavailable",
+      "reason": "prior exact nonmultiplexed gfx1201 captures timed out without joinable values"
+    },
+    "achieved_bandwidth": {
+      "status": "unavailable",
+      "reason": "prior exact nonmultiplexed gfx1201 captures produced no joinable value"
+    }
+  },
+  "shapes": [
+    {
+      "operation": "ssm_alpha_beta",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "fused": false,
+      "attribution": "exact",
+      "trace_share_percent": 0.86843,
+      "mapping": {
+        "q6_k_blocks": 20,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 3,
+        "slot_efficiency": 0.833333,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "attn_kv",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "fused": false,
+      "attribution": "exact",
+      "trace_share_percent": 1.991704,
+      "mapping": {
+        "q6_k_blocks": 20,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 3,
+        "slot_efficiency": 0.833333,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "attn_gate",
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "fused": false,
+      "attribution": "exact",
+      "trace_share_percent": 4.317354,
+      "mapping": {
+        "q6_k_blocks": 20,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 3,
+        "slot_efficiency": 0.833333,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "mixed_m5120_k3072",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "fused": false,
+      "attribution": "ambiguous_family",
+      "trace_share_percent": 27.982757,
+      "mapping": {
+        "q6_k_blocks": 12,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 2,
+        "slot_efficiency": 0.75,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "mixed_m5120_k5120",
+      "m": 5120,
+      "n": 1,
+      "k": 5120,
+      "fused": false,
+      "attribution": "ambiguous_family",
+      "trace_share_percent": 27.982757,
+      "mapping": {
+        "q6_k_blocks": 20,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 3,
+        "slot_efficiency": 0.833333,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "mixed_m5120_k8704",
+      "m": 5120,
+      "n": 1,
+      "k": 8704,
+      "fused": false,
+      "attribution": "ambiguous_family",
+      "trace_share_percent": 27.982757,
+      "mapping": {
+        "q6_k_blocks": 34,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 5,
+        "slot_efficiency": 0.85,
+        "terminal_inactive_worker_groups": 6,
+        "terminal_inactive_lanes": 192,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "attn_q",
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "fused": false,
+      "attribution": "exact",
+      "trace_share_percent": 2.703944,
+      "mapping": {
+        "q6_k_blocks": 20,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 3,
+        "slot_efficiency": 0.833333,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "ffn_up",
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "fused": true,
+      "attribution": "exact",
+      "trace_share_percent": 29.841986,
+      "mapping": {
+        "q6_k_blocks": 20,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 3,
+        "slot_efficiency": 0.833333,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    },
+    {
+      "operation": "lm_head",
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "fused": false,
+      "attribution": "exact",
+      "trace_share_percent": 3.197105,
+      "mapping": {
+        "q6_k_blocks": 20,
+        "active_wave_lanes_per_worker_group": 32,
+        "worker_groups_per_workgroup": 8,
+        "k_loop_iterations": 3,
+        "slot_efficiency": 0.833333,
+        "terminal_inactive_worker_groups": 4,
+        "terminal_inactive_lanes": 128,
+        "intra_wave_idle_lanes": 0
+      }
+    }
+  ],
+  "reference_comparison": {
+    "reference_mapping": "one complete Q6_K block per scalar thread in a 64-thread launch",
+    "registered_llama_mapping": "one Q6_K block cooperatively processed by all 32 lanes of an active wave32 worker group",
+    "reference_mechanism_transferable": false,
+    "reason": "the reference's idle scalar threads are not present inside llama.cpp active waves; llama.cpp only has terminal whole-worker-group underfill"
+  },
+  "decision": {
+    "eligible_for_candidate_contract": false,
+    "answer_to_binary_question": "no",
+    "reason": "no systematic idle-lane defect exists inside active physical waves, the reference mapping does not transfer, and prior 4/12-wave experiments already rejected the direct launch-width responses",
+    "tail_underfill_observed": true,
+    "tail_underfill_disposition": "preserve as demoted watchlist evidence; do not authorize another wave-count candidate",
+    "performance_benchmark_run": false,
+    "source_changes": false,
+    "candidate_registered": false,
+    "next_phase": "Phase 12 producer-to-Q8_1 source/trace feasibility"
+  }
+}

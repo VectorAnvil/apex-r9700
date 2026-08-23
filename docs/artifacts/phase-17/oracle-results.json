@@ -1,0 +1,192 @@
+{
+  "dot8_instructions_per_four_value_term": 4,
+  "float_cases": [
+    {
+      "candidate_bits": "0000603e",
+      "direct_bits": "0000603e",
+      "inputs": [
+        1,
+        -1,
+        2,
+        3,
+        0.5,
+        -0.25,
+        0.125
+      ],
+      "pass": true
+    },
+    {
+      "candidate_bits": "fc05bdc3",
+      "direct_bits": "fc05bdc3",
+      "inputs": [
+        16384,
+        -16129,
+        -128,
+        127,
+        0.00390625,
+        0.0078125,
+        0.015625
+      ],
+      "pass": true
+    },
+    {
+      "candidate_bits": "00000ac8",
+      "direct_bits": "00000ac8",
+      "inputs": [
+        -8192,
+        4096,
+        31,
+        -32,
+        -1.5,
+        0.75,
+        -0.5
+      ],
+      "pass": true
+    }
+  ],
+  "float_pass": true,
+  "independent_scale_witness": {
+    "case_a": {
+      "d0": 1,
+      "d1": -1,
+      "weight0": 2,
+      "weight1": 3,
+      "weighted": -1
+    },
+    "case_b": {
+      "d0": 0,
+      "d1": 0,
+      "weight0": 2,
+      "weight1": 3,
+      "weighted": 0
+    },
+    "conclusion": "One scalar D0+D1 cannot recover independently weighted D0 and D1.",
+    "merged_integer_sum": 0
+  },
+  "pass": true,
+  "productive_lanes_per_dot8": 4,
+  "reference_dp4a_instructions_per_qr6_helper": 2,
+  "scalar_cases": 131072,
+  "scalar_failures": [],
+  "scalar_pass": true,
+  "schema_version": "apex.phase17.oracle.v1",
+  "total_dot8_instructions_per_qr6_helper": 8,
+  "vector_cases": [
+    {
+      "activation": [
+        -128,
+        -1,
+        0,
+        127
+      ],
+      "direct": 64,
+      "dot8": 64,
+      "high2": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "low4": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "pass": true
+    },
+    {
+      "activation": [
+        127,
+        0,
+        -1,
+        -128
+      ],
+      "direct": -62,
+      "dot8": -62,
+      "high2": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "low4": [
+        15,
+        15,
+        15,
+        15
+      ],
+      "pass": true
+    },
+    {
+      "activation": [
+        -128,
+        127,
+        -127,
+        126
+      ],
+      "direct": 11955,
+      "dot8": 11955,
+      "high2": [
+        0,
+        3,
+        1,
+        2
+      ],
+      "low4": [
+        0,
+        15,
+        0,
+        15
+      ],
+      "pass": true
+    },
+    {
+      "activation": [
+        1,
+        -1,
+        15,
+        -16
+      ],
+      "direct": 732,
+      "dot8": 732,
+      "high2": [
+        2,
+        1,
+        3,
+        0
+      ],
+      "low4": [
+        1,
+        14,
+        7,
+        8
+      ],
+      "pass": true
+    },
+    {
+      "activation": [
+        31,
+        -32,
+        63,
+        -64
+      ],
+      "direct": -1772,
+      "dot8": -1772,
+      "high2": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "low4": [
+        3,
+        5,
+        9,
+        12
+      ],
+      "pass": true
+    }
+  ],
+  "vector_pass": true
+}

@@ -1,0 +1,127 @@
+{
+  "schema_version": "apex.phase13.final_result.v1",
+  "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+  "decision": "promote",
+  "candidate": "Q6_K WMMA integer accumulator explicitly converted to float before scale multiplication",
+  "gates": {
+    "source_scope": {
+      "status": "pass",
+      "substantive_lines_changed": 1,
+      "candidate_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+      "excluded_pr_changes_present": false
+    },
+    "correctness": {
+      "status": "pass",
+      "executions_passed": 24,
+      "executions_total": 24,
+      "devices": [0, 1],
+      "stock_q6k_mma_shapes": ["M=16,N=8,K=256", "M=1,N=64,K=256"],
+      "runs_per_shape_variant_device": 3,
+      "nmse_limit": 0.0005
+    },
+    "dispatch": {
+      "status": "pass",
+      "baseline_total_rows": 10672,
+      "candidate_total_rows": 10672,
+      "rows_per_agent": {"baseline": [5336, 5336], "candidate": [5336, 5336]},
+      "q6k_mmq_need_check_false": {"baseline": 1600, "candidate": 1600},
+      "q6k_mmq_need_check_true": {"baseline": 384, "candidate": 384}
+    },
+    "exact_q6k_mmq_trace": {
+      "status": "pass",
+      "need_check_false_total_ns": {"baseline": 1370982446, "candidate": 846317733, "speedup": 1.6199382247849},
+      "need_check_true_total_ns": {"baseline": 67805259, "candidate": 43321053, "speedup": 1.56518030621278},
+      "combined_speedup": 1.61727178225793,
+      "note": "paired rocprofv3 PP512 traces; profiling overhead means these are used for same-protocol comparison, not absolute latency"
+    },
+    "graphs_and_tensor_parallel": {
+      "status": "pass",
+      "hip_stream_begin_capture": 514,
+      "hip_stream_end_capture": 514,
+      "hip_graph_instantiate": 514,
+      "hip_graph_launch": 514,
+      "both_gpu_agents_active": true,
+      "split_mode": "tensor",
+      "registered_p2p_patch_unchanged": true
+    },
+    "pp512": {
+      "status": "pass",
+      "baseline_tok_s": [813.298578, 814.573578, 815.215986],
+      "candidate_tok_s": [1042.104608, 1034.38516, 1044.954774],
+      "baseline_mean_tok_s": 814.362714,
+      "candidate_mean_tok_s": 1040.481514,
+      "speedup": 1.27766349823329,
+      "baseline_relative_spread": 0.0023544889359952,
+      "candidate_relative_spread": 0.0101583871099895,
+      "required_speedup": 1.05,
+      "required_max_spread": 0.05,
+      "samples_trimmed": false
+    },
+    "tg128": {
+      "status": "pass",
+      "baseline_tok_s": [36.763825, 36.704678, 36.724034],
+      "candidate_tok_s": [36.733692, 36.707483, 36.739737],
+      "baseline_mean_tok_s": 36.7308456666667,
+      "candidate_mean_tok_s": 36.7269706666667,
+      "speedup": 0.999894502837338,
+      "baseline_relative_spread": 0.00161028146579462,
+      "candidate_relative_spread": 0.000878210193068506,
+      "required_speedup": 0.99,
+      "required_max_spread": 0.05,
+      "samples_trimmed": false
+    }
+  },
+  "resources": {
+    "wave_size": 32,
+    "workgroup_threads": 256,
+    "waves_per_workgroup": 8,
+    "dynamic_lds_bytes": 57856,
+    "private_segment_bytes": {"baseline": 0, "candidate": 0},
+    "code_object_vgpr": {"baseline": [229, 230], "candidate": [252, 253]},
+    "runtime_allocated_vgpr": {"baseline": 232, "candidate": 256},
+    "runtime_allocated_sgpr": {"baseline": 128, "candidate": 128},
+    "vgpr_spills": {"baseline": 0, "candidate": 0},
+    "sgpr_spills": {"baseline": 0, "candidate": 0},
+    "runtime_scratch_bytes": {"baseline": 0, "candidate": 0},
+    "achieved_occupancy": {"status": "unavailable", "reason": "bounded gfx1201 PMC attempts returned without a joinable counter trace"},
+    "achieved_bandwidth": {"status": "unavailable", "reason": "bounded gfx1201 FETCH_SIZE attempts returned without a joinable counter trace"}
+  },
+  "isa": {
+    "baseline_instruction_lines": 5597,
+    "candidate_instruction_lines": 5150,
+    "baseline_v_cvt_f32_i32": 256,
+    "candidate_v_cvt_f32_i32": 320,
+    "baseline_v_mul_lo_u32": 349,
+    "candidate_v_mul_lo_u32": 93,
+    "baseline_v_mul_f32": 222,
+    "candidate_v_mul_f32": 40,
+    "v_wmma_i32": {"baseline": 32, "candidate": 32}
+  },
+  "provenance": {
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "upstream_pr": 25940,
+    "upstream_q6_commit": "68adcd0bf582ba3c9a345ceaecac2c991f1e710a",
+    "candidate_llama_bench_sha256": "e4b64ef044795b348a51e0ec1189e73a89fcd62785627f7c983144b0f37bc761",
+    "candidate_libggml_hip_sha256": "c1fddd33ffd2f284183e820a6c11a35007c3e49c3ab50da715fdc9980c621dcb",
+    "candidate_hsaco_sha256": "d8d464fa1b03389427abe18017ce6c3006c44eff17680bc6ad6f8a97c0dade6a",
+    "baseline_trace_sha256": "bd6d1a44c729e2504b615c420a10d434a06910eb69960cd6833727119cd35d9e",
+    "candidate_trace_sha256": "09fc97c3dba7f34af746811bb9415224c0999948ec20d458d59ea23ca0222be7",
+    "graph_trace_sha256": "5730106499d2e2ff46ce060ac826f7135e33665a935d8958b616590f3a680382"
+  },
+  "what_didnt_work": [
+    "The registered production build had no test-backend-ops binary.",
+    "The Phase 4 oracle binary was sealed to old N=1 cases and could not validate stock PP or N=16 filters.",
+    "The stock Q6_K oracle suite exposes N=1..9 and N=64, not the exact N=512 production shapes; exact production evidence therefore comes from paired PP traces.",
+    "The stderr graph-banner heuristic returned false because this build emits no banner; HIP runtime tracing directly proved 514 capture/launch cycles.",
+    "gfx1201 OccupancyPercent and FETCH_SIZE attempts produced no joinable counter trace and are not reported as zero."
+  ],
+  "promotion": {
+    "eligible": true,
+    "completed": true,
+    "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "registered_pp512_smoke_tok_s": 1039.41035,
+    "rollback_libggml_hip_sha256": "7f58e700141b23d9e14a567ed6b22a71f53b09aeda2176a705dca974bbd55dda",
+    "rollback": "restore the authentic same-revision pre-cast Phase 7 HIP library or revert the one-line mmq.cuh change and rebuild",
+    "next": "refresh PP attribution/resources, then decide whether paired RDNA4 Y64/W4 remains the Phase 14B candidate"
+  }
+}

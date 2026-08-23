@@ -1,0 +1,15 @@
+{
+  "candidate": "rdna4-q6k-fused-nwarps12",
+  "correctness": {"observed_rows": 36, "required_rows": 36, "valid": true},
+  "counter_diagnostic": {"attempted_rows": 4, "status": "unavailable", "timeout_seconds": 120},
+  "decision": "reject",
+  "dispatch_selection": {"observed_records": 36, "passed": true, "required_records": 36},
+  "e2e": {"permitted": false, "run": false},
+  "failed_gate_rows": [
+    {"case": "ffn_up", "device": 0, "reason": "stable 1.0000x, below 1.01x hotspot requirement"},
+    {"case": "attn_kv", "device": 0, "reason": "baseline relative spread 3.6975%, above 3.5% stability limit"},
+    {"case": "ffn_up", "device": 1, "reason": "stable 1.0033x, below 1.01x hotspot requirement"}
+  ],
+  "schema_version": "apex.phase6.summary.v1",
+  "task_fingerprint": "4542409930c19a8897fad3c35b4c41e066e6e8e14b76c4f863d25fcb777debff"
+}

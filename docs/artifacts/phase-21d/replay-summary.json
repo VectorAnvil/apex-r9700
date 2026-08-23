@@ -1,0 +1,342 @@
+{
+  "schema_version": "apex.phase21d.ddtree_replay.v1",
+  "source_commit": "c96427a185677bf4133ed865dd1626a5041aef9b",
+  "source_method": "stdlib port of pinned build_ddtree_tree; chain-seeded and rectangular policies are explicitly Apex-defined comparators",
+  "cycles": 50,
+  "budgets": [
+    8,
+    12,
+    15,
+    18,
+    20,
+    22,
+    28,
+    32
+  ],
+  "policy_summaries": {
+    "linear-12": {
+      "cycles": 50,
+      "nodes": 12,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 2.6,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.21666666666666667,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 0,
+      "rescue_rate_vs_linear": 0.0,
+      "aggregate_nodes_per_committed_token": 3.3333333333333335
+    },
+    "3x4": {
+      "cycles": 50,
+      "nodes": 12,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 2.02,
+        "median": 2.0,
+        "p95": 4.0,
+        "min": 0.0,
+        "max": 4.0
+      },
+      "canonical_path_coverage": 0.16833333333333333,
+      "full_12_depth_cycles": 0,
+      "rescued_cycles_vs_linear": 5,
+      "rescue_rate_vs_linear": 0.1,
+      "aggregate_nodes_per_committed_token": 3.9735099337748343
+    },
+    "4x3": {
+      "cycles": 50,
+      "nodes": 12,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 1.86,
+        "median": 2.0,
+        "p95": 3.0,
+        "min": 0.0,
+        "max": 3.0
+      },
+      "canonical_path_coverage": 0.155,
+      "full_12_depth_cycles": 0,
+      "rescued_cycles_vs_linear": 7,
+      "rescue_rate_vs_linear": 0.14,
+      "aggregate_nodes_per_committed_token": 4.195804195804196
+    },
+    "best-first-8": {
+      "cycles": 50,
+      "nodes": 8,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 2.68,
+        "median": 2.0,
+        "p95": 8.0,
+        "min": 0.0,
+        "max": 8.0
+      },
+      "canonical_path_coverage": 0.22333333333333333,
+      "full_12_depth_cycles": 0,
+      "rescued_cycles_vs_linear": 15,
+      "rescue_rate_vs_linear": 0.3,
+      "aggregate_nodes_per_committed_token": 2.1739130434782608
+    },
+    "chain-seeded-8": {
+      "cycles": 50,
+      "nodes": 8,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 2.44,
+        "median": 2.0,
+        "p95": 8.0,
+        "min": 0.0,
+        "max": 8.0
+      },
+      "canonical_path_coverage": 0.20333333333333334,
+      "full_12_depth_cycles": 0,
+      "rescued_cycles_vs_linear": 0,
+      "rescue_rate_vs_linear": 0.0,
+      "aggregate_nodes_per_committed_token": 2.3255813953488373
+    },
+    "best-first-12": {
+      "cycles": 50,
+      "nodes": 12,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.02,
+        "median": 2.0,
+        "p95": 8.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.25166666666666665,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 21,
+      "rescue_rate_vs_linear": 0.42,
+      "aggregate_nodes_per_committed_token": 2.985074626865672
+    },
+    "chain-seeded-12": {
+      "cycles": 50,
+      "nodes": 12,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 2.6,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.21666666666666667,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 0,
+      "rescue_rate_vs_linear": 0.0,
+      "aggregate_nodes_per_committed_token": 3.3333333333333335
+    },
+    "best-first-15": {
+      "cycles": 50,
+      "nodes": 15,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.12,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.26,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 23,
+      "rescue_rate_vs_linear": 0.46,
+      "aggregate_nodes_per_committed_token": 3.6407766990291264
+    },
+    "chain-seeded-15": {
+      "cycles": 50,
+      "nodes": 15,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 2.92,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.24333333333333335,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 15,
+      "rescue_rate_vs_linear": 0.3,
+      "aggregate_nodes_per_committed_token": 3.826530612244898
+    },
+    "best-first-18": {
+      "cycles": 50,
+      "nodes": 18,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.18,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.265,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 24,
+      "rescue_rate_vs_linear": 0.48,
+      "aggregate_nodes_per_committed_token": 4.30622009569378
+    },
+    "chain-seeded-18": {
+      "cycles": 50,
+      "nodes": 18,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.04,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.25333333333333335,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 19,
+      "rescue_rate_vs_linear": 0.38,
+      "aggregate_nodes_per_committed_token": 4.455445544554456
+    },
+    "best-first-20": {
+      "cycles": 50,
+      "nodes": 20,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.2,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.26666666666666666,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 24,
+      "rescue_rate_vs_linear": 0.48,
+      "aggregate_nodes_per_committed_token": 4.761904761904762
+    },
+    "chain-seeded-20": {
+      "cycles": 50,
+      "nodes": 20,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.14,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.26166666666666666,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 22,
+      "rescue_rate_vs_linear": 0.44,
+      "aggregate_nodes_per_committed_token": 4.830917874396135
+    },
+    "best-first-22": {
+      "cycles": 50,
+      "nodes": 22,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.22,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.2683333333333333,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 24,
+      "rescue_rate_vs_linear": 0.48,
+      "aggregate_nodes_per_committed_token": 5.213270142180095
+    },
+    "chain-seeded-22": {
+      "cycles": 50,
+      "nodes": 22,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.2,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.26666666666666666,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 24,
+      "rescue_rate_vs_linear": 0.48,
+      "aggregate_nodes_per_committed_token": 5.238095238095238
+    },
+    "best-first-28": {
+      "cycles": 50,
+      "nodes": 28,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.34,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.2783333333333333,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 26,
+      "rescue_rate_vs_linear": 0.52,
+      "aggregate_nodes_per_committed_token": 6.451612903225806
+    },
+    "chain-seeded-28": {
+      "cycles": 50,
+      "nodes": 28,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.28,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.2733333333333333,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 24,
+      "rescue_rate_vs_linear": 0.48,
+      "aggregate_nodes_per_committed_token": 6.542056074766355
+    },
+    "best-first-32": {
+      "cycles": 50,
+      "nodes": 32,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.36,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.28,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 27,
+      "rescue_rate_vs_linear": 0.54,
+      "aggregate_nodes_per_committed_token": 7.339449541284404
+    },
+    "chain-seeded-32": {
+      "cycles": 50,
+      "nodes": 32,
+      "accepted_depth": {
+        "count": 50,
+        "mean": 3.28,
+        "median": 2.0,
+        "p95": 9.0,
+        "min": 0.0,
+        "max": 12.0
+      },
+      "canonical_path_coverage": 0.2733333333333333,
+      "full_12_depth_cycles": 1,
+      "rescued_cycles_vs_linear": 24,
+      "rescue_rate_vs_linear": 0.48,
+      "aggregate_nodes_per_committed_token": 7.4766355140186915
+    }
+  },
+  "interpretation_limit": "Host-only canonical-path coverage proxy; no GPU speed estimate or alternate-branch correctness claim."
+}

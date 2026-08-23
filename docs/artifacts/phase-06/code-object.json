@@ -1,0 +1,248 @@
+{
+  "metadata_tool": "AMD LLVM version 22.0.0git",
+  "performance_claim": false,
+  "raw_amdhsa_notes": {
+    "baseline": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase06_q6k_fused_nwarps12_20260808/evidence/baseline-amdhsa-notes.txt",
+      "sha256": "4ac28b73f9d0bb9160ae137124afdb449fe99f4eda0280e43f7972d3e44b4c53"
+    },
+    "candidate": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase06_q6k_fused_nwarps12_20260808/evidence/candidate-amdhsa-notes.txt",
+      "sha256": "6edc6b4736012fab5f28aeadad7eb6d6865a20c2a601c674458868beecbdc785"
+    }
+  },
+  "records": [
+    {
+      "demangled_symbol": {
+        "status": "measured",
+        "value": "void mul_mat_vec_q<(ggml_type)14, 1, true, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)"
+      },
+      "expected_workgroup_threads": 256,
+      "hsaco_sha256": "9be6d119a2b92d1d39d30bfbbe457e14c461decd9ddeb0bb1f078225bc76eb01",
+      "raw_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "resource_source": "AMDHSA metadata",
+      "resources": {
+        "group_segment_fixed_size": {
+          "status": "measured",
+          "value": 1792
+        },
+        "max_flat_workgroup_size": {
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "specialization": "baseline_fused_eight",
+      "variant": "baseline"
+    },
+    {
+      "demangled_symbol": {
+        "status": "measured",
+        "value": "void mul_mat_vec_q<(ggml_type)14, 1, false, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)"
+      },
+      "expected_workgroup_threads": 256,
+      "hsaco_sha256": "9be6d119a2b92d1d39d30bfbbe457e14c461decd9ddeb0bb1f078225bc76eb01",
+      "raw_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "resource_source": "AMDHSA metadata",
+      "resources": {
+        "group_segment_fixed_size": {
+          "status": "measured",
+          "value": 896
+        },
+        "max_flat_workgroup_size": {
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "status": "measured",
+          "value": 26
+        },
+        "sgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "status": "measured",
+          "value": 26
+        },
+        "vgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "specialization": "baseline_unfused_fallback_eight",
+      "variant": "baseline"
+    },
+    {
+      "demangled_symbol": {
+        "status": "measured",
+        "value": "void mul_mat_vec_q<(ggml_type)14, 1, true, false, true>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)"
+      },
+      "expected_workgroup_threads": 384,
+      "hsaco_sha256": "c2e57387d7be526b8ef72886b964620ef7551195d0846fce7a01a3e23ede6285",
+      "raw_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "resource_source": "AMDHSA metadata",
+      "resources": {
+        "group_segment_fixed_size": {
+          "status": "measured",
+          "value": 2816
+        },
+        "max_flat_workgroup_size": {
+          "status": "measured",
+          "value": 384
+        },
+        "private_segment_fixed_size": {
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "specialization": "candidate_fused_twelve",
+      "variant": "candidate"
+    },
+    {
+      "demangled_symbol": {
+        "status": "measured",
+        "value": "void mul_mat_vec_q<(ggml_type)14, 1, true, false, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)"
+      },
+      "expected_workgroup_threads": 256,
+      "hsaco_sha256": "c2e57387d7be526b8ef72886b964620ef7551195d0846fce7a01a3e23ede6285",
+      "raw_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "resource_source": "AMDHSA metadata",
+      "resources": {
+        "group_segment_fixed_size": {
+          "status": "measured",
+          "value": 1792
+        },
+        "max_flat_workgroup_size": {
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "specialization": "candidate_fused_fallback_eight",
+      "variant": "candidate"
+    },
+    {
+      "demangled_symbol": {
+        "status": "measured",
+        "value": "void mul_mat_vec_q<(ggml_type)14, 1, false, false, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)"
+      },
+      "expected_workgroup_threads": 256,
+      "hsaco_sha256": "c2e57387d7be526b8ef72886b964620ef7551195d0846fce7a01a3e23ede6285",
+      "raw_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "resource_source": "AMDHSA metadata",
+      "resources": {
+        "group_segment_fixed_size": {
+          "status": "measured",
+          "value": 896
+        },
+        "max_flat_workgroup_size": {
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "status": "measured",
+          "value": 26
+        },
+        "sgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "status": "measured",
+          "value": 26
+        },
+        "vgpr_spill_count": {
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "specialization": "candidate_unfused_fallback_eight",
+      "variant": "candidate"
+    }
+  ],
+  "schema_version": "apex.phase6.code_object.v1",
+  "target": "hipv4-amdgcn-amd-amdhsa--gfx1201"
+}

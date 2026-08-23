@@ -1,0 +1,15 @@
+{
+  "schema": "apex.phase21.source_provenance.compact.v1",
+  "task_fingerprint": "17fda85d2c7421f892c70951d1bda811be19d124d9368ccefac5725d49705196",
+  "sources": {
+    "liranringel_ddtree": "c96427a185677bf4133ed865dd1626a5041aef9b",
+    "z_lab_dflash": "94e4abc5e0c31b67bc1a9d30f1cc34ece28a8756",
+    "luce_org_lucebox": "22b4ad1977686de3804a24f3e32c2ed860fe6cea",
+    "registered_llama_cpp": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f"
+  },
+  "models": {
+    "target": {"sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea", "bytes": 22430998848, "architecture": "qwen35"},
+    "draft": {"sha256": "9153f73024e0b617392dfbd65bcae4ce5575392438e9564cc1a1308cac91c112", "bytes": 3471497312, "architecture": "dflash", "size_label": "1.7B", "file_type": 32, "block_size": 16, "target_layers": [2, 17, 32, 47, 62]}
+  },
+  "full_manifest": "results_phase21_dflash_ddtree_feasibility_20260809/source-provenance.json"
+}

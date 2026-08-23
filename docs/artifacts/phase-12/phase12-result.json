@@ -1,0 +1,12 @@
+{
+  "schema_version": "apex.phase12.result.v1",
+  "task_fingerprint": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb",
+  "status": "feasible_candidate_contract",
+  "selected_boundary": "swiglu_to_q81_ffn_down",
+  "registered_source_changes": false,
+  "candidate_build": false,
+  "gpu_workload_run": false,
+  "performance_claim": false,
+  "candidate_registration": false,
+  "next_action": "freeze a default-off exact-shape SwiGLU-to-D4-Q8_1 ffn_down candidate contract"
+}

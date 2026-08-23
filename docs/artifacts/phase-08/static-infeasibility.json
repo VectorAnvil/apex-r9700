@@ -1,0 +1,48 @@
+{
+  "schema_version": "apex.phase8.static_infeasibility.v1",
+  "status": "stopped_before_candidate_build",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "registered_p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+  "requested_candidate": {
+    "type": "GGML_TYPE_Q6_K",
+    "arch": "gfx1201",
+    "scope": "global",
+    "mmq_x": 128,
+    "mmq_y": 64,
+    "nwarps": 8,
+    "default_off": true
+  },
+  "baseline": {
+    "mmq_x": 128,
+    "mmq_y": 128,
+    "nwarps": 8
+  },
+  "invariant": {
+    "location": "ggml/src/ggml-cuda/mmq.cuh:mmq_write_back_mma",
+    "expression": "nwarps * tile_C::I == mmq_y",
+    "gfx1201_values": {
+      "nwarps": 8,
+      "tile_C_I": 16,
+      "candidate_mmq_y": 64
+    },
+    "candidate_evaluates": false
+  },
+  "remap_assessment": "not_minimal: would require changed WMMA fragment/writeback ownership or K/output partition plus reduction",
+  "dynamic_occupancy": "unavailable: no valid candidate Q6_K symbol can be compiled without changing the forbidden wave-count or implementing a new kernel design",
+  "pinned_source_sha256": {
+    "ggml/src/ggml-cuda/mmq.cuh": "6d153a9d6f293a4ff5f11e7886a48bf765b21d74075d73b2097a2b2a9149de6f",
+    "ggml/src/ggml-cuda/mmq.cu": "550b1f1baf1db0e349b0974754e4810bfb90fc9e7c97873622daf06f02e8a63c",
+    "ggml/src/ggml-cuda/template-instances/mmq-instance-q6_k.cu": "989943d6501a74927d079eacca793e94a1233863196c94dd20e459017ed76fc2"
+  },
+  "static_proof": {
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "source_sha256": "b612aedae0e033b752581fe5048aea3855b3719b546cee90048ad0ba13b5d59a",
+    "object_sha256": "6486eebf9fa016d6e8c46524a80801741dd185f6e1055d5802db9e0aa4953725",
+    "gpu_code": false
+  },
+  "gpu_workloads": false,
+  "llama_bench_build": "not_attempted_after_static_stop",
+  "test_backend_ops_build": "not_attempted_after_static_stop",
+  "candidate_binary": null,
+  "candidate_hsaco": null
+}

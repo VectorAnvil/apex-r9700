@@ -1,0 +1,1271 @@
+{
+  "observed_records": 36,
+  "passed": true,
+  "profiler": "rocprofv3 1.1.0",
+  "reason": "runtime specialization identity only; profiler durations are not evaluation data",
+  "records": [
+    {
+      "agent_id": "Agent 1",
+      "case": "ssm",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        768,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 24,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/ssm/cornelius/2979417_kernel_trace.csv",
+      "trace_sha256": "c683a6bc596f22b0dc3bef16ddbdb83073f502b24421ac0fe44abb035c211a02",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_kv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        16384,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 512,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/attn_kv/cornelius/2979632_kernel_trace.csv",
+      "trace_sha256": "acc23a25b5313c1b2e422242bb70d62160ca6ead3b692ef00056cd672256d85d",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_gate",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        98304,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 3072,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/attn_gate/cornelius/2979864_kernel_trace.csv",
+      "trace_sha256": "06efc62a4d625baff193bbc01e2434b7a936b6e44e74f4b99519a3d4da7d5bf9",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "m5120_k3072",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 3072,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/m5120_k3072/cornelius/2980098_kernel_trace.csv",
+      "trace_sha256": "951b96a7021996e438ca6f2498fc898c7e512d800d47ced55ed54946e1d0a27e",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_qkv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/attn_qkv/cornelius/2980313_kernel_trace.csv",
+      "trace_sha256": "73ffcfe153546eec57c16c47f48f2127a1abd0c16c9e4ea99e7af28a5f150677",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "ffn_down",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 8704,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/ffn_down/cornelius/2980544_kernel_trace.csv",
+      "trace_sha256": "4c60b50dd305a4913d4c3af559de90034cc0c19999aaaa61b8e1f595494ee2fc",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_q",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        196608,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 6144,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/attn_q/cornelius/2980759_kernel_trace.csv",
+      "trace_sha256": "de49ea8f15b4f963617d2f19ea7959fd66c4702064dc45a30c4b34729f3468fd",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "ffn_up",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        278528,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 2048,
+      "logical_shape": {
+        "fusion": true,
+        "k": 5120,
+        "m": 8704,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/ffn_up/cornelius/2980981_kernel_trace.csv",
+      "trace_sha256": "fbbd21571d80cb654bf034cd7d0108fefc27599de767403edf34c3d96976e57c",
+      "variant": "baseline",
+      "vgpr_count": 40,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "lm_head",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        3973120,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 124160,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d0/lm_head/cornelius/2981408_kernel_trace.csv",
+      "trace_sha256": "ff53649ac8c8ea58b0ff98e87a1df1f324a03d7631b092fff769dd575921d9d1",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "ssm",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        768,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 24,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/ssm/cornelius/2981691_kernel_trace.csv",
+      "trace_sha256": "703882345d40420093bde56f80c41d04d412c35ec0dc2d1afa128208c761187e",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_kv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        16384,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 512,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/attn_kv/cornelius/2981912_kernel_trace.csv",
+      "trace_sha256": "b32730cd57b37721edd63db3059bfb2883a75ba55614ef817e3a1dda073b70ef",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_gate",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        98304,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 3072,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/attn_gate/cornelius/2982130_kernel_trace.csv",
+      "trace_sha256": "2ad3c0e6d1291eaa8153453133814ba1b39de2a076a90c9985557b777d797682",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "m5120_k3072",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 3072,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/m5120_k3072/cornelius/2982344_kernel_trace.csv",
+      "trace_sha256": "065570724da86e5e57e132c66062bb35599bddfaa4eb830dd290915bfd878046",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_qkv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/attn_qkv/cornelius/2982554_kernel_trace.csv",
+      "trace_sha256": "cd0c12742fe902688439d931de7f57fffa56f794119f6b072614bab95a5d1755",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "ffn_down",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 8704,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/ffn_down/cornelius/2982791_kernel_trace.csv",
+      "trace_sha256": "683b65b6780d73d110c445e71f1cd1c1d6df9d752ea3269d796f45cdbb3f3a67",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_q",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        196608,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 6144,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/attn_q/cornelius/2983026_kernel_trace.csv",
+      "trace_sha256": "2bebe062da13f414bc9c99ff054dd6ad83098dfc87544676caad2d7e8b1e9679",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "ffn_up",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        278528,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 2048,
+      "logical_shape": {
+        "fusion": true,
+        "k": 5120,
+        "m": 8704,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/ffn_up/cornelius/2983250_kernel_trace.csv",
+      "trace_sha256": "0eacf2cd1aeaa2b2b2b124ae8e89c0da6570b15481432b3025cdac1c46db924f",
+      "variant": "baseline",
+      "vgpr_count": 40,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "lm_head",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        3973120,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 124160,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/baseline/d1/lm_head/cornelius/2983647_kernel_trace.csv",
+      "trace_sha256": "a6d4eafbf8c3c34459e0a2214f1fedbe361281caf19388dbc5ccb1ce71be216a",
+      "variant": "baseline",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "ssm",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        768,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 24,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/ssm/cornelius/2983996_kernel_trace.csv",
+      "trace_sha256": "aea7c5242713b5ed43de9ddf515164ae20ecc0e43fae85d962962883a579fe78",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_kv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        16384,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 512,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/attn_kv/cornelius/2984217_kernel_trace.csv",
+      "trace_sha256": "58dac0b5de1eec4366b76f4597cc7047b6bf5309cb3171555c2f16e3c4848c11",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_gate",
+      "device": 0,
+      "expected_nwarps": 4,
+      "grid": [
+        98304,
+        4,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 512,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 3072,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 4,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/attn_gate/cornelius/2984426_kernel_trace.csv",
+      "trace_sha256": "c2e61b625e13be98b74f1fa04eb6ad4db061e6e747f523db796d41726a92e278",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        4,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "m5120_k3072",
+      "device": 0,
+      "expected_nwarps": 4,
+      "grid": [
+        163840,
+        4,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 512,
+      "logical_shape": {
+        "fusion": false,
+        "k": 3072,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 4,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/m5120_k3072/cornelius/2984632_kernel_trace.csv",
+      "trace_sha256": "ba8ccace63f749943b060ad0ab37fd5e84224b6d15040c92464f0baf4502caa5",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        4,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_qkv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/attn_qkv/cornelius/2984869_kernel_trace.csv",
+      "trace_sha256": "8010d97adb0848143eed1f6e006275190555d815627e9d31b72eeb96e744de22",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "ffn_down",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 8704,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/ffn_down/cornelius/2985084_kernel_trace.csv",
+      "trace_sha256": "735fbf44572fef530eeffd56cb37bd2e2931985d4c00de8679ac5c358500347d",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "attn_q",
+      "device": 0,
+      "expected_nwarps": 4,
+      "grid": [
+        196608,
+        4,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 512,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 6144,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 4,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/attn_q/cornelius/2985327_kernel_trace.csv",
+      "trace_sha256": "9b2152e9f825e95336c29403f60afbd2f981c583508ba67bf35c17b893d3b229",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        4,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "ffn_up",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        278528,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 2048,
+      "logical_shape": {
+        "fusion": true,
+        "k": 5120,
+        "m": 8704,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/ffn_up/cornelius/2985557_kernel_trace.csv",
+      "trace_sha256": "9d04c9d9ec4a3dec702e5ace01a68f6f74b14ca1ed81d45faa844743284a7e95",
+      "variant": "candidate",
+      "vgpr_count": 40,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 1",
+      "case": "lm_head",
+      "device": 0,
+      "expected_nwarps": 8,
+      "grid": [
+        3973120,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 124160,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d0/lm_head/cornelius/2985953_kernel_trace.csv",
+      "trace_sha256": "7b3c9d06787fd89a1a5ce5eb71f267de83232f1a5b866b9bc678ef5a45a00e44",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "ssm",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        768,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 24,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/ssm/cornelius/2986218_kernel_trace.csv",
+      "trace_sha256": "b2bc9a48417a78d5c998d4093a7790a03b70b26e90a5b0daaf2a829744da7e2d",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_kv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        16384,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 512,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/attn_kv/cornelius/2986428_kernel_trace.csv",
+      "trace_sha256": "825bb6657bb213c044f79de015b72ca89500d5600657cacd030c8eb5bb3018ab",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_gate",
+      "device": 1,
+      "expected_nwarps": 4,
+      "grid": [
+        98304,
+        4,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 512,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 3072,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 4,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/attn_gate/cornelius/2986670_kernel_trace.csv",
+      "trace_sha256": "7b11fa25be2237716ff804734512c50b1dabf3b7d0d01c5f65e807137e83d284",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        4,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "m5120_k3072",
+      "device": 1,
+      "expected_nwarps": 4,
+      "grid": [
+        163840,
+        4,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 512,
+      "logical_shape": {
+        "fusion": false,
+        "k": 3072,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 4,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/m5120_k3072/cornelius/2986895_kernel_trace.csv",
+      "trace_sha256": "179c32268366acad8d1f301ffb6a41f266f4cc0d19d7bc1f0a632bf8d18eeb72",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        4,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_qkv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/attn_qkv/cornelius/2987105_kernel_trace.csv",
+      "trace_sha256": "7152a4c4900ce1bcf903eabbfc2a8c049b4bcf0bec77e85f460aaaa21ed890fd",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "ffn_down",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        163840,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 8704,
+        "m": 5120,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/ffn_down/cornelius/2987320_kernel_trace.csv",
+      "trace_sha256": "6fda10a6f27e24b7c21fe8358f5fb329ddf4e657b5e51a6de08666ad39a77155",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "attn_q",
+      "device": 1,
+      "expected_nwarps": 4,
+      "grid": [
+        196608,
+        4,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 512,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 6144,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 4,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/attn_q/cornelius/2987535_kernel_trace.csv",
+      "trace_sha256": "badabf091de69f477fa18cb23ddad8948c19eb6d19978b7e20c05fbf509369e1",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        4,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "ffn_up",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        278528,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 2048,
+      "logical_shape": {
+        "fusion": true,
+        "k": 5120,
+        "m": 8704,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/ffn_up/cornelius/2987767_kernel_trace.csv",
+      "trace_sha256": "c3e058fde0ef59901a27fd329537f435b527d4baa6f22de627aac6cd56bbe8c5",
+      "variant": "candidate",
+      "vgpr_count": 40,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    {
+      "agent_id": "Agent 2",
+      "case": "lm_head",
+      "device": 1,
+      "expected_nwarps": 8,
+      "grid": [
+        3973120,
+        8,
+        1
+      ],
+      "kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "lds_block_size": 1024,
+      "logical_shape": {
+        "fusion": false,
+        "k": 5120,
+        "m": 124160,
+        "n": 1
+      },
+      "normal_graphs_verified": true,
+      "observed_nwarps": 8,
+      "passed": true,
+      "performance_claim": false,
+      "scratch_size": 0,
+      "sgpr_count": 128,
+      "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+      "trace_path": "dispatch-traces/candidate/d1/lm_head/cornelius/2988205_kernel_trace.csv",
+      "trace_sha256": "51545872f45475a7a5e7d2a63d22e7c8c89b9bfb5ade2429517c8c30d31679cd",
+      "variant": "candidate",
+      "vgpr_count": 32,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    }
+  ],
+  "required_records": 36,
+  "schema_version": "apex.phase5.dispatch_selection.v2",
+  "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac"
+}

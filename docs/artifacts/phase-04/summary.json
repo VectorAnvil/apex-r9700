@@ -1,0 +1,25 @@
+{
+  "schema_version": "apex.phase4.summary.v0",
+  "candidate": "rdna4-q6k-nwarps4",
+  "status": "rejected",
+  "decision": "reject the global four-wave Q6_K MMV candidate; do not run E2E or promote",
+  "task_fingerprint": "12f47b5b9a632cf32e0c3ce95008fc531b1dc33617326f31b863c59b01f9218b",
+  "task_sha256": "e53ef7aa22c11a6e30cbe68a4fda1bb804498743b5a117093292f5e53e9e2dfd",
+  "gate_manifest_sha256": "26ade33868c84ba87dd97775303f09fce2d5c5de4434d54dc846ab7e76309b8b",
+  "result_sha256": "05b46d79b826879782be7a9add9905d997dab813f79c0de7c336654dfb3f3e53",
+  "correctness": {
+    "valid": true,
+    "rows": 36,
+    "max_nmse": 0.0005
+  },
+  "decisive_results": [
+    {"case": "ssm", "device_0_speedup": 0.9333855799373041, "device_1_speedup": 0.9332810047095762, "status": "stable_regression"},
+    {"case": "attn_kv", "device_0_speedup": 0.5260972716488731, "device_1_speedup": 0.4812406203101551, "status": "stable_regression"},
+    {"case": "ffn_up", "device_0_speedup": 0.9983443708609271, "device_1_speedup": 0.9983388704318937, "status": "stable_no_win"}
+  ],
+  "e2e": {
+    "permitted": false,
+    "run": false,
+    "llama_lab_registration_created": false
+  }
+}

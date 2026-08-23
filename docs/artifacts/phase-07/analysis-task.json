@@ -1,0 +1,64 @@
+{
+  "code_object_provenance": [
+    {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/evidence/attribution-mmq-q6_k-amdhsa-notes.txt",
+      "sha256": "8ce5e86e66fda73965db78e8fd1cbec324339c54664a9e65c184b5586377ac1c"
+    },
+    {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/evidence/attribution-mmq-q6_k.hip_fatbin",
+      "sha256": "4d70d1392e9b9cf312d4055b53162acc7af1fe4d22d072ba91db870972ad291a"
+    },
+    {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/evidence/baseline-mmq-q6_k.hip_fatbin",
+      "sha256": "feab602cf4a718146b0200aeedd5467861033244496ac09380a739c06ce93c63"
+    },
+    {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/evidence/attribution-mmq-q6_k-gfx1201.hsaco",
+      "sha256": "c54af5f0f5004d1218f5390489c1e0745f8d140da55214b29e42578ce4803b43"
+    },
+    {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/evidence/baseline-mmq-q6_k-amdhsa-notes.txt",
+      "sha256": "885f950c7f738c9aea60e25180932456f7b239cc0c3adc973ba4ac2f54059f0d"
+    },
+    {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/evidence/baseline-mmq-q6_k-gfx1201.hsaco",
+      "sha256": "5753401535d7bc1d88fe71a85a686adb029e56bd6bd2864da798d7a8add3d85b"
+    }
+  ],
+  "fingerprint": "ce9452c136b5cde0c9f1c06870a2fc502fa5182b85c6c164b1fa9ee6592a93bb",
+  "inputs": {
+    "analysis_task_builder": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/tools/make_analysis_task.py",
+      "sha256": "9025e9366af3f38bbc877dbb44bb1ad5be272ae009eedf2ace9d97bef20bf737"
+    },
+    "attribution_jsonl": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/attribution-run-v1/mmq-attribution.jsonl",
+      "sha256": "2ba146c852a193388784ac50a12b528a0764b9fefa9b7f0907374c5a1088320b"
+    },
+    "attribution_manifest": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/attribution-run-v1/manifest.json",
+      "sha256": "c17c110b4285f312b4a9c4ee4d4a43620e418a82051c7456870a06468b8c7b05"
+    },
+    "baseline_result": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/baseline-v1-result.json",
+      "sha256": "e154f19245baaad37cf241ed9effdad9944fa3ce603d19e17968af0ea3a1d440"
+    },
+    "original_summary": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/attribution-summary.json",
+      "sha256": "e14c84ba66cccc61f795e2fc9918f65593b71b5b12b5ac01afdcc8b1e39a39d5"
+    },
+    "phase2_trace": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase02_qwen36_p2p_nographs_20260808/pp/raw/cornelius/2490453_kernel_trace.csv",
+      "sha256": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd"
+    },
+    "sequence_summarizer": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/tools/summarize_attribution_v1.py",
+      "sha256": "8d71a054de8c120b855afa41876718d2e222f60092c7380cc9ec47041f41bcf1"
+    },
+    "task_v1": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808/task-v1.json",
+      "sha256": "8708d38dea99895153503bcf2458548f2a8bfbcaae253ce630f37c032ca341a8"
+    }
+  },
+  "schema_version": "apex.phase7.analysis_task.v1"
+}

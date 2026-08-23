@@ -1,0 +1,69 @@
+{
+  "cases": [
+    {
+      "fusion": false,
+      "id": "ssm",
+      "k": 5120,
+      "m": 24,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_kv",
+      "k": 5120,
+      "m": 512,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_gate",
+      "k": 5120,
+      "m": 3072,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "m5120_k3072",
+      "k": 3072,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_qkv",
+      "k": 5120,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "ffn_down",
+      "k": 8704,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_q",
+      "k": 5120,
+      "m": 6144,
+      "n": 1
+    },
+    {
+      "fusion": true,
+      "id": "ffn_up",
+      "k": 5120,
+      "m": 8704,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "lm_head",
+      "k": 5120,
+      "m": 124160,
+      "n": 1
+    }
+  ],
+  "schema_version": "apex.phase6.inputs.v0",
+  "sha256": "15b4d4d18a08ff2d3f28f15c45af9d6f49c457ebe837f737053996ba837804d3"
+}

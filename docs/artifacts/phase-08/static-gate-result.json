@@ -1,0 +1,19 @@
+{
+  "candidate_build": false,
+  "correctness": {
+    "status": "not_run"
+  },
+  "counters": {
+    "status": "not_run"
+  },
+  "decision": "reject_static_infeasible",
+  "e2e": {
+    "status": "not_run"
+  },
+  "failure_writeup_required": true,
+  "gpu_workloads": false,
+  "reason": "gfx1201 Q6_K WMMA invariant nwarps * tile_C::I == mmq_y rejects 8 * 16 != 64",
+  "schema_version": "apex.phase8.static_gate_result.v1",
+  "static_proof_sha256": "1490b0c5763f1f7b04528d1ba846fb688d624c6d5d8f5c0126eeebb9db764b83",
+  "task_fingerprint": "0857b439db45cfe5bc8c549e5354c5ae5cab58ddc4b49a91e97d25125f4bb1d7"
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "apex.phase12.layout_aliasing.v1",
+  "task_fingerprint": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb",
+  "consumer_layout": {
+    "name": "block_q8_1_mmq",
+    "variant": "MMQ_Q8_1_DS_LAYOUT_D4",
+    "not_standard_graph_q8_1": true,
+    "values_per_block": 128,
+    "bytes_per_block": 144,
+    "contents": "128 int8 values and four F32 scales; transposed for contiguous shared-memory loads",
+    "selection": "GGML_TYPE_Q6_K maps to D4",
+    "alignment": "ne0 padded and required divisible by 4*QK8_1 (128)"
+  },
+  "current_lifetime": {
+    "allocation": "backend-private ggml_cuda_pool_alloc inside each ggml_cuda_mul_mat_q call",
+    "graph_tensor": false,
+    "consumer_api": "currently asserts F32 src1 and performs its own quantization",
+    "implication": "a candidate needs a dedicated fused graph/backend path and a prequantized MMQ entrypoint; changing a graph tensor dtype or output pointer is insufficient"
+  },
+  "candidate_requirements": {
+    "rmsnorm_to_shared_q81_gate_up": "emit one exact D4 buffer after whole-row RMS reduction and learned scaling; retain it through both independent MMQs",
+    "swiglu_to_q81_ffn_down": "combine elementwise SwiGLU with 128-value amax reductions and exact D4 packing, then pass the private buffer to one MMQ"
+  },
+  "aliasing": {
+    "attn_post_norm": "only gate/up MMQs consume this normalized value; residual uses the separately retained pre-norm tensor",
+    "ffn_swiglu": "only ffn_down consumes this value in the exact dense FFN graph"
+  }
+}

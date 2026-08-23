@@ -1,0 +1,12 @@
+{
+  "candidate_build": false,
+  "decision": "feasible_candidate_contract",
+  "failure_writeup_required": false,
+  "findings_sha256": "cae0e70b9b9ead4994bef1e4fdd27c3d0991ee97f85db4b3a7a7144652767839",
+  "gpu_workloads": false,
+  "integration": false,
+  "missing_findings": [],
+  "schema_version": "apex.phase9.feasibility_result.v1",
+  "task_fingerprint": "49cfade573e77d500a701cc8e411867c4e82478e7e770f62274819d73ec475b3",
+  "unsupported_findings": []
+}

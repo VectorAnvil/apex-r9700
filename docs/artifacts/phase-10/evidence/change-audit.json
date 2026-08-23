@@ -1,0 +1,47 @@
+{
+  "phase": 10,
+  "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907",
+  "worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/worktrees/candidate",
+  "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "changed_files": [
+    "ggml/src/ggml-cuda/ggml-cuda.cu",
+    "ggml/src/ggml-cuda/mmq.cu",
+    "ggml/src/ggml-cuda/mmq.cuh",
+    "tests/test-backend-ops.cpp"
+  ],
+  "forbidden_implementation_absent": true,
+  "candidate_patch": {
+    "path": "evidence/candidate.patch",
+    "sha256": "d2d378cfb8d17a393020d8a0ef55195ae58150b9302236ec6fd7a10a8c72a2d0",
+    "paths": [
+      "ggml/src/ggml-cuda/ggml-cuda.cu",
+      "ggml/src/ggml-cuda/mmq.cu",
+      "ggml/src/ggml-cuda/mmq.cuh",
+      "tests/test-backend-ops.cpp"
+    ]
+  },
+  "excluded_preexisting_p2p_paths": [
+    "ggml/src/ggml-cuda/allreduce.cu",
+    "ggml/src/ggml-cuda/allreduce.cuh"
+  ],
+  "implementation": {
+    "selector": "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP=1; HIP only; runtime cc == GGML_CUDA_CC_RDNA4 + 1; exact Q6_K/F32 M=8704,N=512,K=5120",
+    "name_contract": "blk.<layer>.ffn_gate.weight, blk.<same layer>.ffn_up.weight, attn_post_norm-<same layer>",
+    "graph_behavior": "derive gate/up from GLU edges; launch one Q8_1 quantization and two existing MMQ dispatches; return skip=1; leave F32 GLU execution unchanged",
+    "scratch_lifetime": "one local ggml_cuda_pool_alloc<char> remains live through quantize, gate MMQ, and up MMQ",
+    "kernel_changes": false,
+    "default_off": true
+  },
+  "tests_added": {
+    "harness": "MUL_MAT_VEC_FUSION",
+    "exact": "type=q6_K,glu_op=2,m=512,n=8704,k=5120,use_id=0, batch_dims={1,1}, deterministic inputs, NMSE<=5e-4",
+    "fallback": "same graph with m=256, deterministic inputs, NMSE<=5e-4; selector must reject",
+    "registrations": ["eval", "perf"]
+  },
+  "static_checks": [
+    {"command": "git diff --check -- <candidate paths>", "status": "passed"},
+    {"command": "candidate.patch contains only candidate paths", "status": "passed"},
+    {"command": "cmake build test-backend-ops llama-bench", "status": "passed"},
+    {"command": "both-device correctness and exact/fallback dispatch", "status": "passed"}
+  ]
+}

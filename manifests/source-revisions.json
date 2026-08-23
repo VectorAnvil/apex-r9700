@@ -1,0 +1,37 @@
+{
+  "project": "Apex R9700",
+  "exported_at": "2026-08-23",
+  "llama_cpp": {
+    "repository": "https://github.com/ggml-org/llama.cpp",
+    "base_commit": "4695f001fece1660d8bb1b3748f50726ddcc100b",
+    "build_number": 10457
+  },
+  "platform": {
+    "gpu_count": 2,
+    "gpu": "AMD Radeon AI PRO R9700",
+    "architecture": "gfx1201",
+    "rocm": "7.2.26015",
+    "rocprofv3": "1.1.0"
+  },
+  "production_hashes": {
+    "llama_server_sha256": "10856b0b2fcab07c83a7fc0f01f1a0537b130bfdabcf608f97f348f670289393",
+    "libggml_hip_sha256": "5f36565e00881c19d8f189661527cd70e3d7ecd2e5a40a13ac6d06c69c380091",
+    "heretic_q6_k_sha256": "b2a719fde75244116d7a721d82b10ca0c7aeb5fd586e25490114d31e520f8bed",
+    "mmproj_bf16_sha256": "190879ae21e977d0393bc32b895c4f3b2199f66b9a6aaf87db1b13f3b52dfc1d"
+  },
+  "reconstructed_source_tree": "ad9165f8a56b082334b9128ad0cdc3bd8d7d1ff1",
+  "patch_series": [
+    {
+      "file": "0001-promoted-heretic-stack.patch",
+      "sha256": "e75c6353afcc9a95ed8a413d979c46e6c27c4c4719e9404a01fe650cb039764b"
+    },
+    {
+      "file": "0002-packed-n2-mmvq.patch",
+      "sha256": "951996de844b70da932568e77612112c69e6a3a6292ca0aedf223cf5ecd37b15"
+    }
+  ],
+  "third_party": {
+    "direct_p2p_author": "JohnTDI-cpu",
+    "direct_p2p_repository": "https://github.com/JohnTDI-cpu/llama-hip-p2p-allreduce"
+  }
+}

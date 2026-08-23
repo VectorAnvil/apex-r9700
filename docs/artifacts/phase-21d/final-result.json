@@ -1,0 +1,96 @@
+{
+  "schema_version": "apex.phase21d.final_result.v1",
+  "task_fingerprint": "4fb07b0268f9efc8391e89864c6f03da6b73a0fba03a0614482039750088d188",
+  "decision": "go_parent_aware_correctness_only",
+  "reason": "Two passive recorder runs preserved exact 192-token output and produced identical real DFlash distributions. Host-only replay shows a material canonical-path advantage for best-first DDTree, including the requested 20-node point, but does not establish alternate-branch recurrent-state correctness or GPU throughput.",
+  "parity": {
+    "recorder_processes": 2,
+    "tokens_per_process": 192,
+    "token_ids_exact": true,
+    "content_exact": true,
+    "semantic_distribution_payload_exact": true,
+    "normal_graphs_enabled": true,
+    "graphs_reused_r1": 49,
+    "target_vram_after_exit_percent": [0, 0]
+  },
+  "recorder": {
+    "cycles": 55,
+    "full_12_position_cycles": 50,
+    "terminal_short_cycles_excluded_from_replay": 5,
+    "top_k": 32,
+    "normalization": "full-vocabulary log-sum-exp",
+    "canonical_positions": 630,
+    "canonical_in_top32": 496,
+    "canonical_top32_rate": 0.7873015873015873
+  },
+  "replay": {
+    "cycles": 50,
+    "linear_12": {
+      "mean_accepted_depth": 2.6,
+      "canonical_path_coverage": 0.21666666666666667,
+      "aggregate_nodes_per_committed_token": 3.3333333333333335
+    },
+    "best_first_12": {
+      "mean_accepted_depth": 3.02,
+      "rescued_cycles": 21,
+      "worse_cycles": 4,
+      "aggregate_nodes_per_committed_token": 2.985074626865672
+    },
+    "best_first_20": {
+      "mean_accepted_depth": 3.2,
+      "relative_depth_gain_vs_linear": 0.23076923076923078,
+      "rescued_cycles": 24,
+      "same_cycles": 25,
+      "worse_cycles": 1,
+      "aggregate_nodes_per_committed_token": 4.761904761904762
+    },
+    "chain_seeded_20": {
+      "mean_accepted_depth": 3.14,
+      "relative_depth_gain_vs_linear": 0.2076923076923077,
+      "rescued_cycles": 22,
+      "same_cycles": 28,
+      "worse_cycles": 0,
+      "aggregate_nodes_per_committed_token": 4.830917874396135
+    },
+    "best_first_32": {
+      "mean_accepted_depth": 3.36,
+      "rescued_cycles": 27,
+      "worse_cycles": 0,
+      "aggregate_nodes_per_committed_token": 7.339449541284404
+    },
+    "rectangles": {
+      "3x4_mean_accepted_depth": 2.02,
+      "4x3_mean_accepted_depth": 1.86,
+      "decision": "reject as primary policies"
+    }
+  },
+  "diagnostic_stage_medians_ms_r1": {
+    "target_feature_gather": 60.091,
+    "dflash_encode": 0.307,
+    "kv_injection": 0.409,
+    "draft_decode": 9.123,
+    "top32_export_instrumentation": 13.486,
+    "target_verify": 2.987,
+    "accept_rollback": 0.438
+  },
+  "provenance": {
+    "ddtree_commit": "c96427a185677bf4133ed865dd1626a5041aef9b",
+    "ddtree_py_sha256": "8d0ecd9d07a7266d3825eefd176811502313a0da7cedfcdc8aec1a4971c3a99b",
+    "mmvq_normalized_isa_sha256": "24d11e8bb04e2266f831723dd10c0cd35c60a81242ad60033f486b32e5d58ce1",
+    "q6_mmq_normalized_isa_sha256": "113a1325386aaf9fa614219af4505d52fa6a362ee9b18ae6fbd3e69af4f64950",
+    "target_kernel_codegen_identical_to_phase21c": true,
+    "registered_phase13_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "registered_assets_mutated": false
+  },
+  "limits": [
+    "Replay follows the exact serial canonical stream and cannot prove alternate-branch target logits or Qwen35 recurrent-state equivalence.",
+    "Node count does not translate directly into target verification latency; no GPU tree or throughput claim is made.",
+    "Recorder top-32 export adds substantial host overhead, so recorder throughput is non-gating.",
+    "The n_max=15 numerical boundary remains unresolved."
+  ],
+  "next": "Freeze Phase 21E for parent-aware Qwen35 recurrent/KV state and tree-attention correctness. Start with chain-seeded budget 20 as the no-linear-regression reference and pure best-first 20 as the higher-depth comparator; do not optimize kernels yet.",
+  "promotion": {
+    "eligible": false,
+    "completed": false
+  }
+}

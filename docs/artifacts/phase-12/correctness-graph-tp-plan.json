@@ -1,0 +1,26 @@
+{
+  "schema_version": "apex.phase12.correctness_graph_tp_plan.v1",
+  "task_fingerprint": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb",
+  "later_candidate_only": true,
+  "correctness": {
+    "oracle": "same-build selector-off F32 producer plus existing D4 quantizer and CPU/F32 backend oracle",
+    "compare": [
+      "exact D4 quantized bytes/scales where deterministic",
+      "ffn_down F32 output",
+      "whole graph output"
+    ],
+    "nmse_max": 0.0005,
+    "must_cover": [
+      "zero blocks",
+      "NaN behavior",
+      "rounding ties",
+      "row tails/padding",
+      "both devices"
+    ]
+  },
+  "dispatch": "exact selector-on producer-to-D4-to-MMQ sequence plus selector-off and nonmatching fallback witnesses",
+  "graphs": "normal HIP graph capture and replay must pass; Phase7 proves identical MMQ host order with capture inactive/active but replay count remains unavailable",
+  "tensor_parallel": "buffer remains device-local; no allreduce, P2P, stream, or ownership reorder",
+  "resources": "record VGPR, SGPR, LDS, private memory, spills, waves, and dynamically available gfx1201 occupancy/bandwidth or explicit unavailable status",
+  "performance": "interleaved same-build exact-chain timing and at least three normal-graph whole-PP processes with frozen variance/regression gates"
+}

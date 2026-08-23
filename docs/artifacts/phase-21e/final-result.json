@@ -1,0 +1,11 @@
+{
+  "schema_version": "apex.phase21e.final_result.v1",
+  "decision": "complete_no_go",
+  "correctness_prototype_authorized": false,
+  "gpu_launches": 0,
+  "builds": 0,
+  "source_edits": 0,
+  "registered_assets_mutated": false,
+  "reason": "Pinned llama.cpp lacks parent-aware SSM convolution and Gated DeltaNet recurrence; Lucebox's production split path also rejects sibling trees.",
+  "required_successor": "A separately frozen parent-aware recurrent substrate phase with CPU and both-device serial oracles."
+}

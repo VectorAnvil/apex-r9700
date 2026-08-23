@@ -1,0 +1,34 @@
+{
+  "schema_version": "apex.phase18.final_result.v1",
+  "task_fingerprint": "24504366fcca672e6b926831562533671b18371de26da38fb61bb168ba0ad801",
+  "decision": "reject_static_no_go",
+  "eligible_for_gpu_correctness_or_timing": false,
+  "reason": "Stacking exact native-dot8 arithmetic onto the real fused K2 specialization preserves K2's partial next-block overlap and emits native gfx1201 dot8, but raises fused VGPR from 60 to 66, over the frozen 64-VGPR limit. It replaces eight productive DP4A instructions with 32 dot8 instructions, grows the fused ISA slice from 918 to 1095 instruction lines, and leaves global loads unchanged at 30.",
+  "static_gates": {
+    "k2_overlap_preserved": "pass",
+    "native_dot8_emitted": "pass",
+    "unfused_machine_code_identical": "pass",
+    "no_added_vmem": "pass",
+    "no_private_scratch_or_spills": "pass",
+    "sgpr_le_48": "pass: 42",
+    "vgpr_le_64": "fail: 66"
+  },
+  "comparison": {
+    "fused_k2_dp4a": {"vgpr": 60, "sgpr": 42, "lds_bytes": 1792, "global_loads": 30, "dot4": 8, "dot8": 0, "instruction_lines": 918},
+    "fused_k2_dot8": {"vgpr": 66, "sgpr": 42, "lds_bytes": 1792, "global_loads": 30, "dot4": 0, "dot8": 32, "instruction_lines": 1095}
+  },
+  "execution": {
+    "candidate_builds": 1,
+    "gpu_launches": 0,
+    "correctness_runs": 0,
+    "benchmarks": 0,
+    "tg128_runs": 0,
+    "registered_assets_mutated": false
+  },
+  "history": {
+    "phase16c_fused_k2_exact_speedup": 0.970618,
+    "phase17_dot8_probe_decision": "complete_no_go",
+    "combined_rescue_result": "The two mechanisms stack structurally, but their costs also stack and the full fused code object is less favorable than either premise required."
+  },
+  "follow_up": "Do not benchmark or promote fused K2 plus dot8. Keep K4 excluded. Return to refreshed TG hotspot selection or trace real MTP N=2/3/4 verification before considering narrow DP4A."
+}

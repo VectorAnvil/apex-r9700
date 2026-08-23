@@ -1,0 +1,109 @@
+{
+  "schema_version": "apex.phase17.q6k_q81_dot8_static.v2",
+  "immutable_after_fingerprint": true,
+  "objective": "Determine statically whether an exact register-resident gfx1201 native-dot8 decomposition can improve the two independently scaled Q6_K x Q8_1 MMVQ terms.",
+  "baseline": {
+    "source_root": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "registered_llama_bench_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+    "vecdotq_cuh_sha256": "69ee2488c89da7e6d31a91d2f33f3312d7c66dbcb60b4c42f154bdf775c4436a",
+    "common_cuh_sha256": "a977b50f7479df092bf3c441ba88e4519803b5f0df5a640fd7fb0874e64b9b4c",
+    "registered_mmvq_object_sha256": "0fd0e9b39fbd01f02d3e9488cb06d89e539ee5107ffc4ec7587629ac07abd5aa",
+    "registered_fused_resources": {
+      "vgpr": 35,
+      "sgpr": 42,
+      "static_lds_bytes": 1792,
+      "wavefront_size": 32,
+      "spills": 0,
+      "private_segment_bytes": 0
+    }
+  },
+  "scope": {
+    "architecture": "gfx1201",
+    "rocm": "7.2.26015",
+    "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase17_q6k_dot8_static_v2_20260809",
+    "allowed_new_files": [
+      "task-frozen.json",
+      "task.sha256",
+      "identity.json",
+      "source/*",
+      "intrinsics/*",
+      "oracle/*",
+      "probe/*",
+      "code-object/*",
+      "analysis/*",
+      "evidence/*",
+      "tools/q6k_dot8_oracle.py",
+      "final-result.json",
+      "WHAT_DIDNT_WORK.md"
+    ],
+    "registered_source_mutation": false,
+    "registered_build_mutation": false,
+    "prior_result_mutation": false,
+    "excluded": [
+      "llama.cpp integration",
+      "MMVQ dispatch",
+      "vector-load or layout changes",
+      "wave-count changes",
+      "K2 or K4",
+      "MMQ",
+      "Stream-K",
+      "MTP",
+      "GPU launch",
+      "benchmark",
+      "registration"
+    ]
+  },
+  "integer_contract": {
+    "reference": "For each i in {0,1}, D_i=sum_lane((low4 + 16*high2 - 32) * signed_q8_byte); result=d*sum_i(d8[i]*(D_i*scales[4*i])).",
+    "raw_nibble_decomposition": "With p=a&15, r=arithmetic(a>>4), h0=high2-2: q6*a=low4*p + 16*low4*r + 16*h0*p + 256*h0*r.",
+    "signed_rebias_identity": "With L=sign4(low4 xor 8), H=sign4((high2-2)&15): q6=L+16*H+8. Because a is int8, a must still be decomposed before i4 dot8 use.",
+    "independent_scale_rule": "D_0 and D_1 may not be merged into one scalar eight-lane dot result before distinct scales[0]/scales[4] and d8[0]/d8[1] are applied.",
+    "float_order": "Preserve the registered helper's D_i*scale, d8 multiply, sum, and final d multiply order."
+  },
+  "intrinsics": {
+    "discovered_before_freeze": [
+      "__builtin_amdgcn_sdot8(int,int,int,bool)",
+      "__builtin_amdgcn_udot8(unsigned,unsigned,unsigned,bool)",
+      "__builtin_amdgcn_sudot8(bool,int,bool,int,int,bool)"
+    ],
+    "expected_gfx12_instructions": [
+      "v_dot8_i32_i4",
+      "v_dot8_i32_iu4",
+      "v_dot8_u32_u4"
+    ],
+    "required_fact": "Each 32-bit operand contains eight packed 4-bit lanes; Q8_1 int8 bytes cannot be consumed directly."
+  },
+  "oracle": {
+    "host_only": true,
+    "must_pass": true,
+    "exhaustive": "For both term indices and every lane position, low4=0..15, high2=0..3, activation=-128..127; prove direct, raw-nibble, and signed-rebias scalar identities.",
+    "additional": [
+      "packed lane order and sign-extension",
+      "lane additivity",
+      "all extrema and alternating signs",
+      "distinct scales and d8 proving no cross-term scalar merge",
+      "finite adversarial float cases with current evaluation order"
+    ]
+  },
+  "probe": {
+    "source": "probe/q6k_dot8_probe.hip",
+    "design": "Matched noinline reference and dot8 cores with identical scalar register inputs and one output store; candidate splits each signed Q8 byte into unsigned low and signed high nibbles and uses explicit sudot8 signedness.",
+    "compile": "/opt/rocm-7.2.0/bin/hipcc -x hip --genco --offload-arch=gfx1201 -O3 -DNDEBUG -std=c++17 probe/q6k_dot8_probe.hip -o code-object/q6k_dot8_probe.hsaco",
+    "disassemble": "/opt/rocm-7.2.0/lib/llvm/bin/llvm-objdump --disassemble --mcpu=gfx1201 --demangle code-object/q6k_dot8_probe.hsaco",
+    "metadata": "/opt/rocm-7.2.0/lib/llvm/bin/llvm-readelf --notes --symbols code-object/q6k_dot8_probe.hsaco"
+  },
+  "static_gates": {
+    "correctness": "All exhaustive and adversarial oracle cases pass exactly; signedness and both independent scale/d8 terms are preserved.",
+    "native_instruction": "The intended gfx1201 native dot8 instruction appears with documented signedness and without scalarization.",
+    "lane_efficiency": "Reject if each dot8 has only four productive lanes and the exact construction needs three or more dot reductions per current four-lane term.",
+    "codegen": "No additional VMEM/store traffic beyond the matched wrapper, no helper calls, no private memory, scratch, LDS, or spills.",
+    "resources": "A full fused-symbol projection must be <=37 VGPR, <=42 SGPR, 1792 B LDS, wave32, and zero spills/private.",
+    "dependency": "The full nibble extraction, packing, dot, correction, coefficient, scale, and accumulation chain must be strictly more favorable than two productive signed-i8 DP4A operations per helper.",
+    "decision": "Any failed gate yields complete_no_go. GO only authorizes a separately frozen Phase17B integration task.",
+    "preserved_v1_failure": "The first frozen task used the incorrect H=sign4(high2 xor 2) identity. Its exhaustive oracle failure is preserved under evidence/v1-formula-failure.json and is excluded from the v2 decision."
+  }
+}

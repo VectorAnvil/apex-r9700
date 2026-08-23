@@ -1,0 +1,104 @@
+{
+  "schema_version": "apex.phase12.source_graph.v1",
+  "task_fingerprint": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb",
+  "model": {
+    "architecture": "Qwen3.5/3.6 dense",
+    "layer_path": [
+      {
+        "file": "src/models/qwen35.cpp",
+        "lines": "182-194",
+        "fact": "attention residual is retained separately; fused RMSNorm+scale output attn_post_norm feeds build_layer_ffn"
+      },
+      {
+        "file": "src/models/qwen35.cpp",
+        "lines": "472-484",
+        "fact": "parallel SILU FFN uses Q6_K up, gate, and down weights"
+      },
+      {
+        "file": "src/llama-graph.cpp",
+        "lines": "1588-1658",
+        "fact": "up and gate consume the same F32 input, then ggml_swiglu_split produces F32 ffn_swiglu"
+      },
+      {
+        "file": "src/llama-graph.cpp",
+        "lines": "1717-1723",
+        "fact": "ffn_down consumes ffn_swiglu"
+      }
+    ]
+  },
+  "boundaries": {
+    "rmsnorm_to_shared_q81_gate_up": {
+      "status": "supported",
+      "producer": "rms_norm_f32<1024,true,false> (RMSNorm plus learned scale)",
+      "f32_tensor": {
+        "class": "attn_post_norm-*",
+        "type": "F32",
+        "ne": [
+          5120,
+          512,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          20480,
+          10485760,
+          10485760
+        ]
+      },
+      "consumers": [
+        {
+          "class": "blk.*.ffn_gate.weight",
+          "type": "Q6_K",
+          "mnk": [
+            8704,
+            512,
+            5120
+          ]
+        },
+        {
+          "class": "blk.*.ffn_up.weight",
+          "type": "Q6_K",
+          "mnk": [
+            8704,
+            512,
+            5120
+          ]
+        }
+      ],
+      "other_consumers": []
+    },
+    "swiglu_to_q81_ffn_down": {
+      "status": "supported",
+      "producer": "unary_gated_op_kernel<op_silu,float>",
+      "f32_tensor": {
+        "class": "ffn_swiglu-*",
+        "type": "F32",
+        "ne": [
+          8704,
+          512,
+          1,
+          1
+        ],
+        "nb": [
+          4,
+          34816,
+          17825792,
+          17825792
+        ]
+      },
+      "consumers": [
+        {
+          "class": "blk.*.ffn_down.weight",
+          "type": "Q6_K",
+          "mnk": [
+            5120,
+            512,
+            8704
+          ]
+        }
+      ],
+      "other_consumers": []
+    }
+  }
+}

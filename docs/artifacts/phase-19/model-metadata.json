@@ -1,0 +1,14 @@
+{
+  "schema": "apex.phase19.model_metadata.v1",
+  "path": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+  "sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+  "architecture": "qwen35",
+  "general_name": "Huihui Qwen3.6 27B Abliterated",
+  "nextn_predict_layers": 1,
+  "nextn_tensors": [
+    {"name": "blk.64.nextn.eh_proj.weight", "type": "Q6_K", "shape": [10240, 5120, 1, 1]},
+    {"name": "blk.64.nextn.enorm.weight", "type": "F32", "shape": [5120, 1, 1, 1]},
+    {"name": "blk.64.nextn.hnorm.weight", "type": "F32", "shape": [5120, 1, 1, 1]},
+    {"name": "blk.64.nextn.shared_head_norm.weight", "type": "F32", "shape": [5120, 1, 1, 1]}
+  ]
+}

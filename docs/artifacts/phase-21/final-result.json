@@ -1,0 +1,21 @@
+{
+  "schema": "apex.phase21.final_result.v1",
+  "task_fingerprint": "17fda85d2c7421f892c70951d1bda811be19d124d9368ccefac5725d49705196",
+  "decision": "feasible_with_major_work",
+  "candidate_authorized": false,
+  "separate_long_term_branch_recommended": true,
+  "reason": "Linear DFlash and the DDTree algorithm are source-proven, but exact parent-aware state propagation and accepted-path commit for 48 Qwen3.6 Gated DeltaNet/conv layers under Apex tensor split are missing. Pinned Lucebox proves a single-device design while explicitly disabling production tree verification for its multi-GPU layer-split path.",
+  "next": {
+    "phase": "21B",
+    "objective": "Instrument isolated linear DFlash with the Phase 13 target unchanged; capture compatibility, exact output, top-K distributions, acceptance, stage timing, memory, dispatch, graphs, and communication.",
+    "tree_implementation": false,
+    "kernel_changes": false,
+    "offline_followup": "Replay linear, 3x5, 5x3, pure best-first, and chain-seeded DDTree policies before tree graph work."
+  },
+  "execution": {
+    "source_snapshots": 3,
+    "candidate_builds": 0,
+    "gpu_launches": 0,
+    "registered_assets_mutated": false
+  }
+}

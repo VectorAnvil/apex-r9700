@@ -1,0 +1,264 @@
+{
+  "created_at": "2026-08-08T23:04:43.842148+00:00",
+  "fingerprint_fields": {
+    "build_plan": {
+      "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+      "build": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/builds/candidate",
+      "cmake_defines": {
+        "AMDGPU_TARGETS": "gfx1201",
+        "CMAKE_BUILD_TYPE": "Release",
+        "GGML_HIP": "ON"
+      },
+      "patch_order": [
+        "registered P2P patch",
+        "frozen test harness patch",
+        "candidate patch"
+      ],
+      "targets": [
+        "test-backend-ops",
+        "llama-bench"
+      ],
+      "worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/worktrees/candidate"
+    },
+    "changed_source_allowlist": [
+      "ggml/src/ggml-cuda/mmq.cu",
+      "ggml/src/ggml-cuda/mmq.cuh",
+      "ggml/src/ggml-cuda/ggml-cuda.cu",
+      "tests/test-backend-ops.cpp"
+    ],
+    "correctness": {
+      "devices": [
+        0,
+        1
+      ],
+      "f32_swiglu_semantics": "preserve current ggml_swiglu_split F32 contract",
+      "nmse_max": 0.0005,
+      "oracle": "CPU"
+    },
+    "forbidden_implementation": [
+      "monolithic paired-MMQ+SwiGLU kernel",
+      "dual accumulator MMQ kernel",
+      "SwiGLU epilogue fusion"
+    ],
+    "graph_tensor_parallel": {
+      "cross_device_output_or_allreduce_reorder": false,
+      "devices": [
+        0,
+        1
+      ],
+      "normal_hip_graph_capture_replay": true
+    },
+    "pp_command": [
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+      "-m",
+      "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+      "-p",
+      "0",
+      "-n",
+      "0",
+      "-pg",
+      "512,0",
+      "-b",
+      "2048",
+      "-ub",
+      "512",
+      "-sm",
+      "tensor",
+      "-fa",
+      "1",
+      "-r",
+      "5",
+      "-o",
+      "jsonl",
+      "-t",
+      "12",
+      "-ngl",
+      "99"
+    ],
+    "provenance": {
+      "phase2_raw_pp_trace": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd",
+      "phase7_attribution": "b6bfe03a96bececd03bb436750214313728c1fdff758e4438576da409d1ed5a2",
+      "phase7_baseline": "e154f19245baaad37cf241ed9effdad9944fa3ce603d19e17968af0ea3a1d440",
+      "phase7_task": "8708d38dea99895153503bcf2458548f2a8bfbcaae253ce630f37c032ca341a8",
+      "phase9_findings": "cae0e70b9b9ead4994bef1e4fdd27c3d0991ee97f85db4b3a7a7144652767839",
+      "phase9_pair_proof": "1bd1a49144936203df703870ea7e993b77cfb8a80d9835f7ccd3ec5eadf346a9",
+      "phase9_result": "22bb087b8b1390f7f80772318284232ff7de041baee0e770bbee75bfd4814ab7",
+      "phase9_source_hashes": "9671713cfa2ec219b16113f3c94fe66fd2d39d532d42962e60fba9e19aed5594",
+      "phase9_task": "506f6b44cf750cac78d5f3a1827d646b771edb6e7517786b509829a3188b1914",
+      "registered_p2p_patch": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+      "source_common_header": "a977b50f7479df092bf3c441ba88e4519803b5f0df5a640fd7fb0874e64b9b4c",
+      "source_graph": "1f70ac1a18abe08ebfa85f93f9ad715726c70cd27ac4450ce206b617a7be3992",
+      "source_hip": "7e80dfe33ecb54cfde58782b0982a6b25955ddecefb6f63352fa349f1a6ccda9",
+      "source_mmq": "550b1f1baf1db0e349b0974754e4810bfb90fc9e7c97873622daf06f02e8a63c",
+      "source_mmq_header": "6d153a9d6f293a4ff5f11e7886a48bf765b21d74075d73b2097a2b2a9149de6f",
+      "source_plan": "dee2000fe9d6e6f7dccbaa9098c6ff42562a378e5ca4289c39f2ca7df19d4e55",
+      "source_quantize": "838cff1fd45ab483f3f86d24f23d997833b4af7a0b945a80f4da0e055def6565",
+      "source_quantize_header": "017f8592498246d68f8b66e35b7d0de2d1d315440ebaeeaffdcaa8477d02fd8f",
+      "source_qwen3": "06f400665980d30fd357886a5d14b541adda06d159a5b7f0ce929ca36788778c"
+    },
+    "registered_runtime": {
+      "build_root": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p",
+      "cwd": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin",
+      "environment": {
+        "HIP_VISIBLE_DEVICES": "0,1"
+      },
+      "executable": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+      "executable_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+      "model": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+      "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea"
+    },
+    "required_evidence": [
+      "candidate_patch",
+      "baseline_source",
+      "candidate_build",
+      "baseline_build",
+      "dispatch",
+      "fallback_dispatch",
+      "correctness",
+      "graph_tensor_parallel",
+      "resources",
+      "exact_op_timing",
+      "whole_pp"
+    ],
+    "resources": {
+      "achieved_bandwidth": "exact nonmultiplexed counter or unavailable with reason",
+      "dynamic_occupancy": "query dynamically or record unavailable with reason",
+      "static": [
+        "VGPR",
+        "SGPR",
+        "LDS",
+        "private_segment",
+        "spills",
+        "wave_count"
+      ]
+    },
+    "scope": {
+      "candidate": "quantize shared activation to Q8_1 once; reuse for existing independent MMQ launches",
+      "excluded": [
+        "monolithic paired-MMQ+SwiGLU kernel",
+        "MMV API generalization",
+        "TG changes",
+        "ffn_down",
+        "registration before gates"
+      ],
+      "gfx_target": "gfx1201",
+      "logical_mnk": [
+        8704,
+        512,
+        5120
+      ],
+      "operations": [
+        "ffn_gate",
+        "ffn_up"
+      ],
+      "phase": "PP",
+      "retain": [
+        "independent Q6_K gate/up weights",
+        "current F32 SwiGLU",
+        "per-device tensor-parallel ownership"
+      ],
+      "shared_input": "same normalized F32 activation",
+      "type": "Q6_K"
+    },
+    "selector": {
+      "default_off": true,
+      "environment": {
+        "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP": "1"
+      },
+      "fallback": "upstream baseline path for every nonmatch and selector-off match",
+      "master_rollback_environment": {
+        "GGML_CUDA_DISABLE_FUSION": "1"
+      },
+      "required": {
+        "activation_name": "attn_post_norm-<layer>",
+        "arch": "gfx1201",
+        "cc": "GGML_CUDA_CC_RDNA4 + 1",
+        "gate_weight_name": "blk.<layer>.ffn_gate.weight",
+        "glu": "GGML_GLU_OP_SWIGLU un-swapped",
+        "hip": true,
+        "k": 5120,
+        "m": 8704,
+        "n": 512,
+        "node_ops": [
+          "GGML_OP_MUL_MAT",
+          "GGML_OP_MUL_MAT",
+          "GGML_OP_GLU"
+        ],
+        "phase": "PP",
+        "type": "Q6_K",
+        "up_weight_name": "blk.<layer>.ffn_up.weight"
+      }
+    },
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "test_contract": {
+      "both_devices": [
+        0,
+        1
+      ],
+      "exact_params": "type=q6_K,glu_op=2,m=512,n=8704,k=5120,use_id=0",
+      "fallback_params": "type=q6_K,glu_op=2,m=256,n=8704,k=5120,use_id=0",
+      "harness_nmse_bound": 0.0005,
+      "operation": "MUL_MAT_VEC_FUSION"
+    },
+    "timing": {
+      "exact_op": {
+        "combined_gate_up_speedup_min": 1.01,
+        "devices": [
+          0,
+          1
+        ],
+        "outlier_removal": false,
+        "relative_spread_max": 0.035,
+        "rounds": 3,
+        "schedule": "interleaved same-build selector-off/selector-on"
+      },
+      "same_build": {
+        "baseline_environment": {
+          "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP": "unset_or_not_1"
+        },
+        "binary_identity": "one candidate binary",
+        "candidate_environment": {
+          "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP": "1"
+        }
+      },
+      "whole_pp": {
+        "candidate_speedup_min": 1.005,
+        "normal_graph_processes_per_variant": 3,
+        "outlier_removal": false,
+        "relative_spread_max": 0.05,
+        "schedule": [
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate"
+        ]
+      }
+    },
+    "tool_hashes": {
+      "eval_dispatch.py": "97d04731963e9a8d857dfa01688ea65bce1983c37f1bf004e453f859b85d7d46",
+      "eval_parity.py": "b566d436947b4c861f8a94d6e1d89f4133f22533f4bc459aa498e8ace38ad306",
+      "eval_preflight.py": "da2d9ff793b21db791544143bc6745badde2d88ba8c9f686ae2a81931efe8782",
+      "eval_resources.py": "0f8157b7de640c114c8a73a5c25235c2debf9cdb10cfe39182c3bc0a0f7a90fe",
+      "eval_timing.py": "39c4450c90d93d674a9c5e66eeac645aa763fcd78b4916fce02bdac4aadb707a",
+      "eval_whole_pp.py": "3118129bfad88abc532fb2c239ac0111f05cd6c2fc4b34df45b03343849c1f24",
+      "finalize_gate.py": "4a0cd5c990ecfff79c3075e31446576d3730d3c8af20b42d58293bd2e0b231b9",
+      "make_task.py": "da36a6c04bbc67b78c6f60151cd7518d33410f1b33cc9fa2422d077bcb7db306",
+      "run_backend_gate.py": "496039744fca56a18d65fcc056435f3554595fd3d83e9d0e2f679b1944ae57f8",
+      "run_dispatch.py": "926499be1f3042f6870d8116f996224a02f16c0f1c548a8b3ccb1d5f0a940acb",
+      "run_whole_pp.py": "5a801f7fd8c7dc83a1af550d212b7c30424defdc9db3923bef9d55d25dcf7a0f",
+      "summarize_evidence.py": "3fe5fdb5afd0493c9548c5f0f3e873b6981595a021662c3a2d8659629d38befe"
+    },
+    "write_boundary": {
+      "candidate_registration": false,
+      "database_mutation": false,
+      "registered_build_mutation": false,
+      "registered_source_mutation": false,
+      "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808"
+    }
+  },
+  "immutable": true,
+  "schema_version": "apex.phase10.shared_q81_gate_up_task.v1",
+  "target_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907"
+}

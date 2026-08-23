@@ -1,0 +1,58 @@
+{
+  "schema_version": "apex.phase3.mmvq_attribution_run.v1",
+  "semantics": "bounded host submissions; graph replay counts unavailable",
+  "registered_profile_id": 5,
+  "registered_suite_id": 2,
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "argv": [
+    "/home/adam/workspaces/ChatGPT/Apex/results_phase03_q6k_mmv_20260808/builds/attribution/bin/llama-bench",
+    "-m",
+    "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "-p",
+    "0",
+    "-n",
+    "0",
+    "-pg",
+    "0,128",
+    "-b",
+    "2048",
+    "-ub",
+    "512",
+    "-sm",
+    "tensor",
+    "-fa",
+    "1",
+    "-r",
+    "1",
+    "-o",
+    "jsonl",
+    "-t",
+    "12",
+    "-ngl",
+    "99"
+  ],
+  "cwd": "/home/adam/workspaces/ChatGPT/Apex/results_phase03_q6k_mmv_20260808/builds/attribution",
+  "environment": {
+    "HIP_VISIBLE_DEVICES": "0,1",
+    "GGML_CUDA_DISABLE_GRAPHS": "unset",
+    "GGML_CUDA_MMVQ_ATTRIBUTION_FILE": "/home/adam/workspaces/ChatGPT/Apex/results_phase03_q6k_mmv_20260808/attribution/tg-normal-graphs/mmvq-attribution.jsonl",
+    "GGML_CUDA_MMVQ_ATTRIBUTION_MAX": "4096"
+  },
+  "started_at_unix": 1786204054.5541008,
+  "ended_at_unix": 1786204063.4291136,
+  "duration_seconds": 8.875012874603271,
+  "returncode": 0,
+  "hashes": {
+    "llama_bench": "15d3e0d322407b0ac17c2bc73e11b2f5066fda81ef0bb84f285523bee8dafa07",
+    "libggml_hip": "7cd3de77e649260ae721e5204efc7ae8e689f58ccbedcd305a8cfbcfc1bb1c39",
+    "mmvq_source": "adeac41c181cd500aec2cee3773a49f45b6bfdd96f553085861f12dc42345d2c",
+    "mmvq_object": "7fc5f3e2e254a06df3898a15fee51b2ea92b1ee13333b95f8ce14178a975a10d",
+    "attribution_patch": "3b0c6a2a2bf31fadd525b075704860929ff6d319acd170f37fbffb6ea4902003",
+    "cmake_cache": "32ab281eea3198c22cc355776d51b4406d2a0cd475677dcf1baca9ff35f37250"
+  },
+  "model": {
+    "path": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "size_bytes": 22430998848,
+    "mtime_ns": 1780140569922768181
+  }
+}

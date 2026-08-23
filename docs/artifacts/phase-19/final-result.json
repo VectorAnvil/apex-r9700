@@ -1,0 +1,72 @@
+{
+  "schema": "apex.phase19.final_result.v1",
+  "task_fingerprint": "cafa57f3b2bf2544e4b5c69e5b997e5d650fe95525893cbb3db7bd0c27e11bef",
+  "decision": "complete_no_go_for_n2_to_n4",
+  "phase19b_n2_to_n4_authorized": false,
+  "reason": "The real deterministic target-backed MTP request uses Q6_K N=4 and N=5 verification, but N=2/3/4 totals only 2.6467% of summed MTP GPU kernel duration and fails the predeclared 10% combined and 5% per-device gates. N=5 is the actual opportunity at 56.9103% by itself.",
+  "startup_and_request": {
+    "status": "pass",
+    "driver": "llama-server target-backed draft-mtp",
+    "predicted_tokens": 128,
+    "draft_tokens": 159,
+    "accepted_draft_tokens": 87,
+    "acceptance": 0.54717,
+    "mean_draft_length": 3.17,
+    "normal_graph_predicted_tokens_per_second": 56.85689740794735,
+    "graphs_reused": 38,
+    "note": "Throughput is a workload witness, not a baseline/candidate performance claim."
+  },
+  "attribution": {
+    "profile_request_q6_dispatches": 43970,
+    "joined": 43970,
+    "unmatched": 0,
+    "ambiguous": 0,
+    "q6_mmvq_share": 0.6915109681914972,
+    "by_n": {
+      "1": {"calls": 2562, "duration_ns": 375610537, "share": 0.09594092003525478},
+      "2": {"calls": 0, "duration_ns": 0, "share": 0},
+      "3": {"calls": 0, "duration_ns": 0, "share": 0},
+      "4": {"calls": 2018, "duration_ns": 103618435, "share": 0.02646690389975201},
+      "5": {"calls": 39390, "duration_ns": 2228049695, "share": 0.5691031442564903}
+    },
+    "n2_to_n4_gate": {
+      "combined_share": 0.02646690389975201,
+      "gpu0_share": 0.024149432858705876,
+      "gpu1_share": 0.029181181801844955,
+      "required_combined": 0.10,
+      "required_each_gpu": 0.05,
+      "status": "fail"
+    },
+    "dense_gemm": "No hipBLAS/rocBLAS dense GEMM symbol is present in the request span; every joined Q6_K verification call is MMVQ, not MMQ or dense GEMM."
+  },
+  "n5_boundary": {
+    "status": "material_successor_boundary",
+    "route": "mul_mat_vec_q<GGML_TYPE_Q6_K,5,false,false>",
+    "workgroup": [32, 1, 1],
+    "physical_waves": 1,
+    "rows_per_block": 1,
+    "resources": {"vgpr": 50, "sgpr": 32, "lds_bytes": 0, "private_bytes": 0, "spills": 0},
+    "isa": {"global_loads": 25, "dp4a": 10, "instruction_lines": 436},
+    "interpretation": "The current N=5 route is already narrow DP4A MMVQ with no padded WMMA columns. A successor must redesign N=5 work/row/column organization rather than merely force DP4A."
+  },
+  "normal_graph": {
+    "hipStreamBeginCapture": 526,
+    "hipStreamEndCapture": 526,
+    "hipGraphInstantiate": 526,
+    "hipGraphLaunch": 11242,
+    "status": "pass witness only"
+  },
+  "communication": {
+    "gpu0_allreduce_share_of_summed_device_kernel_duration": 0.274691974933051,
+    "gpu1_allreduce_share_of_summed_device_kernel_duration": 0.1231346141409083,
+    "warning": "Direct-P2P kernels spin/synchronize and device dispatch durations may overlap; these shares are not wall-time communication fractions."
+  },
+  "counters": {"achieved_occupancy": "unavailable", "achieved_bandwidth": "unavailable"},
+  "procedure_failures": [
+    "rocprofv3 flushed complete profile and graph databases after SIGINT but did not terminate; the runner preserved the databases and ultimately killed both injected processes with return code -9.",
+    "The original fixed-width-WMMA premise did not match registered gfx1201: Q6_K N=2-5 already selects one-wave DP4A MMVQ.",
+    "The HIP backend receives shape/type but no MTP verification marker, so a local N=2-4 selector would also affect ordinary small batches."
+  ],
+  "execution": {"optimization_candidates_built": 0, "registered_assets_mutated": false},
+  "follow_up": "Do not build the proposed N=2-4 candidate for this nmax=4 workload. Freeze a separate N=5 source/ISA feasibility task that first designs a genuinely different DP4A work organization and an explicit MTP marker propagation strategy."
+}

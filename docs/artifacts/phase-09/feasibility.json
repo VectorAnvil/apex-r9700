@@ -1,0 +1,24 @@
+{
+  "schema_version": "apex.phase9.gate_up_source_feasibility.v1",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "workload": "Qwen3.6 Q6_K PP512 normal graphs",
+  "gate_up": {
+    "logical_shape_m_n_k": [8704, 512, 5120],
+    "gate_duration_ns_dual_device": 955179820,
+    "up_duration_ns_dual_device": 959724245,
+    "calls_dual_device_each": 768,
+    "adjacent_graph_pattern": ["MUL_MAT(up, cur)", "MUL_MAT(gate, cur)", "SWIGLU_SPLIT(gate, up)"],
+    "shared_input": "normalized F32 cur",
+    "weights": "separate Q6_K ffn_gate and ffn_up tensors"
+  },
+  "existing_mmv_fusion": {
+    "adjacency_recognition": true,
+    "supports_quantized_q6k": true,
+    "ordinary_mul_mat_requires_n_equals_1": true,
+    "applicable_to_pp_n512_mmq": false
+  },
+  "mmq_current_behavior": "separate gate/up launches independently quantize the same F32 activation to Q8_1",
+  "graph_requirement": "normal graph capture/replay must remain valid",
+  "feasibility": "candidate_design_required_not_implemented",
+  "actions_performed": {"source_edit": false, "build": false, "gpu_workload": false}
+}

@@ -1,0 +1,4 @@
+{"attempt_id": "timing-csv-format", "reason": "upstream CSV printer omits perf timing fields", "status": "procedure_failed"}
+{"attempt_id": "a1-fixed", "reason": "GPU activity guard observed residual utilization", "status": "safety_abort"}
+{"attempt_id": "a1-final", "reason": "GPU activity guard observed residual utilization", "status": "safety_abort"}
+{"attempt_id": "rdna4-q6k-nwarps4-confirmation", "result_sha256": "6860ea76a8c5a37306df68c476a2b9afd2f6cba828c52f34e51749ca240caefc", "status": "promising_not_promotion_ready", "task_fingerprint": "297a07be77dbabde2a93c9429c45ef9c75928a1f9e0d4ec2cfdbd4a0d209c9b0"}

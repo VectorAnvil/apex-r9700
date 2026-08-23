@@ -1,0 +1,38 @@
+{
+  "tool": "rocprofv3",
+  "version": "1.1.0",
+  "rocm_version": "7.2.0",
+  "gfx_target": "gfx1201",
+  "both_devices_same_advertised_set": true,
+  "raw_list_sha256": {
+    "device0": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841",
+    "device1": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841"
+  },
+  "selected_diagnostic_counters": [
+    {
+      "name": "OccupancyPercent",
+      "meaning": "100*SQ_WAVE_CYCLES/GRBM_GUI_ACTIVE/CU_NUM/32",
+      "metric": "achieved_occupancy",
+      "status": "advertised_not_yet_captured"
+    },
+    {
+      "name": "FETCH_SIZE",
+      "unit": "kilobytes",
+      "meaning": "video-memory bytes fetched including cache and memory effects",
+      "metric": "achieved_video_memory_read_bandwidth",
+      "status": "advertised_not_yet_captured"
+    }
+  ],
+  "write_bandwidth": {
+    "status": "unavailable",
+    "reason": "no documented aggregate write-size derived counter was advertised"
+  },
+  "combined_achieved_bandwidth": {
+    "status": "unavailable",
+    "reason": "only documented fetched-byte coverage is available"
+  },
+  "runtime_default": {
+    "status": "unavailable",
+    "reason": "advertisement is not successful exact-scope counter evidence"
+  }
+}

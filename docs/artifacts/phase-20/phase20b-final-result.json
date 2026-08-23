@@ -1,0 +1,21 @@
+{
+  "schema_version": "apex.phase20b.compact_result.v1",
+  "task_fingerprint": "6203edad2274595859c7fa3fadde129bfdc69c70a43762d9ade913f3b51bf6c0",
+  "decision": "complete_reject_no_promotion",
+  "r2": {
+    "global_load": 30,
+    "v_dot4": 20,
+    "barriers": 0,
+    "lds_bytes": 0,
+    "private_bytes": 0,
+    "spills": 0,
+    "vgpr": 80,
+    "vgpr_limit": 64,
+    "sgpr": 34,
+    "sgpr_limit": 32
+  },
+  "fallback_q6k_n1_to_n5_machine_encoding_and_metadata_identical": true,
+  "builds_succeeded": true,
+  "gpu_stages_run": 0,
+  "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311"
+}

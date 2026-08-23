@@ -1,0 +1,4 @@
+{"attempt":"baseline-v0","status":"stopped_before_workload","reason":"three GPU activity checks reported console-only utilization pairs 49/80, 48/79, and 82/81 percent while VRAM was zero; retained snapshots did not preserve the high samples","evidence":"result-local console outcome and activity snapshots; no timing sample produced"}
+{"attempt":"baseline-v1-directory","status":"stopped_before_workload","reason":"the baseline-v1 activity parent directory did not exist; creating only that result-root container allowed the unchanged hashed runner to proceed"}
+{"attempt":"baseline-v1","status":"success","processes":3,"metric":"avg_ts for prompt=512,generation=0","passed":true,"relative_spread":0.0060746230192067485,"next_step":"attribution_permitted"}
+{"attempt":"attribution-v1","status":"success","normal_graphs":true,"exact_join":"complete","candidate_code":false,"e2e_run":false}

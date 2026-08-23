@@ -1,0 +1,51 @@
+{
+  "schema_version": "apex.phase21d.dflash_top32_ddtree_replay.v1",
+  "immutable_after_fingerprint": true,
+  "objective": "Passively record raw pre-sampling DFlash top-32 distributions for the accepted n_max=12 configuration and replay pinned DDTree policies host-only.",
+  "baseline": {
+    "phase21c_server_sha256": "c861bf51f6725eb39b908724c737679148e6f1791c65a838bb90e9233ae49690",
+    "phase21c_hip_sha256": "52e5bafdc1e6904acd8d2b6b0e899a5ea9c6def804d19aabe1ff18e0e20e8bee",
+    "phase21c_patch_sha256": "cd866ee1ab9499519c45b0242a9b41026aec8c87067ff0f54bc0dad3f8a82c2a",
+    "registered_phase13_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "target_model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "draft_model_sha256": "9153f73024e0b617392dfbd65bcae4ce5575392438e9564cc1a1308cac91c112"
+  },
+  "configuration": {
+    "target_split": "tensor ROCm0,ROCm1",
+    "draft_split": "layer ROCm0,ROCm1",
+    "draft_n_max": 12,
+    "draft_n_min": 0,
+    "draft_p_min": 0,
+    "prompt": "Explain why deterministic validation matters when optimizing GPU inference kernels. Be concise and technically precise.",
+    "n_predict": 192,
+    "temperature": 0,
+    "seed": 424242,
+    "cache_prompt": false,
+    "stream": false
+  },
+  "recorder": {
+    "activation": "APEX_DFLASH_RECORDER_FILE only; absent means byte-identical runtime behavior",
+    "source_tap": "raw llama_get_logits_ith DFlash noise positions before common_sampler_sample",
+    "top_k": 32,
+    "normalization": "full-vocabulary log-sum-exp; emitted finite F32 log probabilities",
+    "required_per_cycle": ["monotonic cycle_id", "seq_id", "root model position", "root token", "12 complete positions", "32 descending unique tokens per position", "draft top-1 tokens", "feature gather, encode, injection, draft decode and export timings"],
+    "canonical_join": "join cycle roots and drafted prefixes to exact returned target token IDs; record canonical token/rank, accepted length and committed tokens; terminal horizon rows may be marked unavailable but never fabricated"
+  },
+  "parity_gates": {
+    "baseline_vs_recorder": "two independent normal-graph 192-token requests, exact token IDs and content",
+    "distribution": "every replayed cycle has exactly 12 rows and 32 finite, unique, descending entries; logsumexp metadata finite; cycle IDs strictly increasing",
+    "placement": "target remains tensor split; draft remains layer split; both GPUs; no OOM; zero target VRAM after exit",
+    "source": "no target HIP, Q6 arithmetic, P2P, all-reduce, graph, sampling-chain or draft-token selection change"
+  },
+  "ddtree": {
+    "source_commit": "c96427a185677bf4133ed865dd1626a5041aef9b",
+    "ddtree_py_sha256": "8d0ecd9d07a7266d3825eefd176811502313a0da7cedfcdc8aec1a4971c3a99b",
+    "execution": "host-only deterministic replay; no import of CUDA-dependent module",
+    "policies": ["linear-12", "3x4", "4x3", "pure-best-first", "chain-seeded-best-first"],
+    "budgets": [8, 12, 15, 18, 22, 28, 32],
+    "report": ["canonical path coverage", "rescue rate", "accepted depth", "nodes per committed token"]
+  },
+  "excluded": ["n_max=15", "source arithmetic changes", "K2/K4", "dot8", "MMQ", "Stream-K", "parent-aware recurrent state", "GPU tree verification", "performance or promotion claim", "registered asset mutation"],
+  "decision": "Any parity or recorder integrity failure closes complete_no_go. A useful replay result authorizes only a separately frozen parent-aware correctness phase."
+}

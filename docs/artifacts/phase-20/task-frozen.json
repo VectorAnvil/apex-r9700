@@ -1,0 +1,93 @@
+{
+  "schema_version": "apex.phase20.q6k_mtp_n5_feasibility.v1",
+  "immutable_after_fingerprint": true,
+  "objective": "Candidate-free source and gfx1201 ISA feasibility audit of the dominant Q6_K N=5 MMVQ path observed in real target-backed Qwen3.6 MTP verification.",
+  "baseline": {
+    "source_root": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "source_files": {
+      "ggml/src/ggml-cuda/mmvq.cu": "6f74bf36e6439c1907c2381aeda2fa2b24f1faba31232bae0bf5e638e6f3eaf8",
+      "ggml/src/ggml-cuda/mmvq.cuh": "b37f8359f519ba90ddecd9cb3ca5f8c2ae05685bfae6813d435d75763c2bb006",
+      "ggml/src/ggml-cuda/vecdotq.cuh": "69ee2488c89da7e6d31a91d2f33f3312d7c66dbcb60b4c42f154bdf775c4436a"
+    }
+  },
+  "phase19_inputs": {
+    "profile_summary_sha256": "2560ff3efdce325ea8c54e4d1a67fb5674d0f39ddae4c03080bf4802040e9ceb",
+    "join_audit_sha256": "cb5e41d2383978e40d9b46cfd21dd113bd8eeab0215c0ac9bdf19fe5d618005c",
+    "registered_n5_isa_sha256": "4b9abed2a76e489e06d83b2b331bfaf7e5b4d1d5aff5e5df8c74f04ebcfabaf1",
+    "registered_mmvq_hsaco_sha256": "bcfccbeb09a2200c39224899409fcabf53c4c454284c8ad40d65238e7b3f63eb",
+    "n5_calls": 39390,
+    "n5_share_of_summed_request_gpu_kernel_duration": 0.5691031442564903,
+    "route": "mul_mat_vec_q<GGML_TYPE_Q6_K,5,false,false>",
+    "resources": {
+      "workgroup": [32, 1, 1],
+      "physical_wave32_waves": 1,
+      "vgpr": 50,
+      "sgpr": 32,
+      "lds_bytes": 0,
+      "private_bytes": 0,
+      "spills": 0,
+      "global_loads": 25,
+      "dp4a": 10,
+      "instruction_lines": 436
+    }
+  },
+  "scope": {
+    "architecture": "gfx1201",
+    "workload": "Qwen3.6 target-backed MTP verification with logical N=5",
+    "allowed": [
+      "read registered source and Phase 19 evidence",
+      "source-to-ISA mapping",
+      "static dependency and reuse analysis",
+      "resource and tail projection",
+      "MTP marker ownership/API design",
+      "candidate-free GO or NO-GO decision"
+    ],
+    "excluded": [
+      "registered source or build mutation",
+      "candidate worktree or build",
+      "GPU launch or benchmark",
+      "K2 or K4 scheduling",
+      "native dot8",
+      "forced MMQ or WMMA",
+      "Y64/W4",
+      "Stream-K",
+      "MTP configuration sweep",
+      "shape-only selector",
+      "promotion or registration"
+    ]
+  },
+  "required_analysis": {
+    "source_isa_map": "Map N=5 weight, Q8_1 activation, scale, accumulator, output-column, row and lane ownership to symbol-local gfx1201 ISA.",
+    "reuse": "Prove which loads are shared or repeated across five columns and identify the actual serial dependency chains.",
+    "shape_inventory": "Preserve exact Phase 19 operation classes and M/N/K families on both devices.",
+    "designs": "Model at least two materially different N=5 work organizations with explicit loads, DP4A, reductions, VGPR, SGPR, LDS, wave and tail projections.",
+    "marker": "Trace the minimum fail-closed MTP verification marker path from scheduler/context through graph/backend to HIP dispatch without implementing it.",
+    "negative_history": "Do not reframe Phase 11 vector loads, Phase 16 K2, Phase 17 dot8, Phase 18 stacked rescue, or Phase 19 fixed-width WMMA as new opportunities."
+  },
+  "go_gates": {
+    "mechanism": "A design must eliminate, share, or overlap a source- and ISA-proven material cost; moving the same work is insufficient.",
+    "resource_projection": "Projected candidate must retain zero spills/private memory and have a bounded VGPR/SGPR/LDS/wave model relative to the registered N=5 symbol.",
+    "semantics": "Q6_K/Q8_1 layouts, per-column output, numerical accumulation order, fusion, graph behavior and tensor ownership must be preservable.",
+    "selector": "A credible explicit MTP verification marker must reach HIP dispatch; an N=5 shape-only selector fails closed.",
+    "decision": "Authorize a separate immutable Phase 20B candidate only if every gate passes; otherwise close complete_no_go with no build or GPU work."
+  },
+  "required_artifacts": [
+    "task-frozen.json",
+    "task.sha256",
+    "identity.json",
+    "source-map.json",
+    "isa-map.json",
+    "shape-inventory.json",
+    "dependency-reuse.md",
+    "design-comparison.json",
+    "mtp-marker-path.md",
+    "go-no-go.json",
+    "final-result.json",
+    "WHAT_DIDNT_WORK.md"
+  ]
+}

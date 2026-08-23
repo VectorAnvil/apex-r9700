@@ -1,0 +1,198 @@
+{
+  "schema_version": "apex.phase12.swiglu_d4_ffn_down_task.v1",
+  "immutable": true,
+  "fingerprint_fields": {
+    "scope": {
+      "phase": "PP",
+      "candidate": "fused F32 SwiGLU to Q6_K MMQ block_q8_1_mmq D4, followed by unchanged ffn_down MMQ",
+      "operation": "ffn_down",
+      "logical_mnk": [
+        5120,
+        512,
+        8704
+      ],
+      "input_tensors": [
+        "ffn_gate F32 [8704,512]",
+        "ffn_up F32 [8704,512]"
+      ],
+      "weight": "Q6_K [8704,5120]",
+      "output": "F32 [5120,512]",
+      "target": "gfx1201",
+      "selector": "GGML_CUDA_Q6K_SWIGLU_D4_FFN_DOWN=1",
+      "default_enabled": false
+    },
+    "implementation_contract": {
+      "graph_pattern": [
+        "GGML_OP_GLU SWIGLU",
+        "GGML_OP_MUL_MAT Q6_K ffn_down"
+      ],
+      "packed_layout": "block_q8_1_mmq MMQ_Q8_1_DS_LAYOUT_D4",
+      "block_values": 128,
+      "scale_groups": 4,
+      "scale_values": 32,
+      "quantization": "baseline ggml_cuda_op_silu_single, fmax/fabs reduction, roundf, F32 D4 scales",
+      "scratch": "backend-private device-local pool allocation retained through one MMQ launch",
+      "mmq": "existing Q6_K mul_mat_q kernel unchanged",
+      "skip_nodes": "execute fused GLU/packing plus down MMQ at GLU node; skip only following down node",
+      "exact_names": [
+        "ffn_swiglu-<layer>",
+        "blk.<layer>.ffn_down.weight",
+        "ffn_out-<layer>"
+      ],
+      "fallback": "selector off or any architecture/type/shape/name/layout/alias mismatch executes original GLU then original MMQ quantization"
+    },
+    "exclusions": [
+      "ordinary GGML Q8_1 graph tensor",
+      "RMSNorm/gate/up producer fusion",
+      "Phase10 shared-quantization retry",
+      "Q6_K, Q8_1, SwiGLU, or MMQ semantic changes",
+      "MMQ kernel/tile/wave changes",
+      "TG changes",
+      "Phase13 overlap",
+      "reference-kernel ports"
+    ],
+    "source": {
+      "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+      "registered_p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+      "changed_source_allowlist": [
+        "ggml/src/ggml-cuda/ggml-cuda.cu",
+        "ggml/src/ggml-cuda/mmq.cu",
+        "ggml/src/ggml-cuda/mmq.cuh",
+        "ggml/src/ggml-cuda/quantize.cu",
+        "ggml/src/ggml-cuda/quantize.cuh",
+        "tests/test-backend-ops.cpp"
+      ],
+      "worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/worktrees/candidate",
+      "build": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/builds/candidate",
+      "cmake": {
+        "GGML_HIP": "ON",
+        "AMDGPU_TARGETS": "gfx1201",
+        "CMAKE_BUILD_TYPE": "Release"
+      },
+      "targets": [
+        "test-backend-ops",
+        "llama-bench"
+      ]
+    },
+    "registered_runtime": {
+      "executable": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+      "executable_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+      "model": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+      "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+      "devices": [
+        0,
+        1
+      ]
+    },
+    "commands": {
+      "backend_op": "Q6K_SWIGLU_D4_FFN_DOWN",
+      "exact_backend_params": "tokens=512,hidden=5120,ffn=8704",
+      "fallback_backend_params": "tokens=256,hidden=5120,ffn=8704",
+      "whole_pp": [
+        "llama-bench",
+        "-m",
+        "<registered-model>",
+        "-p",
+        "0",
+        "-n",
+        "0",
+        "-pg",
+        "512,0",
+        "-b",
+        "2048",
+        "-ub",
+        "512",
+        "-sm",
+        "tensor",
+        "-fa",
+        "1",
+        "-r",
+        "5",
+        "-o",
+        "jsonl",
+        "-t",
+        "12",
+        "-ngl",
+        "99"
+      ]
+    },
+    "required_gates": {
+      "provenance": "candidate patch and build manifest match allowlist/base/P2P/task",
+      "dispatch_candidate": {
+        "fused_swiglu_d4": 1,
+        "ordinary_swiglu": 0,
+        "quantize_mmq_q8_1": 2,
+        "q6k_mmq": 3
+      },
+      "dispatch_baseline": {
+        "fused_swiglu_d4": 0,
+        "ordinary_swiglu": 1,
+        "quantize_mmq_q8_1": 3,
+        "q6k_mmq": 3
+      },
+      "dispatch_fallback": {
+        "fused_swiglu_d4": 0,
+        "ordinary_swiglu": 1,
+        "quantize_mmq_q8_1": 3,
+        "q6k_mmq": 3
+      },
+      "correctness": {
+        "devices": [
+          0,
+          1
+        ],
+        "cpu_oracle": true,
+        "nmse_max": 0.0005,
+        "runs_per_case": 3
+      },
+      "graphs": {
+        "normal_capture_replay": true,
+        "selector_off_same_binary": true,
+        "tensor_parallel_ownership": true
+      },
+      "resources": [
+        "VGPR",
+        "SGPR",
+        "LDS",
+        "private memory",
+        "spills",
+        "wave count",
+        "occupancy",
+        "achieved bandwidth"
+      ],
+      "exact_chain_timing": {
+        "rounds": 3,
+        "samples_trimmed": false,
+        "speedup_min": 1.01,
+        "relative_spread_max": 0.035,
+        "fallback_speedup_min": 0.99
+      },
+      "whole_pp": {
+        "processes_per_variant": 3,
+        "samples_trimmed": false,
+        "speedup_min": 1.005,
+        "relative_spread_max": 0.05
+      }
+    },
+    "decision": {
+      "reject_on_any_failed_or_unavailable_correctness_dispatch_graph_stability_regression_gate": true,
+      "counters_may_be_unavailable_with_preserved_attempt_evidence": true,
+      "register_only_if_all_promotion_gates_pass": true,
+      "failed_candidate_must_be_preserved": true
+    },
+    "provenance": {
+      "phase12_feasibility_task": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb",
+      "phase12_trace_join": "bee83b86917490af783f21763dc33c937ccf77aedd0fa06c27c651508ab84fb2",
+      "phase12_boundary_rank": "d96d930452138f2c3a16f051c84b5db203337a30cc3d64d1db2ef0ff54608de4",
+      "phase10_rejected_result": "fffe4822d4e0043980f4b7a46273779781c34c8bfb44e4647fc07357de4cf328"
+    },
+    "write_boundary": {
+      "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808",
+      "registered_source_mutation": false,
+      "registered_build_mutation": false,
+      "database_mutation": false,
+      "candidate_registration_before_all_gates": false
+    }
+  },
+  "target_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7"
+}

@@ -1,0 +1,104 @@
+{
+  "schema_version": "apex.phase15.paired_y64_w4_result.v1",
+  "task_fingerprint": "f1203c261d2853bdf23bedfde1468eebef6b0ac4bc668331b6a3b88320191f58",
+  "decision": "rejected_no_registration",
+  "reason": "The paired geometry passed correctness, dispatch, graph, and resource gates but failed the predefined 1.02x exact-operation speedup gate on both devices.",
+  "candidate": {
+    "scope": "global RDNA4 MMQ selectors evaluated on a trace-proven Q6_K-only workload",
+    "geometry": {"mmq_x": 128, "mmq_y": 64, "nwarps": 4, "workgroup_threads": 128, "waves": 4},
+    "geometry_patch_sha256": "dcf4418233bf8e6199f777089bbc4483a7085bd2ce3ae5d67a0b307ab60df981",
+    "stream_k_included": false,
+    "phase13_cast_retained": true
+  },
+  "provenance": {
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "p2p_and_cast_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "baseline_clean_llama_bench_sha256": "f6c644cf6ff5627532b02aee91403abfddf41a67bac23ed946553da5d9295c46",
+    "candidate_clean_llama_bench_sha256": "aaed3fbb2f1fc799a8fdfe496bfa43608f5769c7d8cc7ec86464d963d492f291",
+    "baseline_clean_libggml_hip_sha256": "0ccb1913e0dac7ee35d5d903fa9614531161fc8dea4e138661109d2416646aa7",
+    "candidate_clean_libggml_hip_sha256": "8a422103ca82d48d36aea67f20aedb434137787c5d156a790838f6673bbe4536",
+    "registered_assets_mutated": false,
+    "rollback": "discard isolated candidate worktree/build"
+  },
+  "correctness": {
+    "status": "pass",
+    "passed_rows": 96,
+    "failed_rows": 0,
+    "devices": [0, 1],
+    "repeats": 3,
+    "q6_k_m": [63, 64, 65, 127, 128, 129],
+    "cross_quant": "Q4_K M=65",
+    "nmse_limit_enforced_internally": 0.0005
+  },
+  "dispatch": {
+    "status": "pass",
+    "baseline_q6_k_calls": 1984,
+    "candidate_q6_k_calls": 1984,
+    "calls_per_device": 992,
+    "non_q6_mmq_calls": 0,
+    "baseline_workgroup": [32, 8, 1],
+    "candidate_workgroup": [32, 4, 1],
+    "logical_coverage_unchanged": true,
+    "candidate_y_grid_doubled": true,
+    "baseline_q6_k_duration_ns": 883377776,
+    "candidate_q6_k_duration_ns": 887582096,
+    "diagnostic_trace_speedup": 0.995263187
+  },
+  "graphs": {
+    "status": "pass",
+    "baseline": {"capture_begin": 514, "capture_end": 514, "instantiate": 514, "launch": 514},
+    "candidate": {"capture_begin": 514, "capture_end": 514, "instantiate": 514, "launch": 514}
+  },
+  "resources": {
+    "baseline": {
+      "hsaco_sha256": "acfc70770a02002ec364982c24189ffabb947c64cb4dbc97737f72d1c92edd40",
+      "static_vgpr": [252, 253], "static_sgpr": [27, 30], "runtime_vgpr": 256, "runtime_sgpr": 128,
+      "dynamic_lds_bytes": 57856, "private_bytes": 0, "scratch_bytes": 0, "spills": 0,
+      "workgroup_threads": 256, "waves": 8
+    },
+    "candidate": {
+      "hsaco_sha256": "27a5a2db688a70559c9d635188e77c671b2f55a03780f3a582b8f98184699405",
+      "static_vgpr": [252, 253], "static_sgpr": [30, 31], "runtime_vgpr": 256, "runtime_sgpr": 128,
+      "dynamic_lds_bytes": 38400, "private_bytes": 0, "scratch_bytes": 0, "spills": 0,
+      "workgroup_threads": 128, "waves": 4
+    },
+    "dynamic_lds_delta_bytes": -19456,
+    "dynamic_lds_delta_fraction": -0.33632287,
+    "core_isa_counts_unchanged": true,
+    "candidate_instruction_line_delta": {"need_check_false": 92, "need_check_true": 87},
+    "achieved_occupancy": null,
+    "achieved_bandwidth": null,
+    "counter_status": "unavailable; corrected gfx1201 rocprof attempts already fail in unordered_map::at"
+  },
+  "microbench": {
+    "status": "fail",
+    "required_speedup": 1.02,
+    "device0": {
+      "ffn_gate_up": {"baseline_us": [861.07, 868.51, 864.75], "candidate_us": [872.61, 867.55, 873.75], "speedup": 0.992509306},
+      "ffn_down": {"baseline_us": [859.66, 864.39, 862.88], "candidate_us": [899.67, 895.75, 902.47], "speedup": 0.958871563},
+      "combined_speedup": 0.975424527
+    },
+    "device1": {
+      "ffn_gate_up": {"baseline_us": [866.51, 875.08, 877.05], "candidate_us": [876.65, 876.00, 883.81], "speedup": 0.993240937},
+      "ffn_down": {"baseline_us": [862.76, 865.40, 869.31], "candidate_us": [902.82, 901.06, 910.47], "speedup": 0.956939967},
+      "combined_speedup": 0.974826241
+    },
+    "maximum_relative_spread": 0.0120749702,
+    "spread_limit": 0.035
+  },
+  "whole_pp512": {
+    "status": "post_rejection_diagnostic_fail",
+    "promotion_eligible": false,
+    "baseline_ts": [1044.257119, 1041.635673, 1042.620436],
+    "candidate_ts": [1039.435353, 1040.631311, 1045.055718],
+    "baseline_mean_ts": 1042.837743,
+    "candidate_mean_ts": 1041.707461,
+    "baseline_relative_spread": 0.0025137621,
+    "candidate_relative_spread": 0.0053953391,
+    "speedup": 0.998916148,
+    "required_speedup": 1.005
+  },
+  "tg128": {"status": "not_run_after_hard_exact_gate_failure", "speedup": null},
+  "promotion": {"performed": false, "registered_lib_unchanged": true},
+  "next": "Phase 16 TG N=1 Q6_K K2/K4 software-pipeline static/codegen audit; Stream-K remains later PP backlog"
+}

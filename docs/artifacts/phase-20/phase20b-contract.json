@@ -1,0 +1,59 @@
+{
+  "schema_version": "apex.phase20b.q6k_mtp_n5_r2.v1",
+  "status": "authorized_not_started",
+  "baseline": "Fresh isolated build of the registered Phase13 cast and P2P source state",
+  "candidate": "One new gfx1201 Q6_K N=5 unfused R2 MMVQ symbol plus fail-closed target-MTP verification provenance",
+  "selector": [
+    "gfx1201",
+    "GGML_TYPE_Q6_K",
+    "logical N == 5",
+    "all decode sub-batch rows are target-MTP verification",
+    "local M is even",
+    "candidate compile gate enabled"
+  ],
+  "mechanism": {
+    "workgroup": [32, 1, 1],
+    "rows_per_workgroup": 2,
+    "grid_x": "baseline ceil(M/1), candidate M/2",
+    "expected_per_pair_loop": {
+      "global_loads": 30,
+      "dp4a": 20,
+      "wave_reductions": 10,
+      "lds_bytes": 0,
+      "barriers": 0
+    }
+  },
+  "hard_pre_gpu_gates": {
+    "ordinary_symbol_identity": "Registered Q6_K N=5 and all N1-4 symbols have byte-identical machine encodings in baseline and candidate builds",
+    "dispatch": "New R2 symbol appears only for marked even-M target verification on both devices; ordinary, mixed, odd-M and every fallback keep baseline symbol/count/geometry",
+    "isa": "Candidate has exactly the intended two-row dataflow, shared Q8 loads, no LDS/barriers, and no unrelated K scheduling or arithmetic change",
+    "resources": "VGPR <= 64, SGPR <= 32, LDS == 0, private == 0, spills == 0; reject before GPU on any failure",
+    "correctness": "Both devices, three repetitions, CPU/F32 oracle NMSE <= 0.0005 for every observed M/K family plus odd-M fallback and adversarial row tails"
+  },
+  "performance_gates": {
+    "exact_shapes": "Three untrimmed AB/BA rounds on both devices for gate/up 8704x5x5120, down 5120x5x8704, attention 6144x5x5120, and lm-head 124160x5x5120",
+    "micro_spread": "Each variant/device <= 3.5%",
+    "micro_speedup": "Combined material-shape speedup >= 1.02x and no device below 1.00x",
+    "mtp_e2e": "Three interleaved deterministic normal-graph request pairs; each variant <= 5% spread and candidate throughput >= 1.005x",
+    "acceptance": "Candidate accepted-token count and generated token sequence equal baseline for deterministic requests",
+    "ordinary_tg": "Three TG128 pairs, candidate >= 0.99x and both spreads <= 5%",
+    "pp": "Three PP512 pairs, candidate >= 0.99x and both spreads <= 5%"
+  },
+  "system_gates": [
+    "normal graph capture/replay is mode-separated and baseline/candidate equivalent",
+    "tensor ownership, direct P2P and all-reduce dispatch sequence are unchanged",
+    "no profiler timing is substituted for normal-graph wall throughput",
+    "achieved occupancy/bandwidth reported only from joinable gfx1201 counters"
+  ],
+  "excluded": [
+    "R4",
+    "K2/K4",
+    "dot8",
+    "column-per-wave",
+    "K partitioning",
+    "MMQ/WMMA",
+    "Stream-K",
+    "shape-only routing",
+    "registration before every gate passes"
+  ]
+}

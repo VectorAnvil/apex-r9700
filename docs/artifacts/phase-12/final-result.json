@@ -1,0 +1,149 @@
+{
+  "correctness_passed": 18,
+  "correctness_total": 18,
+  "decision": "rejected",
+  "dispatch_witnesses_passed": 6,
+  "dispatch_witnesses_total": 6,
+  "exact_chain": {
+    "0": {
+      "baseline": {
+        "mean": 1315.9166666666667,
+        "relative_spread": 0.0031764929390157705,
+        "samples": [
+          1313.15,
+          1317.33,
+          1317.27
+        ]
+      },
+      "candidate": {
+        "mean": 1322.3100000000002,
+        "relative_spread": 0.0021704441469851173,
+        "samples": [
+          1320.7,
+          1323.57,
+          1322.66
+        ]
+      },
+      "speedup": 0.9951650268595613
+    },
+    "1": {
+      "baseline": {
+        "mean": 1337.1333333333332,
+        "relative_spread": 0.01201076930747366,
+        "samples": [
+          1330.06,
+          1335.22,
+          1346.12
+        ]
+      },
+      "candidate": {
+        "mean": 1346.9266666666665,
+        "relative_spread": 0.005761263914392759,
+        "samples": [
+          1341.85,
+          1349.32,
+          1349.61
+        ]
+      },
+      "speedup": 0.9927291265547741
+    }
+  },
+  "failed_gates": [
+    "exact_chain_timing"
+  ],
+  "fallback": {
+    "0": {
+      "baseline": {
+        "mean": 781.0233333333334,
+        "relative_spread": 0.0019589683620207326,
+        "samples": [
+          780.36,
+          780.82,
+          781.89
+        ]
+      },
+      "candidate": {
+        "mean": 780.1533333333333,
+        "relative_spread": 0.0048067473915384155,
+        "samples": [
+          778.28,
+          780.15,
+          782.03
+        ]
+      },
+      "speedup": 1.0011151653948371
+    },
+    "1": {
+      "baseline": {
+        "mean": 801.6866666666666,
+        "relative_spread": 0.004565374668407402,
+        "samples": [
+          800.09,
+          801.22,
+          803.75
+        ]
+      },
+      "candidate": {
+        "mean": 800.77,
+        "relative_spread": 0.006855901195099728,
+        "samples": [
+          799.46,
+          798.68,
+          804.17
+        ]
+      },
+      "speedup": 1.0011447315292363
+    }
+  },
+  "gates": {
+    "correctness": true,
+    "counters": "unavailable_allowed_with_evidence",
+    "dispatch": true,
+    "exact_chain_timing": false,
+    "fallback": true,
+    "normal_graph_capture_replay": true,
+    "provenance": true,
+    "resources": true,
+    "whole_pp": true
+  },
+  "history_action": "demote exact SwiGLU-to-D4 packing for Q6_K ffn_down unless a materially different producer design is proposed",
+  "provenance_sha256": "f8acd35102848c2209e0d7e6bbbf07311b7bba7b3254bc960df11dad5fe5ce08",
+  "registered": false,
+  "registered_dispatch": {
+    "expected_per_agent": 128,
+    "fused_dispatches": 256,
+    "fused_dispatches_by_agent": {
+      "Agent 1": 128,
+      "Agent 2": 128
+    },
+    "graphs_disabled_for_profiler_compatibility": true,
+    "passed": true,
+    "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7",
+    "trace": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/attempts/p12-h/registered-dispatch/registered-candidate_kernel_trace.csv",
+    "trace_sha256": "7b938c9a86231e71d19977a0b894c41316881114a44d1e64fe49306b31e5ae1a"
+  },
+  "resource_evidence_sha256": "5e61c41004c6a21eb804f53dc58c542016c7eeb0feb1d95cdd4701d416655fa0",
+  "schema_version": "apex.phase12.swiglu_d4_ffn_down_result.v1",
+  "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7",
+  "whole_pp": {
+    "baseline": {
+      "mean": 815.208808,
+      "relative_spread": 0.002723198005485702,
+      "samples": [
+        815.442185,
+        813.982132,
+        816.202107
+      ]
+    },
+    "candidate": {
+      "mean": 819.4661093333334,
+      "relative_spread": 0.0037585825269891853,
+      "samples": [
+        818.106596,
+        821.186627,
+        819.105105
+      ]
+    },
+    "speedup": 1.0052223446208561
+  }
+}

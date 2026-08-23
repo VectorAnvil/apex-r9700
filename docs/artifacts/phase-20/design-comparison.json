@@ -1,0 +1,61 @@
+{
+  "schema": "apex.phase20.n5_design_comparison.v1",
+  "unit": "one K-block iteration producing two output rows by five columns unless stated",
+  "baseline_two_blocks": {
+    "rows": 2,
+    "waves": 2,
+    "q6_weight_loads": 10,
+    "q8_activation_loads": 40,
+    "global_loads": 50,
+    "dp4a": 20,
+    "reductions": 10,
+    "lds_bytes": 0,
+    "barriers": 0,
+    "registered_vgpr_per_wave": 50
+  },
+  "designs": [
+    {
+      "id": "r2_register_q8_reuse",
+      "decision": "go_for_phase20b",
+      "rows": 2,
+      "waves": 1,
+      "q6_weight_loads": 10,
+      "q8_activation_loads": 20,
+      "global_loads": 30,
+      "global_load_reduction_vs_two_baseline_rows": 0.4,
+      "dp4a": 20,
+      "reductions": 10,
+      "lds_bytes": 0,
+      "barriers": 0,
+      "accumulators_per_lane": 10,
+      "projected_vgpr_range": [55, 64],
+      "projected_sgpr_max": 32,
+      "tail": "Eligible only when M is even; odd M and every unmarked batch use the registered fallback.",
+      "evidence": "The registered Q6_K rows=2 MoE symbol emits 14 relevant loads instead of 18, proving the compiler can retain one Q8_1 packet across two row dots without LDS."
+    },
+    {
+      "id": "one_wave_per_column",
+      "decision": "reject",
+      "waves": 5,
+      "q6_weight_loads_per_row": 25,
+      "q8_activation_loads_per_row": 20,
+      "global_loads_per_row": 45,
+      "dp4a_per_row": 10,
+      "reason": "It repeats the shared Q6 fields fivefold and adds no useful work reduction. Large M already supplies independent row-level wave parallelism."
+    },
+    {
+      "id": "k_partition_across_waves",
+      "decision": "reject",
+      "global_load_reduction": 0,
+      "dp4a_reduction": 0,
+      "reason": "It preserves the memory and dot work while adding partial-result reduction and synchronization."
+    },
+    {
+      "id": "r4_register_or_lds_q8_reuse",
+      "decision": "defer",
+      "modeled_global_loads_for_four_rows": 40,
+      "baseline_global_loads_for_four_rows": 100,
+      "reason": "The larger 20-accumulator live set and possible LDS/barrier requirement are not bounded by a registered code-object precedent. R4 must not be hidden in the R2 experiment."
+    }
+  ]
+}

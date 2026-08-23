@@ -1,0 +1,14 @@
+{
+  "schema": "apex.phase20.identity.v1",
+  "task_fingerprint": "17691b588b6d76003f0b2266c321b9e6ba9a631c4ea0825d0056cfd3d400f16f",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+  "phase19_task_fingerprint": "cafa57f3b2bf2544e4b5c69e5b997e5d650fe95525893cbb3db7bd0c27e11bef",
+  "phase19_n5_isa_sha256": "4b9abed2a76e489e06d83b2b331bfaf7e5b4d1d5aff5e5df8c74f04ebcfabaf1",
+  "phase19_mmvq_hsaco_sha256": "bcfccbeb09a2200c39224899409fcabf53c4c454284c8ad40d65238e7b3f63eb",
+  "llvm": "AMD LLVM version 22.0.0git",
+  "architecture": "gfx1201",
+  "registered_assets_mutated": false,
+  "candidate_builds": 0,
+  "gpu_launches": 0
+}

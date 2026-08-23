@@ -1,0 +1,20 @@
+{
+  "schema_version": "apex.phase12.roadmap_status.v1",
+  "phase12_candidate": {
+    "status": "contract_eligible",
+    "approved_for_implementation": false,
+    "id": "swiglu_to_q81_ffn_down"
+  },
+  "rmsnorm_to_shared_q81_gate_up": {
+    "status": "preserved_unselected",
+    "approved": false
+  },
+  "phase13_mmq_p2p_overlap": {
+    "status": "reference_only",
+    "approved": false
+  },
+  "watchlist_q81_layout_mmvq_blocks": {
+    "status": "upstream_watchlist",
+    "approved": false
+  }
+}

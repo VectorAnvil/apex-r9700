@@ -1,0 +1,24 @@
+{
+  "candidate_patch": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/evidence/candidate.patch",
+  "candidate_patch_sha256": "0451d2fe82ddcf4cce337dc13c0b5ec2ad83d8e7e1304dc9c0e38c2000f29116",
+  "changed_files": [
+    "ggml/src/ggml-cuda/allreduce.cu",
+    "ggml/src/ggml-cuda/allreduce.cuh",
+    "ggml/src/ggml-cuda/ggml-cuda.cu",
+    "ggml/src/ggml-cuda/mmq.cu",
+    "ggml/src/ggml-cuda/mmq.cuh",
+    "ggml/src/ggml-cuda/quantize.cu",
+    "ggml/src/ggml-cuda/quantize.cuh",
+    "tests/test-backend-ops.cpp"
+  ],
+  "changed_files_allowed": true,
+  "cmake_cache_sha256": "2c4495647c21caca99903e92f5e0856913537e2350e2fba4300ebe1916d274ad",
+  "diff_check_passed": true,
+  "head": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "libggml_hip_sha256": "e761864a41f8a83d1e952fa6472b90a6e1c67b32d4a6f5fa5cad847d2b500931",
+  "llama_bench_sha256": "42fe716568f0cbaa6aa2a501d906fd9978d447e271da536e80d05eb6fe91fb73",
+  "schema_version": "apex.phase12.candidate_provenance.v1",
+  "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7",
+  "task_sha256": "17a1d79be1bce49b46a887fe97455d2a2371e651af74752866413c6b25d0cda0",
+  "test_backend_ops_sha256": "e08b4f5bfdc5ce6b073e8431f86b02e29b1eab14813f635274dfae948fe10c51"
+}

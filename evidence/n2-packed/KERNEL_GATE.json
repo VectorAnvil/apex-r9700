@@ -1,0 +1,22 @@
+{
+  "schema": "apex.qwen38.n2-packed-kernel-gate.v1",
+  "cells": [
+    {
+      "gpu": 0,
+      "backend": "ROCm0",
+      "returncode": 0,
+      "passed": 14,
+      "expected": 14,
+      "log": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/evidence/kernel-gate-gpu0.log"
+    },
+    {
+      "gpu": 1,
+      "backend": "ROCm0",
+      "returncode": 0,
+      "passed": 14,
+      "expected": 14,
+      "log": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/evidence/kernel-gate-gpu1.log"
+    }
+  ],
+  "pass": true
+}

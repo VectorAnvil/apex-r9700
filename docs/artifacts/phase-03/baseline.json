@@ -1,0 +1,80 @@
+{
+  "captured_at": "2026-08-08T15:21:57.273784+00:00",
+  "instability_threshold": 0.035,
+  "schema_version": "apex.phase3.baseline.v0",
+  "series": [
+    "baseline/confirm-a1/series.json",
+    "baseline/confirm-a2/series.json"
+  ],
+  "stats": {
+    "type_a=q6_K,type_b=f32,m=1024,n=1,k=5120": {
+      "mad_us": 0.08000000000000007,
+      "max_us": 12.34,
+      "mean_us": 12.203333333333333,
+      "median_us": 12.18,
+      "min_us": 12.09,
+      "raw_us": [
+        12.09,
+        12.11,
+        12.11,
+        12.25,
+        12.32,
+        12.34
+      ],
+      "relative_spread": 0.020525451559934318,
+      "stddev_us": 0.11378341999899072
+    },
+    "type_a=q6_K,type_b=f32,m=17408,n=1,k=5120": {
+      "mad_us": 0.28999999999999915,
+      "max_us": 123.8,
+      "mean_us": 123.26833333333333,
+      "median_us": 123.24000000000001,
+      "min_us": 122.73,
+      "raw_us": [
+        123.42,
+        123.8,
+        123.06,
+        123.59,
+        122.73,
+        123.01
+      ],
+      "relative_spread": 0.00868224602401812,
+      "stddev_us": 0.4022644238143177
+    },
+    "type_a=q6_K,type_b=f32,m=5120,n=1,k=17408": {
+      "mad_us": 1.154999999999987,
+      "max_us": 115.38,
+      "mean_us": 112.91666666666667,
+      "median_us": 114.02000000000001,
+      "min_us": 109.51,
+      "raw_us": [
+        113.26,
+        109.6,
+        109.51,
+        114.78,
+        114.97,
+        115.38
+      ],
+      "relative_spread": 0.05148219610594624,
+      "stddev_us": 2.7011010100821227
+    },
+    "type_a=q6_K,type_b=f32,m=5120,n=1,k=6144": {
+      "mad_us": 0.13000000000000256,
+      "max_us": 39.19,
+      "mean_us": 39.015,
+      "median_us": 39.05,
+      "min_us": 38.72,
+      "raw_us": [
+        38.72,
+        38.91,
+        39.05,
+        39.05,
+        39.19,
+        39.17
+      ],
+      "relative_spread": 0.012035851472471163,
+      "stddev_us": 0.17615334229017668
+    }
+  },
+  "task_fingerprint": "297a07be77dbabde2a93c9429c45ef9c75928a1f9e0d4ec2cfdbd4a0d209c9b0"
+}

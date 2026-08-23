@@ -1,0 +1,11 @@
+{
+  "schema_version": "apex.phase21c.draft_split_mode.v4",
+  "supersedes_task_v3_sha256": "ed5e3c5399b57b61cee60bbaea2436310b524be6d9147bd445a464baed787e0d",
+  "immutable_after_fingerprint": true,
+  "reason": "V3 produced the identical allocator shortfall, proving ggml_backend_meta_buffer_type_alloc_buffer was not the exhausted container. The relevant rotating external-view pool is created by ggml_backend_meta_alloc_ctx_tensors_from_buft with compute_headroom=16.",
+  "objective": "Revert the irrelevant V3 capacity change and increase only the documented maximum external views per static Meta tensor from 16 to 17.",
+  "change": "compute_headroom 16 -> 17 in ggml_backend_meta_alloc_ctx_tensors_from_buft",
+  "resource_scope": "One additional ggml context-memory unit per rotating Meta compute container; host metadata only.",
+  "all_other_identity_gates_and_exclusions": "equal to task-frozen-v3.json",
+  "attempt_v3": "preserved non-gating wrong-container failure"
+}

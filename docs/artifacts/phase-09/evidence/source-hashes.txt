@@ -1,0 +1,6 @@
+source_commit 259f2e2a531af9ed3efa7f66adaa5eb5b53da95f
+06f400665980d30fd357886a5d14b541adda06d159a5b7f0ce929ca36788778c  src/models/qwen3.cpp
+1f70ac1a18abe08ebfa85f93f9ad715726c70cd27ac4450ce206b617a7be3992  src/llama-graph.cpp
+7e80dfe33ecb54cfde58782b0982a6b25955ddecefb6f63352fa349f1a6ccda9  ggml/src/ggml-cuda/ggml-cuda.cu
+6f74bf36e6439c1907c2381aeda2fa2b24f1faba31232bae0bf5e638e6f3eaf8  ggml/src/ggml-cuda/mmvq.cu
+550b1f1baf1db0e349b0974754e4810bfb90fc9e7c97873622daf06f02e8a63c  ggml/src/ggml-cuda/mmq.cu

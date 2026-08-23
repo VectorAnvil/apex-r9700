@@ -1,0 +1,58 @@
+{
+  "schema_version": "apex.phase7.checked_in_summary.v1",
+  "outcome": "attribution_complete_no_candidate",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "task_fingerprint": "eb67a0450b1b348e255289af6fcc3d65e785fb7513997fa43d3a909f7d893088",
+  "runtime": {
+    "workload": "Qwen3.6 Q6_K PP, prompt=512, generation=0, normal graphs",
+    "logical_n": 512,
+    "mmq_template": "mul_mat_q<(ggml_type)14, 128, need_check>",
+    "exact_join": "device + mangled symbol + launch geometry + Q6_K type + logical shape + layout + need_check",
+    "join_status": "exact",
+    "join_unmatched": 0,
+    "join_ambiguous": 0
+  },
+  "build_and_patch": {
+    "baseline_full_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "attribution_full_patch_sha256": "0c287731c6df1c53e0182c902a56dbfe09b53a1164d9c5f6d083c785f6791fbb",
+    "attribution_hook_patch_sha256": "ea2dcd4b100c533715538817871da1a2789029fda0b79f8b81f5e85eccb10671",
+    "attribution_llama_bench_sha256": "ae7a6cc1882bd3c29846f5fc20d68c741563ba2e467bc1e5082eedf0a2ef0cb5",
+    "raw_attribution_jsonl_sha256": "2ba146c852a193388784ac50a12b528a0764b9fefa9b7f0907374c5a1088320b"
+  },
+  "baseline": {
+    "passed": true,
+    "median_avg_ts": 815.693745,
+    "relative_spread": 0.0060746230192067485,
+    "values_avg_ts": [812.746964, 815.693745, 817.701996]
+  },
+  "attribution": {
+    "q6k_family_duration_ns": 4249887805,
+    "pp_duration_total_ns": 4999245044,
+    "q6k_share_of_pp_duration": 0.8501059195129144,
+    "repeat_count_per_device": 6,
+    "capture_state": "496 active and 496 none records per device; ordered sequence identical"
+  },
+  "material_operations": [
+    {"operation": "ffn_up", "duration_ns": 959724245, "calls": 768, "share_of_pp": 0.191973846},
+    {"operation": "ffn_gate", "duration_ns": 955179820, "calls": 768, "share_of_pp": 0.191064809},
+    {"operation": "ffn_down", "duration_ns": 919979458, "calls": 768, "share_of_pp": 0.184023683},
+    {"operation": "attn_qkv", "duration_ns": 405419378, "calls": 576, "share_of_pp": 0.081095222},
+    {"operation": "attn_gate", "duration_ns": 251753770, "calls": 576, "share_of_pp": 0.050358357}
+  ],
+  "static_resources": {
+    "workgroup_threads": 256,
+    "wavefront_size": 32,
+    "dynamic_dispatch_lds_bytes": 57856,
+    "static_group_segment_bytes": 0,
+    "private_segment_bytes": 0,
+    "sgpr_spills": 0,
+    "vgpr_spills": 0,
+    "need_check_false": {"sgpr": 27, "vgpr": 229},
+    "need_check_true": {"sgpr": 30, "vgpr": 230}
+  },
+  "decision": {
+    "candidate_code": false,
+    "e2e_run": false,
+    "reason": "Phase 7 was attribution only; no optimization candidate was proposed or registered."
+  }
+}

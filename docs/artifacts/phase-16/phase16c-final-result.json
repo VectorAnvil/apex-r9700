@@ -1,0 +1,52 @@
+{
+  "schema_version": "apex.phase16c.final_result.v1",
+  "task_fingerprint": "65dcaa5b700e30d1c13d9667d6ef34f46ac6add7a01d536ed61c3c1c9743a4ac",
+  "decision": "reject_no_promotion",
+  "candidate": "fused-only gfx1201 Q6_K N=1 MMVQ K2 packet pipeline",
+  "reason": "The sole accepted timing evidence, microbench-v4-fullgraph, is slower on both devices and combined (0.970618x versus required >=1.020000x). GPU 0 baseline spread also exceeds the 3.5% limit. Earlier microbench attempts are invalid harness evidence and do not enter this decision.",
+  "gates": {
+    "static": {
+      "status": "pass",
+      "unfused_machine_encoding_sha256": {"baseline": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d", "candidate": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d"},
+      "unfused_resources_identical": true,
+      "fused_static_vgpr": {"baseline": 35, "candidate": 60},
+      "fused_static_sgpr": {"baseline": 42, "candidate": 42},
+      "fused_static_lds_bytes": {"baseline": 1792, "candidate": 1792},
+      "fused_spills_private_scratch": "zero / zero / zero for both variants"
+    },
+    "correctness_v3": {"status": "pass", "executions_passed": 84, "executions_total": 84, "devices": [0, 1], "repeats": 3, "cases": ["fused_k3072", "fused_k5120", "fused_k8704", "unfused_k3072", "unfused_k5120", "unfused_k8704", "q4_fallback"], "nmse_max": 0.0005, "evidence_sha256": "1b4a8b577cecd9647e1d7669b4b0c02ef82afb6f6f227e0755130330ac6805c3"},
+    "fused_microbench_v4_fullgraph": {
+      "status": "fail",
+      "accepted_timing_evidence": true,
+      "operation": "MUL_MAT_VEC_FUSION fused_ffn_up",
+      "shape_mnk": [8704, 1, 5120],
+      "samples_trimmed": false,
+      "full_graph_replay": true,
+      "required_combined_speedup": 1.02,
+      "required_no_device_below": 1.0,
+      "required_relative_spread_max": 0.035,
+      "per_device": {
+        "gpu0": {"baseline_us": [137.05, 131.65, 137.07, 131.19, 137.14, 131.43], "candidate_us": [135.93, 137.85, 137.01, 136.26, 136.10, 136.63], "baseline_mean_us": 134.255, "candidate_mean_us": 136.63, "speedup": 0.982617, "baseline_relative_spread": 0.044319, "candidate_relative_spread": 0.014053},
+        "gpu1": {"baseline_us": [134.22, 134.11, 133.95, 134.13, 134.39, 134.10], "candidate_us": [139.72, 139.74, 139.77, 140.07, 140.27, 139.83], "baseline_mean_us": 134.15, "candidate_mean_us": 139.90, "speedup": 0.958899, "baseline_relative_spread": 0.003280, "candidate_relative_spread": 0.003931}
+      },
+      "combined": {"baseline_mean_us": 134.2025, "candidate_mean_us": 138.265, "speedup": 0.970618},
+      "evidence_file": "attempts/microbench-v4-fullgraph/microbench.json"
+    },
+    "dispatch": {"status": "not_run_fail_fast"},
+    "graph_tensor_p2p": {"status": "not_run_fail_fast"},
+    "tg128": {"status": "not_run_fail_fast"},
+    "pp512": {"status": "not_run_fail_fast"},
+    "dynamic_counters": {"status": "not_run_fail_fast"}
+  },
+  "attempts_preserved": {
+    "correctness_v1": "harness selection produced zero CSV rows; invalid procedure evidence",
+    "correctness_v2": "harness selection again produced zero CSV rows; invalid procedure evidence",
+    "correctness_v3": "accepted correctness evidence: 84/84 pass",
+    "microbench_v1": "the fused operation was absent from the perf list, so no fused performance row existed; invalid procedure evidence",
+    "microbench_v2": "repeat loop timed only trailing ADD nodes and amortized fused MMVQ; invalid timing procedure evidence",
+    "microbench_v3": "repeat loop timed only trailing ADD nodes and amortized fused MMVQ; invalid timing procedure evidence",
+    "microbench_v4_fullgraph": "accepted gating timing evidence"
+  },
+  "promotion": {"eligible": false, "completed": false, "registered_assets_mutated": false, "rollback": "The registered Phase 13 cast library remains untouched; discard the isolated candidate build/worktree."},
+  "provenance": {"task_sha256": "65dcaa5b700e30d1c13d9667d6ef34f46ac6add7a01d536ed61c3c1c9743a4ac", "resource_evidence_sha256": "dd95567fe7ae17bd18f344161dfec3ccb36fbe63e1c947a293e59e2be267cf41"}
+}

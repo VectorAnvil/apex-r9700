@@ -1,0 +1,13 @@
+{
+  "schema_version": "apex.phase21c.draft_split_mode_parity_width.v1",
+  "supersedes_task_v4_sha256": "43ae48e688859f3b3dddcd612bb7bbebfd6f4df094631b4a164408999859a001",
+  "immutable_after_fingerprint": true,
+  "objective": "Find whether the accepted V4 plumbing has an exact deterministic draft-width operating point without source changes.",
+  "source_identity": "byte-identical to task-frozen-v4 candidate",
+  "draft_n_max_values": [1, 4, 8, 12, 15],
+  "known_before_freeze": {"15": "stable first divergence at zero-based token index 159, registered token 11 vs DFlash token 13"},
+  "request_and_control": "equal to task-frozen.json",
+  "gate": "A width passes only if two independent DFlash processes produce 192/192 exact raw token IDs against the registered tensor-split control.",
+  "interpretation": "A smaller exact width authorizes plumbing use only at that width; it does not validate DDTree or n_max=15.",
+  "excluded": ["source edit", "promotion", "performance claim", "parity relaxation"]
+}

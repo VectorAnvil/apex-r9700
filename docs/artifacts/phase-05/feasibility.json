@@ -1,0 +1,35 @@
+{
+  "candidate_patch_sha256": "b052fb327bdcdb3f3ac79e4ea7345af5d7cd7b6539dc31f1f6eb6b4c43ff4a16",
+  "changed_files": [
+    "ggml/src/ggml-cuda/mmvq.cu"
+  ],
+  "compile_result": "test-backend-ops linked successfully for gfx1201",
+  "feasible": true,
+  "implementation": "architecture-independent force_four_waves template instance with exact runtime tuple selection",
+  "rollback": "remove candidate.patch; default calc_nwarps remains eight for RDNA4 Q6_K N=1",
+  "schema_version": "apex.phase5.feasibility.v2",
+  "selector": {
+    "fallback_nwarps": 8,
+    "four_wave_mk": [
+      [
+        3072,
+        5120
+      ],
+      [
+        5120,
+        3072
+      ],
+      [
+        6144,
+        5120
+      ]
+    ],
+    "has_fusion": false,
+    "has_ids": false,
+    "n": 1,
+    "parameter_table": "RDNA4",
+    "type": "Q6_K"
+  },
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "source_file": "ggml/src/ggml-cuda/mmvq.cu"
+}

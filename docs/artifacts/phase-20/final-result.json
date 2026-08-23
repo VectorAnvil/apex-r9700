@@ -1,0 +1,33 @@
+{
+  "schema": "apex.phase20.final_result.v1",
+  "task_fingerprint": "17691b588b6d76003f0b2266c321b9e6ba9a631c4ea0825d0056cfd3d400f16f",
+  "decision": "complete_go_for_separate_phase20b_r2_only",
+  "phase20b_authorized": true,
+  "candidate_built": false,
+  "gpu_launches": 0,
+  "reason": "The registered N=5 kernel already shares Q6 fields across columns, but separate output-row blocks reload the same five Q8_1 activation packets. A one-wave two-row specialization models 30 loads per row pair versus 50 for two baseline blocks, with unchanged DP4A/reduction work and no LDS/barriers. The registered Q6_K two-row MoE code object independently proves compiler Q8_1 reuse. A fail-closed target-verification marker path is credible.",
+  "selected_design": {
+    "id": "r2_register_q8_reuse",
+    "rows_per_workgroup": 2,
+    "waves": 1,
+    "modeled_global_load_reduction": 0.4,
+    "projected_vgpr": [55, 64],
+    "projected_sgpr_max": 32,
+    "lds_bytes": 0,
+    "barriers": 0,
+    "tail_policy": "even local M only; all other cases fall back"
+  },
+  "rejected_designs": [
+    "one wave per column repeats Q6 traffic",
+    "K partition adds reductions without removing work",
+    "R4 has an unbounded live-set/synchronization risk"
+  ],
+  "selector_requirement": "server per-row provenance -> all-rows decode mode -> graph cache identity -> backend-visible tensor flag -> exact gfx1201 Q6_K N5 even-M HIP selector",
+  "execution": {
+    "registered_assets_mutated": false,
+    "candidate_worktree_created": false,
+    "builds": 0,
+    "gpu_workloads": 0
+  },
+  "next": "Preserve Phase20B as the authorized R2 experiment, then inspect the user-provided DFlash/DDTree feasibility study before scheduling implementation work."
+}

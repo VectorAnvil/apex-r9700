@@ -1,0 +1,35 @@
+{
+  "schema_version": "apex.phase21c.compact_result.v1",
+  "decision": "compatibility_pass_nmax12_only",
+  "implementation": {
+    "draft_cli": "--spec-draft-split-mode layer",
+    "target_split": "tensor ROCm0,ROCm1",
+    "draft_split": "layer ROCm0,ROCm1",
+    "shared_target_device": "ctx_other Meta backend added to draft scheduler",
+    "meta_external_view_headroom": "16 -> 17"
+  },
+  "gates": {
+    "test_arg_parser": "pass",
+    "registered_vs_candidate_control_tokens": "192/192 exact",
+    "nmax12_process_1": "192/192 exact",
+    "nmax12_process_2": "192/192 exact",
+    "nmax15": "reject; stable first divergence at zero-based index 159",
+    "gpu_memory_after_exit": "0% on both targets",
+    "registered_assets_mutated": false
+  },
+  "widths": {
+    "1": {"exact": false, "first_difference": 159},
+    "4": {"exact": false, "first_difference": 79},
+    "8": {"exact": false, "first_difference": 159},
+    "12": {"exact": true, "repeat_exact": true},
+    "15": {"exact": false, "first_difference": 159}
+  },
+  "provenance": {
+    "task_v4_sha256": "43ae48e688859f3b3dddcd612bb7bbebfd6f4df094631b4a164408999859a001",
+    "task_v5_sha256": "05a6136cccdfc960b0e63c9095e348831a65a34bed7d16b5395ba63d54cc70db",
+    "candidate_patch_sha256": "cd866ee1ab9499519c45b0242a9b41026aec8c87067ff0f54bc0dad3f8a82c2a",
+    "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "registered_hip_source_identity": true
+  },
+  "promotion": {"eligible": false, "completed": false}
+}

@@ -1,0 +1,34 @@
+{
+  "evidence": {
+    "rocm_smi": {
+      "argv": [
+        "rocm-smi",
+        "--showproductname",
+        "--showuniqueid",
+        "--showserial",
+        "--json"
+      ],
+      "sha256": "f851e8e7bd751efc665fe64d7987650a381b727b078ec755727813a892e2ee19"
+    },
+    "rocminfo": {
+      "argv": [
+        "rocminfo"
+      ],
+      "sha256": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef"
+    },
+    "rocprofv3_version": {
+      "argv": [
+        "/opt/rocm/bin/rocprofv3",
+        "--version"
+      ],
+      "sha256": "a86d97900fff9f3cc5b59f9ddc7c5da3f2181b1fb176904780f78aa834b61464"
+    }
+  },
+  "instrumented_libggml_hip_sha256": "33bc7ed12ce1394b3038f0c1fe94153be57d17adf0aa69cd14d2ed5751a8bf36",
+  "instrumented_server_sha256": "3538414708e8bc3f6903c7c882ceebd976590083f08139dd0a3cc6b99eaae272",
+  "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+  "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+  "registered_server_sha256": "22e0a27e22f4ef4824ebda1a3d98e3eae4a98e18e056decf2b952894464f5060",
+  "schema": "apex.phase19.identity.v1",
+  "task_sha256": "cafa57f3b2bf2544e4b5c69e5b997e5d650fe95525893cbb3db7bd0c27e11bef"
+}

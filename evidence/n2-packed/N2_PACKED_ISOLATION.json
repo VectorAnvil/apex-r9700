@@ -1,0 +1,1339 @@
+{
+  "schema": "apex.qwen38.n2-packed-isolation.v1",
+  "model": "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/Qwen3.8-27B-Heretic-Q6_K.gguf",
+  "cells": [
+    {
+      "name": "control_a",
+      "server": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_heretic_promotion_20260821/builds/heretic-promotion/bin/llama-server",
+      "selector": null,
+      "status": "complete",
+      "result": {
+        "trial": 1,
+        "valid_outputs": 30,
+        "requests": 30,
+        "mean_tps": 49.92569487054053,
+        "median_tps": 49.65025889600848,
+        "min_tps": 44.136531320429484,
+        "max_tps": 56.73130312696689,
+        "draft_n": 3149,
+        "draft_n_accepted": 2215,
+        "acceptance": 0.7033979040965386,
+        "argv": [
+          "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_heretic_promotion_20260821/builds/heretic-promotion/bin/llama-server",
+          "--model",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/Qwen3.8-27B-Heretic-Q6_K.gguf",
+          "--mmproj",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/mmproj-Qwen3.8-27B-BF16.gguf",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18086",
+          "--ctx-size",
+          "262144",
+          "--parallel",
+          "1",
+          "--threads",
+          "12",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "512",
+          "--n-gpu-layers",
+          "99",
+          "--split-mode",
+          "tensor",
+          "--tensor-split",
+          "1,1",
+          "--flash-attn",
+          "on",
+          "--fit",
+          "off",
+          "--no-warmup",
+          "--jinja",
+          "--cache-type-k",
+          "q8_0",
+          "--cache-type-v",
+          "q8_0",
+          "--cache-ram",
+          "20480",
+          "--cache-prompt",
+          "--cache-idle-slots",
+          "--spec-type",
+          "draft-mtp",
+          "--spec-draft-n-max",
+          "2",
+          "--spec-draft-n-min",
+          "0"
+        ]
+      },
+      "parity_vs_ordinary": {
+        "exact_requests": 30,
+        "requests": 30,
+        "rows": [
+          {
+            "index": 0,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 1,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 2,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 3,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 4,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 5,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 6,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 7,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 8,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 9,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 10,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 11,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 12,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 13,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 14,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 15,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 16,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 17,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 18,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 19,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 20,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 21,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 22,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 23,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 24,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 25,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 26,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 27,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 28,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 29,
+            "exact": true,
+            "first_divergence_index": 128
+          }
+        ]
+      },
+      "relative_to_control": 0.0020654990667445805
+    },
+    {
+      "name": "packed_core",
+      "server": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+      "selector": "GGML_CUDA_Q6K_CANONICAL_PACKED_CORE",
+      "status": "complete",
+      "result": {
+        "trial": 1,
+        "valid_outputs": 30,
+        "requests": 30,
+        "mean_tps": 55.88352765839144,
+        "median_tps": 55.81667107283721,
+        "min_tps": 49.204971639339185,
+        "max_tps": 62.53606903194165,
+        "draft_n": 3149,
+        "draft_n_accepted": 2215,
+        "acceptance": 0.7033979040965386,
+        "argv": [
+          "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+          "--model",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/Qwen3.8-27B-Heretic-Q6_K.gguf",
+          "--mmproj",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/mmproj-Qwen3.8-27B-BF16.gguf",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18086",
+          "--ctx-size",
+          "262144",
+          "--parallel",
+          "1",
+          "--threads",
+          "12",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "512",
+          "--n-gpu-layers",
+          "99",
+          "--split-mode",
+          "tensor",
+          "--tensor-split",
+          "1,1",
+          "--flash-attn",
+          "on",
+          "--fit",
+          "off",
+          "--no-warmup",
+          "--jinja",
+          "--cache-type-k",
+          "q8_0",
+          "--cache-type-v",
+          "q8_0",
+          "--cache-ram",
+          "20480",
+          "--cache-prompt",
+          "--cache-idle-slots",
+          "--spec-type",
+          "draft-mtp",
+          "--spec-draft-n-max",
+          "2",
+          "--spec-draft-n-min",
+          "0"
+        ]
+      },
+      "parity_vs_ordinary": {
+        "exact_requests": 30,
+        "requests": 30,
+        "rows": [
+          {
+            "index": 0,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 1,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 2,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 3,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 4,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 5,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 6,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 7,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 8,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 9,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 10,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 11,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 12,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 13,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 14,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 15,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 16,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 17,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 18,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 19,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 20,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 21,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 22,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 23,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 24,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 25,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 26,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 27,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 28,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 29,
+            "exact": true,
+            "first_divergence_index": 128
+          }
+        ]
+      },
+      "relative_to_control": 0.12164598164980855
+    },
+    {
+      "name": "packed_control",
+      "server": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+      "selector": "GGML_CUDA_Q6K_CANONICAL_PACKED_CONTROL",
+      "status": "complete",
+      "result": {
+        "trial": 1,
+        "valid_outputs": 30,
+        "requests": 30,
+        "mean_tps": 49.692281251385666,
+        "median_tps": 49.544867849883474,
+        "min_tps": 44.05802893398303,
+        "max_tps": 56.26714043303545,
+        "draft_n": 3149,
+        "draft_n_accepted": 2215,
+        "acceptance": 0.7033979040965386,
+        "argv": [
+          "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+          "--model",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/Qwen3.8-27B-Heretic-Q6_K.gguf",
+          "--mmproj",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/mmproj-Qwen3.8-27B-BF16.gguf",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18086",
+          "--ctx-size",
+          "262144",
+          "--parallel",
+          "1",
+          "--threads",
+          "12",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "512",
+          "--n-gpu-layers",
+          "99",
+          "--split-mode",
+          "tensor",
+          "--tensor-split",
+          "1,1",
+          "--flash-attn",
+          "on",
+          "--fit",
+          "off",
+          "--no-warmup",
+          "--jinja",
+          "--cache-type-k",
+          "q8_0",
+          "--cache-type-v",
+          "q8_0",
+          "--cache-ram",
+          "20480",
+          "--cache-prompt",
+          "--cache-idle-slots",
+          "--spec-type",
+          "draft-mtp",
+          "--spec-draft-n-max",
+          "2",
+          "--spec-draft-n-min",
+          "0"
+        ]
+      },
+      "parity_vs_ordinary": {
+        "exact_requests": 30,
+        "requests": 30,
+        "rows": [
+          {
+            "index": 0,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 1,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 2,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 3,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 4,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 5,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 6,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 7,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 8,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 9,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 10,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 11,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 12,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 13,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 14,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 15,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 16,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 17,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 18,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 19,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 20,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 21,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 22,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 23,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 24,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 25,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 26,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 27,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 28,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 29,
+            "exact": true,
+            "first_divergence_index": 128
+          }
+        ]
+      },
+      "relative_to_control": -0.002619377836298953
+    },
+    {
+      "name": "packed_attn",
+      "server": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+      "selector": "GGML_CUDA_Q6K_CANONICAL_PACKED_ATTN",
+      "status": "complete",
+      "result": {
+        "trial": 1,
+        "valid_outputs": 30,
+        "requests": 30,
+        "mean_tps": 51.426457180682974,
+        "median_tps": 51.30754643055889,
+        "min_tps": 45.23752192416909,
+        "max_tps": 57.79192087148396,
+        "draft_n": 3149,
+        "draft_n_accepted": 2215,
+        "acceptance": 0.7033979040965386,
+        "argv": [
+          "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+          "--model",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/Qwen3.8-27B-Heretic-Q6_K.gguf",
+          "--mmproj",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/mmproj-Qwen3.8-27B-BF16.gguf",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18086",
+          "--ctx-size",
+          "262144",
+          "--parallel",
+          "1",
+          "--threads",
+          "12",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "512",
+          "--n-gpu-layers",
+          "99",
+          "--split-mode",
+          "tensor",
+          "--tensor-split",
+          "1,1",
+          "--flash-attn",
+          "on",
+          "--fit",
+          "off",
+          "--no-warmup",
+          "--jinja",
+          "--cache-type-k",
+          "q8_0",
+          "--cache-type-v",
+          "q8_0",
+          "--cache-ram",
+          "20480",
+          "--cache-prompt",
+          "--cache-idle-slots",
+          "--spec-type",
+          "draft-mtp",
+          "--spec-draft-n-max",
+          "2",
+          "--spec-draft-n-min",
+          "0"
+        ]
+      },
+      "parity_vs_ordinary": {
+        "exact_requests": 30,
+        "requests": 30,
+        "rows": [
+          {
+            "index": 0,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 1,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 2,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 3,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 4,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 5,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 6,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 7,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 8,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 9,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 10,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 11,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 12,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 13,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 14,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 15,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 16,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 17,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 18,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 19,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 20,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 21,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 22,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 23,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 24,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 25,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 26,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 27,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 28,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 29,
+            "exact": true,
+            "first_divergence_index": 128
+          }
+        ]
+      },
+      "relative_to_control": 0.03218750612529497
+    },
+    {
+      "name": "packed_all",
+      "server": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+      "selector": "GGML_CUDA_Q6K_CANONICAL_PACKED_ALL",
+      "status": "complete",
+      "result": {
+        "trial": 1,
+        "valid_outputs": 30,
+        "requests": 30,
+        "mean_tps": 57.95359357231309,
+        "median_tps": 57.995127481383776,
+        "min_tps": 51.455105825325724,
+        "max_tps": 65.78494125715541,
+        "draft_n": 3149,
+        "draft_n_accepted": 2215,
+        "acceptance": 0.7033979040965386,
+        "argv": [
+          "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_n2_decode_optimization_20260822/builds/n2-packed-make/bin/llama-server",
+          "--model",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/Qwen3.8-27B-Heretic-Q6_K.gguf",
+          "--mmproj",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/mmproj-Qwen3.8-27B-BF16.gguf",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18086",
+          "--ctx-size",
+          "262144",
+          "--parallel",
+          "1",
+          "--threads",
+          "12",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "512",
+          "--n-gpu-layers",
+          "99",
+          "--split-mode",
+          "tensor",
+          "--tensor-split",
+          "1,1",
+          "--flash-attn",
+          "on",
+          "--fit",
+          "off",
+          "--no-warmup",
+          "--jinja",
+          "--cache-type-k",
+          "q8_0",
+          "--cache-type-v",
+          "q8_0",
+          "--cache-ram",
+          "20480",
+          "--cache-prompt",
+          "--cache-idle-slots",
+          "--spec-type",
+          "draft-mtp",
+          "--spec-draft-n-max",
+          "2",
+          "--spec-draft-n-min",
+          "0"
+        ]
+      },
+      "parity_vs_ordinary": {
+        "exact_requests": 30,
+        "requests": 30,
+        "rows": [
+          {
+            "index": 0,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 1,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 2,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 3,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 4,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 5,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 6,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 7,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 8,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 9,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 10,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 11,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 12,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 13,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 14,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 15,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 16,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 17,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 18,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 19,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 20,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 21,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 22,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 23,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 24,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 25,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 26,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 27,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 28,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 29,
+            "exact": true,
+            "first_divergence_index": 128
+          }
+        ]
+      },
+      "relative_to_control": 0.16319455976201724
+    },
+    {
+      "name": "control_b",
+      "server": "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_heretic_promotion_20260821/builds/heretic-promotion/bin/llama-server",
+      "selector": null,
+      "status": "complete",
+      "result": {
+        "trial": 1,
+        "valid_outputs": 30,
+        "requests": 30,
+        "mean_tps": 49.71987703476489,
+        "median_tps": 49.54753410353258,
+        "min_tps": 43.82364399465973,
+        "max_tps": 56.20799614067931,
+        "draft_n": 3149,
+        "draft_n_accepted": 2215,
+        "acceptance": 0.7033979040965386,
+        "argv": [
+          "/home/adam/workspaces/ChatGPT/Apex/results_qwen38_heretic_promotion_20260821/builds/heretic-promotion/bin/llama-server",
+          "--model",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/Qwen3.8-27B-Heretic-Q6_K.gguf",
+          "--mmproj",
+          "/mnt/storage/ai/models/llm/qwen3.8-27b-heretic-abliterated/mmproj-Qwen3.8-27B-BF16.gguf",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "18086",
+          "--ctx-size",
+          "262144",
+          "--parallel",
+          "1",
+          "--threads",
+          "12",
+          "--batch-size",
+          "2048",
+          "--ubatch-size",
+          "512",
+          "--n-gpu-layers",
+          "99",
+          "--split-mode",
+          "tensor",
+          "--tensor-split",
+          "1,1",
+          "--flash-attn",
+          "on",
+          "--fit",
+          "off",
+          "--no-warmup",
+          "--jinja",
+          "--cache-type-k",
+          "q8_0",
+          "--cache-type-v",
+          "q8_0",
+          "--cache-ram",
+          "20480",
+          "--cache-prompt",
+          "--cache-idle-slots",
+          "--spec-type",
+          "draft-mtp",
+          "--spec-draft-n-max",
+          "2",
+          "--spec-draft-n-min",
+          "0"
+        ]
+      },
+      "parity_vs_ordinary": {
+        "exact_requests": 30,
+        "requests": 30,
+        "rows": [
+          {
+            "index": 0,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 1,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 2,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 3,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 4,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 5,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 6,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 7,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 8,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 9,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 10,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 11,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 12,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 13,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 14,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 15,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 16,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 17,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 18,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 19,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 20,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 21,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 22,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 23,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 24,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 25,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 26,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 27,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 28,
+            "exact": true,
+            "first_divergence_index": 128
+          },
+          {
+            "index": 29,
+            "exact": true,
+            "first_divergence_index": 128
+          }
+        ]
+      },
+      "relative_to_control": -0.0020654990667445805
+    }
+  ],
+  "control_mean_tps": 49.82278595265271
+}

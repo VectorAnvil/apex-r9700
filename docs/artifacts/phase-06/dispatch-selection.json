@@ -1,0 +1,369 @@
+{
+  "passed": true,
+  "performance_claim": false,
+  "records": [
+    {
+      "case": "ssm",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/ssm/cornelius/3082338_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_kv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/attn_kv/cornelius/3082549_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_gate",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/attn_gate/cornelius/3082791_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "m5120_k3072",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/m5120_k3072/cornelius/3083016_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_qkv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/attn_qkv/cornelius/3083227_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "ffn_down",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/ffn_down/cornelius/3083441_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_q",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/attn_q/cornelius/3083713_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "ffn_up",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/ffn_up/cornelius/3083952_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "lm_head",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d0/lm_head/cornelius/3084350_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "ssm",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/ssm/cornelius/3084754_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_kv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/attn_kv/cornelius/3084976_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_gate",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/attn_gate/cornelius/3085201_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "m5120_k3072",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/m5120_k3072/cornelius/3085423_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_qkv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/attn_qkv/cornelius/3085640_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "ffn_down",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/ffn_down/cornelius/3085858_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "attn_q",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/attn_q/cornelius/3086076_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "ffn_up",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/ffn_up/cornelius/3086311_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "lm_head",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/baseline/d1/lm_head/cornelius/3086732_kernel_trace.csv",
+      "variant": "baseline"
+    },
+    {
+      "case": "ssm",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/ssm/cornelius/3087113_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_kv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/attn_kv/cornelius/3087400_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_gate",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/attn_gate/cornelius/3087615_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "m5120_k3072",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/m5120_k3072/cornelius/3087855_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_qkv",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/attn_qkv/cornelius/3088157_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "ffn_down",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/ffn_down/cornelius/3088391_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_q",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/attn_q/cornelius/3088610_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "ffn_up",
+      "device": 0,
+      "expected_nwarps": 12,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 12,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/ffn_up/cornelius/3088825_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "lm_head",
+      "device": 0,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d0/lm_head/cornelius/3089220_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "ssm",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/ssm/cornelius/3089632_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_kv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/attn_kv/cornelius/3089846_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_gate",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/attn_gate/cornelius/3090057_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "m5120_k3072",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/m5120_k3072/cornelius/3090287_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_qkv",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/attn_qkv/cornelius/3090503_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "ffn_down",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/ffn_down/cornelius/3090745_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "attn_q",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/attn_q/cornelius/3090971_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "ffn_up",
+      "device": 1,
+      "expected_nwarps": 12,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 12,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/ffn_up/cornelius/3091180_kernel_trace.csv",
+      "variant": "candidate"
+    },
+    {
+      "case": "lm_head",
+      "device": 1,
+      "expected_nwarps": 8,
+      "kernel": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "observed_nwarps": 8,
+      "passed": true,
+      "trace": "dispatch-traces/candidate/d1/lm_head/cornelius/3091577_kernel_trace.csv",
+      "variant": "candidate"
+    }
+  ],
+  "required_records": 36,
+  "schema_version": "apex.phase6.dispatch.v0",
+  "task_fingerprint": "4542409930c19a8897fad3c35b4c41e066e6e8e14b76c4f863d25fcb777debff"
+}

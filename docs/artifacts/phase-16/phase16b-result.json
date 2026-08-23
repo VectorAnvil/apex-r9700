@@ -1,0 +1,38 @@
+{
+  "schema_version": "apex.phase16b.static_result.v1",
+  "task_fingerprint": "6171637cb20c2a21a518944efc632a02f311fbc8989d4db62529960856050a6c",
+  "status": "rejected_before_gpu",
+  "candidate_patch_sha256": "fa9b969378ff5a40a11ed560e3f1abbbec06834ff1e2111a982b6c76c8ab7f8b",
+  "builds": {
+    "baseline_mmvq_object_sha256": "6c9947df06f63a48b051387c19553739ae429538733e7381327852af7f6abdea",
+    "candidate_mmvq_object_sha256": "1216e4456a5f8048e782cda8418260885b9b6c006bcdefc8066f353d0a91a5f2",
+    "baseline_hsaco_sha256": "aac978092af470e99d6fe4186abb40afb8f7453ebc747b68d5ffa26f8d3b0c71",
+    "candidate_hsaco_sha256": "fa45f413e0d61e9ffb07e3d3d53a85c95556c24aa0bb7154263e2448dbbbb344"
+  },
+  "resources": {
+    "unfused": {
+      "baseline": {"vgpr": 26, "sgpr": 26, "lds_bytes": 896, "private_bytes": 0, "spills": 0},
+      "candidate": {"vgpr": 28, "sgpr": 24, "lds_bytes": 896, "private_bytes": 0, "spills": 0}
+    },
+    "fused": {
+      "baseline": {"vgpr": 35, "sgpr": 42, "lds_bytes": 1792, "private_bytes": 0, "spills": 0},
+      "candidate": {"vgpr": 60, "sgpr": 42, "lds_bytes": 1792, "private_bytes": 0, "spills": 0}
+    },
+    "wavefront_size": 32,
+    "max_workgroup_threads": 256
+  },
+  "codegen": {
+    "fused": "pass: future Q8, primary Q6, and gate Q6 VMEM is issued before current primary/gate DP4A",
+    "unfused": "fail: generated loop retains one nine-load packet whose loaded registers feed the same iteration's two DP4A operations; no two-packet overlap survives",
+    "static_gate_required_both": true
+  },
+  "decision": {
+    "accepted": false,
+    "gpu_launches": 0,
+    "correctness_runs": 0,
+    "performance_runs": 0,
+    "registered_assets_mutated": false,
+    "reason": "the immutable static gate required a realized pipeline in both fused and unfused target symbols",
+    "eligible_successor": "separately frozen fused-only K2 candidate; unfused must remain fallback"
+  }
+}

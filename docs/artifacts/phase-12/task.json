@@ -1,0 +1,100 @@
+{
+  "schema_version": "apex.phase12.producer_q81_feasibility_task.v1",
+  "immutable": true,
+  "fingerprint_fields": {
+    "scope": {
+      "workload": "registered Qwen3.6 Q6_K PP512",
+      "devices": [
+        0,
+        1
+      ],
+      "target": "gfx1201",
+      "mode": "normal HIP graphs and frozen graph-off trace evidence",
+      "action": "source and trace feasibility only",
+      "source_changes": false,
+      "candidate_build": false,
+      "gpu_workload": false,
+      "performance_benchmark": false
+    },
+    "boundaries": [
+      {
+        "id": "rmsnorm_to_shared_q81_gate_up",
+        "producer": "attn_post_norm F32 RMSNorm",
+        "consumers": [
+          "ffn_gate Q6_K MMQ",
+          "ffn_up Q6_K MMQ"
+        ],
+        "logical_mnk": [
+          8704,
+          512,
+          5120
+        ]
+      },
+      {
+        "id": "swiglu_to_q81_ffn_down",
+        "producer": "ffn_swiglu F32",
+        "consumers": [
+          "ffn_down Q6_K MMQ"
+        ],
+        "logical_mnk": [
+          5120,
+          512,
+          8704
+        ]
+      }
+    ],
+    "registered_source": {
+      "commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+      "files": {
+        "src/models/qwen35.cpp": "493d2b3299805e92ebbc1da9c4e2771f938e70be5aabf549999fab74d9fb9c6c",
+        "src/llama-graph.cpp": "1f70ac1a18abe08ebfa85f93f9ad715726c70cd27ac4450ce206b617a7be3992",
+        "ggml/src/ggml-cuda/norm.cu": "37e670ad50f8b0c3fb9acaaba54ad520b143b0e73994de5c10f8635e334ff0cd",
+        "ggml/src/ggml-cuda/unary.cu": "6a33da7846f011fe300f995f6fc4f145f20989d34371dbdeed7b3f1be9c2ce84",
+        "ggml/src/ggml-cuda/quantize.cu": "838cff1fd45ab483f3f86d24f23d997833b4af7a0b945a80f4da0e055def6565",
+        "ggml/src/ggml-cuda/mmq.cu": "550b1f1baf1db0e349b0974754e4810bfb90fc9e7c97873622daf06f02e8a63c",
+        "ggml/src/ggml-cuda/mmq.cuh": "6d153a9d6f293a4ff5f11e7886a48bf765b21d74075d73b2097a2b2a9149de6f",
+        "ggml/src/ggml-cuda/ggml-cuda.cu": "7e80dfe33ecb54cfde58782b0982a6b25955ddecefb6f63352fa349f1a6ccda9"
+      }
+    },
+    "input_evidence": {
+      "phase2_pp_trace": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd",
+      "phase7_host_attribution": "2ba146c852a193388784ac50a12b528a0764b9fefa9b7f0907374c5a1088320b",
+      "phase7_trace_join": "b6bfe03a96bececd03bb436750214313728c1fdff758e4438576da409d1ed5a2",
+      "phase9_pair_proof": "1bd1a49144936203df703870ea7e993b77cfb8a80d9835f7ccd3ec5eadf346a9",
+      "phase10_rejected_result": "fffe4822d4e0043980f4b7a46273779781c34c8bfb44e4647fc07357de4cf328",
+      "phase11_no_go": "362b9731c235f50981ff8692448ded66d40ec761864c12dacf9e9cfa1a16eae9"
+    },
+    "hard_gates": [
+      "exact source graph direction and tensor identity",
+      "existing Q8_1_MMQ layout can be emitted without a conversion",
+      "exact both-device producer-quantizer-consumer trace ordering",
+      "directly connected MMQ operations have at least 10 percent PP share",
+      "no additional F32 tensor consumer or cross-device ownership change",
+      "later implementation differs from Phase10 duplicate-quantization-only dispatcher"
+    ],
+    "selection_order": [
+      "all hard gates pass",
+      "exact both-device source and trace provenance",
+      "largest minimum-per-device modeled avoidable F32 staging bytes per layer",
+      "larger exact attributable PP share",
+      "fewer aliases and additional consumers"
+    ],
+    "selection_limit": 1,
+    "exclusions": [
+      "source edits or builds in Phase12",
+      "performance or GPU workload runs in Phase12",
+      "Phase10 shared-quantizer retry",
+      "Q6_K or Q8_1 semantic change",
+      "Zinc, SuperSonic, Fluke, or hipBLASLt integration",
+      "Phase13 P2P or allreduce overlap"
+    ],
+    "write_boundary": {
+      "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_producer_q81_feasibility_20260808",
+      "registered_source_mutation": false,
+      "registered_build_mutation": false,
+      "candidate_registration": false,
+      "database_mutation": false
+    }
+  },
+  "target_fingerprint": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb"
+}

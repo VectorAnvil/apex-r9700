@@ -1,0 +1,71 @@
+{
+  "schema_version": "apex.phase19.qwen36_mtp_shape_trace.v1",
+  "immutable_after_fingerprint": true,
+  "objective": "Trace real target-model Qwen3.6 MTP verification on two gfx1201 R9700s and determine whether material Q6_K N=2/3/4 work justifies a separately frozen narrow-DP4A candidate.",
+  "baseline": {
+    "source_root": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "llama_bench_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+    "llama_server_sha256": "22e0a27e22f4ef4824ebda1a3d98e3eae4a98e18e056decf2b952894464f5060",
+    "model": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "model_mtp_metadata": {"architecture": "qwen35", "nextn_predict_layers": 1, "nextn_weight_type": "Q6_K"},
+    "source_hashes": {
+      "mmvq_cu": "6f74bf36e6439c1907c2381aeda2fa2b24f1faba31232bae0bf5e638e6f3eaf8",
+      "ggml_cuda_cu": "7e80dfe33ecb54cfde58782b0982a6b25955ddecefb6f63352fa349f1a6ccda9",
+      "speculative_cpp": "931e72ceae2f893fe89473d9e7ca5470379f6ab50472455014059f9559c19687",
+      "server_context_cpp": "2b4f4740db66e299758d465c2630b13a2a2ddc3f42721b4415a18eba6577814b"
+    }
+  },
+  "mtp": {
+    "driver": "llama-server",
+    "target_model_backed": true,
+    "draft_model_argument": "absent",
+    "spec_type": "draft-mtp",
+    "draft_n_max": 4,
+    "draft_n_min": 0,
+    "verification_width_rule": "one sampled token plus d drafts gives target N=1+d; account for N=2,3,4,5",
+    "server_common_argv": ["-m", "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf", "--spec-type", "draft-mtp", "--spec-draft-n-max", "4", "--spec-draft-n-min", "0", "-ngl", "99", "-sm", "tensor", "-t", "12", "-b", "2048", "-ub", "512", "-c", "2048", "-np", "1", "--no-warmup", "--host", "127.0.0.1"],
+    "ports": {"semantic": 8091, "profile": 8092, "normal_graph": 8093},
+    "request": {
+      "method": "POST",
+      "endpoint": "/completion",
+      "body": {"prompt": "Explain how data reuse improves matrix multiplication performance on a GPU in one concise paragraph.", "n_predict": 128, "temperature": 0, "seed": 1234, "cache_prompt": false, "stream": false}
+    }
+  },
+  "environment": {
+    "required": {"HIP_VISIBLE_DEVICES": "0,1"},
+    "unset": ["ROCR_VISIBLE_DEVICES", "GGML_CUDA_DISABLE_GRAPHS", "ROCPROFILER*"],
+    "preflight": ["Llama Lab protected-activity clear", "both target GPUs idle before each process", "dynamic rocminfo and rocm-smi identity", "reserved port unused"]
+  },
+  "scope": {
+    "allowed": ["one instrumentation-only build of registered source", "passive MMVQ host recorder", "registered normal server runs", "no-graph rocprofv3 kernel trace", "normal-graph HIP API witness", "registered code-object extraction", "bounded counters after all required lanes"],
+    "instrumentation_allowlist": ["ggml/src/ggml-cuda/mmvq.cu"],
+    "excluded": ["optimization source changes", "narrow DP4A implementation", "K2", "K4", "native dot8", "Y64/W4", "MMQ changes", "Stream-K", "MTP parameter sweep", "performance promotion", "registered asset mutation"]
+  },
+  "lanes": {
+    "semantic": "Instrumentation-only normal-graph server records Q6_K MMVQ logical M/N/K, tensor names/types/shapes, fusion, device, graph capture state, launch geometry, wave count, and epoch timestamp. Single frozen request only.",
+    "profile": "Same instrumented server and request under rocprofv3 kernel trace with graphs explicitly disabled. Join semantic records to raw dispatches by device, exact symbol, ordered launch sequence, and request time window; preserve all raw CSV.",
+    "normal_graph": "Separate registered server/request HIP API trace proves StreamBeginCapture, StreamEndCapture, GraphInstantiate, and GraphLaunch. Timing from this lane is not used for kernel attribution.",
+    "communication": "Report direct P2P/all-reduce symbols separately from verification kernels; never combine overlapping copy and kernel durations.",
+    "resources": "Fresh registered mmvq.cu gfx1201 HSACO, AMDHSA notes, and full ISA for every active Q6_K N=2/3/4/5 symbol. Report VGPR, SGPR, LDS, private, spills, wave/workgroup. Counters remain unavailable unless a bounded nonmultiplexed attempt joins exactly."
+  },
+  "startup_gate": {
+    "required": ["draft-mtp selected", "target-backed MTP context created", "n_mtp_layers >= 1", "both gfx1201 agents active", "tensor split active", "HTTP request completes with 128 predicted tokens or an explicitly reported EOS stop"],
+    "failure": "complete_no_go without substituting draft-simple, ngram, a separate draft model, or another target model"
+  },
+  "required_attribution": {
+    "per_call": ["logical M/N/K", "weight/activation/output type", "fusion", "route", "exact symbol", "device", "duration", "capture state", "tensor names", "semantic join id"],
+    "aggregates": ["N=1/2/3/4/5/other counts, duration, and share by device and combined", "GPU balance", "P2P/all-reduce share", "MTP draft/acceptance statistics", "dense GEMM M/N/K/datatypes when significant"],
+    "join_requirement": "100% of material Q6_K verification dispatches joined without ambiguity"
+  },
+  "phase19b_gate": {
+    "required": ["real Q6_K N=2/3/4 verification calls on both GPUs", "combined N=2/3/4 Q6_K verification >=10% of summed MTP GPU kernel duration", "N=2/3/4 Q6_K verification >=5% of each agent's summed MTP GPU kernel duration", "current one-wave MMVQ route and its resource/work organization proven", "credible narrow-DP4A design distinct from N=1 K2/dot8", "selector plan preserves layouts, graph behavior, tensor ownership, numerical order, and does not silently affect ordinary small batches"],
+    "n5_rule": "Account for N=5 separately; it remains fallback unless a later task explicitly includes it.",
+    "otherwise": "complete_no_go with no candidate"
+  },
+  "artifacts": ["task-frozen.json and SHA", "identity and model metadata", "instrumentation patch/build manifest", "startup/request logs", "semantic JSONL and summary", "raw profiler trace and join audit", "normal graph API witness", "communication summary", "resources and ISA", "counter attempt or explicit unavailable record", "final-result.json", "WHAT_DIDNT_WORK.md"]
+}

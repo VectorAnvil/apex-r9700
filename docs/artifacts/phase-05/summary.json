@@ -1,0 +1,30 @@
+{
+  "candidate": "rdna4-q6k-shape-gated-nwarps4",
+  "correctness": {
+    "observed_rows": 36,
+    "required_rows": 36,
+    "valid": true
+  },
+  "decision": "reject",
+  "dispatch_selection": {
+    "observed_records": 36,
+    "passed": true,
+    "required_records": 36
+  },
+  "e2e": {
+    "permitted": false,
+    "run": false
+  },
+  "failed_gate_rows": [
+    {"case": "attn_kv", "device": 0, "reason": "unstable baseline and 0.9878x below regression floor"},
+    {"case": "attn_q", "device": 0, "reason": "unstable baseline despite 1.0686x median"},
+    {"case": "attn_gate", "device": 1, "reason": "unstable candidate despite 1.0643x median"},
+    {"case": "ffn_up", "device": 1, "reason": "unstable candidate at 1.0000x median"},
+    {"case": "lm_head", "device": 1, "reason": "unstable baseline at 1.0006x median"}
+  ],
+  "implementation_attempts": [
+    {"decision": "incorrect_implementation", "revision": "v1", "task_fingerprint": "c94e743838b32917c5b35e469829af9e7691970d415f86a3bd10f476e9704fc9"},
+    {"decision": "reject", "revision": "v2", "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac"}
+  ],
+  "schema_version": "apex.phase5.summary.v1"
+}

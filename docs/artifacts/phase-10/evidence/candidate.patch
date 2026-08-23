@@ -1,0 +1,333 @@
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index bfe449878..5bc3b0900 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -3035,6 +3035,19 @@ static bool ggml_cuda_can_fuse(const struct ggml_cgraph *                cgraph,
+     return false;
+ }
+ 
++static bool ggml_cuda_q6k_shared_q8_gate_up_names_match(
++        const ggml_tensor * gate_weight, const ggml_tensor * up_weight, const ggml_tensor * input) {
++    int gate_layer = -1;
++    int up_layer   = -1;
++    int input_layer = -1;
++    char trailing;
++
++    return sscanf(gate_weight->name, "blk.%d.ffn_gate.weight%c", &gate_layer, &trailing) == 1 &&
++           sscanf(up_weight->name, "blk.%d.ffn_up.weight%c", &up_layer, &trailing) == 1 &&
++           sscanf(input->name, "attn_post_norm-%d%c", &input_layer, &trailing) == 1 &&
++           gate_layer >= 0 && gate_layer == up_layer && gate_layer == input_layer;
++}
++
+ // try and fuse nodes and return the number of nodes to skip
+ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph * cgraph, int i) {
+ 
+@@ -3045,6 +3058,24 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph
+ 
+     ggml_tensor * node = cgraph->nodes[i];
+ 
++    // The PP Q6_K gate/up pair shares an F32 RHS. Reuse its Q8_1 preparation,
++    // but keep the two F32 outputs and the normal GLU node intact.
++    if (i + 2 < cgraph->n_nodes &&
++            ggml_cuda_can_fuse(cgraph, i, { GGML_OP_MUL_MAT, GGML_OP_MUL_MAT, GGML_OP_GLU }, {})) {
++        ggml_tensor * first = cgraph->nodes[i];
++        ggml_tensor * second = cgraph->nodes[i + 1];
++        ggml_tensor * glu  = cgraph->nodes[i + 2];
++        ggml_tensor * gate = glu->src[0];
++        ggml_tensor * up   = glu->src[1];
++
++        if (((gate == first && up == second) || (gate == second && up == first)) && gate->src[1] == up->src[1] &&
++                ggml_cuda_q6k_shared_q8_gate_up_names_match(gate->src[0], up->src[0], gate->src[1]) &&
++                ggml_get_glu_op(glu) == GGML_GLU_OP_SWIGLU && ggml_get_op_params_i32(glu, 1) == 0 &&
++                ggml_cuda_mul_mat_q_pair_shared_q8(*cuda_ctx, gate->src[0], up->src[0], gate->src[1], gate, up)) {
++            return 1;
++        }
++    }
++
+     // gated_delta_net -> cpy: scatter recurrent-state snapshots into the cache
+     if (node->op == GGML_OP_GATED_DELTA_NET) {
+         ggml_cuda_gated_delta_net_fused_cache fused_state_cpy;
+diff --git a/ggml/src/ggml-cuda/mmq.cu b/ggml/src/ggml-cuda/mmq.cu
+index 6b3b0d064..32a2c0bfe 100644
+--- a/ggml/src/ggml-cuda/mmq.cu
++++ b/ggml/src/ggml-cuda/mmq.cu
+@@ -74,6 +74,112 @@ static void ggml_cuda_mul_mat_q_switch_type(ggml_backend_cuda_context & ctx, con
+     }
+ }
+ 
++static void ggml_cuda_clear_mul_mat_q_padding(const ggml_tensor * src0, cudaStream_t stream) {
++    if (ggml_backend_buffer_get_usage(src0->buffer) != GGML_BACKEND_BUFFER_USAGE_COMPUTE) {
++        return;
++    }
++
++    const size_t size_data  = ggml_nbytes(src0);
++    const size_t size_alloc = ggml_backend_buffer_get_alloc_size(src0->buffer, src0);
++    if (size_alloc > size_data) {
++        GGML_ASSERT(ggml_is_contiguously_allocated(src0));
++        GGML_ASSERT(!src0->view_src);
++        CUDA_CHECK(cudaMemsetAsync((char *) src0->data + size_data, 0, size_alloc - size_data, stream));
++    }
++}
++
++#if defined(GGML_USE_HIP)
++static bool ggml_cuda_q6k_shared_q8_gate_up_enabled() {
++    static const bool enabled = []() {
++        const char * env = getenv("GGML_CUDA_Q6K_SHARED_Q8_GATE_UP");
++        return env != nullptr && strcmp(env, "1") == 0;
++    }();
++    return enabled;
++}
++
++static void ggml_cuda_mul_mat_q_from_shared_q8(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1,
++        const int * src1_q8_1, const int64_t ne10_padded, const bool use_stream_k, ggml_tensor * dst) {
++    GGML_TENSOR_BINARY_OP_LOCALS;
++
++    const size_t ts_src0 = ggml_type_size(src0->type);
++    const size_t ts_dst  = ggml_type_size(dst->type);
++    GGML_ASSERT(nb00 == ts_src0);
++    GGML_ASSERT(nb10 == ggml_type_size(src1->type));
++    GGML_ASSERT(nb0  == ts_dst);
++
++    const int64_t s01 = src0->nb[1] / ts_src0;
++    const int64_t s1  =  dst->nb[1] / ts_dst;
++    const int64_t s02 = src0->nb[2] / ts_src0;
++    const int64_t s2  =  dst->nb[2] / ts_dst;
++    const int64_t s03 = src0->nb[3] / ts_src0;
++    const int64_t s3  =  dst->nb[3] / ts_dst;
++
++    const int64_t s12 = ne11 * ne10_padded * sizeof(block_q8_1) / (QK8_1 * sizeof(int));
++    const int64_t s13 = ne12 * s12;
++
++    const mmq_args args = {
++        (const char *) src0->data, src0->type, src1_q8_1, nullptr, nullptr, (float *) dst->data,
++        ne00, ne01, ne1, s01, ne11, s1,
++        ne02, ne12, s02, s12, s2,
++        ne03, ne13, s03, s13, s3,
++        use_stream_k, ne1 };
++    ggml_cuda_mul_mat_q_switch_type(ctx, args, ctx.stream());
++}
++#endif
++
++bool ggml_cuda_mul_mat_q_pair_shared_q8(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * gate_weight, const ggml_tensor * up_weight,
++        const ggml_tensor * common_input, ggml_tensor * gate_dst, ggml_tensor * up_dst) {
++#if !defined(GGML_USE_HIP)
++    GGML_UNUSED_VARS(ctx, gate_weight, up_weight, common_input, gate_dst, up_dst);
++    return false;
++#else
++    const int cc = ggml_cuda_info().devices[ggml_cuda_get_device()].cc;
++    if (!ggml_cuda_q6k_shared_q8_gate_up_enabled() || cc != GGML_CUDA_CC_RDNA4 + 1) {
++        return false;
++    }
++
++    // Keep this candidate tied to the profiled PP gate/up pair. Broaden only with new evidence.
++    const bool exact_shape =
++        gate_weight->ne[0] == 5120 && gate_weight->ne[1] == 8704 && gate_weight->ne[2] == 1 && gate_weight->ne[3] == 1 &&
++          up_weight->ne[0] == 5120 &&   up_weight->ne[1] == 8704 &&   up_weight->ne[2] == 1 &&   up_weight->ne[3] == 1 &&
++        common_input->ne[0] == 5120 && common_input->ne[1] == 512 && common_input->ne[2] == 1 && common_input->ne[3] == 1 &&
++             gate_dst->ne[0] == 8704 &&      gate_dst->ne[1] == 512 &&      gate_dst->ne[2] == 1 &&      gate_dst->ne[3] == 1 &&
++               up_dst->ne[0] == 8704 &&        up_dst->ne[1] == 512 &&        up_dst->ne[2] == 1 &&        up_dst->ne[3] == 1;
++    if (!exact_shape || gate_weight->type != GGML_TYPE_Q6_K || up_weight->type != GGML_TYPE_Q6_K ||
++            common_input->type != GGML_TYPE_F32 || gate_dst->type != GGML_TYPE_F32 || up_dst->type != GGML_TYPE_F32 ||
++            !ggml_is_contiguous(gate_weight) || !ggml_is_contiguous(up_weight) || !ggml_is_contiguous(common_input) ||
++            !ggml_is_contiguous(gate_dst) || !ggml_is_contiguous(up_dst) ||
++            gate_weight->view_src != nullptr || up_weight->view_src != nullptr || common_input->view_src != nullptr ||
++            gate_dst->view_src != nullptr || up_dst->view_src != nullptr ||
++            !ggml_cuda_should_use_mmq(GGML_TYPE_Q6_K, cc, common_input->ne[1], 0)) {
++        return false;
++    }
++
++    cudaStream_t stream = ctx.stream();
++    ggml_cuda_clear_mul_mat_q_padding(gate_weight, stream);
++    ggml_cuda_clear_mul_mat_q_padding(up_weight, stream);
++
++    const int64_t ne10_padded = GGML_PAD(common_input->ne[0], MATRIX_ROW_PADDING);
++    const size_t nbytes_src1_q8_1 = common_input->ne[3] * common_input->ne[2] * common_input->ne[1] * ne10_padded *
++        sizeof(block_q8_1) / QK8_1 + get_mmq_x_max_host(cc) * sizeof(block_q8_1_mmq);
++    ggml_cuda_pool_alloc<char> src1_q8_1(ctx.pool(), nbytes_src1_q8_1);
++
++    const int64_t ts_src1 = ggml_type_size(common_input->type);
++    quantize_mmq_q8_1_cuda((const float *) common_input->data, nullptr, src1_q8_1.get(), gate_weight->type,
++        common_input->ne[0], common_input->nb[1] / ts_src1, common_input->nb[2] / ts_src1, common_input->nb[3] / ts_src1,
++        ne10_padded, common_input->ne[1], common_input->ne[2], common_input->ne[3], stream);
++    CUDA_CHECK(cudaGetLastError());
++
++    const bool use_stream_k = (GGML_CUDA_CC_IS_NVIDIA(cc) && ggml_cuda_highest_compiled_arch(cc) >= GGML_CUDA_CC_VOLTA)
++                           || GGML_CUDA_CC_IS_CDNA(cc);
++    ggml_cuda_mul_mat_q_from_shared_q8(ctx, gate_weight, common_input, (const int *) src1_q8_1.get(), ne10_padded, use_stream_k, gate_dst);
++    ggml_cuda_mul_mat_q_from_shared_q8(ctx,   up_weight, common_input, (const int *) src1_q8_1.get(), ne10_padded, use_stream_k,   up_dst);
++    return true;
++#endif
++}
++
+ void ggml_cuda_mul_mat_q(
+         ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * ids, ggml_tensor * dst) {
+     GGML_ASSERT(        src1->type == GGML_TYPE_F32);
+@@ -99,15 +205,7 @@ void ggml_cuda_mul_mat_q(
+     float       *  dst_d = (float       *)  dst->data;
+ 
+     // If src0 is a temporary compute buffer, clear any potential padding.
+-    if (ggml_backend_buffer_get_usage(src0->buffer) == GGML_BACKEND_BUFFER_USAGE_COMPUTE) {
+-        const size_t size_data  = ggml_nbytes(src0);
+-        const size_t size_alloc = ggml_backend_buffer_get_alloc_size(src0->buffer, src0);
+-        if (size_alloc > size_data) {
+-            GGML_ASSERT(ggml_is_contiguously_allocated(src0));
+-            GGML_ASSERT(!src0->view_src);
+-            CUDA_CHECK(cudaMemsetAsync((char *) src0->data + size_data, 0, size_alloc - size_data, stream));
+-        }
+-    }
++    ggml_cuda_clear_mul_mat_q_padding(src0, stream);
+ 
+     const int64_t ne10_padded = GGML_PAD(ne10, MATRIX_ROW_PADDING);
+ 
+diff --git a/ggml/src/ggml-cuda/mmq.cuh b/ggml/src/ggml-cuda/mmq.cuh
+index edf546d8f..e6e208098 100644
+--- a/ggml/src/ggml-cuda/mmq.cuh
++++ b/ggml/src/ggml-cuda/mmq.cuh
+@@ -4166,6 +4166,12 @@ extern DECL_MMQ_CASE(GGML_TYPE_IQ4_XS);
+ void ggml_cuda_mul_mat_q(
+         ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * ids, ggml_tensor * dst);
+ 
++// Exact, opt-in gfx1201 Q6_K gate/up path. It shares only the temporary Q8_1
++// activation buffer; both existing MMQ launches and the following F32 GLU stay separate.
++bool ggml_cuda_mul_mat_q_pair_shared_q8(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * gate_weight, const ggml_tensor * up_weight,
++        const ggml_tensor * common_input, ggml_tensor * gate_dst, ggml_tensor * up_dst);
++
+ void ggml_cuda_op_mul_mat_q(
+     ggml_backend_cuda_context & ctx,
+     const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst, const char * src0_dd_i, const float * src1_ddf_i,
+@@ -4173,4 +4179,3 @@ void ggml_cuda_op_mul_mat_q(
+     const int64_t src1_padded_row_size, cudaStream_t stream);
+ 
+ bool ggml_cuda_should_use_mmq(enum ggml_type type, int cc, int64_t ne11, int64_t n_experts);
+-
+diff --git a/tests/test-backend-ops.cpp b/tests/test-backend-ops.cpp
+index 09dc4a3e6..10938652c 100644
+--- a/tests/test-backend-ops.cpp
++++ b/tests/test-backend-ops.cpp
+@@ -143,6 +143,27 @@ static void init_tensor_uniform(ggml_tensor * tensor, float min = -1.0f, float m
+     }
+ }
+ 
++static void init_tensor_phase10_deterministic(ggml_tensor * tensor, uint32_t seed) {
++    const size_t nels = ggml_nelements(tensor);
++    std::vector<float> data(nels);
++    uint32_t state = seed;
++    for (size_t i = 0; i < nels; ++i) {
++        state = state * 1664525u + 1013904223u;
++        data[i] = ((state >> 8) & 0x3ffu) * (2.0f / 1023.0f) - 1.0f;
++    }
++
++    if (tensor->type == GGML_TYPE_F32) {
++        ggml_backend_tensor_set(tensor, data.data(), 0, nels * sizeof(float));
++        return;
++    }
++
++    GGML_ASSERT(ggml_is_quantized(tensor->type));
++    GGML_ASSERT(nels % ggml_blck_size(tensor->type) == 0);
++    std::vector<uint8_t> dataq(ggml_row_size(tensor->type, nels));
++    ggml_quantize_chunk(tensor->type, data.data(), dataq.data(), 0, nels / ggml_blck_size(tensor->type), ggml_blck_size(tensor->type), nullptr);
++    ggml_backend_tensor_set(tensor, dataq.data(), 0, dataq.size());
++}
++
+ // generate an F16 mask where certain blocks are randomly masked with -INF value
+ static void init_tensor_kq_mask(ggml_tensor * tensor, float min = -1.0f, float max = 1.0f) {
+     GGML_ASSERT(tensor->type == GGML_TYPE_F16);
+@@ -5930,6 +5951,12 @@ struct test_mul_mat_vec_fusion : public test_case {
+     bool run_whole_graph() override { return true; }
+     bool use_weight_context() override { return use_id && with_lane_scale; }
+ 
++    bool is_phase10_selector_case() const {
++        return type == GGML_TYPE_Q6_K && glu_op == GGML_GLU_OP_SWIGLU && !use_id &&
++            n == 8704 && k == 5120 && (m == 512 || m == 256) && !with_bias && with_gate && !with_lane_scale &&
++            batch_dims == std::array<int64_t, 2>{1, 1};
++    }
++
+     ggml_tensor * build_gate(ggml_context * ctx, ggml_tensor * ffn_gate, ggml_tensor * ffn_up) {
+         ggml_tensor * out = nullptr;
+         if (with_gate) {
+@@ -5973,6 +6000,12 @@ struct test_mul_mat_vec_fusion : public test_case {
+             ggml_tensor * cur  = ggml_new_tensor(ctx, GGML_TYPE_F32, 4, ne.data());
+             ggml_tensor * gate = with_gate ? ggml_new_tensor(ctx, type, 4, ne0.data()) : nullptr;
+             ggml_tensor * up   = ggml_new_tensor(ctx, type, 4, ne0.data());
++            const bool phase10_selector_case = is_phase10_selector_case();
++            if (phase10_selector_case) {
++                ggml_set_name(gate, "blk.0.ffn_gate.weight");
++                ggml_set_name(up,   "blk.0.ffn_up.weight");
++                ggml_set_name(cur,  "attn_post_norm-0");
++            }
+ 
+             auto build_lane_up = [&]() {
+                 ggml_tensor * ffn_up = ggml_mul_mat(ctx, up, cur);
+@@ -6000,8 +6033,16 @@ struct test_mul_mat_vec_fusion : public test_case {
+                 return ffn_gate;
+             };
+ 
+-            ggml_tensor * ffn_up = build_lane_up();
+-            ggml_tensor * ffn_gate = with_gate ? build_lane_gate() : nullptr;
++            ggml_tensor * ffn_up;
++            ggml_tensor * ffn_gate;
++            if (phase10_selector_case) {
++                // Preserve the recorder's gate -> up graph order for the exact selector test.
++                ffn_gate = build_lane_gate();
++                ffn_up   = build_lane_up();
++            } else {
++                ffn_up   = build_lane_up();
++                ffn_gate = with_gate ? build_lane_gate() : nullptr;
++            }
+ 
+             ggml_tensor * out = with_gate ? build_gate(ctx, ffn_gate, ffn_up) : ffn_up;
+ 
+@@ -6063,8 +6104,13 @@ struct test_mul_mat_vec_fusion : public test_case {
+ 
+     void initialize_tensors(ggml_context * ctx) override {
+         if (!use_id) {
++            uint32_t phase10_seed = 0x5a17u;
+             for (ggml_tensor * t = ggml_get_first_tensor(ctx); t != NULL; t = ggml_get_next_tensor(ctx, t)) {
+-                init_tensor_uniform(t);
++                if (is_phase10_selector_case() && t->op == GGML_OP_NONE) {
++                    init_tensor_phase10_deterministic(t, phase10_seed++);
++                } else if (!is_phase10_selector_case()) {
++                    init_tensor_uniform(t);
++                }
+             }
+         } else {
+             init_mul_mat_id_tensors(ctx, n_mats);
+@@ -6072,6 +6118,9 @@ struct test_mul_mat_vec_fusion : public test_case {
+     }
+ 
+     double max_nmse_err() override {
++        if (is_phase10_selector_case()) {
++            return 5e-4;
++        }
+         return 5e-3;
+     }
+ };
+@@ -9336,6 +9385,12 @@ static std::vector<std::unique_ptr<test_case>> make_test_cases_eval() {
+         }
+     }
+ 
++    // Phase 10: exact PP gate/up shape plus a same-graph fallback shape.
++    test_cases.emplace_back(new test_mul_mat_vec_fusion(GGML_TYPE_Q6_K, GGML_GLU_OP_SWIGLU, 512, 8704, 5120,
++        false, 1, 1, false, false, true, false, {1, 1}));
++    test_cases.emplace_back(new test_mul_mat_vec_fusion(GGML_TYPE_Q6_K, GGML_GLU_OP_SWIGLU, 256, 8704, 5120,
++        false, 1, 1, false, false, true, false, {1, 1}));
++
+     for (auto gate : {GATING_FUNC_SOFTMAX, GATING_FUNC_SIGMOID, GATING_FUNC_SOFTMAX_WEIGHT}) {
+         for (bool with_norm : {false, true}) {
+             for (bool bias_probs : {false, true}) {
+@@ -9534,6 +9589,12 @@ static std::vector<std::unique_ptr<test_case>> make_test_cases_perf() {
+     test_cases.emplace_back(new test_mul_mat(GGML_TYPE_F16, GGML_TYPE_F32, 16416, 1, 128, {8,  1}, {4, 1}, {0, 2, 1, 3}));
+     test_cases.emplace_back(new test_mul_mat(GGML_TYPE_F16, GGML_TYPE_F32, 128, 1, 16416, {8,  1}, {4, 1}, {0, 1, 2, 3}, 2*16416));
+ 
++    // Phase 10 isolated pair timings: exact selector and shape-only fallback.
++    test_cases.emplace_back(new test_mul_mat_vec_fusion(GGML_TYPE_Q6_K, GGML_GLU_OP_SWIGLU, 512, 8704, 5120,
++        false, 1, 1, false, false, true, false, {1, 1}));
++    test_cases.emplace_back(new test_mul_mat_vec_fusion(GGML_TYPE_Q6_K, GGML_GLU_OP_SWIGLU, 256, 8704, 5120,
++        false, 1, 1, false, false, true, false, {1, 1}));
++
+     // FWHT tests
+     test_cases.emplace_back(new test_mul_mat_hadamard(GGML_TYPE_F32, GGML_TYPE_F32, 128, 1, 128));
+     test_cases.emplace_back(new test_mul_mat_hadamard(GGML_TYPE_F32, GGML_TYPE_F32, 64, 1, 64));

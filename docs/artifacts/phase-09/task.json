@@ -1,0 +1,92 @@
+{
+  "created_at": "2026-08-08T22:13:32.549294+00:00",
+  "fingerprint_fields": {
+    "candidate_if_feasible": {
+      "default_off_selector": true,
+      "dual_gpu_correctness_dispatch_timing_whole_pp_required": true,
+      "must_be_new_task": true,
+      "rollback_required": true
+    },
+    "finding_contract": {
+      "each": "object with status supported|unsupported and evidence list",
+      "feasible_only_if": "every required finding is supported",
+      "no_candidate_build_in_phase9": true
+    },
+    "phase9_semantics": {
+      "no_build": true,
+      "no_candidate_claim": true,
+      "no_code_changes": true,
+      "no_gpu_execution": true,
+      "source_inspection_only": true
+    },
+    "provenance": {
+      "feasibility_json": "b252e975d4b8e6de0f472ee3985510a8e3a7b2f6035358ad504e2661199a1cfd",
+      "feasibility_markdown": "59cc809b0d605f75e43d278c1308aa7f7b364bafc59e4133ed3f87604704e92b",
+      "p2p_patch": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+      "pair_proof": "1bd1a49144936203df703870ea7e993b77cfb8a80d9835f7ccd3ec5eadf346a9",
+      "phase2_raw_pp_trace": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd",
+      "phase7_attribution": "b6bfe03a96bececd03bb436750214313728c1fdff758e4438576da409d1ed5a2",
+      "phase7_baseline": "e154f19245baaad37cf241ed9effdad9944fa3ce603d19e17968af0ea3a1d440",
+      "phase7_task": "8708d38dea99895153503bcf2458548f2a8bfbcaae253ce630f37c032ca341a8",
+      "phase8_static_gate": "8fbd8a6173946dc21c98a8eb1012196ea7a948b6fb569fe41a8a3f6028a24d44",
+      "phase8_static_proof": "1490b0c5763f1f7b04528d1ba846fb688d624c6d5d8f5c0126eeebb9db764b83",
+      "phase8_static_task": "4a53698c3b18a3b2701f9c4b1a66c8ac2d4381204ab3e7898f6baf736e38a020",
+      "source_hashes": "9671713cfa2ec219b16113f3c94fe66fd2d39d532d42962e60fba9e19aed5594"
+    },
+    "required_findings": [
+      "graph_adjacency",
+      "shared_input_layouts",
+      "tensor_parallel_ownership",
+      "numerical_swiglu_contract",
+      "fusion_api_fit",
+      "implementation_boundary",
+      "rollback_default_off_selector",
+      "resource_plan",
+      "correctness_plan",
+      "dispatch_plan",
+      "timing_plan",
+      "whole_pp_plan"
+    ],
+    "scope": {
+      "actual_n": 512,
+      "combined_pp_dispatch_duration": {
+        "denominator_ns": 4999245044,
+        "numerator_ns": 1914904065,
+        "value": 0.38303864846517816
+      },
+      "excluded": [
+        "source_edit",
+        "candidate_build",
+        "GPU_workload",
+        "reference_kernel_integration",
+        "candidate_registration",
+        "TG_changes",
+        "ffn_down_port"
+      ],
+      "operations": [
+        "ffn_gate",
+        "ffn_up"
+      ],
+      "phase": "PP",
+      "type": "Q6_K"
+    },
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "tool_hashes": {
+      "finalize_feasibility.py": "d9e2e1fc776b2f89803abd9a8b80b707843c078ea1bfca4ba9ae91639d91656c",
+      "make_findings.py": "4cc9971abcf32d57ff70cf7b380501f04fff678d7f709f7eb3d169e6da24f856",
+      "make_pair_proof.py": "3763eafe60639085c6201b5b777758e333432d0314c8a2538847faf9f1a01936",
+      "make_task.py": "0019c823b467ef3d93d86fde0de214a16b759ea9a56734921c511a85b13a298a"
+    },
+    "write_boundary": {
+      "candidate_build": false,
+      "database_mutation": false,
+      "gpu_workloads": false,
+      "registered_build_mutation": false,
+      "registered_source_mutation": false,
+      "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase09_gate_up_fusion_feasibility_20260808"
+    }
+  },
+  "immutable": true,
+  "schema_version": "apex.phase9.gate_up_fusion_feasibility_task.v1",
+  "target_fingerprint": "49cfade573e77d500a701cc8e411867c4e82478e7e770f62274819d73ec475b3"
+}

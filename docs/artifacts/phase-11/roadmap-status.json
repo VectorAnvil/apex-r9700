@@ -1,0 +1,17 @@
+{
+  "schema_version": "apex.phase11.roadmap_status.v1",
+  "phase12_producer_to_q81": {
+    "status": "next_feasibility",
+    "approved": false,
+    "precondition": "fresh source/trace proof of RMSNorm-to-Q8_1 or SwiGLU-to-Q8_1 boundary"
+  },
+  "phase13_mmq_p2p_overlap": {
+    "status": "reference_only",
+    "approved": false,
+    "precondition": "tile independence, ordering, and collective-correctness feasibility"
+  },
+  "watchlist_q81_layout_mmvq_blocks": {
+    "status": "upstream_watchlist",
+    "approved": false
+  }
+}

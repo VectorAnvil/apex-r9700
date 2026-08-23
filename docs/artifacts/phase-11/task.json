@@ -1,0 +1,143 @@
+{
+  "schema_version": "apex.phase11.q6k_tg_lane_audit_task.v1",
+  "immutable": true,
+  "fingerprint_fields": {
+    "scope": {
+      "phase": "TG",
+      "quant": "Q6_K",
+      "n": 1,
+      "target": "gfx1201",
+      "action": "lane-utilization audit only",
+      "source_changes": false,
+      "candidate_build": false,
+      "performance_benchmark": false
+    },
+    "registered_source": {
+      "root": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+      "commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+      "mmvq_sha256": "6f74bf36e6439c1907c2381aeda2fa2b24f1faba31232bae0bf5e638e6f3eaf8"
+    },
+    "input_evidence": {
+      "phase2_tg_trace_sha256": "dd4fe80729863c7485267189d618dbbd72195978feb95d2ed20f45a0d53dfa98",
+      "phase3_trace_join_sha256": "f508c7257f0d1797bf11d7d7a4166e174977e91a1e69ac092caa5fe93021bb6a",
+      "phase3_code_object_sha256": "23c590e31a77f55c0e3f702c740796ebd8261df7c6c0aa220ad94ce3cc6de835",
+      "phase3_code_object_notes_sha256": "811e7464d753b6ff60bc63f35fb8b9c52a0c4eada9b5bd8944c4bb4fd08fc3a3"
+    },
+    "reference": {
+      "repository": "maxhbr/lighttransport-gemm",
+      "main_commit": "5c49ba4c37a9c5bcf2a563c74fd4536e8034e47f",
+      "audit_branch": "rdna4-llm-decode-matvec-internals",
+      "audit_commit": "60c7de682c4e3df6d833572ad244aa39172dba41"
+    },
+    "mapping_constants": {
+      "physical_wave_size": "discover dynamically; expected evidence is wave32",
+      "qk_k": 256,
+      "qi6_k": 32,
+      "vdr_q6_k_q8_1_mmvq": 1,
+      "nwarps": 8,
+      "block": [
+        32,
+        8,
+        1
+      ]
+    },
+    "shapes": [
+      {
+        "operation": "ssm_alpha_beta",
+        "m": 24,
+        "n": 1,
+        "k": 5120,
+        "fused": false,
+        "attribution": "exact"
+      },
+      {
+        "operation": "attn_kv",
+        "m": 512,
+        "n": 1,
+        "k": 5120,
+        "fused": false,
+        "attribution": "exact"
+      },
+      {
+        "operation": "attn_gate",
+        "m": 3072,
+        "n": 1,
+        "k": 5120,
+        "fused": false,
+        "attribution": "exact"
+      },
+      {
+        "operation": "mixed_m5120_k3072",
+        "m": 5120,
+        "n": 1,
+        "k": 3072,
+        "fused": false,
+        "attribution": "ambiguous_family"
+      },
+      {
+        "operation": "mixed_m5120_k5120",
+        "m": 5120,
+        "n": 1,
+        "k": 5120,
+        "fused": false,
+        "attribution": "ambiguous_family"
+      },
+      {
+        "operation": "mixed_m5120_k8704",
+        "m": 5120,
+        "n": 1,
+        "k": 8704,
+        "fused": false,
+        "attribution": "ambiguous_family"
+      },
+      {
+        "operation": "attn_q",
+        "m": 6144,
+        "n": 1,
+        "k": 5120,
+        "fused": false,
+        "attribution": "exact"
+      },
+      {
+        "operation": "ffn_up",
+        "m": 8704,
+        "n": 1,
+        "k": 5120,
+        "fused": true,
+        "attribution": "exact"
+      },
+      {
+        "operation": "lm_head",
+        "m": 124160,
+        "n": 1,
+        "k": 5120,
+        "fused": false,
+        "attribution": "exact"
+      }
+    ],
+    "decision_contract": {
+      "question": "Does the registered llama.cpp kernel systematically leave useful physical-wave lanes idle in a material Q6_K N=1 operation?",
+      "material_exact_share_percent_min": 10.0,
+      "tail_slot_loss_percent_min": 12.5,
+      "reference_mapping_must_transfer": true,
+      "prior_failures": [
+        "global 8-to-4-wave Q6_K MMV",
+        "shape-gated 8-to-4-wave Q6_K MMV",
+        "fused-only 8-to-12-wave Q6_K MMV",
+        "DP4A substitution",
+        "LDS codebook caching",
+        "BF16 dequantization plus hipBLASLt"
+      ],
+      "true_authorizes": "drafting a separate tail-remap candidate contract only",
+      "false_action": "close Phase 11 and move to Phase 12 source/trace feasibility"
+    },
+    "write_boundary": {
+      "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase11_q6k_decode_lane_audit_20260808",
+      "registered_source_mutation": false,
+      "registered_build_mutation": false,
+      "candidate_registration": false,
+      "database_mutation": false
+    }
+  },
+  "target_fingerprint": "97b597f7014179d7277dd584321c0813758102add929b93ac2b52edbcb193c82"
+}

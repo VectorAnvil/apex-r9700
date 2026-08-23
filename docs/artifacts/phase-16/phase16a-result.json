@@ -1,0 +1,18 @@
+{
+  "schema_version": "apex.phase16.go_no_go.v1",
+  "status": "complete_go",
+  "concrete_gap": true,
+  "evidence": "no future-block VMEM before present-block DP4A/scale/loop backedge in both fused and unfused registered symbols",
+  "address_safety": "next kbx is current+8, matching the existing independent wave stride and guarded before load",
+  "authorized_next": "freeze Phase16B gfx1201 Q6_K N=1 K2-only packet pipeline",
+  "not_authorized": [
+    "K4",
+    "Stream-K",
+    "MMQ",
+    "MTP",
+    "load-width changes",
+    "wave-count changes"
+  ],
+  "gpu_launches": 0,
+  "candidate_builds": 0
+}

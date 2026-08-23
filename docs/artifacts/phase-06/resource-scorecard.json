@@ -1,0 +1,1954 @@
+{
+  "counter_result": {
+    "attempted_rows": 4,
+    "reason": "all exact nonmultiplexed rocprofv3 captures timed out at 120 seconds",
+    "status": "unavailable"
+  },
+  "derived_occupancy_policy": "combined bound unavailable rather than an optimistic minimum over incomplete gfx1201 limits",
+  "policy": "compiler resources and unprofiled timings are never populated from profiler data",
+  "rows": [
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "FETCH_SIZE produced no exact-scope value or matching same-capture kernel duration",
+        "status": "unavailable"
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "all four exact nonmultiplexed captures timed out before producing a joinable counter result",
+        "status": "unavailable"
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "0",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 1792
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 1792
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "baseline_fused_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "exact full mangled symbol and workgroup geometry",
+        "runtime_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 3.01
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 0.02325581395348832
+      },
+      "variant": "baseline",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "0",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 896
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 896
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "baseline_unfused_fallback_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "full runtime symbols and workgroup geometry retained in dispatch-selection.json",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [
+        {
+          "case": "ssm",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 5.985
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.00835421888053464
+          }
+        },
+        {
+          "case": "attn_kv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 8.925
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.036974789915966394
+          }
+        },
+        {
+          "case": "attn_gate",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 23.09
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.009094846253789556
+          }
+        },
+        {
+          "case": "m5120_k3072",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 25.36
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.012618296529968326
+          }
+        },
+        {
+          "case": "attn_qkv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 34.425
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.010457516339869265
+          }
+        },
+        {
+          "case": "ffn_down",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 52.42
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.009156810377718368
+          }
+        },
+        {
+          "case": "attn_q",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 40.435
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.00989241993322613
+          }
+        },
+        {
+          "case": "lm_head",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 853.4300000000001
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.0023786367950506615
+          }
+        }
+      ],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "variant": "baseline",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "FETCH_SIZE produced no exact-scope value or matching same-capture kernel duration",
+        "status": "unavailable"
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "all four exact nonmultiplexed captures timed out before producing a joinable counter result",
+        "status": "unavailable"
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "0",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 384
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 2816
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 2816
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 384
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "candidate_fused_twelve",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "exact full mangled symbol and workgroup geometry",
+        "runtime_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 3.01
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 0.0033222591362127014
+      },
+      "variant": "candidate",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 12
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 384
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "0",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 1792
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 1792
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "candidate_fused_fallback_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "full runtime symbols and workgroup geometry retained in dispatch-selection.json",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "variant": "candidate",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "0",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 896
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 896
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "candidate_unfused_fallback_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "full runtime symbols and workgroup geometry retained in dispatch-selection.json",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [
+        {
+          "case": "ssm",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 6.02
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.001661129568106277
+          }
+        },
+        {
+          "case": "attn_kv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 8.94
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.003355704697986506
+          }
+        },
+        {
+          "case": "attn_gate",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 23.13
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.0034587116299179357
+          }
+        },
+        {
+          "case": "m5120_k3072",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 25.52
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.006269592476489034
+          }
+        },
+        {
+          "case": "attn_qkv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 34.53
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.003185635679119795
+          }
+        },
+        {
+          "case": "ffn_down",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 52.47
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.004955212502382276
+          }
+        },
+        {
+          "case": "attn_q",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 40.47
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.005930318754633111
+          }
+        },
+        {
+          "case": "lm_head",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 854.04
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.0020022481382604125
+          }
+        }
+      ],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "variant": "candidate",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "FETCH_SIZE produced no exact-scope value or matching same-capture kernel duration",
+        "status": "unavailable"
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "all four exact nonmultiplexed captures timed out before producing a joinable counter result",
+        "status": "unavailable"
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "1",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 1792
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 1792
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "baseline_fused_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "exact full mangled symbol and workgroup geometry",
+        "runtime_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 3.01
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 0.009966777408637809
+      },
+      "variant": "baseline",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "1",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 896
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 896
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "baseline_unfused_fallback_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "full runtime symbols and workgroup geometry retained in dispatch-selection.json",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [
+        {
+          "case": "ssm",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 5.955
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.01679261125104948
+          }
+        },
+        {
+          "case": "attn_kv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 9.6
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.009374999999999986
+          }
+        },
+        {
+          "case": "attn_gate",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 23.04
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.007378472222222142
+          }
+        },
+        {
+          "case": "m5120_k3072",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 25.61
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.011323701679031595
+          }
+        },
+        {
+          "case": "attn_qkv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 35.105000000000004
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.01794616151545371
+          }
+        },
+        {
+          "case": "ffn_down",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 52.32
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.011276758409785998
+          }
+        },
+        {
+          "case": "attn_q",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 40.595
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.011085109003571764
+          }
+        },
+        {
+          "case": "lm_head",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 855.3199999999999
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.0030748725623158534
+          }
+        }
+      ],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "variant": "baseline",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "FETCH_SIZE produced no exact-scope value or matching same-capture kernel duration",
+        "status": "unavailable"
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "all four exact nonmultiplexed captures timed out before producing a joinable counter result",
+        "status": "unavailable"
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "1",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 384
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 2816
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 2816
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 384
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "candidate_fused_twelve",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "exact full mangled symbol and workgroup geometry",
+        "runtime_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 3.0
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unprofiled_microbenchmark",
+        "status": "measured",
+        "value": 0.0
+      },
+      "variant": "candidate",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 12
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 384
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "1",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 1792
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 1792
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 42
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 35
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "candidate_fused_fallback_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "full runtime symbols and workgroup geometry retained in dispatch-selection.json",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "variant": "candidate",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    },
+    {
+      "achieved_bandwidth": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "achieved_occupancy": {
+        "measurement_scope": "runtime_counter",
+        "metric_class": "unavailable",
+        "reason": "runtime counter contract was limited to exact fused ffn_up",
+        "status": "unavailable",
+        "value": null
+      },
+      "derived_occupancy_bound": {
+        "measurement_scope": "derived_bound",
+        "metric_class": "unavailable",
+        "reason": "combined gfx1201 bound unavailable: register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed",
+        "status": "unavailable",
+        "value": null
+      },
+      "device": "1",
+      "launch_bounds_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      },
+      "lds_bytes": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 896
+      },
+      "private_segment_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "resources": {
+        "group_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 896
+        },
+        "max_flat_workgroup_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 256
+        },
+        "private_segment_fixed_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "sgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "sgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "vgpr_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 26
+        },
+        "vgpr_spill_count": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 0
+        },
+        "wavefront_size": {
+          "measurement_scope": "static_code_object",
+          "metric_class": "static_code_object",
+          "status": "measured",
+          "value": 32
+        }
+      },
+      "scratch_bytes_per_workitem": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "semantics": "AMDHSA private segment is per-workitem scratch allocation",
+        "source_field": "private_segment_fixed_size",
+        "status": "measured",
+        "value": 0
+      },
+      "sgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "specialization": "candidate_unfused_fallback_eight",
+      "symbol_join": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "quality": "full runtime symbols and workgroup geometry retained in dispatch-selection.json",
+        "status": "measured"
+      },
+      "unprofiled_case_timings": [
+        {
+          "case": "ssm",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 6.0
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.009999999999999934
+          }
+        },
+        {
+          "case": "attn_kv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 9.64
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.004149377593361091
+          }
+        },
+        {
+          "case": "attn_gate",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 23.08
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.006932409012131722
+          }
+        },
+        {
+          "case": "m5120_k3072",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 25.69
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.007006617360840782
+          }
+        },
+        {
+          "case": "attn_qkv",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 35.08
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.01282782212086647
+          }
+        },
+        {
+          "case": "ffn_down",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 52.32
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.006307339449541252
+          }
+        },
+        {
+          "case": "attn_q",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 40.55
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.01109741060419225
+          }
+        },
+        {
+          "case": "lm_head",
+          "median_us": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 855.67
+          },
+          "relative_spread": {
+            "measurement_scope": "unprofiled_microbenchmark",
+            "metric_class": "unprofiled_microbenchmark",
+            "status": "measured",
+            "value": 0.005107109049049288
+          }
+        }
+      ],
+      "unprofiled_kernel_median_us": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "unprofiled_kernel_spread": {
+        "measurement_scope": "unprofiled_microbenchmark",
+        "metric_class": "unavailable",
+        "reason": "specialization covers multiple exact fallback cases; see unprofiled_case_timings",
+        "status": "unavailable",
+        "value": null
+      },
+      "variant": "candidate",
+      "vgpr_spills": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 0
+      },
+      "wave_count": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 8
+      },
+      "workgroup_threads": {
+        "measurement_scope": "static_code_object",
+        "metric_class": "static_code_object",
+        "status": "measured",
+        "value": 256
+      }
+    }
+  ],
+  "schema_version": "apex.phase6.resource_scorecard.v2"
+}

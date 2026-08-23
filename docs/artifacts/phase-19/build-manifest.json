@@ -1,0 +1,15 @@
+{
+  "schema": "apex.phase19.instrumented_build.v1",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "registered_state_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+  "instrumentation_patch_sha256": "e13c0d068ed95c8cf447158b60365d980cba9cdca678b61854fd50d292270158",
+  "instrumentation_allowlist": ["ggml/src/ggml-cuda/mmvq.cu"],
+  "cmake": {"generator": "Unix Makefiles", "GGML_HIP": true, "AMDGPU_TARGETS": "gfx1201", "CMAKE_BUILD_TYPE": "Release"},
+  "target": "llama-server",
+  "instrumented_server_sha256": "3538414708e8bc3f6903c7c882ceebd976590083f08139dd0a3cc6b99eaae272",
+  "instrumented_libggml_hip_sha256": "33bc7ed12ce1394b3038f0c1fe94153be57d17adf0aa69cd14d2ed5751a8bf36",
+  "registered_server_sha256": "22e0a27e22f4ef4824ebda1a3d98e3eae4a98e18e056decf2b952894464f5060",
+  "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+  "device_symbol_identity": "All Q6_K N=1/2/3/4/5 MMVQ machine-code hashes are identical between registered and instrumented code objects.",
+  "logs": ["build-logs/instrumented-configure.log", "build-logs/instrumented-build.log"]
+}

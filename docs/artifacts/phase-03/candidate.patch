@@ -1,0 +1,17 @@
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index 594956e..4444444 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -394,7 +394,10 @@ static constexpr __host__ __device__ int calc_nwarps(ggml_type type, int ncols_d
+                 case GGML_TYPE_Q4_K:
+                 case GGML_TYPE_Q5_K:
+-                case GGML_TYPE_Q6_K:
+                 case GGML_TYPE_IQ4_NL:
+                 case GGML_TYPE_IQ4_XS:
+                     return 8;
++                case GGML_TYPE_Q6_K:
++                    // Apex Phase 3 candidate: test lower workgroup width and
++                    // reduction cost for the observed gfx1201 N=1 hotspot.
++                    return 4;
+                 default:
+                     return 1;

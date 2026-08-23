@@ -1,0 +1,370 @@
+diff --git a/common/speculative.cpp b/common/speculative.cpp
+index 580728a20..013d33d55 100644
+--- a/common/speculative.cpp
++++ b/common/speculative.cpp
+@@ -13,10 +13,16 @@
+ 
+ #include <algorithm>
+ #include <cassert>
++#include <cmath>
++#include <cstdlib>
+ #include <cstring>
++#include <fstream>
+ #include <iomanip>
+-#include <map>
+ #include <cinttypes>
++#include <limits>
++#include <map>
++#include <numeric>
++#include <sstream>
+ 
+ #define SPC_DBG(fmt, ...) LOG_DBG("spec %12.*s: " fmt, 12, __func__, __VA_ARGS__)
+ #define SPC_TRC(fmt, ...) LOG_TRC("spec %12.*s: " fmt, 12, __func__, __VA_ARGS__)
+@@ -901,6 +907,16 @@ struct common_speculative_impl_draft_eagle3 : public common_speculative_impl {
+ 
+ // DFlash: block-diffusion drafting with a draft-side KV cache injection
+ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
++    struct recorder_candidate {
++        llama_token id;
++        float log_prob;
++    };
++
++    struct recorder_row {
++        double logsumexp;
++        std::vector<recorder_candidate> candidates;
++    };
++
+     common_params_speculative_draft params;
+ 
+     llama_batch batch;        // noise tokens
+@@ -921,6 +937,108 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+     // scratch buffer for concatenated target features [n_tokens, n_embd_enc]
+     std::vector<float> features_buf;
+ 
++    std::ofstream recorder;
++    uint64_t recorder_cycle_id = 0;
++    int64_t recorder_feature_gather_us = 0;
++    int64_t recorder_encode_us = 0;
++    int64_t recorder_inject_us = 0;
++
++    bool recorder_enabled() const {
++        return recorder.is_open();
++    }
++
++    recorder_row recorder_top32(const float * logits, int32_t n_vocab) const {
++        GGML_ASSERT(logits != nullptr);
++        GGML_ASSERT(n_vocab >= 32);
++
++        float max_logit = -INFINITY;
++        for (int32_t id = 0; id < n_vocab; ++id) {
++            GGML_ASSERT(!std::isnan(logits[id]) && logits[id] != INFINITY);
++            max_logit = std::max(max_logit, logits[id]);
++        }
++        GGML_ASSERT(std::isfinite(max_logit));
++
++        double sum_exp = 0.0;
++        for (int32_t id = 0; id < n_vocab; ++id) {
++            sum_exp += std::exp((double) logits[id] - (double) max_logit);
++        }
++        GGML_ASSERT(std::isfinite(sum_exp) && sum_exp > 0.0);
++        const double logsumexp = (double) max_logit + std::log(sum_exp);
++
++        std::vector<int32_t> ids(n_vocab);
++        std::iota(ids.begin(), ids.end(), 0);
++        std::partial_sort(ids.begin(), ids.begin() + 32, ids.end(), [logits](int32_t a, int32_t b) {
++            if (logits[a] == logits[b]) {
++                return a < b;
++            }
++            return logits[a] > logits[b];
++        });
++
++        recorder_row row = { logsumexp, {} };
++        row.candidates.reserve(32);
++        for (int32_t k = 0; k < 32; ++k) {
++            const float log_prob = (float) ((double) logits[ids[k]] - logsumexp);
++            GGML_ASSERT(std::isfinite(log_prob));
++            row.candidates.push_back({ ids[k], log_prob });
++        }
++        return row;
++    }
++
++    void recorder_write_cycle(
++            llama_seq_id seq_id,
++            const common_speculative_draft_params & dp,
++            const std::vector<recorder_row> & rows,
++            const llama_tokens & draft_tokens,
++            int64_t draft_decode_us,
++            int64_t export_us) {
++        GGML_ASSERT(recorder_enabled());
++        GGML_ASSERT(rows.size() == draft_tokens.size());
++
++        std::ostringstream out;
++        out << std::setprecision(std::numeric_limits<double>::max_digits10);
++        out << "{\"schema_version\":\"apex.phase21d.dflash_cycle.v1\""
++            << ",\"cycle_id\":" << ++recorder_cycle_id
++            << ",\"seq_id\":" << seq_id
++            << ",\"root_position\":" << dp.n_past
++            << ",\"root_token\":" << dp.id_last
++            << ",\"n_vocab\":" << llama_vocab_n_tokens(llama_model_get_vocab(llama_get_model(params.ctx_dft)))
++            << ",\"top_k\":32"
++            << ",\"complete\":true"
++            << ",\"draft_tokens\":[";
++        for (size_t i = 0; i < draft_tokens.size(); ++i) {
++            if (i != 0) out << ',';
++            out << draft_tokens[i];
++        }
++        out << "],\"stage_timings_us\":{"
++            << "\"feature_gather\":" << recorder_feature_gather_us
++            << ",\"encode\":" << recorder_encode_us
++            << ",\"kv_injection\":" << recorder_inject_us
++            << ",\"draft_decode\":" << draft_decode_us
++            << ",\"top32_export\":" << export_us
++            << "},\"positions\":[";
++        for (size_t i = 0; i < rows.size(); ++i) {
++            if (i != 0) out << ',';
++            out << "{\"position\":" << i
++                << ",\"model_position\":" << dp.n_past + (llama_pos) i + 1
++                << ",\"logsumexp\":" << rows[i].logsumexp
++                << ",\"top32\":[";
++            for (size_t k = 0; k < rows[i].candidates.size(); ++k) {
++                if (k != 0) out << ',';
++                out << "{\"token\":" << rows[i].candidates[k].id
++                    << ",\"log_prob\":" << rows[i].candidates[k].log_prob << '}';
++            }
++            out << "]}";
++        }
++        out << "]}\n";
++        recorder << out.str();
++        recorder.flush();
++        GGML_ASSERT(recorder.good());
++
++        recorder_feature_gather_us = 0;
++        recorder_encode_us = 0;
++        recorder_inject_us = 0;
++    }
++
+     common_speculative_impl_draft_dflash(const common_params_speculative & params, uint32_t n_seq)
+         : common_speculative_impl(COMMON_SPECULATIVE_TYPE_DRAFT_DFLASH, n_seq)
+         , params(params.draft)
+@@ -954,6 +1072,14 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+         LOG_INF("%s: - n_max=%d, n_min=%d, p_min=%.2f\n", __func__, this->params.n_max, this->params.n_min, this->params.p_min);
+         LOG_INF("%s: - block_size=%d, mask_token_id=%d, n_extract=%u\n", __func__, block_size, mask_token_id, target_layer_ids_n);
+ 
++        if (const char * path = std::getenv("APEX_DFLASH_RECORDER_FILE")) {
++            if (path[0] != '\0') {
++                recorder.open(path, std::ios::out | std::ios::app);
++                GGML_ASSERT(recorder.good() && "failed to open APEX_DFLASH_RECORDER_FILE");
++                LOG_INF("%s: recording raw DFlash top-32 distributions to %s\n", __func__, path);
++            }
++        }
++
+         // DFlash input is [id_last, <mask> * (block_size-1)], so it can draft at most block_size-1 tokens per step
+         if (this->params.n_max > block_size - 1 || this->params.n_min > block_size - 1) {
+             LOG_WRN("%s: requested draft size (n_max=%d, n_min=%d) exceeds the trained DFlash block size %d -- clamping to %d\n",
+@@ -1047,6 +1173,7 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+                 const int32_t n_chunk = std::min(n_ubatch, n_rows - offset);
+ 
+                 // gather this chunk's target features, interleaved by extract layer
++                const int64_t t_gather = recorder_enabled() ? ggml_time_us() : 0;
+                 features_buf.resize((size_t) n_chunk * n_embd_enc);
+                 for (uint32_t k = 0; k < target_layer_ids_n; ++k) {
+                     const float * layer = llama_get_embeddings_layer_inp(ctx_tgt, (uint32_t) target_layer_ids[k]);
+@@ -1059,6 +1186,9 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+                         std::memcpy(dst, src, (size_t) n_embd_tgt * sizeof(float));
+                     }
+                 }
++                if (recorder_enabled()) {
++                    recorder_feature_gather_us += ggml_time_us() - t_gather;
++                }
+ 
+                 // fuse extracted features through DFlash encoder
+                 llama_batch enc_batch = {
+@@ -1071,7 +1201,11 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+                     /*.logits   =*/ nullptr,
+                 };
+ 
++                const int64_t t_encode = recorder_enabled() ? ggml_time_us() : 0;
+                 int32_t rc = llama_encode(ctx_dft, enc_batch);
++                if (recorder_enabled()) {
++                    recorder_encode_us += ggml_time_us() - t_encode;
++                }
+                 if (rc != 0) {
+                     LOG_ERR("%s: llama_encode(ctx_dft) failed rc=%d (n_tokens=%d, offset=%d)\n",
+                             __func__, rc, (int) n_chunk, (int) offset);
+@@ -1082,6 +1216,7 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+                 GGML_ASSERT(inp_g && "DFlash encoder produced no output.");
+ 
+                 // inject the DFlash decoder K/V cache at the tokens' target positions
++                const int64_t t_inject = recorder_enabled() ? ggml_time_us() : 0;
+                 batch_inject.n_tokens = n_chunk;
+                 std::memcpy(batch_inject.embd, inp_g, (size_t) n_chunk * n_embd_dec * sizeof(float));
+ 
+@@ -1097,6 +1232,9 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+                             __func__, rc, (int) n_chunk, (int) offset);
+                     return false;
+                 }
++                if (recorder_enabled()) {
++                    recorder_inject_us += ggml_time_us() - t_inject;
++                }
+             }
+         }
+ 
+@@ -1141,7 +1279,9 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+         }
+ 
+         // decode all sequence's noise block in a single batch
++        const int64_t t_draft_decode = recorder_enabled() ? ggml_time_us() : 0;
+         int ret = llama_decode(ctx_dft, batch);
++        const int64_t draft_decode_us = recorder_enabled() ? ggml_time_us() - t_draft_decode : 0;
+         if (ret != 0) {
+             LOG_WRN("%s: llama_decode returned %d\n", __func__, ret);
+             return;
+@@ -1160,8 +1300,20 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+ 
+             auto & result = *dp.result;
+ 
++            std::vector<recorder_row> recorder_rows;
++            const int32_t n_vocab = llama_vocab_n_tokens(llama_model_get_vocab(llama_get_model(ctx_dft)));
++            int64_t export_us = 0;
++            if (recorder_enabled()) {
++                recorder_rows.reserve(n_block_tokens - 1);
++            }
++
+             // greedily read the predicted block at this sequence's noise positions 1..n_block_tokens-1
+             for (int32_t i = 1; i < n_block_tokens; ++i) {
++                if (recorder_enabled()) {
++                    const int64_t t_export = ggml_time_us();
++                    recorder_rows.push_back(recorder_top32(llama_get_logits_ith(ctx_dft, beg + i), n_vocab));
++                    export_us += ggml_time_us() - t_export;
++                }
+                 common_sampler_sample(smpl, ctx_dft, beg + i, true);
+ 
+                 const auto * cur_p = common_sampler_get_candidates(smpl, true);
+@@ -1183,6 +1335,10 @@ struct common_speculative_impl_draft_dflash : public common_speculative_impl {
+                 result.push_back(id);
+             }
+ 
++            if (recorder_enabled()) {
++                recorder_write_cycle(seq_id, dp, recorder_rows, result, draft_decode_us, export_us);
++            }
++
+             if (result.size() < (size_t) params.n_min) {
+                 result.clear();
+             }
+@@ -2233,6 +2389,10 @@ common_params common_base_params_to_speculative(const common_params & params) {
+         result.n_gpu_layers          = params_spec.n_gpu_layers;
+         result.tensor_buft_overrides = params_spec.tensor_buft_overrides;
+ 
++        if (params_spec.split_mode_set) {
++            result.split_mode = params_spec.split_mode;
++        }
++
+         if (params_spec.cpuparams.n_threads > 0) {
+             result.cpuparams.n_threads       = params_spec.cpuparams.n_threads;
+             result.cpuparams_batch.n_threads = params_spec.cpuparams_batch.n_threads;
+diff --git a/tools/server/server-context.cpp b/tools/server/server-context.cpp
+index eb41acc5b..8d170c4e5 100644
+--- a/tools/server/server-context.cpp
++++ b/tools/server/server-context.cpp
+@@ -18,6 +18,7 @@
+ #include "mtmd-helper.h"
+ 
+ #include <algorithm>
++#include <cstdlib>
+ #include <cstddef>
+ #include <cinttypes>
+ #include <exception>
+@@ -39,6 +40,23 @@ using json = nlohmann::ordered_json;
+ 
+ constexpr int HTTP_POLLING_SECONDS = 1;
+ 
++static bool apex_dflash_stage_enabled() {
++    const char * path = std::getenv("APEX_DFLASH_STAGE_FILE");
++    return path != nullptr && path[0] != '\0';
++}
++
++static void apex_dflash_stage_write(const json & event) {
++    const char * path = std::getenv("APEX_DFLASH_STAGE_FILE");
++    if (path == nullptr || path[0] == '\0') {
++        return;
++    }
++    std::ofstream out(path, std::ios::out | std::ios::app);
++    GGML_ASSERT(out.good());
++    out << event.dump() << '\n';
++    out.flush();
++    GGML_ASSERT(out.good());
++}
++
+ static uint32_t server_n_outputs_max(const common_params & params) {
+     const uint32_t n_batch  = params.n_batch;
+ 
+@@ -297,6 +315,10 @@ struct server_slot {
+     int32_t n_draft_verif_steps = 0; // Total draft token verification steps by the target model
+     std::vector<int32_t> n_accepted_per_pos; // Accepted tokens per draft position
+ 
++    uint64_t apex_dflash_cycle_id = 0;
++    int64_t apex_dflash_target_verify_us = 0;
++    int64_t apex_dflash_accept_rollback_us = 0;
++
+     void reset() {
+         SLT_DBG(*this, "%s", "\n");
+ 
+@@ -324,6 +346,9 @@ struct server_slot {
+         n_draft_accepted = 0;
+         n_draft_verif_steps = 0;
+         n_accepted_per_pos.clear();
++        apex_dflash_cycle_id = 0;
++        apex_dflash_target_verify_us = 0;
++        apex_dflash_accept_rollback_us = 0;
+ 
+         task_prev = std::move(task);
+         task.reset();
+@@ -3564,7 +3589,12 @@ private:
+             n_empty_consecutive = 0;
+         }
+ 
++        const bool apex_is_dflash_verify = apex_dflash_stage_enabled() && slot_batched && !slot_batched->spec_draft.empty();
++        const int64_t apex_verify_start = apex_is_dflash_verify ? ggml_time_us() : 0;
+         const int ret = llama_decode(ctx_tgt, batch_view);
++        if (apex_is_dflash_verify) {
++            slot_batched->apex_dflash_target_verify_us += ggml_time_us() - apex_verify_start;
++        }
+ 
+         metrics.on_decoded(slots);
+ 
+@@ -3787,7 +3817,11 @@ private:
+                 common_sampler_ptr smpl_save(common_sampler_clone(slot.smpl.get()));
+ 
+                 GGML_ASSERT(slot.spec_i_batch.size() == n_draft + 1);
++                const int64_t apex_accept_start = apex_dflash_stage_enabled() ? ggml_time_us() : 0;
+                 auto accepted = common_sampler_sample_and_accept_n(slot.smpl.get(), slot.ctx_tgt, slot.spec_i_batch, slot.spec_draft);
++                if (apex_dflash_stage_enabled()) {
++                    slot.apex_dflash_accept_rollback_us += ggml_time_us() - apex_accept_start;
++                }
+                 slot.spec_i_batch.clear();
+ 
+                 GGML_ASSERT(accepted.size() >= 1);
+@@ -3835,6 +3869,23 @@ private:
+                     SLT_INF(slot, "accepted %2zu/%2zu draft tokens\n", accepted.size() - 1, n_draft);
+                 }
+ 
++                if (apex_dflash_stage_enabled()) {
++                    json event = {
++                        {"schema_version", "apex.phase21d.target_verification.v1"},
++                        {"cycle_id", ++slot.apex_dflash_cycle_id},
++                        {"seq_id", slot.id},
++                        {"n_draft", n_draft},
++                        {"n_accepted", accepted.size() - 1},
++                        {"n_rollback", n_rollback},
++                        {"committed_tokens", accepted},
++                        {"target_verify_us", slot.apex_dflash_target_verify_us},
++                        {"accept_rollback_us", slot.apex_dflash_accept_rollback_us},
++                    };
++                    apex_dflash_stage_write(event);
++                    slot.apex_dflash_target_verify_us = 0;
++                    slot.apex_dflash_accept_rollback_us = 0;
++                }
++
+                 common_speculative_accept(spec.get(), slot.id, accepted.size() - 1);
+ 
+                 slot.spec_draft = std::move(accepted);

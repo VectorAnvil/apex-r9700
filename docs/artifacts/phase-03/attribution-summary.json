@@ -1,0 +1,950 @@
+{
+  "schema_version": "apex.phase3.mmvq_attribution_summary.v1",
+  "semantics": [
+    "Records are bounded host submissions, not graph replay counts or runtime frequencies.",
+    "The capture is diagnostic and is not a performance baseline.",
+    "Fusion false/true joins the two Phase 2 Q6_K MMV template variants without joining dispatch durations to individual operations."
+  ],
+  "input": {
+    "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase03_q6k_mmv_20260808/attribution/tg-normal-graphs/mmvq-attribution.jsonl",
+    "sha256": "c3a82f3e31cc2bb105403ac745f188048694916b348250a292c5726e7a6cbc15",
+    "records": 3464
+  },
+  "records_by_device": {
+    "0": 1732,
+    "1": 1732
+  },
+  "records_by_capture": {
+    "active": 1732,
+    "none": 1732
+  },
+  "records_by_fusion": {
+    "false": 2952,
+    "true": 512
+  },
+  "operation_groups": [
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "attn_gate",
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "attn_k",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "attn_output",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "attn_q",
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "attn_qkv",
+      "m": 5120,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "attn_v",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "ffn_down",
+      "m": 5120,
+      "n": 1,
+      "k": 8704,
+      "has_fusion": false,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "ffn_up",
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "output",
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 2,
+      "distinct_weight_tensors": 1
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "ssm_alpha",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "ssm_beta",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "active",
+      "operation": "ssm_out",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "attn_gate",
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "attn_k",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "attn_output",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "attn_q",
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "attn_qkv",
+      "m": 5120,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "attn_v",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "ffn_down",
+      "m": 5120,
+      "n": 1,
+      "k": 8704,
+      "has_fusion": false,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "ffn_up",
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "output",
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 2,
+      "distinct_weight_tensors": 1
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "ssm_alpha",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "ssm_beta",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 0,
+      "stream_capture": "none",
+      "operation": "ssm_out",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "attn_gate",
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "attn_k",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "attn_output",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "attn_q",
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "attn_qkv",
+      "m": 5120,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "attn_v",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "ffn_down",
+      "m": 5120,
+      "n": 1,
+      "k": 8704,
+      "has_fusion": false,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "ffn_up",
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "output",
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 2,
+      "distinct_weight_tensors": 1
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "ssm_alpha",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "ssm_beta",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "active",
+      "operation": "ssm_out",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "attn_gate",
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "attn_k",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "attn_output",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "attn_q",
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "attn_qkv",
+      "m": 5120,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "attn_v",
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 32,
+      "distinct_weight_tensors": 16
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "ffn_down",
+      "m": 5120,
+      "n": 1,
+      "k": 8704,
+      "has_fusion": false,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "ffn_up",
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "host_submission_records": 128,
+      "distinct_weight_tensors": 64
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "output",
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 2,
+      "distinct_weight_tensors": 1
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "ssm_alpha",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "ssm_beta",
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    },
+    {
+      "device": 1,
+      "stream_capture": "none",
+      "operation": "ssm_out",
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "host_submission_records": 96,
+      "distinct_weight_tensors": 48
+    }
+  ],
+  "shape_groups": [
+    {
+      "device": 0,
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        24,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 384
+    },
+    {
+      "device": 0,
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        512,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 128
+    },
+    {
+      "device": 0,
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        3072,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 192
+    },
+    {
+      "device": 0,
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "grid": [
+        5120,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 256
+    },
+    {
+      "device": 0,
+      "m": 5120,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        5120,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 192
+    },
+    {
+      "device": 0,
+      "m": 5120,
+      "n": 1,
+      "k": 8704,
+      "has_fusion": false,
+      "grid": [
+        5120,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 256
+    },
+    {
+      "device": 0,
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        6144,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 64
+    },
+    {
+      "device": 0,
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "grid": [
+        8704,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 256
+    },
+    {
+      "device": 0,
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        124160,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 4
+    },
+    {
+      "device": 1,
+      "m": 24,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        24,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 384
+    },
+    {
+      "device": 1,
+      "m": 512,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        512,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 128
+    },
+    {
+      "device": 1,
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        3072,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 192
+    },
+    {
+      "device": 1,
+      "m": 5120,
+      "n": 1,
+      "k": 3072,
+      "has_fusion": false,
+      "grid": [
+        5120,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 256
+    },
+    {
+      "device": 1,
+      "m": 5120,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        5120,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 192
+    },
+    {
+      "device": 1,
+      "m": 5120,
+      "n": 1,
+      "k": 8704,
+      "has_fusion": false,
+      "grid": [
+        5120,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 256
+    },
+    {
+      "device": 1,
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        6144,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 64
+    },
+    {
+      "device": 1,
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "grid": [
+        8704,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 256
+    },
+    {
+      "device": 1,
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "grid": [
+        124160,
+        1,
+        1
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "nwarps": 8,
+      "rows_per_block": 1,
+      "host_submission_records": 4
+    }
+  ],
+  "phase3_harness_shape_correction": {
+    "full_model_shapes_were_not_runtime_attributed": true,
+    "runtime_tensor_parallel_shapes": [
+      {
+        "operation": "ffn_up",
+        "m": 8704,
+        "n": 1,
+        "k": 5120,
+        "has_fusion": true
+      },
+      {
+        "operation": "ffn_down",
+        "m": 5120,
+        "n": 1,
+        "k": 8704,
+        "has_fusion": false
+      },
+      {
+        "operation": "attn_v",
+        "m": 512,
+        "n": 1,
+        "k": 5120,
+        "has_fusion": false
+      },
+      {
+        "operation": "attn_output",
+        "m": 5120,
+        "n": 1,
+        "k": 3072,
+        "has_fusion": false
+      }
+    ]
+  }
+}

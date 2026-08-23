@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-08-08T22:00:12.296307+00:00",
+  "fingerprint_fields": {
+    "phase7_evidence": {
+      "attribution-summary-v1.json": "b6bfe03a96bececd03bb436750214313728c1fdff758e4438576da409d1ed5a2",
+      "baseline-v1-result.json": "e154f19245baaad37cf241ed9effdad9944fa3ce603d19e17968af0ea3a1d440",
+      "task-v1.json": "8708d38dea99895153503bcf2458548f2a8bfbcaae253ce630f37c032ca341a8"
+    },
+    "registered_p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "scope": {
+      "gfx_target": "gfx1201",
+      "mmq_x": 128,
+      "mmq_y": 64,
+      "nwarps": 8,
+      "prohibited": [
+        "source_change",
+        "candidate_build",
+        "GPU_workload",
+        "correctness",
+        "counter",
+        "e2e",
+        "candidate_registration"
+      ],
+      "type": "Q6_K"
+    },
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "static_proof": {
+      "infeasibility_json_sha256": "1490b0c5763f1f7b04528d1ba846fb688d624c6d5d8f5c0126eeebb9db764b83",
+      "proof_object_sha256": "6486eebf9fa016d6e8c46524a80801741dd185f6e1055d5802db9e0aa4953725",
+      "proof_source_sha256": "b612aedae0e033b752581fe5048aea3855b3719b546cee90048ad0ba13b5d59a",
+      "writeup_sha256": "166aeddc077134db971359e1923b8da73a67b110da3d0035816f0b781c0a07b5"
+    },
+    "tool_hashes": {
+      "finalize_static_gate.py": "061a02d0c465d0e5ce8a9bc2283285e3ac79aef54b7120544558d0fd2b59314f",
+      "make_static_task.py": "d20dddb149b2db2502f99a261fd409117ada3facd0ca07f0d4df8028249ac93b"
+    },
+    "write_boundary": {
+      "candidate_build": false,
+      "database_mutation": false,
+      "gpu_workloads": false,
+      "registered_build_mutation": false,
+      "registered_source_mutation": false,
+      "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase08_pp_mmq_y64_20260808"
+    }
+  },
+  "immutable": true,
+  "schema_version": "apex.phase8.static_infeasibility_task.v1",
+  "target_fingerprint": "0857b439db45cfe5bc8c549e5354c5ae5cab58ddc4b49a91e97d25125f4bb1d7"
+}

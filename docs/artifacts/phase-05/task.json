@@ -1,0 +1,211 @@
+{
+  "cases": [
+    {
+      "fusion": false,
+      "id": "ssm",
+      "k": 5120,
+      "m": 24,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_kv",
+      "k": 5120,
+      "m": 512,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_gate",
+      "k": 5120,
+      "m": 3072,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "m5120_k3072",
+      "k": 3072,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_qkv",
+      "k": 5120,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "ffn_down",
+      "k": 8704,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_q",
+      "k": 5120,
+      "m": 6144,
+      "n": 1
+    },
+    {
+      "fusion": true,
+      "id": "ffn_up",
+      "k": 5120,
+      "m": 8704,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "lm_head",
+      "k": 5120,
+      "m": 124160,
+      "n": 1
+    }
+  ],
+  "created_at": "2026-08-08T18:45:54.826635+00:00",
+  "fingerprint_fields": {
+    "baseline_full_patch_sha256": "9b874a6ed1415a244d80d94b98059a24d69bae4296b53419d651f7c7c7988c59",
+    "builds": {
+      "baseline": {
+        "binary": "93abdb9c00b38cf1ae0b3edee30e8840aa6864ac372700ae227903b3a69977fa",
+        "cmake_cache": "37561979485a921f2a15a366103be55332d1fa35e98579318588700cebde8dad",
+        "compile_commands": "099d4ea70da799be3bdeb58ea9c3a634668a1fdb756957ac2545acbe49ed6414",
+        "harness_source": "9d74d7fe87791019e9a8bcfb8f86db46e195c281d9ccc4587576cd70f570ac24",
+        "mmvq_object": "93e8ffdccf1fb9820566290436cd7658d23aaf32190fba5671ae39e304d0a64c"
+      },
+      "candidate-shape-gated": {
+        "binary": "0978da0a12875f0500574949cb3d443925180530bc4f065832a65a348f81935f",
+        "cmake_cache": "9b67e4a0a2d68ff72608eb8828b14cf33109f7c19da78c0816c594afd15b5d74",
+        "compile_commands": "ab3e82fd00b85ce26fb295863df8924077e3cb3a75f9306cc36e1acf9e121305",
+        "harness_source": "9d74d7fe87791019e9a8bcfb8f86db46e195c281d9ccc4587576cd70f570ac24",
+        "mmvq_object": "388e800bc50d84c230accbd0d3336ec1e651daa9ae36e0652fda886c26b2e7e7"
+      }
+    },
+    "candidate": "rdna4-q6k-shape-gated-nwarps4",
+    "candidate_full_patch_sha256": "1157835b97e1b2c01da3a7f781da32afd0844bb9914987061c4ace029192e05a",
+    "candidate_patch_sha256": "b052fb327bdcdb3f3ac79e4ea7345af5d7cd7b6539dc31f1f6eb6b4c43ff4a16",
+    "dispatch_proof": {
+      "all_cases": true,
+      "both_devices": true,
+      "mangled_kernels_required": true,
+      "performance_claim_from_trace": false,
+      "profiler": "rocprofv3 1.1.0",
+      "reason": "resolve runtime selection between compiled four/eight-wave specializations"
+    },
+    "feasibility_sha256": "ac348b28376af1f6624a9acd71ea01f48b49e9ef4a799f8a8de544c1985cea64",
+    "gpus": {
+      "cards": {
+        "card0": {
+          "Card Model": "0x7551",
+          "Card SKU": "APM107573",
+          "Card Series": "AMD Radeon AI PRO R9700",
+          "Card Vendor": "Advanced Micro Devices, Inc. [AMD/ATI]",
+          "Device Rev": "0xc0",
+          "GFX Version": "gfx1201",
+          "GUID": "23334",
+          "Node ID": "1",
+          "Subsystem ID": "0x5413",
+          "Unique ID": "0x86a5ac00defd863b"
+        },
+        "card1": {
+          "Card Model": "0x7551",
+          "Card SKU": "48WD6SHD1",
+          "Card Series": "AMD Radeon AI PRO R9700",
+          "Card Vendor": "Advanced Micro Devices, Inc. [AMD/ATI]",
+          "Device Rev": "0xc0",
+          "GFX Version": "gfx1201",
+          "GUID": "34774",
+          "Node ID": "2",
+          "Subsystem ID": "-0x67ff",
+          "Unique ID": "0xdd6000eaf2977111"
+        }
+      },
+      "max_waves_per_cu": 32,
+      "rocminfo_sha256": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef",
+      "smi_sha256": "c230a1152e790361ac2e5864a8a573e54f2393bfc4b2e21c6d80c76ba69b0596",
+      "target": "gfx1201",
+      "wavefront": 32
+    },
+    "harness_patch_sha256": "1b822039c4835d8e6f2aa123e9324cdbceb79f46bd4578c0fc95805f55e96547",
+    "implementation_revision": {
+      "cases_changed": false,
+      "failed_candidate_patch_sha256": "314407de862fcd67a33cdc40c26b377148e5d10436e326896709f31cf6823289",
+      "reason": "architecture-dependent integer template default mismatched host launch and gfx1201 fallback specialization",
+      "supersedes_task_fingerprint": "c94e743838b32917c5b35e469829af9e7691970d415f86a3bd10f476e9704fc9",
+      "supersedes_task_sha256": "0cc1092e7dff7171d0f000c0cab5a919e78038579eb669ed7ffaecfd5840c8c2",
+      "thresholds_changed": false
+    },
+    "inputs_sha256": "858ba0e3f792196c4efa7d3e92aa1dd02e95a1d4c53bca947ef9b31d02ae26b5",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase4_attempts_sha256": "9b88523568ac80a22954ef045918b4a97f758015a39deb2135764f43e0574e15",
+    "phase4_result_sha256": "05b46d79b826879782be7a9add9905d997dab813f79c0de7c336654dfb3f3e53",
+    "phase4_task_sha256": "e53ef7aa22c11a6e30cbe68a4fda1bb804498743b5a117093292f5e53e9e2dfd",
+    "policy": {
+      "cpu_oracle_max_nmse": 0.0005,
+      "e2e_only_after_exact_gate": true,
+      "excluded_cases_must_each_clear_regression_floor_on_each_device": true,
+      "normal_graphs_required": true,
+      "regression_speedup_min": 0.99,
+      "rounds": 3,
+      "schedule": [
+        "d0-a",
+        "d1-a",
+        "d0-b",
+        "d1-b",
+        "d1-a",
+        "d0-a"
+      ],
+      "selected_cases_must_each_win_on_each_device": true,
+      "stability_relative_spread_max": 0.035,
+      "win_speedup_min": 1.01
+    },
+    "registered_case": {
+      "build_id": 2,
+      "hip_visible_devices": "0,1",
+      "model_id": 2,
+      "profile_id": 5,
+      "suite_id": 2
+    },
+    "selector": {
+      "fallback_nwarps": 8,
+      "four_wave_mk": [
+        [
+          3072,
+          5120
+        ],
+        [
+          5120,
+          3072
+        ],
+        [
+          6144,
+          5120
+        ]
+      ],
+      "has_fusion": false,
+      "has_ids": false,
+      "n": 1,
+      "parameter_table": "RDNA4",
+      "type": "Q6_K"
+    },
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "tools": {
+      "finalize_gate.py": "7f6271b5d78297bf10e4d541988d0326b80a39f8dbc0002c789cf5a446e88976",
+      "make_task.py": "98b6d7de7e543f3ec52af99f62094d5721cad9163ee46d3e2867b6a43eaad29f",
+      "run_dispatch.py": "06a6fb471b509d0129d43efa72e65aa4d7c4ac3b3e21b4da23684ef050db2ce5",
+      "run_gate.py": "0f53cbcecdfc0a78495faa692c57e99db6ab636c1708c40ce9e4c1aa336afc8d"
+    }
+  },
+  "immutable": true,
+  "schema_version": "apex.phase5.shape_gated_task.v2",
+  "target_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac",
+  "task_id": "q6k-mmv-shape-gated-runtime-slice-gate-corrected-specialization",
+  "write_boundary": {
+    "registered_build_mutation": false,
+    "registered_source_mutation": false,
+    "registration_before_exact_gate": false,
+    "results_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase05_q6k_shape_gated_20260808"
+  }
+}

@@ -1,0 +1,967 @@
+{
+  "records": [
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 0,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 1,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 0,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "74533f56559939432188cb863efdc0b30ded6e1fe2e62e5e89b31e896fa6cf58",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/baseline/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "baseline"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=16,n=8,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=16,n=8,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 16,
+        "n": 8,
+        "operation": "q6k_mma_oracle_n8"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    },
+    {
+      "binary_sha256": "0732f0f6ff299ac5d2f41eed7cc67691ead88066d146eff9b8871c7f4b4af9c9",
+      "command": [
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate/bin/test-backend-ops",
+        "test",
+        "-o",
+        "MUL_MAT",
+        "-b",
+        "ROCm0",
+        "-p",
+        "type_a=q6_K,type_b=f32,m=1,n=64,k=256",
+        "--output",
+        "csv"
+      ],
+      "device": 1,
+      "passed": true,
+      "repeat": 2,
+      "returncode": 0,
+      "rows": [
+        {
+          "backend_name": "ROCm0",
+          "backend_reg_name": "",
+          "error_message": "",
+          "op_name": "MUL_MAT",
+          "op_params": "type_a=q6_K,type_b=f32,m=1,n=64,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1",
+          "supported": "1",
+          "test_mode": "test"
+        }
+      ],
+      "shape": {
+        "k": 256,
+        "m": 1,
+        "n": 64,
+        "operation": "q6k_mma_oracle_n64"
+      },
+      "stage": "correctness",
+      "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2",
+      "value_us": null,
+      "variant": "candidate"
+    }
+  ],
+  "schema_version": "apex.phase13.gate.v1",
+  "stage": "correctness",
+  "task_fingerprint": "55f2366ddad3fc7ba56bac30e36f595cb67c011aa27711a8cd6f734c83b4a4c2"
+}

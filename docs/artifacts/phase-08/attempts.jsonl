@@ -1,0 +1,3 @@
+{"attempt":"static-invariant-review","status":"rejected_static_infeasible","requested":"Q6_K gfx1201 global mmq_x=128 mmq_y=64 nwarps=8","invariant":"nwarps * tile_C::I == mmq_y","evaluation":"8 * 16 != 64","gpu_workload":false}
+{"attempt":"eight-wave-remap","status":"not_implemented","reason":"would require new WMMA fragment/writeback ownership or K/output partition plus reduction; outside Phase 8 tile-selector scope","gpu_workload":false}
+{"attempt":"static-gate","status":"complete","decision":"reject_static_infeasible","candidate_build":false,"gpu_workloads":false,"correctness":"not_run","counters":"not_run","e2e":"not_run"}

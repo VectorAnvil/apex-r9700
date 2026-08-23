@@ -1,0 +1,24 @@
+{
+  "device_ordinal": 0,
+  "card": "card0",
+  "kfd_node": 1,
+  "name": "AMD Radeon AI PRO R9700",
+  "gfx_target": "gfx1201",
+  "unique_id_hex": "0x86a5ac00defd863b",
+  "unique_id_decimal": "9702350091980736059",
+  "compute_units": 64,
+  "simd_per_cu": 2,
+  "wavefront_size": 32,
+  "max_waves_per_simd": 16,
+  "max_waves_per_cu": 32,
+  "workgroup_max_threads": 1024,
+  "lds_per_cu_bytes": 65536,
+  "max_slots_scratch_cu": 32,
+  "register_file_size": null,
+  "register_allocation_granularity": null,
+  "raw_evidence": {
+    "rocminfo_sha256": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef",
+    "rocm_smi_sha256": "42ffae45673ae4acf56d309bde811972b98de005a80793e4868b8c99dbc0ab01",
+    "kfd_properties_sha256": "41050c2a83bfacd6b69854ea4b24204509ff5a9d9226583823f4785415c9ddf9"
+  }
+}

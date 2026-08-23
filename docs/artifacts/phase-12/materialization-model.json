@@ -1,0 +1,30 @@
+{
+  "schema_version": "apex.phase12.materialization_model.v1",
+  "task_fingerprint": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb",
+  "per_layer_per_device": {
+    "rmsnorm_to_shared_q81_gate_up": {
+      "f32_elements_per_layer_device": 2621440,
+      "f32_tensor_bytes": 10485760,
+      "current_f32_reads": 2,
+      "modeled_avoidable_f32_write_read_bytes": 31457280,
+      "required_q81_d4_data_bytes": 2949120,
+      "connected_operation_share": 0.38303864846517816
+    },
+    "swiglu_to_q81_ffn_down": {
+      "f32_elements_per_layer_device": 4456448,
+      "f32_tensor_bytes": 17825792,
+      "current_f32_reads": 1,
+      "modeled_avoidable_f32_write_read_bytes": 35651584,
+      "required_q81_d4_data_bytes": 5013504,
+      "connected_operation_share": 0.18402367755590257
+    }
+  },
+  "classification": "logical traffic model",
+  "not_claimed": [
+    "achieved bandwidth",
+    "cache traffic",
+    "entirely removable producer time",
+    "entirely removable quantizer time",
+    "predicted speedup"
+  ]
+}

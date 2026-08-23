@@ -1,0 +1,8 @@
+build/
+build-*/
+production.env
+*.gguf
+*.log
+*.pid
+rocprof*
+results_raw/

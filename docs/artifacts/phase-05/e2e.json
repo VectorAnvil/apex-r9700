@@ -1,0 +1,12 @@
+{
+  "candidate_registered": false,
+  "existing_registered_assets_changed": false,
+  "normal_graphs_required": true,
+  "permitted": false,
+  "profile_id": 5,
+  "reason": "The corrected v2 exact-slice gate failed stability and regression requirements.",
+  "run": false,
+  "schema_version": "apex.phase5.e2e.v1",
+  "suite_id": 2,
+  "task_fingerprint": "442950aead8acf273c90069fb38dd544bf9c533ba1198b94a555e11f391babac"
+}

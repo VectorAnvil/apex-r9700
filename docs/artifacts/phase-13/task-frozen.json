@@ -1,0 +1,78 @@
+{
+  "schema_version": "apex.phase13.q6k_mma_float_cast_task.v1",
+  "immutable_after_fingerprint": true,
+  "scope": {
+    "candidate": "force the Q6_K integer WMMA accumulator to FP32 before Q6 scale multiplication",
+    "target": "gfx1201",
+    "phase": "PP with TG regression coverage",
+    "source_expression": "C.x[l] * sc[k01/4] * x_df[...] * dB",
+    "candidate_expression": "((float) C.x[l]) * sc[k01/4] * x_df[...] * dB",
+    "affected_path": "Q6_K vec_dot_q6_K_q8_1_mma only",
+    "excluded_changes": [
+      "Q2_K changes",
+      "MMQ dispatch-threshold changes",
+      "Stream-K",
+      "tile or wave geometry",
+      "packed-load changes",
+      "Phase 12 fusion",
+      "communication overlap"
+    ]
+  },
+  "source": {
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "registered_p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "changed_source_allowlist": [
+      "ggml/src/ggml-cuda/allreduce.cu",
+      "ggml/src/ggml-cuda/allreduce.cuh",
+      "ggml/src/ggml-cuda/mmq.cuh"
+    ],
+    "candidate_worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/worktrees/candidate",
+    "candidate_build": "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808/builds/candidate",
+    "cmake": {"GGML_HIP": "ON", "AMDGPU_TARGETS": "gfx1201", "CMAKE_BUILD_TYPE": "Release"},
+    "targets": ["test-backend-ops", "llama-bench"]
+  },
+  "upstream": {
+    "pull_request": "https://github.com/ggml-org/llama.cpp/pull/25940",
+    "q6_fix_commit": "68adcd0bf582ba3c9a345ceaecac2c991f1e710a",
+    "status_at_freeze": "draft and unmerged",
+    "reuse_scope": "one Q6_K cast only"
+  },
+  "registered_runtime": {
+    "executable": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+    "executable_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+    "model": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "devices": [0, 1],
+    "rollback": "use the untouched registered executable"
+  },
+  "workloads": {
+    "pp512": ["-p", "0", "-n", "0", "-pg", "512,0", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"],
+    "tg128": ["-p", "0", "-n", "128", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"],
+    "exact_pp_shapes": [
+      {"operation": "ffn_gate/up", "M": 8704, "N": 512, "K": 5120},
+      {"operation": "ffn_down", "M": 5120, "N": 512, "K": 8704}
+    ]
+  },
+  "required_gates": {
+    "provenance": "base, P2P patch, one-line candidate diff, binary and HSACO hashes",
+    "correctness": "both-device Q6_K CPU-oracle parity, NMSE <= 0.0005, three runs",
+    "dispatch": "both-device trace proves Q6_K MMQ and no dispatch-count change",
+    "graphs_and_tp": "normal graph capture/replay and registered tensor split/P2P remain active",
+    "resources": ["VGPR", "SGPR", "LDS", "private memory", "spills", "occupancy", "wave count", "achieved bandwidth"],
+    "pp512": {"processes_per_variant": 3, "samples_trimmed": false, "speedup_min": 1.05, "relative_spread_max": 0.05},
+    "tg128": {"processes_per_variant": 3, "samples_trimmed": false, "speedup_min": 0.99, "relative_spread_max": 0.05},
+    "exact_kernel": {"rounds": 3, "samples_trimmed": false, "speedup_min": 1.05, "relative_spread_max": 0.035}
+  },
+  "decision": {
+    "reject_on_correctness_dispatch_graph_tp_stability_or_regression_failure": true,
+    "counters_may_be_unavailable_only_with_preserved_attempt_evidence": true,
+    "register_only_if_all_promotion_gates_pass": true,
+    "preserve_what_didnt_work": true
+  },
+  "write_boundary": {
+    "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase13_q6k_mma_float_cast_20260808",
+    "registered_source_mutation": false,
+    "registered_build_mutation": false,
+    "database_mutation": false
+  }
+}

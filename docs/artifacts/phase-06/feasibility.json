@@ -1,0 +1,12 @@
+{
+  "candidate_workgroup_threads": 384,
+  "combined_occupancy_bound": {"status": "unavailable", "reason": "gfx1201 register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed by the dynamic queries"},
+  "devices": {
+    "0": {"gfx_target": "gfx1201", "lds_per_cu_bytes": 65536, "max_waves_per_cu": 32, "wavefront_size": 32, "workgroup_max_threads": 1024},
+    "1": {"gfx_target": "gfx1201", "lds_per_cu_bytes": 65536, "max_waves_per_cu": 32, "wavefront_size": 32, "workgroup_max_threads": 1024}
+  },
+  "legal": true,
+  "reason": "384 threads is within the dynamically reported 1024-thread maximum on both physical devices; no inferred Instinct limits were used.",
+  "schema_version": "apex.phase6.feasibility.v1",
+  "task_fingerprint": "4542409930c19a8897fad3c35b4c41e066e6e8e14b76c4f863d25fcb777debff"
+}

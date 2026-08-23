@@ -1,0 +1,11 @@
+{
+  "api_counts": {
+    "hipGraphInstantiate": 526,
+    "hipGraphLaunch": 11242,
+    "hipStreamBeginCapture": 526,
+    "hipStreamEndCapture": 526
+  },
+  "graphs_reused_from_server_log": 38,
+  "interpretation": "HIP runtime witness only; no kernel timing is derived from this normal-graph lane.",
+  "schema": "apex.phase19.graph_summary.v1"
+}

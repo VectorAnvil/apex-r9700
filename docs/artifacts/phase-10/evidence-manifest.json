@@ -1,0 +1,287 @@
+{
+  "build": {
+    "artifacts": {
+      "cmake_cache_sha256": "d488e4b090f961c84fffb8dce19b3b1c24df1c4efc294a1903882350ebabdf33",
+      "compile_commands_sha256": "a7cccf87f252fac1e7cfaf4041f124234c4a82c19c92f7f42561075757cf5c84",
+      "llama_bench_sha256": "a9564634fd45f8002575f9a6beca5e7744c72aab68f6bdf9fafdfaa4aea7931a",
+      "test_backend_ops_sha256": "fdac535e8f8ba763825e699a9840e0d1369905087949881669aefe5242723ee8"
+    },
+    "cmake_defines": {
+      "AMDGPU_TARGETS": "gfx1201",
+      "CMAKE_BUILD_TYPE": "Release",
+      "GGML_HIP": "ON"
+    },
+    "comparison": "one candidate build; selector off is baseline and selector on is candidate",
+    "patches": {
+      "phase10_candidate_sha256": "d2d378cfb8d17a393020d8a0ef55195ae58150b9302236ec6fd7a10a8c72a2d0",
+      "registered_p2p_baseline_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9"
+    },
+    "schema_version": "apex.phase10.build_manifest.v1",
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "target": "gfx1201",
+    "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907"
+  },
+  "change_audit": {
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "candidate_patch": {
+      "path": "evidence/candidate.patch",
+      "paths": [
+        "ggml/src/ggml-cuda/ggml-cuda.cu",
+        "ggml/src/ggml-cuda/mmq.cu",
+        "ggml/src/ggml-cuda/mmq.cuh",
+        "tests/test-backend-ops.cpp"
+      ],
+      "sha256": "d2d378cfb8d17a393020d8a0ef55195ae58150b9302236ec6fd7a10a8c72a2d0"
+    },
+    "changed_files": [
+      "ggml/src/ggml-cuda/ggml-cuda.cu",
+      "ggml/src/ggml-cuda/mmq.cu",
+      "ggml/src/ggml-cuda/mmq.cuh",
+      "tests/test-backend-ops.cpp"
+    ],
+    "excluded_preexisting_p2p_paths": [
+      "ggml/src/ggml-cuda/allreduce.cu",
+      "ggml/src/ggml-cuda/allreduce.cuh"
+    ],
+    "forbidden_implementation_absent": true,
+    "implementation": {
+      "default_off": true,
+      "graph_behavior": "derive gate/up from GLU edges; launch one Q8_1 quantization and two existing MMQ dispatches; return skip=1; leave F32 GLU execution unchanged",
+      "kernel_changes": false,
+      "name_contract": "blk.<layer>.ffn_gate.weight, blk.<same layer>.ffn_up.weight, attn_post_norm-<same layer>",
+      "scratch_lifetime": "one local ggml_cuda_pool_alloc<char> remains live through quantize, gate MMQ, and up MMQ",
+      "selector": "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP=1; HIP only; runtime cc == GGML_CUDA_CC_RDNA4 + 1; exact Q6_K/F32 M=8704,N=512,K=5120"
+    },
+    "phase": 10,
+    "static_checks": [
+      {
+        "command": "git diff --check -- <candidate paths>",
+        "status": "passed"
+      },
+      {
+        "command": "candidate.patch contains only candidate paths",
+        "status": "passed"
+      },
+      {
+        "command": "cmake build test-backend-ops llama-bench",
+        "status": "passed"
+      },
+      {
+        "command": "both-device correctness and exact/fallback dispatch",
+        "status": "passed"
+      }
+    ],
+    "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907",
+    "tests_added": {
+      "exact": "type=q6_K,glu_op=2,m=512,n=8704,k=5120,use_id=0, batch_dims={1,1}, deterministic inputs, NMSE<=5e-4",
+      "fallback": "same graph with m=256, deterministic inputs, NMSE<=5e-4; selector must reject",
+      "harness": "MUL_MAT_VEC_FUSION",
+      "registrations": [
+        "eval",
+        "perf"
+      ]
+    },
+    "worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/worktrees/candidate"
+  },
+  "correctness": {
+    "devices": [
+      0,
+      1
+    ],
+    "f32_swiglu_semantics": "preserve current ggml_swiglu_split F32 contract",
+    "nmse_upper_bound": 0.0005,
+    "oracle": "CPU"
+  },
+  "dispatch": {
+    "devices": [
+      0,
+      1
+    ],
+    "exact_mnk": [
+      8704,
+      512,
+      5120
+    ],
+    "shared_q81_once": true
+  },
+  "evidence": {
+    "baseline_build": {
+      "path": "evidence/build-manifest.json",
+      "sha256": "a98a5329d881700dc87b29f60dce8fb984f330d5d30bb8ae071985c15a8cc100",
+      "status": "passed"
+    },
+    "baseline_source": {
+      "path": "../results_phase08_pp_mmq_y64_20260808/evidence/registered-p2p-baseline.patch",
+      "sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+      "status": "passed"
+    },
+    "candidate_build": {
+      "path": "evidence/build-manifest.json",
+      "sha256": "a98a5329d881700dc87b29f60dce8fb984f330d5d30bb8ae071985c15a8cc100",
+      "status": "passed"
+    },
+    "candidate_patch": {
+      "path": "evidence/candidate.patch",
+      "sha256": "d2d378cfb8d17a393020d8a0ef55195ae58150b9302236ec6fd7a10a8c72a2d0",
+      "status": "passed"
+    },
+    "correctness": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/attempts/p10-v2-a/backend-gate/backend-gate.json",
+      "sha256": "1a1c9c06903b8d36e6b201b6947d6ac601f4a9aa74dc698ace3a7946bf654dfb",
+      "status": "passed"
+    },
+    "dispatch": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/attempts/p10-v2-a/dispatch/dispatch-witness.json",
+      "sha256": "45bb8c24cdc964ee3c066288e42bb167e3527e473461d317c0e02ba9b1531e06",
+      "status": "passed"
+    },
+    "exact_op_timing": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/attempts/p10-v2-a/backend-gate/backend-gate.json",
+      "sha256": "1a1c9c06903b8d36e6b201b6947d6ac601f4a9aa74dc698ace3a7946bf654dfb",
+      "status": "passed"
+    },
+    "fallback_dispatch": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/attempts/p10-v2-a/dispatch/dispatch-witness.json",
+      "sha256": "45bb8c24cdc964ee3c066288e42bb167e3527e473461d317c0e02ba9b1531e06",
+      "status": "passed"
+    },
+    "graph_tensor_parallel": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/attempts/p10-v2-a/whole-pp/whole-pp.json",
+      "sha256": "0544dfb5537c88c2f02bddda8a6f5c3632026feeadaf10024f23966605c765f3",
+      "status": "passed"
+    },
+    "resources": {
+      "path": "evidence/resources.json",
+      "sha256": "b843b67d3de1f5f59da45dae26050759e17a6f3321ae430bb74cdb8abb2673f0",
+      "status": "passed"
+    },
+    "whole_pp": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase10_shared_q8_gate_up_20260808/attempts/p10-v2-a/whole-pp/whole-pp.json",
+      "sha256": "0544dfb5537c88c2f02bddda8a6f5c3632026feeadaf10024f23966605c765f3",
+      "status": "passed"
+    }
+  },
+  "fallback_dispatch": {
+    "baseline_unchanged": true,
+    "devices": [
+      0,
+      1
+    ]
+  },
+  "graph_tensor_parallel": {
+    "allreduce_reordered": false,
+    "devices": [
+      0,
+      1
+    ],
+    "normal_graph_capture_replay": true,
+    "ownership_preserved": true
+  },
+  "resources": {
+    "achieved_bandwidth": {
+      "reason": "ROCm 7.2 lists gfx1201 FETCH_SIZE, but prior exact nonmultiplexed captures produced no joinable value; test-backend-ops calculated GB/s is retained only as a timing diagnostic, not mislabeled as a hardware counter",
+      "status": "unavailable"
+    },
+    "capabilities": {
+      "devices": [
+        "AMD Radeon AI PRO R9700 gfx1201 card0",
+        "AMD Radeon AI PRO R9700 gfx1201 card1"
+      ],
+      "rocm_smi_sha256": "7dcf0d48f19c252636c474c31772b4153115af8b153987db5585f1715cb26061",
+      "rocminfo_sha256": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef",
+      "rocprofv3_list_avail_device0_sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841",
+      "rocprofv3_list_avail_device1_sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841"
+    },
+    "dynamic_occupancy": {
+      "reason": "ROCm 7.2 lists gfx1201 OccupancyPercent, but all four prior exact nonmultiplexed Phase 6 captures timed out at 120 seconds; Phase 10 changes no GPU kernel and did not repeat a known non-producing capture",
+      "status": "unavailable"
+    },
+    "kernel": "_ZL9mul_mat_qIL9ggml_type14ELi128ELb0EEvPKcPKiS4_S4_PfS5_15HIP_vector_typeIjLj3EEiiiiiS7_S7_iiiS7_S7_iiiS7_.kd",
+    "resource_provenance": {
+      "amdhsa_notes_sha256": "070a89eb1b68cc0a47363b102f34c86c65136eeff490fbae65da888b4066ec4e",
+      "code_object_sha256": "3017559c2c0f24f9b3b42416dcb7cb8654db767b70bedaf458f779440a53abcd",
+      "dynamic_lds_source": "Phase 7 exact gfx1201 recorder for unchanged MMQ X=128/Y=128/eight-wave dispatch",
+      "runtime_trace": "attempts/p10-v2-a/dispatch; exact rows retain 256-thread wave32 geometry and two unchanged Q6_K MMQ launches",
+      "static_group_segment_bytes": 0
+    },
+    "schema_version": "apex.phase10.resources.v1",
+    "static": {
+      "0": {
+        "LDS": 57856,
+        "SGPR": 27,
+        "VGPR": 229,
+        "private_segment": 0,
+        "spills": 0,
+        "wave_count": 8
+      },
+      "1": {
+        "LDS": 57856,
+        "SGPR": 27,
+        "VGPR": 229,
+        "private_segment": 0,
+        "spills": 0,
+        "wave_count": 8
+      }
+    },
+    "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907"
+  },
+  "selector": {
+    "default_off": true,
+    "environment": {
+      "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP": "1"
+    },
+    "fallback": "upstream baseline path for every nonmatch and selector-off match",
+    "master_rollback_environment": {
+      "GGML_CUDA_DISABLE_FUSION": "1"
+    },
+    "required": {
+      "activation_name": "attn_post_norm-<layer>",
+      "arch": "gfx1201",
+      "cc": "GGML_CUDA_CC_RDNA4 + 1",
+      "gate_weight_name": "blk.<layer>.ffn_gate.weight",
+      "glu": "GGML_GLU_OP_SWIGLU un-swapped",
+      "hip": true,
+      "k": 5120,
+      "m": 8704,
+      "n": 512,
+      "node_ops": [
+        "GGML_OP_MUL_MAT",
+        "GGML_OP_MUL_MAT",
+        "GGML_OP_GLU"
+      ],
+      "phase": "PP",
+      "type": "Q6_K",
+      "up_weight_name": "blk.<layer>.ffn_up.weight"
+    }
+  },
+  "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907",
+  "timing": {
+    "exact_op": {
+      "baseline_binary_sha256": "fdac535e8f8ba763825e699a9840e0d1369905087949881669aefe5242723ee8",
+      "baseline_selector": {
+        "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP": "unset_or_not_1"
+      },
+      "candidate_binary_sha256": "fdac535e8f8ba763825e699a9840e0d1369905087949881669aefe5242723ee8",
+      "candidate_selector": {
+        "GGML_CUDA_Q6K_SHARED_Q8_GATE_UP": "1"
+      },
+      "combined_gate_up_speedup": 0.9998964267219057,
+      "devices": [
+        0,
+        1
+      ],
+      "outlier_removal": false,
+      "relative_spread": 0.006008183560366689,
+      "rounds": 3,
+      "same_build": true
+    },
+    "whole_pp": {
+      "candidate_speedup": 1.0036274186816143,
+      "normal_graphs": true,
+      "outlier_removal": false,
+      "processes_per_variant": 3,
+      "relative_spread": 0.0025888830804816462,
+      "same_build": true
+    }
+  }
+}

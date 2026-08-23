@@ -1,0 +1,43 @@
+{
+  "schema_version": "apex.phase8.checked_in_summary.v1",
+  "outcome": "reject_static_infeasible",
+  "finalization": "complete",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "registered_p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+  "requested_candidate": {
+    "type": "GGML_TYPE_Q6_K",
+    "arch": "gfx1201",
+    "scope": "global",
+    "mmq_x": 128,
+    "mmq_y": 64,
+    "nwarps": 8,
+    "default_off": true
+  },
+  "static_rejection": {
+    "location": "ggml/src/ggml-cuda/mmq.cuh:mmq_write_back_mma",
+    "expression": "nwarps * tile_C::I == mmq_y",
+    "gfx1201_values": {
+      "nwarps": 8,
+      "tile_C_I": 16,
+      "candidate_mmq_y": 64
+    },
+    "reason": "8 * 16 == 128, not 64; a valid eight-wave remap needs new ownership and reduction semantics."
+  },
+  "not_performed": [
+    "candidate source change",
+    "candidate or baseline build",
+    "llama-bench build",
+    "test-backend-ops build",
+    "GPU workload",
+    "occupancy query",
+    "HSACO extraction",
+    "counter collection"
+  ],
+  "portable_evidence": {
+    "static_task_sha256": "4a53698c3b18a3b2701f9c4b1a66c8ac2d4381204ab3e7898f6baf736e38a020",
+    "static_gate_result_sha256": "8fbd8a6173946dc21c98a8eb1012196ea7a948b6fb569fe41a8a3f6028a24d44",
+    "static_infeasibility_markdown_sha256": "166aeddc077134db971359e1923b8da73a67b110da3d0035816f0b781c0a07b5",
+    "static_infeasibility_json_sha256": "1490b0c5763f1f7b04528d1ba846fb688d624c6d5d8f5c0126eeebb9db764b83",
+    "static_proof_source_sha256": "b612aedae0e033b752581fe5048aea3855b3719b546cee90048ad0ba13b5d59a"
+  }
+}

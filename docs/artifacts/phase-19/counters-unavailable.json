@@ -1,0 +1,8 @@
+{
+  "schema": "apex.phase19.counters.v1",
+  "achieved_occupancy": "unavailable",
+  "achieved_bandwidth": "unavailable",
+  "fresh_attempt_run": false,
+  "reason": "Prior bounded gfx1201 OccupancyPercent/FETCH_SIZE rocprofv3 attempts repeatedly timed out without a joinable row. Phase 19 obtained exact static/runtime allocation and dispatch evidence; it does not substitute those values for achieved counters or repeat the known non-joinable procedure.",
+  "static_values_are_not_achieved_metrics": true
+}

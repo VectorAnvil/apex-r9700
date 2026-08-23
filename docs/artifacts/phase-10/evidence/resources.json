@@ -1,0 +1,48 @@
+{
+  "schema_version": "apex.phase10.resources.v1",
+  "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907",
+  "kernel": "_ZL9mul_mat_qIL9ggml_type14ELi128ELb0EEvPKcPKiS4_S4_PfS5_15HIP_vector_typeIjLj3EEiiiiiS7_S7_iiiS7_S7_iiiS7_.kd",
+  "static": {
+    "0": {
+      "VGPR": 229,
+      "SGPR": 27,
+      "LDS": 57856,
+      "private_segment": 0,
+      "spills": 0,
+      "wave_count": 8
+    },
+    "1": {
+      "VGPR": 229,
+      "SGPR": 27,
+      "LDS": 57856,
+      "private_segment": 0,
+      "spills": 0,
+      "wave_count": 8
+    }
+  },
+  "resource_provenance": {
+    "code_object_sha256": "3017559c2c0f24f9b3b42416dcb7cb8654db767b70bedaf458f779440a53abcd",
+    "amdhsa_notes_sha256": "070a89eb1b68cc0a47363b102f34c86c65136eeff490fbae65da888b4066ec4e",
+    "static_group_segment_bytes": 0,
+    "dynamic_lds_source": "Phase 7 exact gfx1201 recorder for unchanged MMQ X=128/Y=128/eight-wave dispatch",
+    "runtime_trace": "attempts/p10-v2-a/dispatch; exact rows retain 256-thread wave32 geometry and two unchanged Q6_K MMQ launches"
+  },
+  "dynamic_occupancy": {
+    "status": "unavailable",
+    "reason": "ROCm 7.2 lists gfx1201 OccupancyPercent, but all four prior exact nonmultiplexed Phase 6 captures timed out at 120 seconds; Phase 10 changes no GPU kernel and did not repeat a known non-producing capture"
+  },
+  "achieved_bandwidth": {
+    "status": "unavailable",
+    "reason": "ROCm 7.2 lists gfx1201 FETCH_SIZE, but prior exact nonmultiplexed captures produced no joinable value; test-backend-ops calculated GB/s is retained only as a timing diagnostic, not mislabeled as a hardware counter"
+  },
+  "capabilities": {
+    "devices": [
+      "AMD Radeon AI PRO R9700 gfx1201 card0",
+      "AMD Radeon AI PRO R9700 gfx1201 card1"
+    ],
+    "rocminfo_sha256": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef",
+    "rocm_smi_sha256": "7dcf0d48f19c252636c474c31772b4153115af8b153987db5585f1715cb26061",
+    "rocprofv3_list_avail_device0_sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841",
+    "rocprofv3_list_avail_device1_sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841"
+  }
+}

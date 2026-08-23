@@ -1,0 +1,159 @@
+diff --git a/common/arg.cpp b/common/arg.cpp
+index 202ebcb0f..8ffa96f12 100644
+--- a/common/arg.cpp
++++ b/common/arg.cpp
+@@ -3751,6 +3751,27 @@ common_params_context common_params_parser_init(common_params & params, llama_ex
+             params.speculative.draft.devices = parse_device_list(value);
+         }
+     ).set_spec().set_examples({LLAMA_EXAMPLE_SPECULATIVE, LLAMA_EXAMPLE_SERVER, LLAMA_EXAMPLE_CLI}));
++    add_opt(common_arg(
++        {"--spec-draft-split-mode"}, "{none,layer,row,tensor}",
++        "how to split the draft model across its devices (default: inherit target split mode)",
++        [](common_params & params, const std::string & value) {
++            if (value == "none") {
++                params.speculative.draft.split_mode = LLAMA_SPLIT_MODE_NONE;
++            } else if (value == "layer") {
++                params.speculative.draft.split_mode = LLAMA_SPLIT_MODE_LAYER;
++            } else if (value == "row") {
++                params.speculative.draft.split_mode = LLAMA_SPLIT_MODE_ROW;
++            } else if (value == "tensor") {
++                params.speculative.draft.split_mode = LLAMA_SPLIT_MODE_TENSOR;
++            } else {
++                throw std::invalid_argument("invalid value");
++            }
++            params.speculative.draft.split_mode_set = true;
++            if (!llama_supports_gpu_offload()) {
++                fprintf(stderr, "warning: llama.cpp was compiled without support for GPU offload. Setting the draft split mode has no effect.\n");
++            }
++        }
++    ).set_spec().set_examples({LLAMA_EXAMPLE_SPECULATIVE, LLAMA_EXAMPLE_SERVER, LLAMA_EXAMPLE_CLI}).set_env("LLAMA_ARG_SPEC_DRAFT_SPLIT_MODE"));
+     GGML_ASSERT(params.speculative.draft.n_gpu_layers < 0); // string_format would need to be extended for a default >= 0
+     add_opt(common_arg(
+         {"--spec-draft-ngl", "-ngld", "--gpu-layers-draft", "--n-gpu-layers-draft"}, "N",
+diff --git a/common/common.h b/common/common.h
+index 153531700..53446a043 100644
+--- a/common/common.h
++++ b/common/common.h
+@@ -338,6 +338,9 @@ struct common_params_speculative_draft {
+ 
+     int32_t n_gpu_layers = -1; // number of layers to store in VRAM for the draft model (-1 - use default)
+ 
++    enum llama_split_mode split_mode = LLAMA_SPLIT_MODE_LAYER;
++    bool split_mode_set = false; // when false, inherit the target model split mode
++
+     ggml_type cache_type_k = GGML_TYPE_F16; // KV cache data type for the K
+     ggml_type cache_type_v = GGML_TYPE_F16; // KV cache data type for the V
+ 
+diff --git a/common/speculative.cpp b/common/speculative.cpp
+index 580728a20..2a3afeb0e 100644
+--- a/common/speculative.cpp
++++ b/common/speculative.cpp
+@@ -2233,6 +2233,10 @@ common_params common_base_params_to_speculative(const common_params & params) {
+         result.n_gpu_layers          = params_spec.n_gpu_layers;
+         result.tensor_buft_overrides = params_spec.tensor_buft_overrides;
+ 
++        if (params_spec.split_mode_set) {
++            result.split_mode = params_spec.split_mode;
++        }
++
+         if (params_spec.cpuparams.n_threads > 0) {
+             result.cpuparams.n_threads       = params_spec.cpuparams.n_threads;
+             result.cpuparams_batch.n_threads = params_spec.cpuparams_batch.n_threads;
+diff --git a/ggml/src/ggml-backend-meta.cpp b/ggml/src/ggml-backend-meta.cpp
+index 1f29ec867..a6d259cd5 100644
+--- a/ggml/src/ggml-backend-meta.cpp
++++ b/ggml/src/ggml-backend-meta.cpp
+@@ -1523,7 +1523,7 @@ static ggml_backend_buffer_t ggml_backend_meta_buffer_type_alloc_buffer(ggml_bac
+ struct ggml_backend_buffer * ggml_backend_meta_alloc_ctx_tensors_from_buft(struct ggml_context * ctx, ggml_backend_buffer_type_t buft) {
+     const size_t n_simple_bufts = ggml_backend_meta_buft_n_bufts(buft);
+ 
+-    constexpr size_t compute_headroom = 16; // Maximum number of views per statically allocated tensor that can be created between evals.
++    constexpr size_t compute_headroom = 17; // Maximum number of views per statically allocated tensor that can be created between evals.
+     const ggml_init_params params_static = {
+         /*.mem_size   =*/ ggml_get_mem_size(ctx),
+         /*.mem_buffer =*/ nullptr,
+diff --git a/src/llama-context.cpp b/src/llama-context.cpp
+index 5edfc85ab..33af571fe 100644
+--- a/src/llama-context.cpp
++++ b/src/llama-context.cpp
+@@ -300,6 +300,26 @@ llama_context::llama_context(
+             backends.emplace_back(backend);
+         }
+ 
++        // Some assistant models share tensors from ctx_other. Make those tensor
++        // devices available without changing either model's placement.
++        if (cparams.ctx_other != nullptr) {
++            const auto * model_other = llama_get_model(cparams.ctx_other);
++            for (const auto & dev_other : model_other->devices) {
++                const bool already_present = std::any_of(model.devices.begin(), model.devices.end(), [&](const auto & dev) {
++                    return dev.dev == dev_other.dev;
++                });
++                if (already_present) {
++                    continue;
++                }
++
++                ggml_backend_t backend = ggml_backend_dev_init(dev_other.dev, nullptr);
++                if (backend == nullptr) {
++                    throw std::runtime_error(format("failed to initialize shared tensor %s backend", ggml_backend_dev_name(dev_other.dev)));
++                }
++                backends.emplace_back(backend);
++            }
++        }
++
+         // add ACCEL backends (such as BLAS)
+         for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
+             ggml_backend_dev_t dev = ggml_backend_dev_get(i);
+diff --git a/tests/test-arg-parser.cpp b/tests/test-arg-parser.cpp
+index e83ee85dd..3813d07e9 100644
+--- a/tests/test-arg-parser.cpp
++++ b/tests/test-arg-parser.cpp
+@@ -1,6 +1,7 @@
+ #include "arg.h"
+ #include "common.h"
+ #include "download.h"
++#include "speculative.h"
+ 
+ #include <string>
+ #include <vector>
+@@ -98,6 +99,9 @@ static void test(void) {
+     argv = {"binary_name", "-sm", "hello"};
+     assert(false == common_params_parse(argv.size(), list_str_to_char(argv).data(), params, LLAMA_EXAMPLE_COMMON));
+ 
++    argv = {"binary_name", "--spec-draft-split-mode", "hello"};
++    assert(false == common_params_parse(argv.size(), list_str_to_char(argv).data(), params, LLAMA_EXAMPLE_SERVER));
++
+     // non-existence arg in specific example (--draft cannot be used outside llama-speculative)
+     argv = {"binary_name", "--draft", "123"};
+     assert(false == common_params_parse(argv.size(), list_str_to_char(argv).data(), params, LLAMA_EXAMPLE_EMBEDDING));
+@@ -132,6 +136,31 @@ static void test(void) {
+     assert(true == common_params_parse(argv.size(), list_str_to_char(argv).data(), params, LLAMA_EXAMPLE_SPECULATIVE));
+     assert(params.speculative.draft.n_max == 123);
+ 
++    {
++        common_params params_inherit;
++        argv = {"binary_name", "-sm", "tensor", "--spec-draft-model", "draft.gguf"};
++        assert(true == common_params_parse(argv.size(), list_str_to_char(argv).data(), params_inherit, LLAMA_EXAMPLE_SERVER));
++        assert(params_inherit.split_mode == LLAMA_SPLIT_MODE_TENSOR);
++        assert(params_inherit.speculative.draft.split_mode_set == false);
++
++        common_params params_draft = common_base_params_to_speculative(params_inherit);
++        assert(params_draft.split_mode == LLAMA_SPLIT_MODE_TENSOR);
++        assert(params_inherit.split_mode == LLAMA_SPLIT_MODE_TENSOR);
++    }
++
++    {
++        common_params params_override;
++        argv = {"binary_name", "-sm", "tensor", "--spec-draft-model", "draft.gguf", "--spec-draft-split-mode", "layer"};
++        assert(true == common_params_parse(argv.size(), list_str_to_char(argv).data(), params_override, LLAMA_EXAMPLE_SERVER));
++        assert(params_override.split_mode == LLAMA_SPLIT_MODE_TENSOR);
++        assert(params_override.speculative.draft.split_mode_set == true);
++        assert(params_override.speculative.draft.split_mode == LLAMA_SPLIT_MODE_LAYER);
++
++        common_params params_draft = common_base_params_to_speculative(params_override);
++        assert(params_draft.split_mode == LLAMA_SPLIT_MODE_LAYER);
++        assert(params_override.split_mode == LLAMA_SPLIT_MODE_TENSOR);
++    }
++
+     // multi-value args (CSV)
+     argv = {"binary_name", "--lora", "file1.gguf,\"file2,2.gguf\",\"file3\"\"3\"\".gguf\",file4\".gguf"};
+     assert(true == common_params_parse(argv.size(), list_str_to_char(argv).data(), params, LLAMA_EXAMPLE_COMMON));

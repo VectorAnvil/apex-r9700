@@ -1,0 +1,214 @@
+{
+  "schema_version": "apex.phase12.producer_q81_trace_join.v1",
+  "task_fingerprint": "8da43026d4a90c0fbd78470e733b2dfe10542fa539a95032e275a81036b65aeb",
+  "inputs": {
+    "trace_sha256": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd",
+    "host_attribution_sha256": "2ba146c852a193388784ac50a12b528a0764b9fefa9b7f0907374c5a1088320b",
+    "phase7_summary_sha256": "b6bfe03a96bececd03bb436750214313728c1fdff758e4438576da409d1ed5a2"
+  },
+  "join": {
+    "status": "exact",
+    "devices": [
+      0,
+      1
+    ],
+    "repeats_per_device": 6,
+    "layers_per_repeat": 64,
+    "unmatched": 0,
+    "ambiguous": 0,
+    "graph_state": "Phase 2 trace has HIP graphs disabled; Phase 7 host recorder proved identical ordered MMQ sequences with capture inactive and active, but replay counts remain unavailable"
+  },
+  "per_device": {
+    "0": {
+      "rmsnorm_to_shared_q81_gate_up": {
+        "instances": 384,
+        "producer_duration_ns": 11490419,
+        "quantizer_duration_ns": 10227239,
+        "consumer_duration_ns": 965513280
+      },
+      "swiglu_to_q81_ffn_down": {
+        "instances": 384,
+        "producer_duration_ns": 27789038,
+        "quantizer_duration_ns": 7502897,
+        "consumer_duration_ns": 464322212
+      }
+    },
+    "1": {
+      "rmsnorm_to_shared_q81_gate_up": {
+        "instances": 384,
+        "producer_duration_ns": 12346295,
+        "quantizer_duration_ns": 10598017,
+        "consumer_duration_ns": 949390785
+      },
+      "swiglu_to_q81_ffn_down": {
+        "instances": 384,
+        "producer_duration_ns": 27724893,
+        "quantizer_duration_ns": 7453903,
+        "consumer_duration_ns": 455657246
+      }
+    }
+  },
+  "samples": {
+    "0": [
+      {
+        "boundary": "rmsnorm_to_shared_q81_gate_up",
+        "dispatch_ids": [
+          1296,
+          1297,
+          1298,
+          1299,
+          1300
+        ],
+        "layer_weight": "blk.0.ffn_gate.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1301,
+          1302,
+          1303
+        ],
+        "layer_weight": "blk.0.ffn_down.weight"
+      },
+      {
+        "boundary": "rmsnorm_to_shared_q81_gate_up",
+        "dispatch_ids": [
+          1374,
+          1375,
+          1376,
+          1377,
+          1378
+        ],
+        "layer_weight": "blk.1.ffn_gate.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1379,
+          1380,
+          1381
+        ],
+        "layer_weight": "blk.1.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1457,
+          1458,
+          1459
+        ],
+        "layer_weight": "blk.2.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1517,
+          1518,
+          1519
+        ],
+        "layer_weight": "blk.3.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1595,
+          1596,
+          1597
+        ],
+        "layer_weight": "blk.4.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1673,
+          1674,
+          1675
+        ],
+        "layer_weight": "blk.5.ffn_down.weight"
+      }
+    ],
+    "1": [
+      {
+        "boundary": "rmsnorm_to_shared_q81_gate_up",
+        "dispatch_ids": [
+          1305,
+          1306,
+          1307,
+          1308,
+          1309
+        ],
+        "layer_weight": "blk.0.ffn_gate.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1310,
+          1311,
+          1312
+        ],
+        "layer_weight": "blk.0.ffn_down.weight"
+      },
+      {
+        "boundary": "rmsnorm_to_shared_q81_gate_up",
+        "dispatch_ids": [
+          1383,
+          1384,
+          1385,
+          1386,
+          1387
+        ],
+        "layer_weight": "blk.1.ffn_gate.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1388,
+          1389,
+          1390
+        ],
+        "layer_weight": "blk.1.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1466,
+          1467,
+          1468
+        ],
+        "layer_weight": "blk.2.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1526,
+          1527,
+          1528
+        ],
+        "layer_weight": "blk.3.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1604,
+          1605,
+          1606
+        ],
+        "layer_weight": "blk.4.ffn_down.weight"
+      },
+      {
+        "boundary": "swiglu_to_q81_ffn_down",
+        "dispatch_ids": [
+          1682,
+          1683,
+          1684
+        ],
+        "layer_weight": "blk.5.ffn_down.weight"
+      }
+    ]
+  },
+  "connected_operation_share": {
+    "rmsnorm_to_shared_q81_gate_up": 0.38303864846517816,
+    "swiglu_to_q81_ffn_down": 0.18402367755590257
+  },
+  "timing_warning": "Producer and quantizer durations are observed context, not entirely removable time or a speedup prediction."
+}

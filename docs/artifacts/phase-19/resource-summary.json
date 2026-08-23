@@ -1,0 +1,392 @@
+{
+  "achieved_bandwidth": {
+    "status": "unavailable"
+  },
+  "achieved_occupancy": {
+    "status": "unavailable"
+  },
+  "device_symbol_identity": {
+    "n1-fused": {
+      "identical": true,
+      "instrumented_machine_encoding_sha256": "e1e296ca889c46ce33856b9654eb253d5d0d713014707366cec66fa541ca81f4",
+      "registered_machine_encoding_sha256": "e1e296ca889c46ce33856b9654eb253d5d0d713014707366cec66fa541ca81f4"
+    },
+    "n1-unfused": {
+      "identical": true,
+      "instrumented_machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d",
+      "registered_machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d"
+    },
+    "n2-unfused": {
+      "identical": true,
+      "instrumented_machine_encoding_sha256": "e29118a87198c682436c8fea577ac0e4c8cb495707c6620fa7529ea967f073ee",
+      "registered_machine_encoding_sha256": "e29118a87198c682436c8fea577ac0e4c8cb495707c6620fa7529ea967f073ee"
+    },
+    "n3-unfused": {
+      "identical": true,
+      "instrumented_machine_encoding_sha256": "6e8ee5e23130621049157163aa5c1e88ad715bc477e0fee7709970a5244716e7",
+      "registered_machine_encoding_sha256": "6e8ee5e23130621049157163aa5c1e88ad715bc477e0fee7709970a5244716e7"
+    },
+    "n4-unfused": {
+      "identical": true,
+      "instrumented_machine_encoding_sha256": "1f8ceeec250b0765c6e380c072234ffdc139991bc3db7dbb7e17edb0d507387f",
+      "registered_machine_encoding_sha256": "1f8ceeec250b0765c6e380c072234ffdc139991bc3db7dbb7e17edb0d507387f"
+    },
+    "n5-unfused": {
+      "identical": true,
+      "instrumented_machine_encoding_sha256": "275f56d28e9434908d4017406c730ad3760016e14c3e5e24efbc09d47200b4bb",
+      "registered_machine_encoding_sha256": "275f56d28e9434908d4017406c730ad3760016e14c3e5e24efbc09d47200b4bb"
+    }
+  },
+  "instrumented": {
+    "fatbin_sha256": "80ecce0def0a4188d30d6d86ab8053c0a51d870456e3b27625983af7b46d2ba2",
+    "hsaco_sha256": "31008e5bdb6620a78f8504c535cfda25224ca8aa40f767bf65d1d425500370fe",
+    "object_sha256": "2f08ade027eaeb32d968cb8f5ebda7880c52be9c7bf750f51eb15c3df102426c",
+    "symbols": {
+      "n1-fused": {
+        "isa": {
+          "global_load": 16,
+          "instruction_lines": 652,
+          "s_branch": 8,
+          "s_cbranch": 32,
+          "s_wait_alu": 35,
+          "s_wait_loadcnt": 11,
+          "v_and": 25,
+          "v_cvt_f32": 6,
+          "v_dot4": 4,
+          "v_fma_f32": 4,
+          "v_lshl": 30,
+          "v_lshr": 17,
+          "v_mul_f32": 18,
+          "v_or": 15
+        },
+        "isa_slice_sha256": "d6f459b1d5fe5aac5e29dd23c3a86a414456b9f8fa260316c8f5fa185898d83a",
+        "machine_encoding_sha256": "e1e296ca889c46ce33856b9654eb253d5d0d713014707366cec66fa541ca81f4",
+        "max_flat_workgroup_size": 256,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 1792,
+        "static_sgpr": 42,
+        "static_vgpr": 35,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n1-unfused": {
+        "isa": {
+          "global_load": 9,
+          "instruction_lines": 294,
+          "s_branch": 1,
+          "s_cbranch": 7,
+          "s_wait_alu": 13,
+          "s_wait_loadcnt": 8,
+          "v_and": 16,
+          "v_cvt_f32": 3,
+          "v_dot4": 2,
+          "v_fma_f32": 0,
+          "v_lshl": 20,
+          "v_lshr": 9,
+          "v_mul_f32": 1,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "6a9a0918b9fc2347c796299cc4b6a30119302f09eb234ec077952eedc158fbe5",
+        "machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d",
+        "max_flat_workgroup_size": 256,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 896,
+        "static_sgpr": 26,
+        "static_vgpr": 26,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n2-unfused": {
+        "isa": {
+          "global_load": 13,
+          "instruction_lines": 287,
+          "s_branch": 0,
+          "s_cbranch": 5,
+          "s_wait_alu": 19,
+          "s_wait_loadcnt": 6,
+          "v_and": 13,
+          "v_cvt_f32": 6,
+          "v_dot4": 4,
+          "v_fma_f32": 0,
+          "v_lshl": 21,
+          "v_lshr": 10,
+          "v_mul_f32": 0,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "b9ad200d8fa988c700946061eafdcecdce91f5e79aab45588b7634b6a90bca4f",
+        "machine_encoding_sha256": "e29118a87198c682436c8fea577ac0e4c8cb495707c6620fa7529ea967f073ee",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 35,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n3-unfused": {
+        "isa": {
+          "global_load": 17,
+          "instruction_lines": 344,
+          "s_branch": 0,
+          "s_cbranch": 6,
+          "s_wait_alu": 23,
+          "s_wait_loadcnt": 6,
+          "v_and": 13,
+          "v_cvt_f32": 9,
+          "v_dot4": 6,
+          "v_fma_f32": 0,
+          "v_lshl": 23,
+          "v_lshr": 10,
+          "v_mul_f32": 0,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "0228ef3d937b55782887a38f3c11e333e352acb8ed72ca3cba722d00556bef51",
+        "machine_encoding_sha256": "6e8ee5e23130621049157163aa5c1e88ad715bc477e0fee7709970a5244716e7",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 41,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n4-unfused": {
+        "isa": {
+          "global_load": 21,
+          "instruction_lines": 381,
+          "s_branch": 0,
+          "s_cbranch": 7,
+          "s_wait_alu": 27,
+          "s_wait_loadcnt": 7,
+          "v_and": 15,
+          "v_cvt_f32": 12,
+          "v_dot4": 8,
+          "v_fma_f32": 0,
+          "v_lshl": 23,
+          "v_lshr": 10,
+          "v_mul_f32": 0,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "81e27d87824595bd4543249145f03c140459beccb85dd51257a70fc85299cbd5",
+        "machine_encoding_sha256": "1f8ceeec250b0765c6e380c072234ffdc139991bc3db7dbb7e17edb0d507387f",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 47,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n5-unfused": {
+        "isa": {
+          "global_load": 25,
+          "instruction_lines": 436,
+          "s_branch": 0,
+          "s_cbranch": 8,
+          "s_wait_alu": 32,
+          "s_wait_loadcnt": 8,
+          "v_and": 14,
+          "v_cvt_f32": 15,
+          "v_dot4": 10,
+          "v_fma_f32": 0,
+          "v_lshl": 20,
+          "v_lshr": 10,
+          "v_mul_f32": 5,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "4b9abed2a76e489e06d83b2b331bfaf7e5b4d1d5aff5e5df8c74f04ebcfabaf1",
+        "machine_encoding_sha256": "275f56d28e9434908d4017406c730ad3760016e14c3e5e24efbc09d47200b4bb",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 50,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      }
+    }
+  },
+  "llvm": "AMD LLVM version 22.0.0git",
+  "registered": {
+    "fatbin_sha256": "e8dbc0783dcd840e7dc05f29bde0e65359fe8aa5b0d51337833fa9e812ed8ded",
+    "hsaco_sha256": "bcfccbeb09a2200c39224899409fcabf53c4c454284c8ad40d65238e7b3f63eb",
+    "object_sha256": "0fd0e9b39fbd01f02d3e9488cb06d89e539ee5107ffc4ec7587629ac07abd5aa",
+    "symbols": {
+      "n1-fused": {
+        "isa": {
+          "global_load": 16,
+          "instruction_lines": 652,
+          "s_branch": 8,
+          "s_cbranch": 32,
+          "s_wait_alu": 35,
+          "s_wait_loadcnt": 11,
+          "v_and": 25,
+          "v_cvt_f32": 6,
+          "v_dot4": 4,
+          "v_fma_f32": 4,
+          "v_lshl": 30,
+          "v_lshr": 17,
+          "v_mul_f32": 18,
+          "v_or": 15
+        },
+        "isa_slice_sha256": "d6f459b1d5fe5aac5e29dd23c3a86a414456b9f8fa260316c8f5fa185898d83a",
+        "machine_encoding_sha256": "e1e296ca889c46ce33856b9654eb253d5d0d713014707366cec66fa541ca81f4",
+        "max_flat_workgroup_size": 256,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 1792,
+        "static_sgpr": 42,
+        "static_vgpr": 35,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n1-unfused": {
+        "isa": {
+          "global_load": 9,
+          "instruction_lines": 294,
+          "s_branch": 1,
+          "s_cbranch": 7,
+          "s_wait_alu": 13,
+          "s_wait_loadcnt": 8,
+          "v_and": 16,
+          "v_cvt_f32": 3,
+          "v_dot4": 2,
+          "v_fma_f32": 0,
+          "v_lshl": 20,
+          "v_lshr": 9,
+          "v_mul_f32": 1,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "6a9a0918b9fc2347c796299cc4b6a30119302f09eb234ec077952eedc158fbe5",
+        "machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d",
+        "max_flat_workgroup_size": 256,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 896,
+        "static_sgpr": 26,
+        "static_vgpr": 26,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n2-unfused": {
+        "isa": {
+          "global_load": 13,
+          "instruction_lines": 287,
+          "s_branch": 0,
+          "s_cbranch": 5,
+          "s_wait_alu": 19,
+          "s_wait_loadcnt": 6,
+          "v_and": 13,
+          "v_cvt_f32": 6,
+          "v_dot4": 4,
+          "v_fma_f32": 0,
+          "v_lshl": 21,
+          "v_lshr": 10,
+          "v_mul_f32": 0,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "b9ad200d8fa988c700946061eafdcecdce91f5e79aab45588b7634b6a90bca4f",
+        "machine_encoding_sha256": "e29118a87198c682436c8fea577ac0e4c8cb495707c6620fa7529ea967f073ee",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 35,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n3-unfused": {
+        "isa": {
+          "global_load": 17,
+          "instruction_lines": 344,
+          "s_branch": 0,
+          "s_cbranch": 6,
+          "s_wait_alu": 23,
+          "s_wait_loadcnt": 6,
+          "v_and": 13,
+          "v_cvt_f32": 9,
+          "v_dot4": 6,
+          "v_fma_f32": 0,
+          "v_lshl": 23,
+          "v_lshr": 10,
+          "v_mul_f32": 0,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "0228ef3d937b55782887a38f3c11e333e352acb8ed72ca3cba722d00556bef51",
+        "machine_encoding_sha256": "6e8ee5e23130621049157163aa5c1e88ad715bc477e0fee7709970a5244716e7",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 41,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n4-unfused": {
+        "isa": {
+          "global_load": 21,
+          "instruction_lines": 381,
+          "s_branch": 0,
+          "s_cbranch": 7,
+          "s_wait_alu": 27,
+          "s_wait_loadcnt": 7,
+          "v_and": 15,
+          "v_cvt_f32": 12,
+          "v_dot4": 8,
+          "v_fma_f32": 0,
+          "v_lshl": 23,
+          "v_lshr": 10,
+          "v_mul_f32": 0,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "81e27d87824595bd4543249145f03c140459beccb85dd51257a70fc85299cbd5",
+        "machine_encoding_sha256": "1f8ceeec250b0765c6e380c072234ffdc139991bc3db7dbb7e17edb0d507387f",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 47,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      },
+      "n5-unfused": {
+        "isa": {
+          "global_load": 25,
+          "instruction_lines": 436,
+          "s_branch": 0,
+          "s_cbranch": 8,
+          "s_wait_alu": 32,
+          "s_wait_loadcnt": 8,
+          "v_and": 14,
+          "v_cvt_f32": 15,
+          "v_dot4": 10,
+          "v_fma_f32": 0,
+          "v_lshl": 20,
+          "v_lshr": 10,
+          "v_mul_f32": 5,
+          "v_or": 8
+        },
+        "isa_slice_sha256": "4b9abed2a76e489e06d83b2b331bfaf7e5b4d1d5aff5e5df8c74f04ebcfabaf1",
+        "machine_encoding_sha256": "275f56d28e9434908d4017406c730ad3760016e14c3e5e24efbc09d47200b4bb",
+        "max_flat_workgroup_size": 32,
+        "private_segment_bytes": 0,
+        "sgpr_spills": 0,
+        "static_group_segment_bytes": 0,
+        "static_sgpr": 32,
+        "static_vgpr": 50,
+        "vgpr_spills": 0,
+        "wavefront_size": 32
+      }
+    }
+  },
+  "schema": "apex.phase19.mmvq_resources.v1"
+}

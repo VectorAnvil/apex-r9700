@@ -1,0 +1,68 @@
+{
+  "baseline": {
+    "fused_eight": {
+      "group_segment_fixed_size": 1792,
+      "max_flat_workgroup_size": 256,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 42,
+      "sgpr_spill_count": 0,
+      "symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "vgpr_count": 35,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    "sha256": "cf542205788c841a9563a082fe5d72ff7fcc090cd33c7453995563d9c36209f6",
+    "target": "hipv4-amdgcn-amd-amdhsa--gfx1201",
+    "unfused_eight": {
+      "group_segment_fixed_size": 896,
+      "max_flat_workgroup_size": 256,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 26,
+      "sgpr_spill_count": 0,
+      "symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "vgpr_count": 26,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    }
+  },
+  "candidate": {
+    "fused_eight": {
+      "group_segment_fixed_size": 1792,
+      "max_flat_workgroup_size": 256,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 42,
+      "sgpr_spill_count": 0,
+      "symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "vgpr_count": 35,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    "sha256": "b7e152202347220b6aa1715effdbb264ed61c473d66c7bb7d0d31f166178e6c3",
+    "target": "hipv4-amdgcn-amd-amdhsa--gfx1201",
+    "unfused_eight": {
+      "group_segment_fixed_size": 896,
+      "max_flat_workgroup_size": 256,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 26,
+      "sgpr_spill_count": 0,
+      "symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "vgpr_count": 26,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    "unfused_four": {
+      "group_segment_fixed_size": 384,
+      "max_flat_workgroup_size": 128,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 26,
+      "sgpr_spill_count": 0,
+      "symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj",
+      "vgpr_count": 26,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    }
+  },
+  "causal_claim": false,
+  "schema_version": "apex.phase5.code_object.v1",
+  "tool": "AMD LLVM version 22.0.0git"
+}

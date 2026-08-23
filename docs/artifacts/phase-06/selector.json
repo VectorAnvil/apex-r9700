@@ -1,0 +1,42 @@
+{
+  "candidate": "fused_q6_k_n1_nwarps12",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "source_facts": {
+    "qk": 256,
+    "qi": 32,
+    "mmvq_vdr": 1,
+    "wavefront_size": 32,
+    "k": 5120,
+    "quant_blocks_per_row": 20,
+    "eight_wave_blocks_per_iteration": 8,
+    "eight_wave_k_loop_iterations": 3,
+    "twelve_wave_blocks_per_iteration": 12,
+    "twelve_wave_k_loop_iterations": 2
+  },
+  "selector": {
+    "parameter_table": "RDNA4",
+    "type": "Q6_K",
+    "ncols_dst": 1,
+    "nrows_x": 8704,
+    "ncols_x": 5120,
+    "ids_pointer": "null",
+    "small_k": false,
+    "gate_pointer": "nonnull",
+    "glu_op": "GGML_GLU_OP_SWIGLU",
+    "x_bias": null,
+    "gate_bias": null,
+    "x_scale": null,
+    "gate_scale": null
+  },
+  "launch": {
+    "threads": 384,
+    "legal_under_dynamic_workgroup_limit": true,
+    "dynamic_workgroup_limit": 1024,
+    "nominal_fused_lds_bytes": 2816
+  },
+  "source_hashes": {
+    "mmvq_cu": "6f74bf36e6439c1907c2381aeda2fa2b24f1faba31232bae0bf5e638e6f3eaf8",
+    "common_cuh": "a977b50f7479df092bf3c441ba88e4519803b5f0df5a640fd7fb0874e64b9b4c",
+    "ggml_common_h": "af255601767325f087313fa84b9435cb77aeec37df6b61b98d9ecc65f29fb4a0"
+  }
+}

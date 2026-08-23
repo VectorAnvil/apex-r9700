@@ -1,0 +1,52 @@
+{
+  "schema_version": "apex.phase17.final_result.v1",
+  "task_fingerprint": "9a6cb6261eb93eeefd4f576bca8a1273c94ac031368e218e6cde86ba98eb2039",
+  "decision": "complete_no_go",
+  "eligible_for_phase17b": false,
+  "reason": "The exact native-dot8 construction uses only four of eight lanes, requires eight dot8 instructions versus two productive DP4A instructions, grows matched code from 60 to 158 instructions, ALU waits from 1 to 16, VGPR from 2 to 6, and SGPR from 16 to 22.",
+  "correctness": {
+    "status": "pass",
+    "scalar_cases": 131072,
+    "scalar_failures": 0,
+    "packed_vector_cases": 5,
+    "float_order_cases": 3,
+    "independent_scale_boundary_proved": true,
+    "oracle_sha256": "935b2cc93812d8d98c6fcea9d1d58780f526392a93f58c06ec6db82c19b20618"
+  },
+  "codegen": {
+    "native_dot8_emitted": true,
+    "instruction": "v_dot8_i32_iu4",
+    "reference_dot_instructions": 2,
+    "candidate_dot_instructions": 8,
+    "reference_instruction_count": 60,
+    "candidate_instruction_count": 158,
+    "reference_function_size_bytes": 372,
+    "candidate_function_size_bytes": 876,
+    "reference_wait_alu": 1,
+    "candidate_wait_alu": 16
+  },
+  "resources": {
+    "reference": {"vgpr": 2, "sgpr": 16, "lds_bytes": 0, "private_bytes": 0, "spills": 0},
+    "candidate": {"vgpr": 6, "sgpr": 22, "lds_bytes": 0, "private_bytes": 0, "spills": 0},
+    "registered_fused_baseline": {"vgpr": 35, "sgpr": 42, "lds_bytes": 1792, "private_bytes": 0, "spills": 0},
+    "projection_status": "fail: matched +4 VGPR/+6 SGPR exceeds frozen +2/+0 allowance; production integration was not built"
+  },
+  "attempts_preserved": {
+    "v1_task": "incorrect H=sign4(high2 xor 2) rebias identity; oracle failure preserved and superseded before probe compilation",
+    "v2_compile_1": "standalone probe referenced llama.cpp-only __vsubss4/__vsub4 helpers; failure preserved",
+    "v2_disassembly_1": "hipcc --genco output was an offload bundle; direct llvm-objdump failed until the gfx1201 HSACO was unbundled"
+  },
+  "provenance": {
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "probe_sha256": "9453003e3a61dd76f73131a4a24a7955ab137af6ffdd355ec5c1901609d90fe6",
+    "gfx1201_hsaco_sha256": "126c58b05f7c75874bd808ccd3ca6a5e51fbc0670639d846e87c7655dfc225bb"
+  },
+  "execution": {
+    "gpu_launches": 0,
+    "benchmarks": 0,
+    "llama_cpp_candidate_builds": 0,
+    "registered_assets_mutated": false
+  },
+  "follow_up": "Do not create Phase17B and do not combine this arithmetic with K2/K4. Return to hotspot selection rather than rescuing native dot8."
+}

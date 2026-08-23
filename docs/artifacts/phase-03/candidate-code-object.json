@@ -1,0 +1,62 @@
+{
+  "baseline": {
+    "false": {
+      "ds": 10,
+      "instructions": 294,
+      "lds": 896,
+      "private": 0,
+      "sgpr": 26,
+      "sgpr_spills": 0,
+      "vgpr": 26,
+      "vgpr_spills": 0,
+      "wavefront": 32,
+      "workgroup_max": 256
+    },
+    "hsaco_sha256": "23c590e31a77f55c0e3f702c740796ebd8261df7c6c0aa220ad94ce3cc6de835",
+    "true": {
+      "ds": 26,
+      "instructions": 652,
+      "lds": 1792,
+      "private": 0,
+      "sgpr": 42,
+      "sgpr_spills": 0,
+      "vgpr": 35,
+      "vgpr_spills": 0,
+      "wavefront": 32,
+      "workgroup_max": 256
+    }
+  },
+  "candidate": {
+    "false": {
+      "ds": 8,
+      "instructions": 284,
+      "lds": 384,
+      "private": 0,
+      "sgpr": 26,
+      "sgpr_spills": 0,
+      "vgpr": 26,
+      "vgpr_spills": 0,
+      "wavefront": 32,
+      "workgroup_max": 128
+    },
+    "hsaco_sha256": "71efa23254f321121fb899b87c94244a57caedaee91f37e6ce5be7ca6a069d91",
+    "true": {
+      "ds": 18,
+      "instructions": 620,
+      "lds": 768,
+      "private": 0,
+      "sgpr": 42,
+      "sgpr_spills": 0,
+      "vgpr": 35,
+      "vgpr_spills": 0,
+      "wavefront": 32,
+      "workgroup_max": 128
+    }
+  },
+  "schema_version": "apex.phase3.code-object.v0",
+  "target": "hipv4-amdgcn-amd-amdhsa--gfx1201",
+  "tools": {
+    "llvm_objdump": "AMD LLVM version 22.0.0git",
+    "llvm_readobj": "AMD LLVM version 22.0.0git"
+  }
+}

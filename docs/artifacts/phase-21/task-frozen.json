@@ -1,0 +1,19 @@
+{
+  "schema_version": "apex.phase21.dflash_ddtree_feasibility.v1",
+  "immutable_after_fingerprint": true,
+  "task_fingerprint": "17fda85d2c7421f892c70951d1bda811be19d124d9368ccefac5725d49705196",
+  "objective": "Determine whether DFlash plus DDTree is technically and economically feasible for the registered dual-gfx1201 Qwen3.6-27B Q6_K Apex/llama.cpp stack, without implementing or benchmarking a candidate.",
+  "baseline": {
+    "llama_source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "hardware": "2 x Radeon AI PRO R9700, gfx1201, ROCm 7.2, tensor split with direct P2P",
+    "phase19_mtp": "Q6_K N=5 owns 56.9103% of summed request GPU kernel duration; current target-backed MTP is the control",
+    "phase20b": "R2 rejected before GPU work at 80 VGPR and 34 SGPR"
+  },
+  "scope": {
+    "allowed": ["read-only source inspection", "shallow source snapshots", "host-only arithmetic and memory models", "tracked documentation"],
+    "forbidden": ["registered mutation", "candidate implementation", "GPU launch or benchmark", "large model download or conversion", "performance claim without measurement"]
+  },
+  "required_decision": ["feasible", "feasible_with_major_work", "unlikely", "blocked"]
+}

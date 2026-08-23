@@ -1,0 +1,122 @@
+{
+  "baseline": {
+    "binary_sha256": "2f84686b2d249c191a6a7c6cb81f6754e07e2633131307bb5157f358140510cd",
+    "fresh_confirmation_required": true,
+    "hsaco_sha256": "23c590e31a77f55c0e3f702c740796ebd8261df7c6c0aa220ad94ce3cc6de835",
+    "mmvq_object_sha256": "9f1096ecbb0d1772497ad43f55bb7beccd48eaa00688b37a6c5752783ab128b6"
+  },
+  "candidate": {
+    "binary_sha256": "23e06419012535cf7e458d533b8eb1777d4ec9b622f15874cede66733b3e6372",
+    "diff_sha256": "8003dba642a37092a6fb1a9601d13d0c4dd1c7338a2d9c532bbbf4dd9026ad62",
+    "hsaco_sha256": "71efa23254f321121fb899b87c94244a57caedaee91f37e6ce5be7ca6a069d91",
+    "id": "rdna4-q6k-nwarps4",
+    "mmvq_object_sha256": "b693e8cb25d493c133cee623d9ad817b8d80b11ec8c8863772793081b880644c",
+    "patch_sha256": "bdbe7b5098e860e8d2870fac2cad24020a8c4937f5998de4286646fb9a847d6b",
+    "rollback": "restore RDNA4 Q6_K calc_nwarps return value from 4 to 8"
+  },
+  "commands": {
+    "environment": {
+      "HIP_VISIBLE_DEVICES": "0"
+    },
+    "forbidden_environment": [
+      "GGML_CUDA_DISABLE_GRAPHS"
+    ],
+    "runner": [
+      "/home/adam/workspaces/ChatGPT/Apex/results_phase03_q6k_mmv_20260808/tools/run_series.py",
+      "<variant>",
+      "<series>",
+      "--samples",
+      "3"
+    ]
+  },
+  "correctness": {
+    "baseline_artifacts": [
+      "baseline/correctness-deterministic.csv",
+      "baseline/correctness-fused-deterministic.csv"
+    ],
+    "candidate_artifacts": [
+      "candidates/rdna4-q6k-nwarps4/correctness-deterministic.csv",
+      "candidates/rdna4-q6k-nwarps4/correctness-fused-deterministic.csv"
+    ],
+    "fused_required_rows": 1,
+    "required_rows": 4
+  },
+  "created_at": "2026-08-08T15:15:32.859266+00:00",
+  "evidence": {
+    "logical_shape_status": "unavailable from rocprofv3; cases are GGUF-derived",
+    "observed_launch": {
+      "trace_lds_bytes": 1024,
+      "wavefronts": 8,
+      "workgroup": [
+        32,
+        8,
+        1
+      ]
+    },
+    "phase2_profile_sha256": "6c9f4508a016f53ff082dd96a8c3bf94fd6bf100e97d3c1b65219e27b5b66e89"
+  },
+  "fingerprint_fields": {
+    "gpu": {
+      "device": 0,
+      "name": "AMD Radeon AI PRO R9700",
+      "target": "gfx1201",
+      "wavefront": 32
+    },
+    "inputs_manifest_sha256": "e7653c32ac05723ad8a203f7247d4082cb9462b8523ef944448fb8b041f3b46a",
+    "lever": {
+      "baseline_warps": 8,
+      "candidate_warps": 4,
+      "id": "rdna4-q6k-nwarps4"
+    },
+    "metric": {
+      "instability_relative_spread_threshold": 0.035,
+      "internal_duration_min_seconds_per_case": 1,
+      "order": "A/B/A",
+      "primary": "median avg_time_us per shape",
+      "samples_per_series": 3,
+      "win_threshold_speedup": 1.01
+    },
+    "oracle": {
+      "harness_source_sha256": "47de4260407ddbc6ac1e33587098b684bcda0c210364dd2eef6ec7e2f7fe684e",
+      "implementation": "GGML CPU backend reference comparison",
+      "max_nmse": 0.0005,
+      "timing_runner_sha256": "5b28db4b8e9cf7305094f66091e474527e2fe3bd60954cb534bc7c7fce1891aa"
+    },
+    "source": {
+      "registered_p2p_diff_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+      "target_file": "ggml/src/ggml-cuda/mmvq.cu",
+      "upstream_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f"
+    },
+    "target": {
+      "phase": "tg",
+      "phase2_share_percent": 70.903,
+      "quant": "Q6_K",
+      "source_attribution_confidence": "low",
+      "symbols": [
+        "mul_mat_vec_q<(ggml_type)14, 1, false, false>",
+        "mul_mat_vec_q<(ggml_type)14, 1, true, false>"
+      ]
+    },
+    "toolchain": {
+      "build_type": "Release",
+      "hip_compiler": "clang 22.0.0",
+      "rocm": "7.2.26015"
+    }
+  },
+  "immutable": true,
+  "schema_version": "apex.phase3.task.v0",
+  "target_fingerprint": "297a07be77dbabde2a93c9429c45ef9c75928a1f9e0d4ec2cfdbd4a0d209c9b0",
+  "task_id": "q6k-tg-mmv-rdna4-nwarps4-confirmation",
+  "variance_policy": {
+    "threshold_derivation": "twice the median per-shape baseline relative spread in the deterministic exploratory A/B/A run, rounded up to 3.5%",
+    "unstable_cannot_win": true
+  },
+  "write_boundary": {
+    "candidate_allowed_files": [
+      "ggml/src/ggml-cuda/mmvq.cu"
+    ],
+    "registered_build_mutation": false,
+    "registered_source_mutation": false,
+    "results_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase03_q6k_mmv_20260808"
+  }
+}

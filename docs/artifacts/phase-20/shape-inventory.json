@@ -1,0 +1,35 @@
+{
+  "schema": "apex.phase20.n5_shape_inventory.v1",
+  "basis": "Phase19 normal-graph semantic recorder; counts below are per device across active and non-capture executions",
+  "n5_records_per_device": 1010,
+  "all_m_even": true,
+  "all_k_q6_block_aligned": true,
+  "shapes": [
+    {"m": 24, "n": 5, "k": 5120, "calls_per_device": 192},
+    {"m": 512, "n": 5, "k": 5120, "calls_per_device": 68},
+    {"m": 3072, "n": 5, "k": 5120, "calls_per_device": 96},
+    {"m": 5120, "n": 5, "k": 3072, "calls_per_device": 130},
+    {"m": 5120, "n": 5, "k": 5120, "calls_per_device": 96},
+    {"m": 5120, "n": 5, "k": 8704, "calls_per_device": 130},
+    {"m": 5120, "n": 5, "k": 10240, "calls_per_device": 2},
+    {"m": 6144, "n": 5, "k": 5120, "calls_per_device": 34},
+    {"m": 8704, "n": 5, "k": 5120, "calls_per_device": 260},
+    {"m": 124160, "n": 5, "k": 5120, "calls_per_device": 2}
+  ],
+  "material_operation_classes": [
+    "ffn_gate",
+    "ffn_up",
+    "ffn_down",
+    "attention_projection",
+    "linear_attention_projection",
+    "lm_head",
+    "mtp_nextn"
+  ],
+  "profile_request": {
+    "calls_both_devices": 39390,
+    "duration_ns": 2228049695,
+    "share_of_summed_request_gpu_kernel_duration": 0.5691031442564903,
+    "gpu0_share": 0.5186126814519478,
+    "gpu1_share": 0.6282387904110814
+  }
+}

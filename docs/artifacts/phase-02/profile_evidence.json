@@ -1,0 +1,2254 @@
+{
+  "artifacts": [
+    {
+      "bytes": 14754,
+      "canonical": false,
+      "path": "HOTSPOTS.md",
+      "sha256": "96665f5795c210159a25cf8e8defd9d3e1cc61e9bd1cd25b73bedd6198823a92"
+    },
+    {
+      "bytes": 957,
+      "canonical": false,
+      "path": "gpu_identity.json",
+      "sha256": "174dc9d9abc6dee3dfdf4d5ed610c6c0c26171170f3c42eae0a6b35fe64f7221"
+    },
+    {
+      "bytes": 35319,
+      "canonical": false,
+      "path": "pp/capture_manifest.json",
+      "sha256": "860a8d35db7ce062d938b5f3521d63e2ec30fabae88c89d6f04a23c57b208402"
+    },
+    {
+      "bytes": 558900,
+      "canonical": false,
+      "path": "pp/normalized_kernels.json",
+      "sha256": "46c06f6e7923ecd7228dd222f55f260d162625cc59927189aee09fa6c8348a28"
+    },
+    {
+      "bytes": 1833,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_agent_info.csv",
+      "sha256": "ba8fdfcda8d7076fbcf7c37354e21f0749aa120e6e95d3f2d64fd9e32476c67a"
+    },
+    {
+      "bytes": 6680,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_config.json",
+      "sha256": "ac487293c47292fbdae4954f8dceacb9eb8a00bfd68eea91da054c9e613ffbeb"
+    },
+    {
+      "bytes": 397,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_domain_stats.csv",
+      "sha256": "6470cf3f5d1d757a5ea77288977539b13d80aeb9de59e635e54522c035e6f083"
+    },
+    {
+      "bytes": 2325,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_hip_api_stats.csv",
+      "sha256": "930204bbf245b8d6329fd73a1125e8f9565816796f3910cb0dab7a83033f95cb"
+    },
+    {
+      "bytes": 10963987,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_hip_api_trace.csv",
+      "sha256": "f1ec6dbcf6b5e696bb50bb6caa97f92d64316b2c941afe89a2f35b7625895de5"
+    },
+    {
+      "bytes": 3572,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_kernel_stats.csv",
+      "sha256": "2c886fb32d45210c3ec8bb4e0575173232dbf45da7d0e06eb65bf177a5e5dbcb"
+    },
+    {
+      "bytes": 6121642,
+      "canonical": true,
+      "path": "pp/raw/cornelius/2490453_kernel_trace.csv",
+      "sha256": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd"
+    },
+    {
+      "bytes": 254,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_memory_allocation_stats.csv",
+      "sha256": "e39781daf7e78e2344353511841f288147e41e0bbc2be4c260dcf6191bea74ec"
+    },
+    {
+      "bytes": 7705,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_memory_allocation_trace.csv",
+      "sha256": "b0fae2944d9afd2618e639bdab9ec170bd7d2593f056a9c27c2ef1d679a0df67"
+    },
+    {
+      "bytes": 353,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_memory_copy_stats.csv",
+      "sha256": "bd2018438879b851df4d487d0f2c876c9ee11df64ef8be11b9d7858b318fcf42"
+    },
+    {
+      "bytes": 453118,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_memory_copy_trace.csv",
+      "sha256": "89386aa208d60aca4ebec741235ff39f534de2cd2edc7a67e46cf69c49c4c9b2"
+    },
+    {
+      "bytes": 60723679,
+      "canonical": false,
+      "path": "pp/raw/cornelius/2490453_results.json",
+      "sha256": null
+    },
+    {
+      "bytes": 4081,
+      "canonical": false,
+      "path": "pp/stderr.log",
+      "sha256": "3c93506912d729fa69ddc69e595064d887f54685cdac821b54458f9cdf2b0e76"
+    },
+    {
+      "bytes": 1165,
+      "canonical": false,
+      "path": "pp/stdout.log",
+      "sha256": "818631a55265e82bc6c57a1ef0ea894e4d125226933ead7244f12279abaef5f8"
+    },
+    {
+      "bytes": 126373,
+      "canonical": false,
+      "path": "profile_evidence.json",
+      "sha256": "279446f75335024dacfdc6873c1adf58fcd5928dc0e94da53ca43169a9a82fa8"
+    },
+    {
+      "bytes": 107069,
+      "canonical": false,
+      "path": "profile_manifest.json",
+      "sha256": "a8bfdba38b4ca374d8da0debfa566392f64a21365b106d75b767e0ebfea6c7c3"
+    },
+    {
+      "bytes": 24,
+      "canonical": false,
+      "path": "rocm_agents.txt",
+      "sha256": "d28121a56456860224a729899ff4c46647931086adbb61250c9dc26745575f8a"
+    },
+    {
+      "bytes": 60137,
+      "canonical": false,
+      "path": "rocprofv3_capabilities.txt",
+      "sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841"
+    },
+    {
+      "bytes": 309,
+      "canonical": false,
+      "path": "rocprofv3_version.txt",
+      "sha256": "a86d97900fff9f3cc5b59f9ddc7c5da3f2181b1fb176904780f78aa834b61464"
+    },
+    {
+      "bytes": 35319,
+      "canonical": false,
+      "path": "tg/capture_manifest.json",
+      "sha256": "d733cd495b0b1cd02ac0bd2fc4f32df337adc10e8e8aa03598191fcbaca9e656"
+    },
+    {
+      "bytes": 546379,
+      "canonical": false,
+      "path": "tg/normalized_kernels.json",
+      "sha256": "bfc8c3a9534948e405650ab8b6fc588a0868fdfebc2930f1a1862e44a17a22ec"
+    },
+    {
+      "bytes": 1833,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_agent_info.csv",
+      "sha256": "ba8fdfcda8d7076fbcf7c37354e21f0749aa120e6e95d3f2d64fd9e32476c67a"
+    },
+    {
+      "bytes": 6680,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_config.json",
+      "sha256": "05262944761646b052492e907d4aa1d308b18778efe9b0a46c46013dee67cc18"
+    },
+    {
+      "bytes": 395,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_domain_stats.csv",
+      "sha256": "5d14c2e56f2c7e4531c334b24c3bef941b875b34773f8dcdde82ee65298eda6a"
+    },
+    {
+      "bytes": 1968,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_hip_api_stats.csv",
+      "sha256": "dac507170b78ec782b889bb8e3958dd730f5c25f916d58af0125329c614668f5"
+    },
+    {
+      "bytes": 793484225,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_hip_api_trace.csv",
+      "sha256": "aaf37a3608f1ad065f36b1fbcd821938aed73afb6674dae9f039bcef15ff564f"
+    },
+    {
+      "bytes": 3384,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_kernel_stats.csv",
+      "sha256": "1e4e9f71409f6da83dca9a6ec246ef0421e723b1ae4b7993a547d4a2d82bc070"
+    },
+    {
+      "bytes": 560758142,
+      "canonical": true,
+      "path": "tg/raw/cornelius/2490710_kernel_trace.csv",
+      "sha256": "dd4fe80729863c7485267189d618dbbd72195978feb95d2ed20f45a0d53dfa98"
+    },
+    {
+      "bytes": 253,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_memory_allocation_stats.csv",
+      "sha256": "8dd9d0f762801f54b3f1b839bfa01413ce8baebac5476aac3de75e3af58e91a8"
+    },
+    {
+      "bytes": 8194,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_memory_allocation_trace.csv",
+      "sha256": "fe989ece07e526eb41fcb26f3894d274e175233f6f0ff2fcc009cff0e36b8d72"
+    },
+    {
+      "bytes": 353,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_memory_copy_stats.csv",
+      "sha256": "3676b32ab25b9f40520fa20d30e021ff48b4a310479bc8816679f4d1876feabe"
+    },
+    {
+      "bytes": 558764,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_memory_copy_trace.csv",
+      "sha256": "d73472ded907320cdfadae11ecb019ec3fa1916fe6898ef09974a2d6f1ef0b49"
+    },
+    {
+      "bytes": 4371287677,
+      "canonical": false,
+      "path": "tg/raw/cornelius/2490710_results.json",
+      "sha256": null
+    },
+    {
+      "bytes": 4081,
+      "canonical": false,
+      "path": "tg/stderr.log",
+      "sha256": "bf4f3321f6b78022d61da1a63324d31d0b258b899de76fbff4b3f9d324f4531c"
+    },
+    {
+      "bytes": 1171,
+      "canonical": false,
+      "path": "tg/stdout.log",
+      "sha256": "3369fcf636f425ac242c96bd5f9d34881cc733fd6a349109c29614c94998d20a"
+    }
+  ],
+  "build_identity": {
+    "compile_commands_path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/compile_commands.json",
+    "compile_commands_sha256": "5163bd918d6b657a878712c687a07e067591c8b7b90afb2604a009ea5c3fb900",
+    "compiled_sources": [
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/acc.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/add-id.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/allreduce.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/arange.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/argmax.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/argsort.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/clamp.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/col2im-1d.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/concat.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/conv-transpose-1d.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/conv2d-dw.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/conv2d-transpose.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/conv2d.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/convert.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/count-equal.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/cpy.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/cross-entropy-loss.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/cumsum.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/diag.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/diagmask.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-wmma-f16.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fill.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fwht.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/getrows.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/ggml-cuda.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gla.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/im2col.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mean.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmf.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmid.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvf.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/opt-step-adamw.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/opt-step-sgd.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/out-prod.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/pad.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/pad_reflect_1d.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/pool2d.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/roll.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/rope.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/scale.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/set-rows.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/set.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/snake.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/softcap.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/softmax.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/solve_tri.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/ssm-conv.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/ssm-scan.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/sum.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/sumrows.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_16.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_32.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_8.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_1.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_2.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_4.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_16.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_32.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_4.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_8.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_1.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_2.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_16.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_2.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_4.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_8.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_64-ncols2_1.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_1.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_2.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_4.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_8.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq112-dv112.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq128-dv128.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq192-dv128.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq256-dv256.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq320-dv256.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq40-dv40.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq512-dv512.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq576-dv512.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq64-dv64.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq72-dv72.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq80-dv80.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq96-dv96.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-bf16.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-f16.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_0.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q8_0.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_1.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_10.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_11.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_12.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_13.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_14.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_15.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_16.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_2.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_3.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_4.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_5.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_6.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_7.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_8.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_9.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq1_s.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq2_s.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq2_xs.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq2_xxs.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq3_s.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq3_xxs.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq4_nl.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-iq4_xs.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-mxfp4.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-nvfp4.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q1_0.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q2_k.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q3_k.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q4_0.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q4_1.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q4_k.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q5_0.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q5_1.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q5_k.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q6_k.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/template-instances/mmq-instance-q8_0.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/top-k.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/topk-moe.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/tri.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/tsembd.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/unary.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/upscale.cu",
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/wkv.cu"
+    ],
+    "entry_count": 557,
+    "ggml_cuda_roots": [
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda"
+    ]
+  },
+  "phases": {
+    "pp": {
+      "argv": [
+        "/opt/rocm-7.2.0/bin/rocprofv3",
+        "--runtime-trace",
+        "--stats",
+        "--mangled-kernels",
+        "--output-config",
+        "--output-directory",
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase02_qwen36_p2p_nographs_20260808/pp/raw",
+        "--output-format",
+        "csv",
+        "json",
+        "--",
+        "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+        "-m",
+        "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+        "-p",
+        "0",
+        "-n",
+        "0",
+        "-pg",
+        "512,0",
+        "-b",
+        "2048",
+        "-ub",
+        "512",
+        "-sm",
+        "tensor",
+        "-fa",
+        "1",
+        "-r",
+        "5",
+        "-o",
+        "jsonl",
+        "-t",
+        "12",
+        "-ngl",
+        "99"
+      ],
+      "capture_id": "33a989b1-34aa-4cf3-8f11-5535a451eb59",
+      "cwd": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p",
+      "ended_at": "2026-08-08T11:44:58.281128+00:00",
+      "environment_overrides": {
+        "GGML_CUDA_DISABLE_GRAPHS": "1",
+        "HIP_VISIBLE_DEVICES": "0,1"
+      },
+      "kernel_trace": "pp/raw/cornelius/2490453_kernel_trace.csv",
+      "kernel_trace_sha256": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd",
+      "started_at": "2026-08-08T11:44:47.256460+00:00",
+      "top_kernels": [
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 851.03,
+          "calls": 2400,
+          "demangled_name": "void mul_mat_q<(ggml_type)14, 128, false>(char const*, int const*, int const*, int const*, float*, float*, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 40.8556,
+          "raw_kernel_name": "_ZL9mul_mat_qIL9ggml_type14ELi128ELb0EEvPKcPKiS4_S4_PfS5_15HIP_vector_typeIjLj3EEiiiiiS7_S7_iiiS7_S7_iiiS7_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "// The mul_mat_q kernel implements \"stream-k\" work partitioning as described in https://arxiv.org/abs/2301.03598",
+                "line": 3528,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "static __global__ void mul_mat_q(",
+                "line": 3542,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x, false>), nbytes_shared);",
+                "line": 3955,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x,  true>), nbytes_shared);",
+                "line": 3956,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3978,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3986,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4018,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4036,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_q"
+          },
+          "total_time_us": 2042469.94
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 836.26,
+          "calls": 2400,
+          "demangled_name": "void mul_mat_q<(ggml_type)14, 128, false>(char const*, int const*, int const*, int const*, float*, float*, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 40.1464,
+          "raw_kernel_name": "_ZL9mul_mat_qIL9ggml_type14ELi128ELb0EEvPKcPKiS4_S4_PfS5_15HIP_vector_typeIjLj3EEiiiiiS7_S7_iiiS7_S7_iiiS7_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "// The mul_mat_q kernel implements \"stream-k\" work partitioning as described in https://arxiv.org/abs/2301.03598",
+                "line": 3528,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "static __global__ void mul_mat_q(",
+                "line": 3542,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x, false>), nbytes_shared);",
+                "line": 3955,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x,  true>), nbytes_shared);",
+                "line": 3956,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3978,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3986,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4018,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4036,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_q"
+          },
+          "total_time_us": 2007015.14
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 480.14,
+          "calls": 288,
+          "demangled_name": "void gated_delta_net_cuda<128, false, false>(float const*, float const*, float const*, float const*, float const*, float const*, float*, float*, long, long, long, long, long, long, long, long, long, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float, long, int)",
+          "percent_total": 2.766,
+          "raw_kernel_name": "_Z20gated_delta_net_cudaILi128ELb0ELb0EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vector_typeIjLj3EES4_fli.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "gated_delta_net_cuda(const float * q,",
+                "line": 6,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<16, KDA, keep_rs_t>, launch_params,",
+                "line": 192,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<32, KDA, keep_rs_t>, launch_params,",
+                "line": 198,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<64, KDA, keep_rs_t>, launch_params,",
+                "line": 204,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<128, KDA, keep_rs_t>, launch_params,",
+                "line": 211,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "gated_delta_net_cuda"
+          },
+          "total_time_us": 138280.43
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 473.6,
+          "calls": 288,
+          "demangled_name": "void gated_delta_net_cuda<128, false, false>(float const*, float const*, float const*, float const*, float const*, float const*, float*, float*, long, long, long, long, long, long, long, long, long, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float, long, int)",
+          "percent_total": 2.7284,
+          "raw_kernel_name": "_Z20gated_delta_net_cudaILi128ELb0ELb0EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vector_typeIjLj3EES4_fli.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "gated_delta_net_cuda(const float * q,",
+                "line": 6,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<16, KDA, keep_rs_t>, launch_params,",
+                "line": 192,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<32, KDA, keep_rs_t>, launch_params,",
+                "line": 198,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<64, KDA, keep_rs_t>, launch_params,",
+                "line": 204,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<128, KDA, keep_rs_t>, launch_params,",
+                "line": 211,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "gated_delta_net_cuda"
+          },
+          "total_time_us": 136397.99
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 176.02,
+          "calls": 576,
+          "demangled_name": "void mul_mat_q<(ggml_type)14, 128, true>(char const*, int const*, int const*, int const*, float*, float*, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 2.028,
+          "raw_kernel_name": "_ZL9mul_mat_qIL9ggml_type14ELi128ELb1EEvPKcPKiS4_S4_PfS5_15HIP_vector_typeIjLj3EEiiiiiS7_S7_iiiS7_S7_iiiS7_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "// The mul_mat_q kernel implements \"stream-k\" work partitioning as described in https://arxiv.org/abs/2301.03598",
+                "line": 3528,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "static __global__ void mul_mat_q(",
+                "line": 3542,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x, false>), nbytes_shared);",
+                "line": 3955,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x,  true>), nbytes_shared);",
+                "line": 3956,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3978,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3986,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4018,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4036,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_q"
+          },
+          "total_time_us": 101387.12
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 171.9,
+          "calls": 576,
+          "demangled_name": "void mul_mat_q<(ggml_type)14, 128, true>(char const*, int const*, int const*, int const*, float*, float*, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, int, int, int, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 1.9806,
+          "raw_kernel_name": "_ZL9mul_mat_qIL9ggml_type14ELi128ELb1EEvPKcPKiS4_S4_PfS5_15HIP_vector_typeIjLj3EEiiiiiS7_S7_iiiS7_S7_iiiS7_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "// The mul_mat_q kernel implements \"stream-k\" work partitioning as described in https://arxiv.org/abs/2301.03598",
+                "line": 3528,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "static __global__ void mul_mat_q(",
+                "line": 3542,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x, false>), nbytes_shared);",
+                "line": 3955,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "CUDA_SET_SHARED_MEMORY_LIMIT((mul_mat_q<type, mmq_x,  true>), nbytes_shared);",
+                "line": 3956,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3978,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_xy_tiling, block_dims, nbytes_shared, stream>>>",
+                "line": 3986,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4018,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              },
+              {
+                "evidence": "mul_mat_q<type, mmq_x, need_check><<<block_nums_stream_k, block_dims, nbytes_shared, stream>>>",
+                "line": 4036,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmq.cuh"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_q"
+          },
+          "total_time_us": 99015.6
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 28.61,
+          "calls": 1824,
+          "demangled_name": "void k_bin_bcast<&(op_add(float, float)), float, float, float, float const*>(float const*, float const*, float*, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, float const*)",
+          "percent_total": 1.0438,
+          "raw_kernel_name": "_ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void k_bin_bcast(const src0_t *         src0,",
+                "line": 34,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(k_bin_bcast<bin_op, src0_t, src1_t, dst_t, type_for_index<const src1_t *, I>...>, launch_params,",
+                "line": 348,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "k_bin_bcast"
+          },
+          "total_time_us": 52183.92
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 28.6,
+          "calls": 1824,
+          "demangled_name": "void k_bin_bcast<&(op_add(float, float)), float, float, float, float const*>(float const*, float const*, float*, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, float const*)",
+          "percent_total": 1.0436,
+          "raw_kernel_name": "_ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void k_bin_bcast(const src0_t *         src0,",
+                "line": 34,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(k_bin_bcast<bin_op, src0_t, src1_t, dst_t, type_for_index<const src1_t *, I>...>, launch_params,",
+                "line": 348,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "k_bin_bcast"
+          },
+          "total_time_us": 52170.96
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 12.69,
+          "calls": 2976,
+          "demangled_name": "void quantize_mmq_q8_1<(mmq_q8_1_ds_layout)0>(float const*, int const*, void*, long, long, long, long, long, int, int)",
+          "percent_total": 0.7557,
+          "raw_kernel_name": "_ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout0EEvPKfPKiPvlllllii.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void quantize_mmq_q8_1(",
+                "line": 277,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "quantize_mmq_q8_1<MMQ_Q8_1_DS_LAYOUT_D4>",
+                "line": 405,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "quantize_mmq_q8_1<MMQ_Q8_1_DS_LAYOUT_DS4>",
+                "line": 409,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "quantize_mmq_q8_1<MMQ_Q8_1_DS_LAYOUT_D2S6>",
+                "line": 413,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "quantize_mmq_q8_1"
+          },
+          "total_time_us": 37780.2
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 12.38,
+          "calls": 2976,
+          "demangled_name": "void quantize_mmq_q8_1<(mmq_q8_1_ds_layout)0>(float const*, int const*, void*, long, long, long, long, long, int, int)",
+          "percent_total": 0.737,
+          "raw_kernel_name": "_ZL17quantize_mmq_q8_1IL18mmq_q8_1_ds_layout0EEvPKfPKiPvlllllii.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void quantize_mmq_q8_1(",
+                "line": 277,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "quantize_mmq_q8_1<MMQ_Q8_1_DS_LAYOUT_D4>",
+                "line": 405,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "quantize_mmq_q8_1<MMQ_Q8_1_DS_LAYOUT_DS4>",
+                "line": 409,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "quantize_mmq_q8_1<MMQ_Q8_1_DS_LAYOUT_D2S6>",
+                "line": 413,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "quantize_mmq_q8_1"
+          },
+          "total_time_us": 36843.69
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 48.69,
+          "calls": 672,
+          "demangled_name": "void unary_gated_op_kernel<&(op_silu(float)), float>(float const*, float const*, float*, long, long, long, long)",
+          "percent_total": 0.6545,
+          "raw_kernel_name": "_ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void unary_gated_op_kernel(const T * x, const T * g, T * dst, const int64_t k, const int64_t n, const int64_t o0, const int64_t o1) {",
+                "line": 263,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/unary.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(unary_gated_op_kernel<op, T>, launch_params, x, g, dst, k, n, o0, o1);",
+                "line": 283,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/unary.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "unary_gated_op_kernel"
+          },
+          "total_time_us": 32719.55
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 48.57,
+          "calls": 672,
+          "demangled_name": "void unary_gated_op_kernel<&(op_silu(float)), float>(float const*, float const*, float*, long, long, long, long)",
+          "percent_total": 0.6529,
+          "raw_kernel_name": "_ZL21unary_gated_op_kernelIXadL_ZL7op_silufEEfEvPKT0_S2_PS0_llll.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void unary_gated_op_kernel(const T * x, const T * g, T * dst, const int64_t k, const int64_t n, const int64_t o0, const int64_t o1) {",
+                "line": 263,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/unary.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(unary_gated_op_kernel<op, T>, launch_params, x, g, dst, k, n, o0, o1);",
+                "line": 283,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/unary.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "unary_gated_op_kernel"
+          },
+          "total_time_us": 32639.32
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 32.52,
+          "calls": 774,
+          "demangled_name": "void rms_norm_f32<1024, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.5035,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 25171.45
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 248.53,
+          "calls": 96,
+          "demangled_name": "void flash_attn_tile<256, 256, 16, 2, false>(char const*, char const*, char const*, char const*, char const*, int const*, float*, HIP_vector_type<float, 2u>*, float, float, float, float, unsigned int, float, int, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, int, int, int, int, int, int, long, int, int, long, int, int, int, int, int, long)",
+          "percent_total": 0.4773,
+          "raw_kernel_name": "_ZL15flash_attn_tileILi256ELi256ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj2EEffffjfiS5_IjLj3EEiiiiiiiiiiiliiliiiiil.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void flash_attn_tile(",
+                "line": 794,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1170,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1186,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1198,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1210,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1222,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1233,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "flash_attn_tile"
+          },
+          "total_time_us": 23858.96
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 243.74,
+          "calls": 96,
+          "demangled_name": "void flash_attn_tile<256, 256, 16, 2, false>(char const*, char const*, char const*, char const*, char const*, int const*, float*, HIP_vector_type<float, 2u>*, float, float, float, float, unsigned int, float, int, HIP_vector_type<unsigned int, 3u>, int, int, int, int, int, int, int, int, int, int, int, long, int, int, long, int, int, int, int, int, long)",
+          "percent_total": 0.4681,
+          "raw_kernel_name": "_ZL15flash_attn_tileILi256ELi256ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiPfP15HIP_vector_typeIfLj2EEffffjfiS5_IjLj3EEiiiiiiiiiiiliiliiiiil.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void flash_attn_tile(",
+                "line": 794,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1170,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1186,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1198,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1210,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1222,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              },
+              {
+                "evidence": "fattn_kernel_t fattn_kernel = flash_attn_tile<DKQ, DV, cols_per_block/ncols2, ncols2, use_logit_softcap>;",
+                "line": 1233,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/fattn-tile.cuh"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "flash_attn_tile"
+          },
+          "total_time_us": 23399.08
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 30.06,
+          "calls": 774,
+          "demangled_name": "void rms_norm_f32<1024, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.4655,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 23269.04
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 49.57,
+          "calls": 288,
+          "demangled_name": "void concat_non_cont<unsigned int, 0>(char const*, char const*, char*, long, long, long, long, unsigned long, unsigned long, unsigned long, unsigned long, long, long, long, long, unsigned long, unsigned long, unsigned long, unsigned long, long, long, long, long, unsigned long, unsigned long, unsigned long, unsigned long)",
+          "percent_total": 0.2856,
+          "raw_kernel_name": "_ZL15concat_non_contIjLi0EEvPKcS1_Pcllllmmmmllllmmmmllllmmmm.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "concat_non_cont(",
+                "line": 85,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/concat.cu"
+              },
+              {
+                "evidence": "concat_non_cont<T, dim><<<grid_dim, CUDA_CONCAT_BLOCK_SIZE, 0, stream>>>(",
+                "line": 170,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/concat.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "concat_non_cont"
+          },
+          "total_time_us": 14276.61
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 48.3,
+          "calls": 288,
+          "demangled_name": "void concat_non_cont<unsigned int, 0>(char const*, char const*, char*, long, long, long, long, unsigned long, unsigned long, unsigned long, unsigned long, long, long, long, long, unsigned long, unsigned long, unsigned long, unsigned long, long, long, long, long, unsigned long, unsigned long, unsigned long, unsigned long)",
+          "percent_total": 0.2783,
+          "raw_kernel_name": "_ZL15concat_non_contIjLi0EEvPKcS1_Pcllllmmmmllllmmmmllllmmmm.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "concat_non_cont(",
+                "line": 85,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/concat.cu"
+              },
+              {
+                "evidence": "concat_non_cont<T, dim><<<grid_dim, CUDA_CONCAT_BLOCK_SIZE, 0, stream>>>(",
+                "line": 170,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/concat.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "concat_non_cont"
+          },
+          "total_time_us": 13910.47
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 28.38,
+          "calls": 480,
+          "demangled_name": "void rms_norm_f32<256, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.2725,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 13622.17
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 28.15,
+          "calls": 480,
+          "demangled_name": "void rms_norm_f32<256, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.2703,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 13512.2
+        }
+      ]
+    },
+    "tg": {
+      "argv": [
+        "/opt/rocm-7.2.0/bin/rocprofv3",
+        "--runtime-trace",
+        "--stats",
+        "--mangled-kernels",
+        "--output-config",
+        "--output-directory",
+        "/home/adam/workspaces/ChatGPT/Apex/results_phase02_qwen36_p2p_nographs_20260808/tg/raw",
+        "--output-format",
+        "csv",
+        "json",
+        "--",
+        "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+        "-m",
+        "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+        "-p",
+        "0",
+        "-n",
+        "0",
+        "-pg",
+        "0,128",
+        "-b",
+        "2048",
+        "-ub",
+        "512",
+        "-sm",
+        "tensor",
+        "-fa",
+        "1",
+        "-r",
+        "5",
+        "-o",
+        "jsonl",
+        "-t",
+        "12",
+        "-ngl",
+        "99"
+      ],
+      "capture_id": "3730bdee-5ddf-4ec2-ace5-f15090749177",
+      "cwd": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p",
+      "ended_at": "2026-08-08T11:46:15.589326+00:00",
+      "environment_overrides": {
+        "GGML_CUDA_DISABLE_GRAPHS": "1",
+        "HIP_VISIBLE_DEVICES": "0,1"
+      },
+      "kernel_trace": "tg/raw/cornelius/2490710_kernel_trace.csv",
+      "kernel_trace_sha256": "dd4fe80729863c7485267189d618dbbd72195978feb95d2ed20f45a0d53dfa98",
+      "started_at": "2026-08-08T11:44:58.428423+00:00",
+      "top_kernels": [
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 28.71,
+          "calls": 236529,
+          "demangled_name": "void mul_mat_vec_q<(ggml_type)14, 1, false, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "percent_total": 20.612,
+          "raw_kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void mul_mat_vec_q(",
+                "line": 480,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, true, small_k>, launch_params,",
+                "line": 807,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, false, small_k>, launch_params,",
+                "line": 818,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "// MMVQ = mul_mat_vec_q, MMQ = mul_mat_q",
+                "line": 107,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/vecdotq.cuh"
+              },
+              {
+                "evidence": "// If src0 is a temporary compute buffer it may have some padding that needs to be cleared for mul_mat_vec_q or mul_mat_q.",
+                "line": 1739,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/ggml-cuda.cu"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_vec_q"
+          },
+          "total_time_us": 6789962.79
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 28.48,
+          "calls": 236529,
+          "demangled_name": "void mul_mat_vec_q<(ggml_type)14, 1, false, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "percent_total": 20.4493,
+          "raw_kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void mul_mat_vec_q(",
+                "line": 480,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, true, small_k>, launch_params,",
+                "line": 807,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, false, small_k>, launch_params,",
+                "line": 818,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "// MMVQ = mul_mat_vec_q, MMQ = mul_mat_q",
+                "line": 107,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/vecdotq.cuh"
+              },
+              {
+                "evidence": "// If src0 is a temporary compute buffer it may have some padding that needs to be cleared for mul_mat_vec_q or mul_mat_q.",
+                "line": 1739,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/ggml-cuda.cu"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_vec_q"
+          },
+          "total_time_us": 6736393.32
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 119.95,
+          "calls": 41024,
+          "demangled_name": "void mul_mat_vec_q<(ggml_type)14, 1, true, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "percent_total": 14.938,
+          "raw_kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void mul_mat_vec_q(",
+                "line": 480,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, true, small_k>, launch_params,",
+                "line": 807,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, false, small_k>, launch_params,",
+                "line": 818,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "// MMVQ = mul_mat_vec_q, MMQ = mul_mat_q",
+                "line": 107,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/vecdotq.cuh"
+              },
+              {
+                "evidence": "// If src0 is a temporary compute buffer it may have some padding that needs to be cleared for mul_mat_vec_q or mul_mat_q.",
+                "line": 1739,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/ggml-cuda.cu"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_vec_q"
+          },
+          "total_time_us": 4920871.25
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 119.68,
+          "calls": 41024,
+          "demangled_name": "void mul_mat_vec_q<(ggml_type)14, 1, true, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "percent_total": 14.9039,
+          "raw_kernel_name": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void mul_mat_vec_q(",
+                "line": 480,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, true, small_k>, launch_params,",
+                "line": 807,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(mul_mat_vec_q<type, c_ncols_dst, false, small_k>, launch_params,",
+                "line": 818,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/mmvq.cu"
+              },
+              {
+                "evidence": "// MMVQ = mul_mat_vec_q, MMQ = mul_mat_q",
+                "line": 107,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/vecdotq.cuh"
+              },
+              {
+                "evidence": "// If src0 is a temporary compute buffer it may have some padding that needs to be cleared for mul_mat_vec_q or mul_mat_q.",
+                "line": 1739,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/ggml-cuda.cu"
+              }
+            ],
+            "confidence": "low",
+            "lookup_key": "mul_mat_vec_q"
+          },
+          "total_time_us": 4909635.73
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 52.46,
+          "calls": 82048,
+          "demangled_name": "void ggml_ar_hip_kernel<float>(float const*, float*, float*, float const*, int, int, int volatile*, int volatile*, int*, int)",
+          "percent_total": 13.0651,
+          "raw_kernel_name": "_ZL18ggml_ar_hip_kernelIfEvPKT_PS0_S3_S2_iiPViS5_Pii.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void ggml_ar_hip_kernel(",
+                "line": 986,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/allreduce.cu"
+              },
+              {
+                "evidence": "ggml_ar_hip_kernel<T><<<nblk, GGML_AR_HIP_THREADS, 0, ctx->stream()>>>(",
+                "line": 1164,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/allreduce.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "ggml_ar_hip_kernel"
+          },
+          "total_time_us": 4303880.12
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 13.32,
+          "calls": 82048,
+          "demangled_name": "void ggml_ar_hip_kernel<float>(float const*, float*, float*, float const*, int, int, int volatile*, int volatile*, int*, int)",
+          "percent_total": 3.3179,
+          "raw_kernel_name": "_ZL18ggml_ar_hip_kernelIfEvPKT_PS0_S3_S2_iiPViS5_Pii.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void ggml_ar_hip_kernel(",
+                "line": 986,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/allreduce.cu"
+              },
+              {
+                "evidence": "ggml_ar_hip_kernel<T><<<nblk, GGML_AR_HIP_THREADS, 0, ctx->stream()>>>(",
+                "line": 1164,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/allreduce.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "ggml_ar_hip_kernel"
+          },
+          "total_time_us": 1092984.87
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 1.66,
+          "calls": 277553,
+          "demangled_name": "quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 1.3961,
+          "raw_kernel_name": "_ZL13quantize_q8_1PKfPvlllllj15HIP_vector_typeIjLj3EE.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void quantize_q8_1(",
+                "line": 5,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(quantize_q8_1, launch_params, x, vy, ne00, s01, s02, s03, ne0, ne1, ne2_fastdiv);",
+                "line": 388,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "quantize_q8_1"
+          },
+          "total_time_us": 459887.0
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 1.55,
+          "calls": 277553,
+          "demangled_name": "quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 1.3019,
+          "raw_kernel_name": "_ZL13quantize_q8_1PKfPvlllllj15HIP_vector_typeIjLj3EE.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void quantize_q8_1(",
+                "line": 5,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(quantize_q8_1, launch_params, x, vy, ne00, s01, s02, s03, ne0, ne1, ne2_fastdiv);",
+                "line": 388,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/quantize.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "quantize_q8_1"
+          },
+          "total_time_us": 428874.03
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 3.86,
+          "calls": 82689,
+          "demangled_name": "void rms_norm_f32<1024, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.9698,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 319464.68
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 3.67,
+          "calls": 82689,
+          "demangled_name": "void rms_norm_f32<1024, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.9222,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi1024ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 303777.45
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 3.77,
+          "calls": 62177,
+          "demangled_name": "void k_get_rows_float<float, float>(float const*, int const*, float*, long, long, HIP_vector_type<unsigned int, 3u>, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)",
+          "percent_total": 0.711,
+          "raw_kernel_name": "_ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void k_get_rows_float(",
+                "line": 44,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/getrows.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(k_get_rows_float<src0_t, dst_t>, launch_params,",
+                "line": 170,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/getrows.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "k_get_rows_float"
+          },
+          "total_time_us": 234220.07
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 3.63,
+          "calls": 62177,
+          "demangled_name": "void k_get_rows_float<float, float>(float const*, int const*, float*, long, long, HIP_vector_type<unsigned int, 3u>, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)",
+          "percent_total": 0.6845,
+          "raw_kernel_name": "_ZL16k_get_rows_floatIffEvPKT_PKiPT0_ll15HIP_vector_typeIjLj3EEmmmmmmmmm.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void k_get_rows_float(",
+                "line": 44,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/getrows.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(k_get_rows_float<src0_t, dst_t>, launch_params,",
+                "line": 170,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/getrows.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "k_get_rows_float"
+          },
+          "total_time_us": 225483.48
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 1.86,
+          "calls": 112816,
+          "demangled_name": "void k_bin_bcast<&(op_add(float, float)), float, float, float, float const*>(float const*, float const*, float*, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, float const*)",
+          "percent_total": 0.6384,
+          "raw_kernel_name": "_ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void k_bin_bcast(const src0_t *         src0,",
+                "line": 34,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(k_bin_bcast<bin_op, src0_t, src1_t, dst_t, type_for_index<const src1_t *, I>...>, launch_params,",
+                "line": 348,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "k_bin_bcast"
+          },
+          "total_time_us": 210295.63
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 1.71,
+          "calls": 112816,
+          "demangled_name": "void k_bin_bcast<&(op_add(float, float)), float, float, float, float const*>(float const*, float const*, float*, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, float const*)",
+          "percent_total": 0.586,
+          "raw_kernel_name": "_ZL11k_bin_bcastIXadL_ZL6op_addffEEfffJPKfEEvPKT0_PKT1_PT2_jjj15HIP_vector_typeIjLj3EESB_SB_SB_SB_jjjjjjjjjjjDpT3_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void k_bin_bcast(const src0_t *         src0,",
+                "line": 34,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(k_bin_bcast<bin_op, src0_t, src1_t, dst_t, type_for_index<const src1_t *, I>...>, launch_params,",
+                "line": 348,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/binbcast.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "k_bin_bcast"
+          },
+          "total_time_us": 193050.62
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 4.86,
+          "calls": 30768,
+          "demangled_name": "void gated_delta_net_cuda<128, false, false>(float const*, float const*, float const*, float const*, float const*, float const*, float*, float*, long, long, long, long, long, long, long, long, long, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float, long, int)",
+          "percent_total": 0.454,
+          "raw_kernel_name": "_Z20gated_delta_net_cudaILi128ELb0ELb0EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vector_typeIjLj3EES4_fli.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "gated_delta_net_cuda(const float * q,",
+                "line": 6,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<16, KDA, keep_rs_t>, launch_params,",
+                "line": 192,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<32, KDA, keep_rs_t>, launch_params,",
+                "line": 198,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<64, KDA, keep_rs_t>, launch_params,",
+                "line": 204,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<128, KDA, keep_rs_t>, launch_params,",
+                "line": 211,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "gated_delta_net_cuda"
+          },
+          "total_time_us": 149547.18
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 2.2,
+          "calls": 61536,
+          "demangled_name": "void l2_norm_f32<32>(float const*, float*, int, long, long, long, float)",
+          "percent_total": 0.4117,
+          "raw_kernel_name": "_ZL11l2_norm_f32ILi32EEvPKfPfilllf.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "// static __global__ void l2_norm_f32(const float * x, float * dst, const int ncols, const float eps) {",
+                "line": 211,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "static __global__ void l2_norm_f32(",
+                "line": 245,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(l2_norm_f32<WARP_SIZE>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps);",
+                "line": 427,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(l2_norm_f32<1024>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps);",
+                "line": 431,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "l2_norm_f32"
+          },
+          "total_time_us": 135623.61
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 4.23,
+          "calls": 30768,
+          "demangled_name": "void gated_delta_net_cuda<128, false, false>(float const*, float const*, float const*, float const*, float const*, float const*, float*, float*, long, long, long, long, long, long, long, long, long, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float, long, int)",
+          "percent_total": 0.3955,
+          "raw_kernel_name": "_Z20gated_delta_net_cudaILi128ELb0ELb0EEvPKfS1_S1_S1_S1_S1_PfS2_llllllllllll15HIP_vector_typeIjLj3EES4_fli.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "gated_delta_net_cuda(const float * q,",
+                "line": 6,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<16, KDA, keep_rs_t>, launch_params,",
+                "line": 192,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<32, KDA, keep_rs_t>, launch_params,",
+                "line": 198,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<64, KDA, keep_rs_t>, launch_params,",
+                "line": 204,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(gated_delta_net_cuda<128, KDA, keep_rs_t>, launch_params,",
+                "line": 211,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/gated_delta_net.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "gated_delta_net_cuda"
+          },
+          "total_time_us": 130294.89
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 2.07,
+          "calls": 61536,
+          "demangled_name": "void l2_norm_f32<32>(float const*, float*, int, long, long, long, float)",
+          "percent_total": 0.387,
+          "raw_kernel_name": "_ZL11l2_norm_f32ILi32EEvPKfPfilllf.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "// static __global__ void l2_norm_f32(const float * x, float * dst, const int ncols, const float eps) {",
+                "line": 211,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "static __global__ void l2_norm_f32(",
+                "line": 245,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(l2_norm_f32<WARP_SIZE>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps);",
+                "line": 427,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(l2_norm_f32<1024>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps);",
+                "line": 431,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "l2_norm_f32"
+          },
+          "total_time_us": 127479.56
+        },
+        {
+          "agent_id": "Agent 2",
+          "avg_time_us": 2.07,
+          "calls": 51280,
+          "demangled_name": "void rms_norm_f32<256, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.3223,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 106182.74
+        },
+        {
+          "agent_id": "Agent 1",
+          "avg_time_us": 1.92,
+          "calls": 51280,
+          "demangled_name": "void rms_norm_f32<256, true, false>(float const*, float*, int, long, long, long, float, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, float const*, long, long, long, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>, HIP_vector_type<unsigned int, 3u>)",
+          "percent_total": 0.2986,
+          "raw_kernel_name": "_ZL12rms_norm_f32ILi256ELb1ELb0EEvPKfPfilllfS1_lll15HIP_vector_typeIjLj3EES4_S4_S4_S1_lllS4_S4_S4_S4_.kd",
+          "source_map": {
+            "candidates": [
+              {
+                "evidence": "static __global__ void rms_norm_f32(const float * x,",
+                "line": 77,
+                "match": "definition",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, false>, launch_params,",
+                "line": 311,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,",
+                "line": 319,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true>, launch_params,",
+                "line": 366,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true>, launch_params,",
+                "line": 374,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<256, true, true>, launch_params,",
+                "line": 393,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              },
+              {
+                "evidence": "ggml_cuda_kernel_launch(rms_norm_f32<1024, true, true>, launch_params,",
+                "line": 401,
+                "match": "identifier",
+                "path": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/ggml/src/ggml-cuda/norm.cu"
+              }
+            ],
+            "confidence": "medium",
+            "lookup_key": "rms_norm_f32"
+          },
+          "total_time_us": 98361.63
+        }
+      ]
+    }
+  },
+  "profiler": "rocprofv3",
+  "raw_results_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase02_qwen36_p2p_nographs_20260808",
+  "registered_case": {
+    "batch_size": 2048,
+    "build_id": 2,
+    "build_metadata": {
+      "cmake": {
+        "AMDGPU_TARGETS": "gfx1201",
+        "CMAKE_BUILD_TYPE": "Release",
+        "GGML_HIP": true
+      },
+      "experiment_id": "hip_p2p_allreduce_25197",
+      "patch_commit": "f6f66106f2a960cec2da5a2f1a0f6d476989815f",
+      "patch_repository": "https://github.com/JohnTDI-cpu/llama-hip-p2p-allreduce",
+      "patch_sha256": {
+        "allreduce.cu.patch": "3c146360d41922fb4785c92b29345ac6e125921f8a43eb98eadc4aa8342509ab",
+        "allreduce.cuh.patch": "b96081bcb818e419e4d1c79c3322a3791ceab189637101b8630b5825b9e104ba"
+      },
+      "probe_versions": {
+        "llama-cli": {
+          "version": "9940"
+        },
+        "llama-perplexity": {
+          "version": "9940"
+        }
+      },
+      "source_url": "https://github.com/ggml-org/llama.cpp/discussions/25197",
+      "upstream_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+      "variant": "patched_direct_p2p"
+    },
+    "build_name": "gfx1201 HIP direct-P2P #25197",
+    "flash_attention": true,
+    "generation_length": 128,
+    "microbatch_size": 512,
+    "model_id": 2,
+    "model_name": "Huihui-Qwen3.6-27B-abliterated",
+    "profile_id": 5,
+    "profile_name": "HIP TP patched #25197 - Huihui Qwen3.6 27B Q6_K",
+    "prompt_length": 512,
+    "split_mode": "tensor",
+    "suite_id": 2,
+    "suite_name": "HIP P2P AllReduce #25197 decode",
+    "tool_repetitions": 5
+  },
+  "schema_version": 1
+}

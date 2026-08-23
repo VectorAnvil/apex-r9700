@@ -1,0 +1,8 @@
+{
+  "schema": "apex.phase21.memory_model.compact.v1",
+  "status": "static_projection_only",
+  "fixed": {"draft_file_gib": 3.233, "bf16_feature_ring_mib": 200.0, "ssm_live_f32_mib": 144.0, "ssm_snapshot_f32_mib": 144.0},
+  "budget15_n16": {"ssm_capture_q8_gib": 0.598, "ssm_capture_f32_gib": 2.250, "conv_capture_mib": 35.625},
+  "budget22_n23": {"ssm_capture_q8_gib": 0.859, "ssm_capture_f32_gib": 3.234, "conv_capture_mib": 48.750},
+  "limits": "Runtime allocation, tensor-split replication, draft placement, graph workspace, fragmentation, and per-device headroom are unmeasured."
+}

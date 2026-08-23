@@ -1,0 +1,52 @@
+{
+  "baseline": {
+    "false": {
+      "group_segment_fixed_size": 896,
+      "max_flat_workgroup_size": 256,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 26,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 26,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    "sha256": "d2193a491c2ec5d54b115705bb55a3c99bb26978e2966687be1b5b97dd3403ca",
+    "target": "hipv4-amdgcn-amd-amdhsa--gfx1201",
+    "true": {
+      "group_segment_fixed_size": 1792,
+      "max_flat_workgroup_size": 256,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 42,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 35,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    }
+  },
+  "candidate": {
+    "false": {
+      "group_segment_fixed_size": 384,
+      "max_flat_workgroup_size": 128,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 26,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 26,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    "sha256": "5a86281e951e2c8223756a491e253eaee5e28a30df58a43055c2aa4046a1152f",
+    "target": "hipv4-amdgcn-amd-amdhsa--gfx1201",
+    "true": {
+      "group_segment_fixed_size": 768,
+      "max_flat_workgroup_size": 128,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 42,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 35,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    }
+  },
+  "schema_version": "apex.phase4.code_object.v0",
+  "tool": "AMD LLVM version 22.0.0git"
+}

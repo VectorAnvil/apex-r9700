@@ -1,0 +1,13 @@
+{
+  "expected_per_agent": 128,
+  "fused_dispatches": 256,
+  "fused_dispatches_by_agent": {
+    "Agent 1": 128,
+    "Agent 2": 128
+  },
+  "graphs_disabled_for_profiler_compatibility": true,
+  "passed": true,
+  "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7",
+  "trace": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/attempts/p12-h/registered-dispatch/registered-candidate_kernel_trace.csv",
+  "trace_sha256": "7b938c9a86231e71d19977a0b894c41316881114a44d1e64fe49306b31e5ae1a"
+}

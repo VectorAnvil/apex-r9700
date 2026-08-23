@@ -1,0 +1,35 @@
+{
+  "schema": "apex.phase20.n5_source_map.v1",
+  "registered_kernel": "mul_mat_vec_q<GGML_TYPE_Q6_K,5,false,false>",
+  "source": {
+    "rdna4_nwarps": "mmvq.cu:383-405 returns one wave for every N greater than one",
+    "rows_per_block": "mmvq.cu:458-475 returns one row for RDNA4",
+    "ownership": "mmvq.cu:492-505 gives one wave one output row; all lanes cooperate on each Q6_K block",
+    "column_loop": "mmvq.cu:592-612 unrolls five columns inside each K-block iteration",
+    "reduction": "mmvq.cu:638-699 performs five independent wave reductions and stores",
+    "q6_dot": "vecdotq.cuh:956-979 loads one Q6 packet and two Q8_1 sub-blocks per column",
+    "dispatch": "mmvq.cu:970-977 and 1088-1092 select the Q6_K N=5 specialization",
+    "fusion": "mmvq.cu:802-815 permits fusion only for N=1; all Phase19 N=5 calls are unfused"
+  },
+  "current_ownership": {
+    "workgroup": [32, 1, 1],
+    "rows_per_workgroup": 1,
+    "columns_per_wave": 5,
+    "blocks_per_k_iteration": 1,
+    "q6_block_elements": 256,
+    "q8_subblocks_per_q6_term": 4,
+    "accumulators_per_lane": 5
+  },
+  "compiler_precedent": {
+    "symbol": "mul_mat_vec_q_moe<GGML_TYPE_Q6_K,2>",
+    "purpose": "Existing registered two-row Q6_K kernel proving same-wave Q8_1 reuse across two weight rows",
+    "source": "mmvq.cu:714-777",
+    "relevant_global_loads": 14,
+    "extra_ids_load": 1,
+    "dp4a": 4,
+    "vgpr": 40,
+    "sgpr": 26,
+    "private_bytes": 0,
+    "spills": 0
+  }
+}

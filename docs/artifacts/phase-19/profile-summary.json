@@ -1,0 +1,1520 @@
+{
+  "by_n": [
+    {
+      "calls": 2562,
+      "duration_ns": 375610537,
+      "logical_n": 1,
+      "share_of_mtp_gpu_kernel_time": 0.09594092003525478
+    },
+    {
+      "calls": 2018,
+      "duration_ns": 103618435,
+      "logical_n": 4,
+      "share_of_mtp_gpu_kernel_time": 0.02646690389975201
+    },
+    {
+      "calls": 39390,
+      "duration_ns": 2228049695,
+      "logical_n": 5,
+      "share_of_mtp_gpu_kernel_time": 0.5691031442564903
+    }
+  ],
+  "by_n_device": [
+    {
+      "calls": 1281,
+      "device": 0,
+      "duration_ns": 187408222,
+      "logical_n": 1,
+      "share_of_mtp_gpu_kernel_time": 0.08873999610590562
+    },
+    {
+      "calls": 1009,
+      "device": 0,
+      "duration_ns": 51000704,
+      "logical_n": 4,
+      "share_of_mtp_gpu_kernel_time": 0.024149432858705876
+    },
+    {
+      "calls": 19695,
+      "device": 0,
+      "duration_ns": 1095247744,
+      "logical_n": 5,
+      "share_of_mtp_gpu_kernel_time": 0.5186126814519478
+    },
+    {
+      "calls": 1281,
+      "device": 1,
+      "duration_ns": 188202315,
+      "logical_n": 1,
+      "share_of_mtp_gpu_kernel_time": 0.10437481558342171
+    },
+    {
+      "calls": 1009,
+      "device": 1,
+      "duration_ns": 52617731,
+      "logical_n": 4,
+      "share_of_mtp_gpu_kernel_time": 0.029181181801844955
+    },
+    {
+      "calls": 19695,
+      "device": 1,
+      "duration_ns": 1132801951,
+      "logical_n": 5,
+      "share_of_mtp_gpu_kernel_time": 0.6282387904110814
+    }
+  ],
+  "by_operation_n": [
+    {
+      "calls": 2535,
+      "device": 1,
+      "duration_ns": 243906452,
+      "logical_n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.13526768226579305
+    },
+    {
+      "calls": 2535,
+      "device": 1,
+      "duration_ns": 238163962,
+      "logical_n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.13208296408238684
+    },
+    {
+      "calls": 2535,
+      "device": 1,
+      "duration_ns": 237736841,
+      "logical_n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.13184608774212075
+    },
+    {
+      "calls": 2535,
+      "device": 0,
+      "duration_ns": 235517063,
+      "logical_n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.11152009784018083
+    },
+    {
+      "calls": 5733,
+      "device": 1,
+      "duration_ns": 235061520,
+      "logical_n": 5,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.13036238582271847
+    },
+    {
+      "calls": 5733,
+      "device": 0,
+      "duration_ns": 230324967,
+      "logical_n": 5,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.10906157935094672
+    },
+    {
+      "calls": 2535,
+      "device": 0,
+      "duration_ns": 229847445,
+      "logical_n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.10883546707066222
+    },
+    {
+      "calls": 2535,
+      "device": 0,
+      "duration_ns": 229183517,
+      "logical_n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.10852108935816997
+    },
+    {
+      "calls": 321,
+      "device": 1,
+      "duration_ns": 136014672,
+      "logical_n": 1,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.07543215558554417
+    },
+    {
+      "calls": 321,
+      "device": 0,
+      "duration_ns": 135980766,
+      "logical_n": 1,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.06438849115871802
+    },
+    {
+      "calls": 5616,
+      "device": 1,
+      "duration_ns": 99520231,
+      "logical_n": 5,
+      "operation": "linear_attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.05519276294473067
+    },
+    {
+      "calls": 5616,
+      "device": 0,
+      "duration_ns": 96144481,
+      "logical_n": 5,
+      "operation": "linear_attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.045525541934570604
+    },
+    {
+      "calls": 702,
+      "device": 1,
+      "duration_ns": 74007983,
+      "logical_n": 5,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.04104396684666716
+    },
+    {
+      "calls": 702,
+      "device": 0,
+      "duration_ns": 69992758,
+      "logical_n": 5,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.03314239367983329
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 18844902,
+      "logical_n": 1,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.010451163530786829
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 18831632,
+      "logical_n": 1,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.008916999118362308
+    },
+    {
+      "calls": 480,
+      "device": 1,
+      "duration_ns": 12423812,
+      "logical_n": 1,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.006890101677777458
+    },
+    {
+      "calls": 480,
+      "device": 0,
+      "duration_ns": 11703981,
+      "logical_n": 1,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.005541972584124902
+    },
+    {
+      "calls": 130,
+      "device": 1,
+      "duration_ns": 11399230,
+      "logical_n": 4,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.006321880413867429
+    },
+    {
+      "calls": 294,
+      "device": 1,
+      "duration_ns": 11348240,
+      "logical_n": 4,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.006293601952751801
+    },
+    {
+      "calls": 130,
+      "device": 1,
+      "duration_ns": 11223867,
+      "logical_n": 4,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.006224626133094339
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 11197113,
+      "logical_n": 1,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.006209788675775502
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 11167606,
+      "logical_n": 1,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.005287992716521734
+    },
+    {
+      "calls": 130,
+      "device": 1,
+      "duration_ns": 11158112,
+      "logical_n": 4,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.006188159174658212
+    },
+    {
+      "calls": 130,
+      "device": 0,
+      "duration_ns": 11042658,
+      "logical_n": 4,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.00522882836975449
+    },
+    {
+      "calls": 294,
+      "device": 0,
+      "duration_ns": 10990009,
+      "logical_n": 4,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.005203898449364018
+    },
+    {
+      "calls": 130,
+      "device": 0,
+      "duration_ns": 10892805,
+      "logical_n": 4,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.005157871212728272
+    },
+    {
+      "calls": 130,
+      "device": 0,
+      "duration_ns": 10833095,
+      "logical_n": 4,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.005129597825835547
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 9724237,
+      "logical_n": 1,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.004604540528178659
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 9721816,
+      "logical_n": 1,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.005391606113537757
+    },
+    {
+      "calls": 288,
+      "device": 1,
+      "duration_ns": 4985417,
+      "logical_n": 4,
+      "operation": "linear_attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.0027648543004450054
+    },
+    {
+      "calls": 288,
+      "device": 0,
+      "duration_ns": 4763521,
+      "logical_n": 4,
+      "operation": "linear_attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.0022555831888229514
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 4404962,
+      "logical_n": 5,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.002442940706664424
+    },
+    {
+      "calls": 39,
+      "device": 0,
+      "duration_ns": 4237513,
+      "logical_n": 5,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020065122175841592
+    },
+    {
+      "calls": 35,
+      "device": 1,
+      "duration_ns": 2301663,
+      "logical_n": 4,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.0012764755372971113
+    },
+    {
+      "calls": 35,
+      "device": 0,
+      "duration_ns": 2294414,
+      "logical_n": 4,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.0010864319999009187
+    },
+    {
+      "calls": 2,
+      "device": 1,
+      "duration_ns": 201202,
+      "logical_n": 4,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.0001115842897310568
+    },
+    {
+      "calls": 2,
+      "device": 0,
+      "duration_ns": 184202,
+      "logical_n": 4,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 8.722181229967609e-05
+    }
+  ],
+  "communication": [
+    {
+      "calls": 5650,
+      "device": 0,
+      "duration_ns": 580116485,
+      "share_of_device_mtp_gpu_kernel_time": 0.274691974933051
+    },
+    {
+      "calls": 5649,
+      "device": 1,
+      "duration_ns": 222028842,
+      "share_of_device_mtp_gpu_kernel_time": 0.1231346141409083
+    }
+  ],
+  "dense_gemm": {
+    "q6_route": "Every joined Q6_K verification call is MMVQ; none is hipBLAS/rocBLAS/MMQ.",
+    "status": "no significant dense GEMM symbol found",
+    "symbols": []
+  },
+  "n2_to_n4_gate": {
+    "combined_share": 0.02646690389975201,
+    "duration_ns": 103618435,
+    "per_device_share": {
+      "0": 0.024149432858705876,
+      "1": 0.029181181801844955
+    },
+    "required_combined_share": 0.1,
+    "required_each_device_share": 0.05
+  },
+  "q6_mmvq": {
+    "calls": 43970,
+    "duration_ns": 2707278667,
+    "share": 0.6915109681914972
+  },
+  "request_span": {
+    "end": 1828592870212406,
+    "kernel_dispatches": 219650,
+    "start": 1828589789679677
+  },
+  "schema": "apex.phase19.profile_summary.v1",
+  "time_basis": "sum of dispatch durations whose starts fall between the first and last request-joined Q6_K MMVQ dispatch; not wall time or makespan",
+  "top_shapes": [
+    {
+      "calls": 161,
+      "device": 1,
+      "duration_ns": 132285114,
+      "k": 5120,
+      "m": 124160,
+      "n": 1,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.07336378608404429,
+      "tensor": "output.weight"
+    },
+    {
+      "calls": 161,
+      "device": 0,
+      "duration_ns": 132235216,
+      "k": 5120,
+      "m": 124160,
+      "n": 1,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.06261492920467272,
+      "tensor": "output.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 49442132,
+      "k": 5120,
+      "m": 124160,
+      "n": 5,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.027420031520606927,
+      "tensor": "output.weight"
+    },
+    {
+      "calls": 39,
+      "device": 0,
+      "duration_ns": 46523698,
+      "k": 5120,
+      "m": 124160,
+      "n": 5,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.022029517890374783,
+      "tensor": "output.weight"
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 18844902,
+      "k": 5120,
+      "m": 8704,
+      "n": 1,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.010451163530786829,
+      "tensor": "blk.64.ffn_up.weight"
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 18831632,
+      "k": 5120,
+      "m": 8704,
+      "n": 1,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.008916999118362308,
+      "tensor": "blk.64.ffn_up.weight"
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 11197113,
+      "k": 10240,
+      "m": 5120,
+      "n": 1,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.006209788675775502,
+      "tensor": "blk.64.nextn.eh_proj.weight"
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 11167606,
+      "k": 10240,
+      "m": 5120,
+      "n": 1,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.005287992716521734,
+      "tensor": "blk.64.nextn.eh_proj.weight"
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 9724237,
+      "k": 8704,
+      "m": 5120,
+      "n": 1,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.004604540528178659,
+      "tensor": "blk.64.ffn_down.weight"
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 9721816,
+      "k": 8704,
+      "m": 5120,
+      "n": 1,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.005391606113537757,
+      "tensor": "blk.64.ffn_down.weight"
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 6948834,
+      "k": 5120,
+      "m": 6144,
+      "n": 1,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.0038537425390851895,
+      "tensor": "blk.64.attn_q.weight"
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 6937303,
+      "k": 5120,
+      "m": 6144,
+      "n": 1,
+      "operation": "attention_projection",
+      "share_of_device_mtp_gpu_kernel_time": 0.003284894518691327,
+      "tensor": "blk.64.attn_q.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 4404962,
+      "k": 10240,
+      "m": 5120,
+      "n": 5,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.002442940706664424,
+      "tensor": "blk.64.nextn.eh_proj.weight"
+    },
+    {
+      "calls": 39,
+      "device": 0,
+      "duration_ns": 4237513,
+      "k": 10240,
+      "m": 5120,
+      "n": 5,
+      "operation": "mtp_nextn",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020065122175841592,
+      "tensor": "blk.64.nextn.eh_proj.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3819996,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002118525364735331,
+      "tensor": "blk.1.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3817599,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002117196016406361,
+      "tensor": "blk.0.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3797038,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0021057931248786416,
+      "tensor": "blk.2.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3787917,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0021007347243327374,
+      "tensor": "blk.3.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3785238,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020992489820827126,
+      "tensor": "blk.4.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3774639,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020933708999222,
+      "tensor": "blk.6.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3770037,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002090818684231788,
+      "tensor": "blk.5.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3758237,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002084274541435859,
+      "tensor": "blk.28.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3757838,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.002084053260675217,
+      "tensor": "blk.0.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3757397,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020838086872029286,
+      "tensor": "blk.54.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3756757,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002083453750644505,
+      "tensor": "blk.56.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3756597,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020833650165048992,
+      "tensor": "blk.61.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3756395,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002083252989653647,
+      "tensor": "blk.20.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3755879,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020829668220534183,
+      "tensor": "blk.29.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3755474,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002082742213762541,
+      "tensor": "blk.33.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3755117,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020825442257135455,
+      "tensor": "blk.44.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3754755,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020823434647226874,
+      "tensor": "blk.7.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3754399,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020821460312620645,
+      "tensor": "blk.18.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3753958,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002081901457789776,
+      "tensor": "blk.55.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3753438,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002081613071836057,
+      "tensor": "blk.30.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3752797,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020812575806892614,
+      "tensor": "blk.24.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3752756,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020812348425659874,
+      "tensor": "blk.50.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3752596,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020811461084263815,
+      "tensor": "blk.49.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3752078,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020808588316494074,
+      "tensor": "blk.46.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3751878,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020807479139749005,
+      "tensor": "blk.64.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3751236,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002080391868239732,
+      "tensor": "blk.25.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3751197,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002080370239293203,
+      "tensor": "blk.40.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3750878,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020801933256023642,
+      "tensor": "blk.48.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3750717,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020801040368743856,
+      "tensor": "blk.53.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3750519,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020799942283766235,
+      "tensor": "blk.26.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3750279,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002079861127167215,
+      "tensor": "blk.60.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3750276,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002079859463402097,
+      "tensor": "blk.52.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3749518,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020794390854157146,
+      "tensor": "blk.57.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3749517,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002079438530827342,
+      "tensor": "blk.45.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3749357,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002079349796687736,
+      "tensor": "blk.38.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3749076,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020791939573550538,
+      "tensor": "blk.8.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3748959,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020791290705154666,
+      "tensor": "blk.47.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3748918,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020791063323921926,
+      "tensor": "blk.32.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3748359,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002078796317491945,
+      "tensor": "blk.43.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3747876,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.00207852845130801,
+      "tensor": "blk.58.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3747836,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020785062677731083,
+      "tensor": "blk.51.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3746520,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020777764294748506,
+      "tensor": "blk.16.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3746278,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002077642219088697,
+      "tensor": "blk.11.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3745636,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020772861733535284,
+      "tensor": "blk.12.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3745596,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002077263989818627,
+      "tensor": "blk.39.ffn_down.weight"
+    },
+    {
+      "calls": 160,
+      "device": 0,
+      "duration_ns": 3745550,
+      "k": 3072,
+      "m": 5120,
+      "n": 1,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.0017735619540452969,
+      "tensor": "blk.64.attn_output.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3745239,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020770660017696316,
+      "tensor": "blk.0.ffn_gate.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3744596,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020767094014460907,
+      "tensor": "blk.23.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3744236,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002076509749631978,
+      "tensor": "blk.17.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3743919,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020763339451178838,
+      "tensor": "blk.27.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3743835,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020762873596945905,
+      "tensor": "blk.41.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3743517,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002076111000592124,
+      "tensor": "blk.37.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3743319,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020760011920943617,
+      "tensor": "blk.21.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3742958,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020758009856918763,
+      "tensor": "blk.19.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3742313,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.00207544327619159,
+      "tensor": "blk.36.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3742238,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.00207540168206365,
+      "tensor": "blk.22.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3742158,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020753573149938473,
+      "tensor": "blk.31.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3741478,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020749801949005225,
+      "tensor": "blk.13.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3741438,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002074958011365621,
+      "tensor": "blk.42.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3740436,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020744023138163396,
+      "tensor": "blk.59.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3739836,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020740695607928176,
+      "tensor": "blk.9.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3739438,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002073848834620548,
+      "tensor": "blk.34.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3739278,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020737601004809426,
+      "tensor": "blk.10.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3739198,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020737157334111394,
+      "tensor": "blk.1.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3739077,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020736486282180626,
+      "tensor": "blk.15.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3738996,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020736037065598872,
+      "tensor": "blk.35.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3738835,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002073514417831909,
+      "tensor": "blk.14.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3732794,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002070164149473417,
+      "tensor": "blk.62.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3730835,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020690777108516183,
+      "tensor": "blk.1.ffn_gate.weight"
+    },
+    {
+      "calls": 160,
+      "device": 1,
+      "duration_ns": 3729558,
+      "k": 3072,
+      "m": 5120,
+      "n": 1,
+      "operation": "lm_head",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020683695014998894,
+      "tensor": "blk.64.attn_output.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3726076,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.002066438424786718,
+      "tensor": "blk.2.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3725436,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020660834882282944,
+      "tensor": "blk.2.ffn_gate.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3720237,
+      "k": 8704,
+      "m": 5120,
+      "n": 5,
+      "operation": "ffn_down",
+      "share_of_device_mtp_gpu_kernel_time": 0.002063200183279478,
+      "tensor": "blk.63.ffn_down.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3704557,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020545042375981083,
+      "tensor": "blk.3.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3703515,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020539263565139253,
+      "tensor": "blk.3.ffn_gate.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3703235,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020537710717696152,
+      "tensor": "blk.4.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3702316,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020532614050552543,
+      "tensor": "blk.4.ffn_gate.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3693317,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020482706642908,
+      "tensor": "blk.5.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3687831,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020452281924790653,
+      "tensor": "blk.6.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3676274,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.002038818814657663,
+      "tensor": "blk.33.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3674914,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020380645744710133,
+      "tensor": "blk.50.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3673995,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020375549077566524,
+      "tensor": "blk.20.ffn_gate.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3673677,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.002037378548654186,
+      "tensor": "blk.26.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3673277,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020371567133051715,
+      "tensor": "blk.5.ffn_gate.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3672113,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_up",
+      "share_of_device_mtp_gpu_kernel_time": 0.002036511172439539,
+      "tensor": "blk.52.ffn_up.weight"
+    },
+    {
+      "calls": 39,
+      "device": 1,
+      "duration_ns": 3671791,
+      "k": 5120,
+      "m": 8704,
+      "n": 5,
+      "operation": "ffn_gate",
+      "share_of_device_mtp_gpu_kernel_time": 0.0020363325949835824,
+      "tensor": "blk.6.ffn_gate.weight"
+    }
+  ],
+  "total_gpu_kernel_duration_by_device_ns": {
+    "0": 2111879989,
+    "1": 1803139138
+  },
+  "total_gpu_kernel_duration_ns": 3915019127
+}

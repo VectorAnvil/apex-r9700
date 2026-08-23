@@ -1,0 +1,61 @@
+{
+  "schema_version": "apex.phase15.paired_y64_w4_task.v1",
+  "immutable_after_fingerprint": true,
+  "objective": "Evaluate paired RDNA4 MMQ mmq_y=64,nwarps=4 on the registered Phase 13 cast baseline",
+  "candidate": {
+    "target": "gfx1201/RDNA4",
+    "geometry": {"mmq_x": 128, "mmq_y": 64, "nwarps": 4, "wave_size": 32},
+    "invariant": "4 * tile_C::I(16) == 64",
+    "changed_file_allowlist": ["ggml/src/ggml-cuda/mmq.cuh"],
+    "host_and_device_selectors_must_match": true,
+    "excluded": ["pre-cast baseline", "Stream-K", "dispatch thresholds", "fusion", "arithmetic changes", "P2P changes"]
+  },
+  "baseline": {
+    "source": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "registered_lib_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "phase14a_pp512_mean_ts": 1042.144179,
+    "phase14a_q6k_share": 0.7775672112
+  },
+  "build": {
+    "cmake": ["-DGGML_HIP=ON", "-DAMDGPU_TARGETS=gfx1201", "-DCMAKE_BUILD_TYPE=Release"],
+    "candidate_worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase15_q6k_y64_w4_20260808/worktrees/candidate",
+    "candidate_build": "/home/adam/workspaces/ChatGPT/Apex/results_phase15_q6k_y64_w4_20260808/builds/candidate",
+    "registered_assets_mutated": false
+  },
+  "model": {
+    "path": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "devices": [0, 1],
+    "split_mode": "tensor"
+  },
+  "workloads": {
+    "pp512": ["-p", "0", "-n", "0", "-pg", "512,0", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"],
+    "tg128": ["-p", "0", "-n", "128", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"]
+  },
+  "gates": {
+    "provenance": "exact source/build/binary/library/HSACO hashes and rollback",
+    "correctness": {"devices": [0, 1], "repeats": 3, "types": ["q6_K", "q4_K"], "oracle": "CPU/F32 backend-op", "nmse_max": 0.0005, "required_pass_fraction": 1.0},
+    "dispatch": {"both_devices": true, "q6k_tile": [128, 64], "workgroup": [32, 4, 1], "waves": 4, "fallback_no_regression": true},
+    "graph": {"capture_replay_required": true, "tensor_p2p_unchanged": true},
+    "resources": ["VGPR", "SGPR", "dynamic LDS", "private", "scratch", "spills", "waves", "focused ISA"],
+    "counters": "report achieved occupancy/bandwidth only if joinable; otherwise unavailable",
+    "microbench": {"shapes_mnk": [[8704, 512, 5120], [5120, 512, 8704]], "devices": [0, 1], "interleaved_rounds": 3, "relative_spread_max": 0.035, "minimum_speedup": 1.02, "fallback_minimum": 0.99},
+    "pp512": {"interleaved_pairs": 3, "relative_spread_max": 0.05, "minimum_speedup": 1.005},
+    "tg128": {"interleaved_pairs": 3, "minimum_speedup": 0.99}
+  },
+  "decision": {
+    "reject_on_any_failed_gate": true,
+    "registration_requires_all_gates": true,
+    "finding_requires_what_didnt_work": true,
+    "next_after_close": "TG N=1 Q6_K K2/K4 software-pipeline static audit"
+  },
+  "write_boundary": {
+    "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase15_q6k_y64_w4_20260808",
+    "registered_source_mutation": false,
+    "registered_build_mutation": false,
+    "prior_result_mutation": false
+  }
+}

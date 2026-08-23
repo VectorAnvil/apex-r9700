@@ -1,0 +1,187 @@
+{
+  "created_at": "2026-08-08T21:23:19.481481+00:00",
+  "fingerprint_fields": {
+    "attribution": {
+      "candidate_code_allowed": false,
+      "exact_join": [
+        "device",
+        "mangled_symbol",
+        "launch_geometry",
+        "q6k_type",
+        "logical_shape",
+        "layout",
+        "need_check"
+      ],
+      "family": [
+        "mul_mat_q<(ggml_type)14, 128, false>",
+        "mul_mat_q<(ggml_type)14, 128, true>"
+      ],
+      "feasibility_manifest_sha256": "110990d2df460aa79a116984d9aa6995e4183fca24c714cd96dfe00a48e83446",
+      "materiality_floor_pp_dispatch_duration": 0.05,
+      "phase2_raw_pp_trace": "/home/adam/workspaces/ChatGPT/Apex/results_phase02_qwen36_p2p_nographs_20260808/pp/raw/cornelius/2490453_kernel_trace.csv",
+      "phase2_raw_pp_trace_sha256": "8563e42c0964c572530a170c05b13262eccee0483b68d8fd2bea6136e7c913bd"
+    },
+    "baseline": {
+      "independent_processes": 3,
+      "metric": "avg_ts for n_prompt=512,n_gen=0",
+      "outlier_removal": false,
+      "relative_spread_max": 0.05
+    },
+    "mmq_semantics": {
+      "not_template_n": true,
+      "template_bool": "need_check",
+      "template_mmq_x": 128
+    },
+    "normal_graphs": {
+      "forbidden_environment": [
+        "GGML_CUDA_DISABLE_GRAPHS",
+        "ROCPROFILER_LOG",
+        "ROCPROFILER_TOOL_LIBRARIES"
+      ],
+      "profiler": "prohibited",
+      "required": true
+    },
+    "pp_command": [
+      "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+      "-m",
+      "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+      "-p",
+      "0",
+      "-n",
+      "0",
+      "-pg",
+      "512,0",
+      "-b",
+      "2048",
+      "-ub",
+      "512",
+      "-sm",
+      "tensor",
+      "-fa",
+      "1",
+      "-r",
+      "5",
+      "-o",
+      "jsonl",
+      "-t",
+      "12",
+      "-ngl",
+      "99"
+    ],
+    "pp_phase": {
+      "actual_n": 512,
+      "generation_length": 0,
+      "prompt_length": 512
+    },
+    "prior_artifacts": {
+      "phase-02/profile_evidence.json": "6c9f4508a016f53ff082dd96a8c3bf94fd6bf100e97d3c1b65219e27b5b66e89",
+      "phase-03/task.json": "806d4646a1ac5e96ba133ecb37e78317cd372eaac627883ea1103b2eaade5cab",
+      "phase-04/gate-result.json": "05b46d79b826879782be7a9add9905d997dab813f79c0de7c336654dfb3f3e53",
+      "phase-04/summary.json": "019b5248387674204276b14f7b2a9e12a61caae62742fc113c489851829d095f",
+      "phase-04/task.json": "e53ef7aa22c11a6e30cbe68a4fda1bb804498743b5a117093292f5e53e9e2dfd",
+      "phase-05/gate-result.json": "3eec788372cd5e057fe40cf5b344f51e63eefa53954ae083c7235cff76a8f473",
+      "phase-05/summary.json": "400fdc365dc344b173c8f50c90984d1d5b838b9d804a26061b5ed19b003a79c2",
+      "phase-05/task.json": "838b60dc3d9b8d2d489b7a7be7b0e95c8aeef93cfbc7416eb869bb7bab98a59f",
+      "phase-06/gate-result.json": "c3791ada25e94887e23cda2c1e13114f5909b1e9f8d5f65503788ed707319c71",
+      "phase-06/summary.json": "110bd2fc76b5d72ecb4b1b5e229971755adeb5f48d29576791f4626b484dfaf0",
+      "phase-06/task.json": "a4263f23dad52daa4a698249d480b8392e0e83e5290988258e9b6758fde71989"
+    },
+    "procedure_v1": {
+      "candidate_code_allowed": false,
+      "idle_retry": {
+        "attempts": 12,
+        "retryable_error_prefix": "target GPU activity prevents profiling:",
+        "sleep_seconds": 5,
+        "snapshot_policy": "preserve every snapshot"
+      },
+      "reason": "three baseline attempts stopped before workload because a single rocm-smi snapshot reported target GPU use 49/80, 48/79, and 82/81 percent while VRAM was zero",
+      "supersedes_task_fingerprint": "023799cc2125fd5de8dfc1e65223616c2cef000e8e143027269248d17c21cbcb",
+      "unchanged_policy": {
+        "independent_processes": 3,
+        "normal_graphs": {
+          "forbidden_environment": [
+            "GGML_CUDA_DISABLE_GRAPHS",
+            "ROCPROFILER_LOG",
+            "ROCPROFILER_TOOL_LIBRARIES"
+          ],
+          "profiler": "prohibited",
+          "required": true
+        },
+        "outlier_removal": false,
+        "pp_command": [
+          "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+          "-m",
+          "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+          "-p",
+          "0",
+          "-n",
+          "0",
+          "-pg",
+          "512,0",
+          "-b",
+          "2048",
+          "-ub",
+          "512",
+          "-sm",
+          "tensor",
+          "-fa",
+          "1",
+          "-r",
+          "5",
+          "-o",
+          "jsonl",
+          "-t",
+          "12",
+          "-ngl",
+          "99"
+        ],
+        "relative_spread_max": 0.05
+      }
+    },
+    "registered_identity": {
+      "build_id": 2,
+      "model_id": 2,
+      "profile_id": 5,
+      "suite_id": 2
+    },
+    "registered_runtime": {
+      "build_root": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p",
+      "cwd": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin",
+      "environment": {
+        "HIP_VISIBLE_DEVICES": "0,1"
+      },
+      "executable": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+      "executable_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+      "model": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+      "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea"
+    },
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "tool_hashes": {
+      "finalize_baseline.py": "a0a66aed238f9fc008259c46505568969b8f392ecca001197afaff3456a3543a",
+      "finalize_baseline_v1.py": "7a75853de1640747bd6b0adecb24e743f642173b52c9121956b02a4ccdd105e1",
+      "make_feasibility.py": "84721db95af909042b7db4a2f73041b09c726836e4b2674085fffd445d3956a8",
+      "make_task.py": "b2d0382b153536eb01dd6936657bcf6a8f4ca4a734f0b7b56b6319218146096c",
+      "make_task_v1.py": "73a57efb882f2e22fc39d48cc9c6c5e157c7a9b7c93ef0c7d6bf6c6724c7391a",
+      "preflight.py": "490e7dffc1272e6c3455e5c2a1ead94f0b5b2b5fa6eddc68a01a07fb6423461c",
+      "run_attribution.py": "60e88b31e0bdfa2b94206f2f83c3bcb860f8e19f37355c612821408254a75e93",
+      "run_attribution_v1.py": "68d00d8d619340c8016cc24f011634d947516cc00f5778f5d2f7dff3d6409739",
+      "run_baseline.py": "6accbb8d893d243b15bd60eaaf434924fab22f5e454d363eda7c328bd3a46143",
+      "run_baseline_v1.py": "95be7b3c9f43831ef15e944b8dd27154eaecf31d4ae06f5a7fdd6c8b05da93a3",
+      "summarize_attribution.py": "2de4c8b9816a2e4dc15c0c0d8dd8d4938adfe7e903213c8630c581566b89560b"
+    },
+    "write_boundary": {
+      "candidate_build": false,
+      "database_mutation": false,
+      "registered_build_mutation": false,
+      "registered_source_mutation": false,
+      "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase07_pp_mmq_attribution_20260808"
+    }
+  },
+  "immutable": true,
+  "schema_version": "apex.phase7.pp_mmq_attribution_task.v1.procedure_v1",
+  "supersedes": {
+    "task_fingerprint": "023799cc2125fd5de8dfc1e65223616c2cef000e8e143027269248d17c21cbcb",
+    "task_sha256": "0c87a45d411966ac6cc0091319e5e049c7ee11dc7e3bc652d553d29f8489cdba"
+  },
+  "target_fingerprint": "eb67a0450b1b348e255289af6fcc3d65e785fb7513997fa43d3a909f7d893088"
+}

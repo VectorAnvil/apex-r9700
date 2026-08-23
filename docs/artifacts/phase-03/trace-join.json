@@ -1,0 +1,581 @@
+{
+  "schema_version": "apex.phase3.mmvq_trace_join.v1",
+  "semantics": [
+    "Phase 2 traces used GGML_CUDA_DISABLE_GRAPHS=1 and are diagnostic, not a performance baseline.",
+    "Launch geometry joins logical M and fusion exactly; K and operation are exact only when the attribution capture has one matching operation.",
+    "Multiple operations sharing M and fusion remain explicitly ambiguous."
+  ],
+  "inputs": {
+    "phase2_tg_trace": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase02_qwen36_p2p_nographs_20260808/tg/raw/cornelius/2490710_kernel_trace.csv",
+      "sha256": "dd4fe80729863c7485267189d618dbbd72195978feb95d2ed20f45a0d53dfa98",
+      "rows": 2620224
+    },
+    "phase3_attribution_summary": {
+      "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase03_q6k_mmv_20260808/attribution/tg-normal-graphs/summary.json",
+      "sha256": "c03da40fc58b6fda6fe4463c208027c73b89522066e5cd1488a1672e247c93d6"
+    }
+  },
+  "selected_rows": 555106,
+  "selected_duration_ns": 23356863088,
+  "all_tg_dispatch_duration_ns": 32941865407,
+  "selected_percent_of_summed_tg_dispatch_duration": 70.90328006451259,
+  "agent_to_device_join": {
+    "Agent 1": 0,
+    "Agent 2": 1
+  },
+  "combined_groups": [
+    {
+      "m": 24,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "ssm_alpha",
+          "k": 5120
+        },
+        {
+          "operation": "ssm_beta",
+          "k": 5120
+        }
+      ],
+      "calls": 123072,
+      "duration_ns": 286077116,
+      "summed_tg_dispatch_duration_percent": 0.8684302253848984
+    },
+    {
+      "m": 512,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "attn_k",
+          "k": 5120
+        },
+        {
+          "operation": "attn_v",
+          "k": 5120
+        }
+      ],
+      "calls": 41024,
+      "duration_ns": 656104397,
+      "summed_tg_dispatch_duration_percent": 1.991703836117856
+    },
+    {
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "attn_gate",
+          "k": 5120
+        }
+      ],
+      "calls": 61536,
+      "duration_ns": 1422217101,
+      "summed_tg_dispatch_duration_percent": 4.317354477132267
+    },
+    {
+      "m": 5120,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "attn_output",
+          "k": 3072
+        },
+        {
+          "operation": "attn_qkv",
+          "k": 5120
+        },
+        {
+          "operation": "ffn_down",
+          "k": 8704
+        },
+        {
+          "operation": "ssm_out",
+          "k": 3072
+        }
+      ],
+      "calls": 225632,
+      "duration_ns": 9218042029,
+      "summed_tg_dispatch_duration_percent": 27.982756638430097
+    },
+    {
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "attn_q",
+          "k": 5120
+        }
+      ],
+      "calls": 20512,
+      "duration_ns": 890729478,
+      "summed_tg_dispatch_duration_percent": 2.7039436504124748
+    },
+    {
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "ffn_up",
+          "k": 5120
+        }
+      ],
+      "calls": 82048,
+      "duration_ns": 9830506983,
+      "summed_tg_dispatch_duration_percent": 29.84198636459446
+    },
+    {
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "output",
+          "k": 5120
+        }
+      ],
+      "calls": 1282,
+      "duration_ns": 1053185984,
+      "summed_tg_dispatch_duration_percent": 3.197104872440535
+    }
+  ],
+  "groups": [
+    {
+      "agent": "Agent 1",
+      "device_join": 0,
+      "m": 24,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "ssm_alpha",
+          "k": 5120
+        },
+        {
+          "operation": "ssm_beta",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 61536,
+      "duration_ns": 139085070,
+      "mean_duration_ns": 2260.2227964118565,
+      "agent_tg_dispatch_duration_percent": 0.7734846759640243,
+      "summed_tg_dispatch_duration_percent": 0.42221370369161015
+    },
+    {
+      "agent": "Agent 1",
+      "device_join": 0,
+      "m": 512,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "attn_k",
+          "k": 5120
+        },
+        {
+          "operation": "attn_v",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 20512,
+      "duration_ns": 306122302,
+      "mean_duration_ns": 14924.059184867394,
+      "agent_tg_dispatch_duration_percent": 1.7024178768276939,
+      "summed_tg_dispatch_duration_percent": 0.9292804102555479
+    },
+    {
+      "agent": "Agent 1",
+      "device_join": 0,
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "attn_gate",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 30768,
+      "duration_ns": 709059608,
+      "mean_duration_ns": 23045.359074362976,
+      "agent_tg_dispatch_duration_percent": 3.943246684443255,
+      "summed_tg_dispatch_duration_percent": 2.1524573646315974
+    },
+    {
+      "agent": "Agent 1",
+      "device_join": 0,
+      "m": 5120,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "attn_output",
+          "k": 3072
+        },
+        {
+          "operation": "attn_qkv",
+          "k": 5120
+        },
+        {
+          "operation": "ffn_down",
+          "k": 8704
+        },
+        {
+          "operation": "ssm_out",
+          "k": 3072
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 112816,
+      "duration_ns": 4610923594,
+      "mean_duration_ns": 40871.184885122675,
+      "agent_tg_dispatch_duration_percent": 25.642426911817093,
+      "summed_tg_dispatch_duration_percent": 13.997153886191883
+    },
+    {
+      "agent": "Agent 1",
+      "device_join": 0,
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "attn_q",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 10256,
+      "duration_ns": 444698183,
+      "mean_duration_ns": 43359.80723478939,
+      "agent_tg_dispatch_duration_percent": 2.473070833408254,
+      "summed_tg_dispatch_duration_percent": 1.3499483939531354
+    },
+    {
+      "agent": "Agent 1",
+      "device_join": 0,
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "output",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 641,
+      "duration_ns": 526504559,
+      "mean_duration_ns": 821379.9672386895,
+      "agent_tg_dispatch_duration_percent": 2.9280152658491416,
+      "summed_tg_dispatch_duration_percent": 1.5982839845132757
+    },
+    {
+      "agent": "Agent 1",
+      "device_join": 0,
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "ffn_up",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 41024,
+      "duration_ns": 4920871254,
+      "mean_duration_ns": 119951.0348576443,
+      "agent_tg_dispatch_duration_percent": 27.366118501150925,
+      "summed_tg_dispatch_duration_percent": 14.938046747511562
+    },
+    {
+      "agent": "Agent 2",
+      "device_join": 1,
+      "m": 24,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "ssm_alpha",
+          "k": 5120
+        },
+        {
+          "operation": "ssm_beta",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 61536,
+      "duration_ns": 146992046,
+      "mean_duration_ns": 2388.716296151846,
+      "agent_tg_dispatch_duration_percent": 0.9825509903621252,
+      "summed_tg_dispatch_duration_percent": 0.44621652169328835
+    },
+    {
+      "agent": "Agent 2",
+      "device_join": 1,
+      "m": 512,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "attn_k",
+          "k": 5120
+        },
+        {
+          "operation": "attn_v",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 20512,
+      "duration_ns": 349982095,
+      "mean_duration_ns": 17062.309623634945,
+      "agent_tg_dispatch_duration_percent": 2.3394140255130633,
+      "summed_tg_dispatch_duration_percent": 1.0624234258623082
+    },
+    {
+      "agent": "Agent 2",
+      "device_join": 1,
+      "m": 3072,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "attn_gate",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 30768,
+      "duration_ns": 713157493,
+      "mean_duration_ns": 23178.54566432657,
+      "agent_tg_dispatch_duration_percent": 4.767017128473199,
+      "summed_tg_dispatch_duration_percent": 2.16489711250067
+    },
+    {
+      "agent": "Agent 2",
+      "device_join": 1,
+      "m": 5120,
+      "n": 1,
+      "k": null,
+      "has_fusion": false,
+      "operation_attribution": "ambiguous",
+      "candidate_operations": [
+        {
+          "operation": "attn_output",
+          "k": 3072
+        },
+        {
+          "operation": "attn_qkv",
+          "k": 5120
+        },
+        {
+          "operation": "ffn_down",
+          "k": 8704
+        },
+        {
+          "operation": "ssm_out",
+          "k": 3072
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 112816,
+      "duration_ns": 4607118435,
+      "mean_duration_ns": 40837.45599028507,
+      "agent_tg_dispatch_duration_percent": 30.79573966216413,
+      "summed_tg_dispatch_duration_percent": 13.985602752238213
+    },
+    {
+      "agent": "Agent 2",
+      "device_join": 1,
+      "m": 6144,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "attn_q",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 10256,
+      "duration_ns": 446031295,
+      "mean_duration_ns": 43489.79085413417,
+      "agent_tg_dispatch_duration_percent": 2.9814435716797303,
+      "summed_tg_dispatch_duration_percent": 1.3539952564593392
+    },
+    {
+      "agent": "Agent 2",
+      "device_join": 1,
+      "m": 124160,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": false,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "output",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 641,
+      "duration_ns": 526681425,
+      "mean_duration_ns": 821655.8892355694,
+      "agent_tg_dispatch_duration_percent": 3.5205398511092594,
+      "summed_tg_dispatch_duration_percent": 1.5988208879272592
+    },
+    {
+      "agent": "Agent 2",
+      "device_join": 1,
+      "m": 8704,
+      "n": 1,
+      "k": 5120,
+      "has_fusion": true,
+      "operation_attribution": "exact",
+      "candidate_operations": [
+        {
+          "operation": "ffn_up",
+          "k": 5120
+        }
+      ],
+      "block": [
+        32,
+        8,
+        1
+      ],
+      "grid_y": 8,
+      "grid_z": 1,
+      "calls": 41024,
+      "duration_ns": 4909635729,
+      "mean_duration_ns": 119677.15798069423,
+      "agent_tg_dispatch_duration_percent": 32.81788082496807,
+      "summed_tg_dispatch_duration_percent": 14.9039396170829
+    }
+  ]
+}

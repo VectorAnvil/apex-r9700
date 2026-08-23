@@ -1,0 +1,68 @@
+{
+  "schema_version": "apex.phase16c.q6k_fused_n1_k2.v1",
+  "immutable_after_fingerprint": true,
+  "objective": "Evaluate a fused-only K2 packet pipeline for gfx1201 Q6_K N=1 MMVQ while preserving the unfused kernel byte-for-byte",
+  "authorization": {
+    "phase16a_task_sha256": "420442f86076a7cf96398989b862f59b713cbf12f0b1710a6426c134d27d2201",
+    "phase16b_task_sha256": "6171637cb20c2a21a518944efc632a02f311fbc8989d4db62529960856050a6c",
+    "phase16b_result": "rejected_before_gpu",
+    "new_evidence": "Phase16B candidate fused ISA retained next-kbx VMEM before current DP4A, while unfused codegen collapsed the schedule"
+  },
+  "baseline": {
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "registered_lib_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "isolated_build": "/home/adam/workspaces/ChatGPT/Apex/results_phase16b_q6k_tg_k2_20260808/builds/baseline",
+    "isolated_llama_bench_sha256": "0e5f9c640af1397d8d1f32d2af14d2338841721d61fdc41271139ce73cfbd1d9",
+    "isolated_lib_sha256": "e6ffb29f430b40307ca8cc51627d2d998244575822565daa19a8ab2b48dd89b9",
+    "historical_registered_tg128_ts": 36.72697
+  },
+  "candidate": {
+    "target": "gfx1201/RDNA4 GGML_TYPE_Q6_K ncols_dst=1 has_fusion=true ordinary MMVQ",
+    "pipeline_depth": 2,
+    "changed_file_allowlist": ["ggml/src/ggml-cuda/mmvq.cu", "ggml/src/ggml-cuda/vecdotq.cuh"],
+    "compile_gate": "GGML_CUDA_EXPERIMENT_RDNA4_Q6K_FUSED_MMVQ_K2",
+    "required_fallback_identity": "normalized machine-code SHA and AMDHSA metadata for mul_mat_vec_q<Q6_K,1,false,false> must equal isolated baseline",
+    "excluded": ["unfused K2", "K4", "Stream-K", "MMQ", "MTP", "vector-load changes", "wave-count changes", "P2P changes"]
+  },
+  "build": {
+    "cmake": ["-DGGML_HIP=ON", "-DAMDGPU_TARGETS=gfx1201", "-DCMAKE_BUILD_TYPE=Release"],
+    "candidate_hip_flag": "-DGGML_CUDA_EXPERIMENT_RDNA4_Q6K_FUSED_MMVQ_K2=1",
+    "targets": ["llama-bench", "test-backend-ops"],
+    "candidate_worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase16c_q6k_fused_k2_20260808/worktrees/candidate"
+  },
+  "model": {
+    "path": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "devices": [0, 1],
+    "split_mode": "tensor"
+  },
+  "workloads": {
+    "fused_microbench": {"m": 8704, "n": 1, "k": 5120, "operation": "MUL_MAT_VEC_FUSION"},
+    "tg128": ["-p", "0", "-n", "128", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"],
+    "pp512": ["-p", "0", "-n", "0", "-pg", "512,0", "-b", "2048", "-ub", "512", "-sm", "tensor", "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"]
+  },
+  "gates": {
+    "static": "unfused code and resources identical; fused future VMEM before current DP4A; no spills/private/scratch; unchanged 32x8 wave32 geometry",
+    "correctness": {"devices": [0, 1], "repeats": 3, "fused_and_unfused": true, "k": [3072, 5120, 8704], "nmse_max": 0.0005, "required_pass_fraction": 1.0},
+    "dispatch_graph_p2p": "real fused ffn_up 8704x1x5120 on both agents; equal dispatch/graph/P2P behavior and unchanged fallback",
+    "microbench": {"interleaved_rounds": 3, "devices": [0, 1], "relative_spread_max": 0.035, "minimum_speedup": 1.02, "no_device_below": 1.0},
+    "tg128": {"interleaved_pairs": 3, "relative_spread_max": 0.05, "minimum_speedup": 1.005},
+    "pp512": {"interleaved_pairs": 3, "relative_spread_max": 0.05, "minimum_speedup": 0.99},
+    "counters": "report achieved occupancy/bandwidth only if joinable; otherwise unavailable"
+  },
+  "decision": {
+    "reject_on_any_failed_gate": true,
+    "registration_requires_all_gates": true,
+    "rollback": "registered build remains untouched until promotion; discard isolated candidate on rejection",
+    "finding_requires_what_didnt_work": true
+  },
+  "write_boundary": {
+    "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase16c_q6k_fused_k2_20260808",
+    "phase16b_baseline_read_only": true,
+    "registered_source_mutation": false,
+    "registered_build_mutation": false,
+    "prior_result_mutation": false
+  }
+}

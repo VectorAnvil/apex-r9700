@@ -1,0 +1,54 @@
+{
+  "schema_version": "apex.phase11.lighttransport_reference.v1",
+  "repository": "https://github.com/lighttransport/gemm",
+  "branch_commit": "60c7de682c4e3df6d833572ad244aa39172dba41",
+  "corrections": [
+    "The reference reports 6-25 percent active work for its short-K cases, meaning roughly 75-94 percent idle, not 6-25 percent idle.",
+    "The reported 36 to 45.5 tok/s result combined IQ2_S, IQ3_S, expert, and Q6_K rewrites on a Qwen3.6-35B-A3B IQ3_S MoE workload; it is not an isolated dense-Q6_K end-to-end result."
+  ],
+  "dense_q6_sequence": [
+    {
+      "commit": "8516066d9273c22c749ac1dfba284c91e7db5dc4",
+      "result": "one-wave-per-row passed microbenchmarks but regressed full decode from 63.615 to 64.850 ms/token and was removed"
+    },
+    {
+      "commit": "46f6cacd6c51ff4c6553859b72b25cdeb00291f5",
+      "result": "unrolled the Q6_K decode loop"
+    },
+    {
+      "commit": "ed6d061178a2e40aca84ae0202ae4fe1ba88b5cc",
+      "result": "reduced launch width from 256 to 64 scalar threads"
+    },
+    {
+      "commit": "60c7de682c4e3df6d833572ad244aa39172dba41",
+      "result": "split the 32-step scale loop and precomputed scale products"
+    }
+  ],
+  "mapping_comparison": {
+    "reference": "for (b = tid; b < nb; b += nthreads): one entire 256-value Q6_K block per scalar thread; K=5120 gives 20 active of 64 threads initially",
+    "llama_cpp": "kbx = tid/(qi/vdr) with qi=32 and vdr=1: all 32 lanes of an active physical wave cooperate on one Q6_K block",
+    "transferable": false
+  },
+  "negative_references": [
+    {
+      "commit": "8472584e231019c6aa8571ad8d1f5e346167478e",
+      "idea": "DP4A",
+      "scope": "IQ2_S/IQ3_S only; not Q6_K"
+    },
+    {
+      "commit": "ef3bd38f763cd9108aa89ceef073b7c3096178cf",
+      "idea": "LDS grid caching",
+      "scope": "IQ codebooks only; Q6_K has no corresponding grid"
+    },
+    {
+      "commit": "bc05e2e7e0d2fcee1183e900de1b2f8e8bda52d6",
+      "idea": "BF16 dequantization plus hipBLASLt",
+      "scope": "tiny per-expert MoE prefill GEMMs; do not generalize"
+    },
+    {
+      "commit": "8b48e06cbb3e9c310b4766e13ba1fbe992219d2e",
+      "idea": "hipBLASLt dense prefill",
+      "scope": "later positive for dense 27B N=17408,K=5120; separate from Apex decode MMVQ"
+    }
+  ]
+}

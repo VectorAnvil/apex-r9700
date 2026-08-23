@@ -1,0 +1,143 @@
+{
+  "achieved_bandwidth": {
+    "status": "unavailable"
+  },
+  "achieved_occupancy": {
+    "status": "unavailable"
+  },
+  "dynamic_lds_source": {
+    "fused_bytes": 1792,
+    "status": "requires fresh dispatch confirmation",
+    "unfused_bytes": 896
+  },
+  "llvm": "AMD LLVM version 22.0.0git",
+  "schema_version": "apex.phase18.mmvq_resources.v1",
+  "variants": {
+    "fused_k2_dot8": {
+      "fatbin_sha256": "206fde8799bd2d697f51f9a261c64be59641617493ef6087150cbb69b1d430f3",
+      "hsaco_sha256": "95050ca081936ec2a3d0e3359dd72d2b2ea70f8d79a757b357ef4436f321ecc8",
+      "object_sha256": "af4f73ad19758137125e8f0d89807d3b6fa94dcce15e682cd174cc67f3541794",
+      "symbols": {
+        "fused": {
+          "isa": {
+            "global_load": 30,
+            "instruction_lines": 1095,
+            "s_branch": 9,
+            "s_cbranch": 36,
+            "s_wait_alu": 67,
+            "s_wait_loadcnt": 14,
+            "v_and": 132,
+            "v_cvt_f32": 12,
+            "v_dot4": 0,
+            "v_dot8": 32,
+            "v_fma_f32": 4,
+            "v_lshl": 56,
+            "v_lshr": 78,
+            "v_mul_f32": 19,
+            "v_or": 41
+          },
+          "isa_slice_sha256": "58e55f9a514d005fb9099c76eae58e7f5aa96f9688233048c5c0803601bc347e",
+          "machine_encoding_sha256": "2996ed6a953203039a281278ff632fe14e5688c9c85cff84aa770c0b80ad38ee",
+          "max_flat_workgroup_size": 256,
+          "private_segment_bytes": 0,
+          "sgpr_spills": 0,
+          "static_group_segment_bytes": 1792,
+          "static_sgpr": 42,
+          "static_vgpr": 66,
+          "vgpr_spills": 0,
+          "wavefront_size": 32
+        },
+        "unfused": {
+          "isa": {
+            "global_load": 9,
+            "instruction_lines": 294,
+            "s_branch": 1,
+            "s_cbranch": 7,
+            "s_wait_alu": 13,
+            "s_wait_loadcnt": 8,
+            "v_and": 16,
+            "v_cvt_f32": 3,
+            "v_dot4": 2,
+            "v_dot8": 0,
+            "v_fma_f32": 0,
+            "v_lshl": 20,
+            "v_lshr": 9,
+            "v_mul_f32": 1,
+            "v_or": 8
+          },
+          "isa_slice_sha256": "9121cc767c2d7002636f4f00e82b71301e242ef932458cede7718bc0bbf52af5",
+          "machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d",
+          "max_flat_workgroup_size": 256,
+          "private_segment_bytes": 0,
+          "sgpr_spills": 0,
+          "static_group_segment_bytes": 896,
+          "static_sgpr": 26,
+          "static_vgpr": 26,
+          "vgpr_spills": 0,
+          "wavefront_size": 32
+        }
+      }
+    },
+    "fused_k2_dp4a_control": {
+      "fatbin_sha256": "a07181148ef25be15aef8a193fe62d77401221c2ed177a77dfc9f2cc726151b1",
+      "hsaco_sha256": "1e08a9aaaa49ab9bcd190182119ae358a6db75e69e77c738d675cdecc48d7718",
+      "object_sha256": "00171c8445871a1a6df4277320940166a9d8f933c43acbe877685f357b2ff4c7",
+      "symbols": {
+        "fused": {
+          "isa": {
+            "global_load": 30,
+            "instruction_lines": 918,
+            "s_branch": 9,
+            "s_cbranch": 36,
+            "s_wait_loadcnt": 13,
+            "v_and": 48,
+            "v_cvt_f32": 12,
+            "v_dot4": 8,
+            "v_fma_f32": 4,
+            "v_lshl": 44,
+            "v_lshr": 30,
+            "v_mul_f32": 20,
+            "v_or": 25
+          },
+          "isa_slice_sha256": "6a986f58fa8af94b38bba7b96f3ae5fca37061f686f085f37e12a79b2b33c479",
+          "machine_encoding_sha256": "a031aaaaa3b2f4159295e0c6ab0b3e6cfd96dcd614b0de5ea14bc29204b4c63f",
+          "max_flat_workgroup_size": 256,
+          "private_segment_bytes": 0,
+          "sgpr_spills": 0,
+          "static_group_segment_bytes": 1792,
+          "static_sgpr": 42,
+          "static_vgpr": 60,
+          "vgpr_spills": 0,
+          "wavefront_size": 32
+        },
+        "unfused": {
+          "isa": {
+            "global_load": 9,
+            "instruction_lines": 294,
+            "s_branch": 1,
+            "s_cbranch": 7,
+            "s_wait_loadcnt": 8,
+            "v_and": 16,
+            "v_cvt_f32": 3,
+            "v_dot4": 2,
+            "v_fma_f32": 0,
+            "v_lshl": 20,
+            "v_lshr": 9,
+            "v_mul_f32": 1,
+            "v_or": 8
+          },
+          "isa_slice_sha256": "1fc828d284fbacfba828710c89868d1d21369c0e74d6deb49d70b3e486a48caa",
+          "machine_encoding_sha256": "baa2f465a63dff11fce78d648b074ec64143b07cf3bab41ec0749e0a6f03387d",
+          "max_flat_workgroup_size": 256,
+          "private_segment_bytes": 0,
+          "sgpr_spills": 0,
+          "static_group_segment_bytes": 896,
+          "static_sgpr": 26,
+          "static_vgpr": 26,
+          "vgpr_spills": 0,
+          "wavefront_size": 32
+        }
+      }
+    }
+  }
+}

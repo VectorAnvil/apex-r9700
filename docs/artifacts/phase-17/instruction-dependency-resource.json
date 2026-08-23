@@ -1,0 +1,68 @@
+{
+  "schema_version": "apex.phase17.codegen_analysis.v1",
+  "reference": {
+    "symbol": "q6k_dp4a_reference",
+    "function_size_bytes": 372,
+    "instruction_count": 60,
+    "dot4": 2,
+    "dot8": 0,
+    "s_wait_alu": 1,
+    "scalar_shifts": 10,
+    "scalar_and": 10,
+    "scalar_or": 8,
+    "vector_shifts": 0,
+    "vector_adds": 0,
+    "vgpr": 2,
+    "sgpr": 16,
+    "lds_bytes": 0,
+    "private_bytes": 0,
+    "vgpr_spills": 0,
+    "sgpr_spills": 0,
+    "wavefront_size": 32
+  },
+  "candidate": {
+    "symbol": "q6k_dot8_candidate",
+    "function_size_bytes": 876,
+    "instruction_count": 158,
+    "dot4": 0,
+    "dot8": 8,
+    "dot8_instruction": "v_dot8_i32_iu4",
+    "signedness_variants": [
+      "unsigned x unsigned",
+      "unsigned x signed",
+      "signed x unsigned",
+      "signed x signed"
+    ],
+    "s_wait_alu": 16,
+    "scalar_shifts": 28,
+    "scalar_and": 36,
+    "scalar_or": 28,
+    "vector_shifts": 4,
+    "vector_adds": 6,
+    "vgpr": 6,
+    "sgpr": 22,
+    "lds_bytes": 0,
+    "private_bytes": 0,
+    "vgpr_spills": 0,
+    "sgpr_spills": 0,
+    "wavefront_size": 32
+  },
+  "matched_deltas": {
+    "function_size_bytes": 504,
+    "instruction_count": 98,
+    "dot_instructions": 6,
+    "s_wait_alu": 15,
+    "vgpr": 4,
+    "sgpr": 6
+  },
+  "lane_utilization": {
+    "productive_lanes_per_dot8": 4,
+    "physical_lanes_per_dot8": 8,
+    "reason": "The two four-value QR6_K groups have independent scales and d8 factors, so their scalar reductions cannot be merged before weighting.",
+    "dot8_per_four_value_group": 4,
+    "dot8_per_helper": 8,
+    "dp4a_per_reference_helper": 2
+  },
+  "dependency_finding": "LLVM emitted the requested native mixed-sign dot8 operations but retained the complete Q8 low/high nibble extraction, four signedness-specific reductions per group, coefficient shifts/adds, and substantially more ALU waits. No instruction or dependency collapse occurred.",
+  "full_fused_projection": "The matched probe already adds four VGPR and six SGPR, exceeding the frozen +2 VGPR and +0 SGPR allowances before integration. A production build is prohibited after this static failure, so no unsupported exact fused-resource claim is made."
+}

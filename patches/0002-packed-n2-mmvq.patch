@@ -1,0 +1,146 @@
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index 79e4d895dbac85fce68e051d0a73deb265ad9c1e..dce4cf9a6157114e7621e43a6381bed3794e049f 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -1,7 +1,7 @@
+ #include "mmvq.cuh"
+ 
+ static thread_local bool ggml_cuda_q6k_canonical_rows_selected = false;
+-static thread_local bool ggml_cuda_q6k_canonical_ffn_packed_selected = false;
++static thread_local bool ggml_cuda_q6k_canonical_packed_selected = false;
+ 
+ static bool ggml_cuda_q6k_canonical_rows_select(const ggml_tensor * weight) {
+     const char * enabled = getenv("GGML_CUDA_Q6K_CANONICAL_ROWS");
+@@ -43,11 +43,26 @@ static bool ggml_cuda_q6k_canonical_rows_select(const ggml_tensor * weight) {
+            (stage >= 6 && strstr(name, ".attn_output") != nullptr);
+ }
+ 
+-static bool ggml_cuda_q6k_canonical_ffn_packed_select(const ggml_tensor * weight) {
+-    const char * enabled = getenv("GGML_CUDA_Q6K_CANONICAL_FFN_PACKED");
+-    return enabled != nullptr && strcmp(enabled, "1") == 0 && weight->type == GGML_TYPE_Q6_K &&
+-        (strstr(weight->name, ".ffn_gate") != nullptr || strstr(weight->name, ".ffn_up") != nullptr ||
+-         strstr(weight->name, ".ffn_down") != nullptr);
++static bool ggml_cuda_q6k_canonical_packed_select(const ggml_tensor * weight) {
++    const char * all_enabled = getenv("GGML_CUDA_Q6K_CANONICAL_PACKED_ALL");
++    const char * core_enabled = getenv("GGML_CUDA_Q6K_CANONICAL_PACKED_CORE");
++    const char * control_enabled = getenv("GGML_CUDA_Q6K_CANONICAL_PACKED_CONTROL");
++    const char * attn_enabled = getenv("GGML_CUDA_Q6K_CANONICAL_PACKED_ATTN");
++    const char * ffn_enabled = getenv("GGML_CUDA_Q6K_CANONICAL_FFN_PACKED");
++    const char * name = weight->name;
++    return weight->type == GGML_TYPE_Q6_K &&
++        ((all_enabled != nullptr && strcmp(all_enabled, "1") == 0) ||
++         (core_enabled != nullptr && strcmp(core_enabled, "1") == 0 &&
++          (strstr(name, ".attn_qkv") != nullptr || strstr(name, ".attn_gate") != nullptr ||
++           strstr(name, ".ssm_out") != nullptr)) ||
++         (control_enabled != nullptr && strcmp(control_enabled, "1") == 0 &&
++          (strstr(name, ".ssm_alpha") != nullptr || strstr(name, ".ssm_beta") != nullptr)) ||
++         (attn_enabled != nullptr && strcmp(attn_enabled, "1") == 0 &&
++          (strstr(name, ".attn_q.") != nullptr || strstr(name, ".attn_k.") != nullptr ||
++           strstr(name, ".attn_v.") != nullptr || strstr(name, ".attn_output") != nullptr)) ||
++         (ffn_enabled != nullptr && strcmp(ffn_enabled, "1") == 0 &&
++          (strstr(name, ".ffn_gate") != nullptr || strstr(name, ".ffn_up") != nullptr ||
++           strstr(name, ".ffn_down") != nullptr)));
+ }
+ #include "quantize.cuh"
+ #include "unary.cuh"
+@@ -968,7 +983,7 @@ static void mul_mat_vec_q_switch_ncols_dst(
+                             fusion.x_scale != nullptr || fusion.gate_scale != nullptr;
+     const bool use_canonical_rows = type == GGML_TYPE_Q6_K && table_id == MMVQ_PARAMETERS_RDNA4 &&
+         ggml_cuda_q6k_canonical_rows_selected && !has_ids && !has_fusion && (ncols_dst == 2 || ncols_dst == 3);
+-    const bool use_canonical_ffn_packed = use_canonical_rows && ggml_cuda_q6k_canonical_ffn_packed_selected;
++    const bool use_canonical_packed = use_canonical_rows && ggml_cuda_q6k_canonical_packed_selected;
+     const bool canonical_force_four_waves = type == GGML_TYPE_Q6_K && nrows_x == 6144 && ncols_x == 5120;
+ 
+     const auto should_use_small_k = [&](int c_ncols_dst) {
+@@ -1065,12 +1080,20 @@ static void mul_mat_vec_q_switch_ncols_dst(
+         } break;
+         case 2: {
+             if (use_canonical_rows) {
+-                if (use_canonical_ffn_packed) {
+-                    mul_mat_vec_q_canonical_packed_rows<type, 2>(
+-                        vx, vy, dst, ncols_x, nchannels_y_fd, nrows_x, stride_row_x, stride_col_y,
+-                        stride_col_dst, channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
+-                        sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, nchannels_dst,
+-                        nsamples_dst, warp_size, table_id, stream);
++                if (use_canonical_packed) {
++                    if (canonical_force_four_waves) {
++                        mul_mat_vec_q_canonical_packed_rows<type, 2, true>(
++                            vx, vy, dst, ncols_x, nchannels_y_fd, nrows_x, stride_row_x, stride_col_y,
++                            stride_col_dst, channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                            sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, nchannels_dst,
++                            nsamples_dst, warp_size, table_id, stream);
++                    } else {
++                        mul_mat_vec_q_canonical_packed_rows<type, 2>(
++                            vx, vy, dst, ncols_x, nchannels_y_fd, nrows_x, stride_row_x, stride_col_y,
++                            stride_col_dst, channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                            sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, nchannels_dst,
++                            nsamples_dst, warp_size, table_id, stream);
++                    }
+                     break;
+                 }
+                 if (canonical_force_four_waves) {
+@@ -1097,12 +1120,20 @@ static void mul_mat_vec_q_switch_ncols_dst(
+         } break;
+         case 3: {
+             if (use_canonical_rows) {
+-                if (use_canonical_ffn_packed) {
+-                    mul_mat_vec_q_canonical_packed_rows<type, 3>(
+-                        vx, vy, dst, ncols_x, nchannels_y_fd, nrows_x, stride_row_x, stride_col_y,
+-                        stride_col_dst, channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
+-                        sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, nchannels_dst,
+-                        nsamples_dst, warp_size, table_id, stream);
++                if (use_canonical_packed) {
++                    if (canonical_force_four_waves) {
++                        mul_mat_vec_q_canonical_packed_rows<type, 3, true>(
++                            vx, vy, dst, ncols_x, nchannels_y_fd, nrows_x, stride_row_x, stride_col_y,
++                            stride_col_dst, channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                            sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, nchannels_dst,
++                            nsamples_dst, warp_size, table_id, stream);
++                    } else {
++                        mul_mat_vec_q_canonical_packed_rows<type, 3>(
++                            vx, vy, dst, ncols_x, nchannels_y_fd, nrows_x, stride_row_x, stride_col_y,
++                            stride_col_dst, channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                            sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, nchannels_dst,
++                            nsamples_dst, warp_size, table_id, stream);
++                    }
+                     break;
+                 }
+                 if (canonical_force_four_waves) {
+@@ -1434,16 +1465,16 @@ void ggml_cuda_mul_mat_vec_q(
+     const int64_t ids_stride = ids ? ids->nb[1] / ggml_type_size(ids->type) : 0;
+ 
+     const bool canonical_rows_previous = ggml_cuda_q6k_canonical_rows_selected;
+-    const bool canonical_ffn_packed_previous = ggml_cuda_q6k_canonical_ffn_packed_selected;
++    const bool canonical_packed_previous = ggml_cuda_q6k_canonical_packed_selected;
+     ggml_cuda_q6k_canonical_rows_selected = ggml_cuda_q6k_canonical_rows_select(src0);
+-    ggml_cuda_q6k_canonical_ffn_packed_selected = ggml_cuda_q6k_canonical_ffn_packed_select(src0);
++    ggml_cuda_q6k_canonical_packed_selected = ggml_cuda_q6k_canonical_packed_select(src0);
+     mul_mat_vec_q_switch_type(
+         src0->data, src0->type, src1_q8_1.get(), ids_d, fusion_local, dst_d, ne00,
+         ne01,              ncols_dst,     s01, stride_col_y,     stride_col_dst,
+         ne02, nchannels_y, nchannels_dst, s02, stride_channel_y, stride_channel_dst,
+         ne03,              ne3,           s03, s13,              s3,               ids_stride, stream);
+     ggml_cuda_q6k_canonical_rows_selected = canonical_rows_previous;
+-    ggml_cuda_q6k_canonical_ffn_packed_selected = canonical_ffn_packed_previous;
++    ggml_cuda_q6k_canonical_packed_selected = canonical_packed_previous;
+ }
+ 
+ void ggml_cuda_op_mul_mat_vec_q(
+@@ -1471,14 +1502,14 @@ void ggml_cuda_op_mul_mat_vec_q(
+ 
+     ggml_cuda_mm_fusion_args_device fusion_local{};
+     const bool canonical_rows_previous = ggml_cuda_q6k_canonical_rows_selected;
+-    const bool canonical_ffn_packed_previous = ggml_cuda_q6k_canonical_ffn_packed_selected;
++    const bool canonical_packed_previous = ggml_cuda_q6k_canonical_packed_selected;
+     ggml_cuda_q6k_canonical_rows_selected = ggml_cuda_q6k_canonical_rows_select(src0);
+-    ggml_cuda_q6k_canonical_ffn_packed_selected = ggml_cuda_q6k_canonical_ffn_packed_select(src0);
++    ggml_cuda_q6k_canonical_packed_selected = ggml_cuda_q6k_canonical_packed_select(src0);
+     mul_mat_vec_q_switch_type(
+         src0_dd_i, src0->type, src1_ddq_i, nullptr, fusion_local, dst_dd_i, ne00, row_diff, src1_ncols, stride_row_x, stride_col_y, nrows_dst,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, stream);
+     ggml_cuda_q6k_canonical_rows_selected = canonical_rows_previous;
+-    ggml_cuda_q6k_canonical_ffn_packed_selected = canonical_ffn_packed_previous;
++    ggml_cuda_q6k_canonical_packed_selected = canonical_packed_previous;
+ 
+     GGML_UNUSED_VARS(src1, dst, src1_ddf_i, src1_ncols, src1_padded_row_size);
+ }

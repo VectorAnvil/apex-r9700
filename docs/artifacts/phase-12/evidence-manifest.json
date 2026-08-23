@@ -1,0 +1,80 @@
+{
+  "schema_version": "apex.phase12.evidence_manifest.v1",
+  "artifacts": [
+    {
+      "path": "task.json",
+      "bytes": 4120,
+      "sha256": "3a1531f552290f016b28489b8812d39981f3dbed58277c14b4b687f2a7085b91"
+    },
+    {
+      "path": "PROCEDURE.md",
+      "bytes": 1044,
+      "sha256": "65686c02540d1df05a97935a9ba4d31d80c78a5845b4aca8cb4857e23de37336"
+    },
+    {
+      "path": "trace-joins.json",
+      "bytes": 5287,
+      "sha256": "bee83b86917490af783f21763dc33c937ccf77aedd0fa06c27c651508ab84fb2"
+    },
+    {
+      "path": "source-graph.json",
+      "bytes": 2394,
+      "sha256": "dc58b40c4005dfc89d397a6e1420f8f3de2915a1fbfa8d2300625dde25eb768e"
+    },
+    {
+      "path": "layout-aliasing.json",
+      "bytes": 1543,
+      "sha256": "4cb0bc2dfb25391b3a6b32ee14e7925de499130fe649d498e85bc45b1fa1fd51"
+    },
+    {
+      "path": "materialization-model.json",
+      "bytes": 1036,
+      "sha256": "8a3c1562d708202bc0d349a962d9a00ec554fe2060ca0adc87ae02eb19ea44f7"
+    },
+    {
+      "path": "correctness-graph-tp-plan.json",
+      "bytes": 1323,
+      "sha256": "a6e7545ce28e14d0a0e86669eb5a1fc4be2d13f045e40b82df6abd71a2cc8b8c"
+    },
+    {
+      "path": "boundary-rank.json",
+      "bytes": 1111,
+      "sha256": "d96d930452138f2c3a16f051c84b5db203337a30cc3d64d1db2ef0ff54608de4"
+    },
+    {
+      "path": "roadmap-status.json",
+      "bytes": 494,
+      "sha256": "cdca745d8ee7c7c71042332d05aad91c6b83eb418ba7e28c8367c2c65bfa683c"
+    },
+    {
+      "path": "phase12-result.json",
+      "bytes": 490,
+      "sha256": "be5a89ff39afdab3618d186e19694b971c3516bf487d0500948dd7c8e544c1d5"
+    },
+    {
+      "path": "WHAT_DIDNT_WORK.md",
+      "bytes": 1111,
+      "sha256": "877c50e865033389093f3c809e8cb80981b2c0073ad17a768cf93b56f82c7d73"
+    },
+    {
+      "path": "tools/make_task.py",
+      "bytes": 4387,
+      "sha256": "a335ac27655f9bedbe588e027eb0f8ff9733ddc1b90c936d6b57ac4463a02356"
+    },
+    {
+      "path": "tools/join_trace.py",
+      "bytes": 6338,
+      "sha256": "bce588c78314b7049c4f15ff280da15568e7ba8cc11e80b58380805d01f70af6"
+    },
+    {
+      "path": "tools/finalize_feasibility.py",
+      "bytes": 8957,
+      "sha256": "12649b8da481186d5f9c0e36b50b49339aa50b6b8c024cd99b41c1cedad4ccb2"
+    },
+    {
+      "path": "tools/finalize_evidence.py",
+      "bytes": 978,
+      "sha256": "7d2cd90ac98fc4b46f3fee0c8e4a3ebbe5f323e63a9e7c55ce9e36d23a5fe1b4"
+    }
+  ]
+}

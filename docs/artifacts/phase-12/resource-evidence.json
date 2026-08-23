@@ -1,0 +1,146 @@
+{
+  "achieved_hardware_bandwidth": {
+    "reason": "FETCH_SIZE counter attempts were unjoinable",
+    "status": "unavailable"
+  },
+  "achieved_occupancy": {
+    "reason": "bounded rocprofv3 PMC attempts failed on both gfx1201 agents",
+    "status": "unavailable"
+  },
+  "code_object": {
+    "offset": 8556544,
+    "path": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/evidence/candidate-swiglu-d4-gfx1201.hsaco",
+    "resources": {
+      "group_segment_fixed_size": 0,
+      "max_flat_workgroup_size": 1024,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 18,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 18,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    "sha256": "812863a249dff0a0900dbd0f4ebb896468e42daa81b6251254ef4ea6bac4fc6d",
+    "size": 49632,
+    "symbol": "_ZL27quantize_swiglu_mmq_q8_1_d4PKfS0_P14block_q8_1_mmqll"
+  },
+  "counter_attempt": {
+    "records": [
+      {
+        "argv": [
+          "timeout",
+          "20s",
+          "/opt/rocm-7.2.0/bin/rocprofv3",
+          "--kernel-trace",
+          "--pmc",
+          "OccupancyPercent,FETCH_SIZE",
+          "--mangled-kernels",
+          "--output-format",
+          "csv",
+          "--output-file",
+          "counters-d0",
+          "--output-directory",
+          "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/attempts/p12-l/counters/d0",
+          "--",
+          "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/builds/candidate/bin/test-backend-ops",
+          "test",
+          "-o",
+          "Q6K_SWIGLU_D4_FFN_DOWN",
+          "-b",
+          "ROCm0",
+          "-p",
+          "tokens=512,hidden=5120,ffn=8704",
+          "--output",
+          "csv"
+        ],
+        "device": 0,
+        "multiplexing": false,
+        "reason": "rocprofv3 aborted in HIP buffer initialization and did not finalize before the 20-second timeout",
+        "returncode": 124,
+        "sdk_exception_observed": true,
+        "status": "unavailable",
+        "stderr_sha256": "ab48816d2c647edac3e35803efe1cb70f3faa4026547b1df5e3a67803be5c641",
+        "stdout_sha256": "c8c83af533c44bd55bb0027509ec3b8122a61290f41bea29f96d928b92dc37ad",
+        "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7",
+        "trace_count": 0
+      },
+      {
+        "argv": [
+          "timeout",
+          "20s",
+          "/opt/rocm-7.2.0/bin/rocprofv3",
+          "--kernel-trace",
+          "--pmc",
+          "OccupancyPercent,FETCH_SIZE",
+          "--mangled-kernels",
+          "--output-format",
+          "csv",
+          "--output-file",
+          "counters-d1",
+          "--output-directory",
+          "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/attempts/p12-l/counters/d1",
+          "--",
+          "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/builds/candidate/bin/test-backend-ops",
+          "test",
+          "-o",
+          "Q6K_SWIGLU_D4_FFN_DOWN",
+          "-b",
+          "ROCm0",
+          "-p",
+          "tokens=512,hidden=5120,ffn=8704",
+          "--output",
+          "csv"
+        ],
+        "device": 1,
+        "multiplexing": false,
+        "reason": "rocprofv3 aborted in HIP buffer initialization and did not finalize before the 20-second timeout",
+        "returncode": 124,
+        "sdk_exception_observed": true,
+        "status": "unavailable",
+        "stderr_sha256": "6f68b2061a3a73547adac8070e860a905f00e1b641328b12a01b687a40fb8904",
+        "stdout_sha256": "c754b9605aa49b2936b3b52da2c19846c4a89f2d238eda3d32eeb41761784593",
+        "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7",
+        "trace_count": 0
+      }
+    ],
+    "schema_version": "apex.phase12.counter_attempt.v1",
+    "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7"
+  },
+  "library": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/builds/candidate/bin/libggml-hip.so",
+  "library_sha256": "e761864a41f8a83d1e952fa6472b90a6e1c67b32d4a6f5fa5cad847d2b500931",
+  "logical_bandwidth_note": "logical F32 input plus D4 output bytes divided by unprofiled kernel duration; not a hardware traffic counter",
+  "runtime": [
+    {
+      "agent": "Agent 1",
+      "dispatches": 128,
+      "lds_bytes": 0,
+      "logical_io_bandwidth_gb_s": 789.9201243201243,
+      "logical_io_bytes": 40665088,
+      "median_duration_ns": 51480,
+      "scratch_bytes": 0,
+      "sgpr": 128,
+      "vgpr": 24,
+      "wave_count_per_dispatch": 34816,
+      "waves_per_workgroup": 1,
+      "workgroup_threads": 32
+    },
+    {
+      "agent": "Agent 2",
+      "dispatches": 128,
+      "lds_bytes": 0,
+      "logical_io_bandwidth_gb_s": 789.9047804044211,
+      "logical_io_bytes": 40665088,
+      "median_duration_ns": 51481,
+      "scratch_bytes": 0,
+      "sgpr": 128,
+      "vgpr": 24,
+      "wave_count_per_dispatch": 34816,
+      "waves_per_workgroup": 1,
+      "workgroup_threads": 32
+    }
+  ],
+  "schema_version": "apex.phase12.resource_evidence.v1",
+  "task_fingerprint": "6dc70c86aeb4c05f1bfa6cc341e80450de9971c6f8adba72a66775298a6c04e7",
+  "trace": "/home/adam/workspaces/ChatGPT/Apex/results_phase12_swiglu_d4_ffn_down_20260808/attempts/p12-h/registered-dispatch/registered-candidate_kernel_trace.csv",
+  "trace_sha256": "7b938c9a86231e71d19977a0b894c41316881114a44d1e64fe49306b31e5ae1a"
+}

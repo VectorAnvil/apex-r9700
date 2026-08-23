@@ -1,0 +1,81 @@
+{
+  "schema_version": "apex.phase6.counter_result.v1",
+  "task_fingerprint": "4542409930c19a8897fad3c35b4c41e066e6e8e14b76c4f863d25fcb777debff",
+  "tool": "rocprofv3 1.1.0",
+  "selected_counters": [
+    "OccupancyPercent",
+    "FETCH_SIZE"
+  ],
+  "frozen_command": [
+    "rocprofv3",
+    "--kernel-trace",
+    "--pmc",
+    "OccupancyPercent,FETCH_SIZE",
+    "--mangled-kernels"
+  ],
+  "multiplexing_requested": false,
+  "attempts": [
+    {
+      "variant": "baseline",
+      "device": 0,
+      "status": "timeout",
+      "timeout_seconds": 120,
+      "exact_symbol_join": false,
+      "profiler_output": "unavailable"
+    },
+    {
+      "variant": "baseline",
+      "device": 1,
+      "status": "timeout",
+      "timeout_seconds": 120,
+      "exact_symbol_join": false,
+      "profiler_output": "unavailable"
+    },
+    {
+      "variant": "candidate",
+      "device": 0,
+      "status": "timeout",
+      "timeout_seconds": 120,
+      "exact_symbol_join": false,
+      "profiler_output": "unavailable"
+    },
+    {
+      "variant": "candidate",
+      "device": 1,
+      "status": "timeout",
+      "timeout_seconds": 120,
+      "exact_symbol_join": false,
+      "profiler_output": "unavailable"
+    }
+  ],
+  "procedure_failure": {
+    "status": "preserved",
+    "path": "counter-pass/baseline/d0",
+    "reason": "the first invocation supplied a relative binary path which became invalid under the runner working directory; it launched no workload"
+  },
+  "achieved_occupancy": {
+    "status": "unavailable",
+    "metric_class": "unavailable",
+    "measurement_scope": "runtime_counter",
+    "reason": "all four exact nonmultiplexed captures timed out before producing a joinable counter result"
+  },
+  "achieved_video_memory_read_bandwidth": {
+    "status": "unavailable",
+    "metric_class": "unavailable",
+    "measurement_scope": "runtime_counter",
+    "reason": "FETCH_SIZE produced no exact-scope value or matching same-capture kernel duration"
+  },
+  "achieved_total_bandwidth": {
+    "status": "unavailable",
+    "metric_class": "unavailable",
+    "measurement_scope": "runtime_counter",
+    "reason": "no documented aggregate write-byte counter was advertised and the selected read counter capture timed out"
+  },
+  "capability_evidence": {
+    "device0_list_sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841",
+    "device1_list_sha256": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841",
+    "counter_capabilities_sha256": "522365a9b258840b68de6226876bf64c29120dfc01d887b64a64332b1cd0f39e",
+    "last_preflight_activity_sha256": "d80da3a222d4ff9bb80dd8da2ac4485e544a22ee35c96e0a11d9887ca19f6957"
+  },
+  "performance_claim": false
+}

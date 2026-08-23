@@ -1,0 +1,285 @@
+{
+  "cases": [
+    {
+      "fusion": false,
+      "id": "ssm",
+      "k": 5120,
+      "m": 24,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_kv",
+      "k": 5120,
+      "m": 512,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_gate",
+      "k": 5120,
+      "m": 3072,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "m5120_k3072",
+      "k": 3072,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_qkv",
+      "k": 5120,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "ffn_down",
+      "k": 8704,
+      "m": 5120,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "attn_q",
+      "k": 5120,
+      "m": 6144,
+      "n": 1
+    },
+    {
+      "fusion": true,
+      "id": "ffn_up",
+      "k": 5120,
+      "m": 8704,
+      "n": 1
+    },
+    {
+      "fusion": false,
+      "id": "lm_head",
+      "k": 5120,
+      "m": 124160,
+      "n": 1
+    }
+  ],
+  "counter_contracts": {
+    "baseline": {
+      "command_prefix": [
+        "rocprofv3",
+        "--kernel-trace",
+        "--pmc",
+        "OccupancyPercent,FETCH_SIZE",
+        "--mangled-kernels"
+      ],
+      "counter_status": "approved",
+      "counters": [
+        "OccupancyPercent",
+        "FETCH_SIZE"
+      ],
+      "expected_demangled_symbol": "void mul_mat_vec_q<(ggml_type)14, 1, true, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int) [clone .kd]",
+      "expected_mangled_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "multiplexing": false,
+      "normalization": {
+        "FETCH_SIZE": "counter kilobytes * 1024 / matching same-capture kernel duration seconds",
+        "OccupancyPercent": "counter value is already percent of dynamic 32-wave/CU maximum",
+        "bandwidth_domain": "video-memory fetched/read bytes; writes and combined bandwidth unavailable"
+      },
+      "tool": "rocprofv3 1.1.0"
+    },
+    "candidate": {
+      "command_prefix": [
+        "rocprofv3",
+        "--kernel-trace",
+        "--pmc",
+        "OccupancyPercent,FETCH_SIZE",
+        "--mangled-kernels"
+      ],
+      "counter_status": "approved",
+      "counters": [
+        "OccupancyPercent",
+        "FETCH_SIZE"
+      ],
+      "expected_demangled_symbol": "void mul_mat_vec_q<(ggml_type)14, 1, true, false, true>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int) [clone .kd]",
+      "expected_mangled_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+      "multiplexing": false,
+      "normalization": {
+        "FETCH_SIZE": "counter kilobytes * 1024 / matching same-capture kernel duration seconds",
+        "OccupancyPercent": "counter value is already percent of dynamic 32-wave/CU maximum",
+        "bandwidth_domain": "video-memory fetched/read bytes; writes and combined bandwidth unavailable"
+      },
+      "tool": "rocprofv3 1.1.0"
+    }
+  },
+  "created_at": "2026-08-08T19:46:27.863047+00:00",
+  "fingerprint_fields": {
+    "baseline_full_patch": "9b874a6ed1415a244d80d94b98059a24d69bae4296b53419d651f7c7c7988c59",
+    "builds": {
+      "baseline": {
+        "binary": "3a0395a77d6c1c4bd86767f50502644291948dbce7f8e1675bf1d3ae4470446e",
+        "cmake_cache": "40f3877af487e619d598542d2f757b2df96c61ce317efe94949daf9fb6d107eb",
+        "compile_commands": "11952cda05acb902a081fc2ddcfacb6e4fb0d40f1e629eccbc461c905ba51420",
+        "harness": "9d74d7fe87791019e9a8bcfb8f86db46e195c281d9ccc4587576cd70f570ac24",
+        "mmvq_object": "4b6cab9f02ea35e397d1c102d804fa722e2274cecb9f97e0e515ac060abfb7a2"
+      },
+      "candidate-fused-nwarps12": {
+        "binary": "e0e8982ced3dc530e27b7afa90991c2fc496de15a83cc169839930ce28e08595",
+        "cmake_cache": "ac7253a9dda4a9db4c80f2f3e906ff235a2a935242e4f7cad21d2a5290f8413b",
+        "compile_commands": "43a23155bb52aa6768108f43ebc24dcbca9ddc6e20ca2212dc07998dc0abefe4",
+        "harness": "9d74d7fe87791019e9a8bcfb8f86db46e195c281d9ccc4587576cd70f570ac24",
+        "mmvq_object": "ee0518b4798c0081dab5a98607fd71becf833251aa5970e703b36eedf165d665"
+      }
+    },
+    "candidate_full_patch": "84353447ffb91a1a3cf7213664512acc71fdb667bd9163c77fea8b92aff80422",
+    "candidate_patch": "74de1cecbcab7d72af8f7c549503ad34aafb08cc23a27eb9a29a4b6644193a32",
+    "capabilities": {
+      "counter-capabilities.json": "522365a9b258840b68de6226876bf64c29120dfc01d887b64a64332b1cd0f39e",
+      "gpu0.json": "cda8b6755bf076c741a8a79e76dc32b72ce4d34bd5a3bde7ec2cc5cead8cf260",
+      "gpu1.json": "620afc71e1adf8479ce5c40d8424827463f0b590c59f29a8a4871257886d8d6d",
+      "selector.json": "b588190cc1d229c1176b5d3978f19c1fda8930e58a781275c1100e59a81bece3"
+    },
+    "capability_commands": [
+      "rocminfo",
+      "rocm-smi --showproductname --showuniqueid --showmeminfo vram --showuse --json",
+      "HIP_VISIBLE_DEVICES=<0|1> rocprofv3 --list-avail"
+    ],
+    "code_object": "c52a75632ddffa848749d3fd9b1ce20c27772d296baf2ce7c60e0dc19623e9fd",
+    "counter_contracts": {
+      "baseline": {
+        "command_prefix": [
+          "rocprofv3",
+          "--kernel-trace",
+          "--pmc",
+          "OccupancyPercent,FETCH_SIZE",
+          "--mangled-kernels"
+        ],
+        "counter_status": "approved",
+        "counters": [
+          "OccupancyPercent",
+          "FETCH_SIZE"
+        ],
+        "expected_demangled_symbol": "void mul_mat_vec_q<(ggml_type)14, 1, true, false>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int) [clone .kd]",
+        "expected_mangled_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+        "multiplexing": false,
+        "normalization": {
+          "FETCH_SIZE": "counter kilobytes * 1024 / matching same-capture kernel duration seconds",
+          "OccupancyPercent": "counter value is already percent of dynamic 32-wave/CU maximum",
+          "bandwidth_domain": "video-memory fetched/read bytes; writes and combined bandwidth unavailable"
+        },
+        "tool": "rocprofv3 1.1.0"
+      },
+      "candidate": {
+        "command_prefix": [
+          "rocprofv3",
+          "--kernel-trace",
+          "--pmc",
+          "OccupancyPercent,FETCH_SIZE",
+          "--mangled-kernels"
+        ],
+        "counter_status": "approved",
+        "counters": [
+          "OccupancyPercent",
+          "FETCH_SIZE"
+        ],
+        "expected_demangled_symbol": "void mul_mat_vec_q<(ggml_type)14, 1, true, false, true>(void const*, void const*, int const*, ggml_cuda_mm_fusion_args_device, float*, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, HIP_vector_type<unsigned int, 3u>, unsigned int, unsigned int, unsigned int, unsigned int) [clone .kd]",
+        "expected_mangled_symbol": "_ZL13mul_mat_vec_qIL9ggml_type14ELi1ELb1ELb0ELb1EEvPKvS2_PKi31ggml_cuda_mm_fusion_args_devicePfj15HIP_vector_typeIjLj3EEjjjS8_jjjS8_jjjj.kd",
+        "multiplexing": false,
+        "normalization": {
+          "FETCH_SIZE": "counter kilobytes * 1024 / matching same-capture kernel duration seconds",
+          "OccupancyPercent": "counter value is already percent of dynamic 32-wave/CU maximum",
+          "bandwidth_domain": "video-memory fetched/read bytes; writes and combined bandwidth unavailable"
+        },
+        "tool": "rocprofv3 1.1.0"
+      }
+    },
+    "counter_default": {
+      "nonmultiplexed_required": true,
+      "selected_set": [
+        "OccupancyPercent",
+        "FETCH_SIZE"
+      ],
+      "status": "unavailable_until_successful_exact_join",
+      "tool": "rocprofv3 1.1.0"
+    },
+    "harness_patch": "1b822039c4835d8e6f2aa123e9324cdbceb79f46bd4578c0fc95805f55e96547",
+    "inputs": "15b4d4d18a08ff2d3f28f15c45af9d6f49c457ebe837f737053996ba837804d3",
+    "metrics": {
+      "counter_scope": "runtime_counter",
+      "occupancy_scope": "derived_bound",
+      "static_scope": "static_code_object",
+      "unprofiled_median_scope": "unprofiled_microbenchmark"
+    },
+    "p2p_patch": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase4_attempts": "9b88523568ac80a22954ef045918b4a97f758015a39deb2135764f43e0574e15",
+    "phase4_result": "05b46d79b826879782be7a9add9905d997dab813f79c0de7c336654dfb3f3e53",
+    "phase4_task": "e53ef7aa22c11a6e30cbe68a4fda1bb804498743b5a117093292f5e53e9e2dfd",
+    "phase5_attempts": "c30dd4dc2c995e383c83c6ba544c4fc77c6f70ddf0dde7d07b936fdf124e762c",
+    "phase5_result": "3eec788372cd5e057fe40cf5b344f51e63eefa53954ae083c7235cff76a8f473",
+    "phase5_task": "838b60dc3d9b8d2d489b7a7be7b0e95c8aeef93cfbc7416eb869bb7bab98a59f",
+    "policy": {
+      "excluded_floor": 0.99,
+      "ffn_up_win": 1.01,
+      "nmse": 0.0005,
+      "normal_graphs": true,
+      "rounds": 3,
+      "schedule": [
+        "d0-a",
+        "d1-a",
+        "d0-b",
+        "d1-b",
+        "d1-a",
+        "d0-a"
+      ],
+      "stability": 0.035
+    },
+    "registered_identity": {
+      "build_id": 2,
+      "hip_visible_devices": "0,1",
+      "model_id": 2,
+      "profile_id": 5,
+      "suite_id": 2
+    },
+    "selector": {
+      "candidate_nwarps": 12,
+      "fallback": "upstream_default_eight_waves",
+      "fusion": {
+        "gate_bias": false,
+        "gate_pointer": "nonnull",
+        "gate_scale": false,
+        "glu_op": 2,
+        "has_fusion": true,
+        "x_bias": false,
+        "x_scale": false
+      },
+      "host_args": "type=q6_K,glu_op=2,m=1,n=8704,k=5120,use_id=0",
+      "ids_pointer": "null",
+      "k": 5120,
+      "m": 8704,
+      "n": 1,
+      "parameter_table": "RDNA4",
+      "small_k": false,
+      "type": "Q6_K"
+    },
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "tool_scripts": {
+      "finalize_gate.py": "1062103ef215c5e236c28ce4f5df5859fbd0fdc903d15043d267049b2fb6f6d2",
+      "generate_resource_scorecard.py": "5e90e3dbffaee781a1658a1240d3638600f8b3bf8f92608f237f81361cbfc830",
+      "inspect_code_objects.py": "4dc7ec5ceb34735ec8b3be19403687a2ec7f8008cd9bd6a8305239d1f741b4ed",
+      "make_task.py": "6a5eb4a484a9bfae73d29e730455830a2f5f07113235f5a5e99db781fc25dad8",
+      "preflight.py": "fd9d5f14142c77652e71a9abd600a1acbd4c7349788180fc6c0031824cff41e5",
+      "run_dispatch.py": "8056622fd0aab2ffb80ac54c0ef70997d6f05686ec6821e86ab4b74500a501b8",
+      "run_fused_counter_pass.py": "45b601c7b565f707dbb244d446bf749118d0f5db9a4f26e0766922265283f058",
+      "run_gate.py": "f4ac4b8bec54da1e6905803c2a0071f13c2219f098df2a16a794421db6c5cf12"
+    }
+  },
+  "immutable": true,
+  "schema_version": "apex.phase6.fused12_task.v0",
+  "target_fingerprint": "4542409930c19a8897fad3c35b4c41e066e6e8e14b76c4f863d25fcb777debff",
+  "write_boundary": {
+    "registered_build_mutation": false,
+    "registered_source_mutation": false,
+    "registration_before_gate": false,
+    "results_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase06_q6k_fused_nwarps12_20260808"
+  }
+}

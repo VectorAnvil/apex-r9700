@@ -1,0 +1,13 @@
+{
+  "schema_version": "apex.phase21e.qwen35_tree_correctness.v1",
+  "task_sha256": "3127f759bee6338634250a159ceccd2f47c30a16ecd1c768f05e9b4adb7fe6db",
+  "objective": "Prove parent-aware Qwen35 DDTree correctness for a fixed 20-node topology before any GPU timing work.",
+  "fixed_configuration": {
+    "devices": [0, 1],
+    "target_split": "tensor",
+    "draft_split": "layer",
+    "dflash_n_max": 12,
+    "tree_non_root_nodes": 20
+  },
+  "decision_rule": "Fail before build or GPU work if parent-aware recurrent and convolution state cannot be represented exactly."
+}

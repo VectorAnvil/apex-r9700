@@ -1,0 +1,61 @@
+{
+  "schema_version": "apex.phase18.q6k_fused_k2_dot8_rescue.v1",
+  "immutable_after_fingerprint": true,
+  "authorization": "User explicitly requested stacking native dot8 with fused K2 after both independent candidates failed.",
+  "objective": "Determine whether fused K2 load/compute overlap makes exact Q6_K x Q8_1 native-dot8 arithmetic useful on gfx1201.",
+  "variants": {
+    "registered_k1_dp4a": "Phase13 registered source and binary; historical control only until exact combined candidate qualifies.",
+    "fused_k2_dp4a": "Phase16C fused-only K2 source, macro GGML_CUDA_EXPERIMENT_RDNA4_Q6K_FUSED_MMVQ_K2=1.",
+    "fused_k2_dot8": "Same fused-only K2 source and schedule, with only q6k_mmvq_consume_packet arithmetic replaced by the Phase17 v2 exact four-dot8-per-group construction."
+  },
+  "identity": {
+    "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "registered_libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "phase16c_task_sha256": "65dcaa5b700e30d1c13d9667d6ef34f46ac6add7a01d536ed61c3c1c9743a4ac",
+    "phase16c_k2_patch_sha256": "ea9933b94e87de3aa794b2bd224aeebbc35f3835ef702c841529495b8f7ca889",
+    "phase16c_k2_fused_resources": {"vgpr": 60, "sgpr": 42, "lds_bytes": 1792, "private_bytes": 0, "spills": 0},
+    "phase17_v2_task_sha256": "9a6cb6261eb93eeefd4f576bca8a1273c94ac031368e218e6cde86ba98eb2039",
+    "phase17_probe_hsaco_sha256": "126c58b05f7c75874bd808ccd3ca6a5e51fbc0670639d846e87c7655dfc225bb"
+  },
+  "scope": {
+    "architecture": "gfx1201",
+    "type": "GGML_TYPE_Q6_K",
+    "ncols_dst": 1,
+    "fusion": true,
+    "k2_only": true,
+    "allowed_production_files": ["ggml/src/ggml-cuda/mmvq.cu", "ggml/src/ggml-cuda/vecdotq.cuh"],
+    "dot8_change_location": "q6k_mmvq_consume_packet only",
+    "unchanged": ["K2 prologue/steady-state/epilogue", "load addresses", "packet layouts", "dispatch", "wave count", "K1 fallback", "unfused symbol", "P2P/allreduce", "graphs", "MMQ", "MTP", "Stream-K"],
+    "registered_assets_mutated": false
+  },
+  "static_gate": {
+    "required": [
+      "candidate fused symbol retains next-K VMEM before current gate DP4A/dot arithmetic",
+      "native v_dot8_i32_iu4 appears in fused symbol",
+      "unfused Q6_K N=1 machine-code bytes remain identical to isolated K1 baseline",
+      "private bytes, scratch, and spills remain zero",
+      "fused VGPR <=64 and SGPR <=48",
+      "no added VMEM/store count beyond K2 packet schedule"
+    ],
+    "failure": "Reject before GPU work."
+  },
+  "correctness_gate": {
+    "condition": "Run only after static pass.",
+    "cases": "Both GPUs, three repetitions, fused and unfused Q6_K K=3072/5120/8704 plus Q4_K fallback, NMSE <=0.0005 using the identical Phase16C harness.",
+    "failure": "Reject before timing."
+  },
+  "performance_gate": {
+    "condition": "Run only after static and correctness pass.",
+    "exact_operation": "Full-graph fused ffn_up M=8704,N=1,K=5120 with normal HIP graphs.",
+    "schedule": "Three AB/BA rounds, six untrimmed samples per variant/device.",
+    "first_comparison": "fused_k2_dot8 versus fused_k2_dp4a: combined >=1.02x, no device <1.00x, each spread <=3.5%.",
+    "promotion_comparison": "Only after first comparison passes, compare against registered K1 DP4A and require >=1.005x exact. TG128 remains prohibited unless both exact comparisons pass."
+  },
+  "stop_rules": {
+    "no_rescue_reinterpretation": true,
+    "no_k4": true,
+    "no_gpu_on_static_failure": true,
+    "no_tg_on_exact_failure": true,
+    "no_registration_in_this_task": true
+  }
+}

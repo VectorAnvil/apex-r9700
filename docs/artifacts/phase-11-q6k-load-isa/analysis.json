@@ -1,0 +1,9 @@
+{
+  "status": "complete_no_go",
+  "registered_code_object_sha256": "23c590e31a77f55c0e3f702c740796ebd8261df7c6c0aa220ad94ce3cc6de835",
+  "registered_payload_loads": {"ql": "global_load_b32", "qh": "global_load_b32", "q8_1_qs": "two global_load_b32", "scales": "two global_load_i8"},
+  "actual_vectorization_gap": false,
+  "fused_q8_1_reused_across_weight_streams": true,
+  "candidate_authorized": false,
+  "gpu_benchmark_authorized": false
+}

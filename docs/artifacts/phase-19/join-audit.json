@@ -1,0 +1,21 @@
+{
+  "ambiguous": 0,
+  "devices": [
+    {
+      "device": 0,
+      "mismatches": [],
+      "recorder_records": 22491,
+      "trace_dispatches": 22491
+    },
+    {
+      "device": 1,
+      "mismatches": [],
+      "recorder_records": 22491,
+      "trace_dispatches": 22491
+    }
+  ],
+  "request_joined_dispatches": 43970,
+  "request_recorder_records": 43970,
+  "schema": "apex.phase19.join_audit.v1",
+  "unmatched": 0
+}

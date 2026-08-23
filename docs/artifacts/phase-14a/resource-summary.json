@@ -1,0 +1,6 @@
+{
+  "gfx1201_hsaco_sha256": "fe693e173939c4e840817fbd6df0cb8aca7d163ea253cdd68da02292bec7394a",
+  "static": {"need_check_false": {"vgpr": 252, "sgpr": 27}, "need_check_true": {"vgpr": 253, "sgpr": 30}, "private_bytes": 0, "vgpr_spills": 0, "sgpr_spills": 0, "wavefront_size": 32},
+  "runtime": {"vgpr": 256, "sgpr": 128, "dynamic_lds_bytes_from_launch_recorder": 57856, "scratch_bytes": 0, "workgroup_threads": 256, "waves": 8},
+  "focused_isa_combined": {"v_cvt_f32_i32": 320, "v_mul_lo_u32": 93, "v_mul_f32": 40, "v_dual_mul_f32": 148, "v_wmma_i32": 32}
+}

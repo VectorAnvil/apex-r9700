@@ -1,0 +1,23 @@
+{
+  "schema": "apex.phase20.go_no_go.v1",
+  "decision": "go_for_separate_phase20b_r2_only",
+  "candidate_built_in_phase20": false,
+  "gates": {
+    "material_boundary": "pass: N=5 is 56.9103% of summed request GPU-kernel duration",
+    "source_isa_mechanism": "pass: R2 removes one duplicate Q8_1 packet per row pair; registered R2 Q6 ISA proves compiler hoisting without LDS",
+    "bounded_resources": "pass with hard candidate gate: projected 55-64 VGPR, <=32 SGPR, zero LDS/private/spills; reject before GPU if VGPR exceeds 64 or any spill/private allocation appears",
+    "semantics": "pass by design: per-row and per-column accumulation order is unchanged; only shared read-only Q8_1 values are retained",
+    "tail": "pass fail-closed: all observed M are even; candidate selector requires even M and falls back otherwise",
+    "mtp_selector": "pass as a design: server row provenance, all-rows sub-batch mode, graph-cache decode-mode key, backend-visible MUL_MAT tensor flag and exact HIP selector",
+    "negative_history": "pass: no K2/K4, dot8, vector-load width, wave-count, MMQ or Stream-K mechanism"
+  },
+  "excluded_from_phase20b": [
+    "R4",
+    "column-per-wave",
+    "K partitioning",
+    "shape-only N=5 routing",
+    "mixed ordinary/MTP sub-batches",
+    "fused N=1",
+    "all non-Q6 types and non-gfx1201 targets"
+  ]
+}

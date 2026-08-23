@@ -1,0 +1,9 @@
+{
+  "schema_version": "apex.phase21d.dflash_top32_ddtree_replay.v2",
+  "supersedes_task_sha256": "48ecc7ac53e77cbda2f6aa1b2b6e771129da47ddab78bc5249a1e32bd298e973",
+  "immutable_after_fingerprint": true,
+  "reason": "The user specifically identified DDTree's 20-node operating point after the original budget list was frozen.",
+  "change": "Add a non-gating 20-node replay point between budgets 18 and 22.",
+  "budgets": [8, 12, 15, 18, 20, 22, 28, 32],
+  "all_other_identity_gates_scope_and_exclusions": "equal to task-frozen.json"
+}

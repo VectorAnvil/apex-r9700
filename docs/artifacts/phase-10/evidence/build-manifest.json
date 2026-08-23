@@ -1,0 +1,22 @@
+{
+  "schema_version": "apex.phase10.build_manifest.v1",
+  "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907",
+  "source_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+  "target": "gfx1201",
+  "cmake_defines": {
+    "AMDGPU_TARGETS": "gfx1201",
+    "CMAKE_BUILD_TYPE": "Release",
+    "GGML_HIP": "ON"
+  },
+  "patches": {
+    "registered_p2p_baseline_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase10_candidate_sha256": "d2d378cfb8d17a393020d8a0ef55195ae58150b9302236ec6fd7a10a8c72a2d0"
+  },
+  "artifacts": {
+    "test_backend_ops_sha256": "fdac535e8f8ba763825e699a9840e0d1369905087949881669aefe5242723ee8",
+    "llama_bench_sha256": "a9564634fd45f8002575f9a6beca5e7744c72aab68f6bdf9fafdfaa4aea7931a",
+    "cmake_cache_sha256": "d488e4b090f961c84fffb8dce19b3b1c24df1c4efc294a1903882350ebabdf33",
+    "compile_commands_sha256": "a7cccf87f252fac1e7cfaf4041f124234c4a82c19c92f7f42561075757cf5c84"
+  },
+  "comparison": "one candidate build; selector off is baseline and selector on is candidate"
+}

@@ -1,0 +1,239 @@
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index a48cc48b2..dd9c14776 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -3,7 +3,13 @@
+ #include "unary.cuh"
+ #include "vecdotq.cuh"
+ 
++#include <algorithm>
++#include <array>
++#include <atomic>
+ #include <cstdint>
++#include <cstdio>
++#include <cstdlib>
++#include <mutex>
+ 
+ typedef float (*vec_dot_q_cuda_t)(const void * __restrict__ vbq, const block_q8_1 * __restrict__ bq8_1, const int & kbx, const int & iqs);
+ 
+@@ -843,6 +849,136 @@ static void mul_mat_vec_q_moe_launch(
+         ncols_dst, ids_stride);
+ }
+ 
++template <ggml_type type>
++static bool should_use_small_k(
++        const int ncols_dst, const int ncols_x, const int cc, const int warp_size,
++        const mmvq_parameter_table_id table_id) {
++    // When K is small, increase rows_per_block to match nwarps so each warp has more work to do.
++    constexpr int qk                    = ggml_cuda_type_traits<type>::qk;
++    constexpr int qi                    = ggml_cuda_type_traits<type>::qi;
++    constexpr int vdr                   = get_vdr_mmvq(type);
++    const int     blocks_per_row_x      = ncols_x / qk;
++    const int     blocks_per_iter_1warp = vdr * warp_size / qi;
++    const int     nwarps                = calc_nwarps(type, ncols_dst, table_id);
++    bool          use                   = nwarps > 1 && blocks_per_row_x < nwarps * blocks_per_iter_1warp;
++
++    constexpr std::array<ggml_type, 2> iq_slow_turing = {
++        GGML_TYPE_IQ3_XXS,
++        GGML_TYPE_IQ3_S,
++    };
++    constexpr std::array<ggml_type, 8> iq_slow_other = {
++        GGML_TYPE_IQ1_S, GGML_TYPE_IQ1_M,   GGML_TYPE_IQ2_XXS, GGML_TYPE_IQ2_XS,
++        GGML_TYPE_IQ2_S, GGML_TYPE_IQ3_XXS, GGML_TYPE_IQ3_S,   GGML_TYPE_IQ4_XS,
++    };
++    constexpr std::array<ggml_type, 3> slow_pascal = {
++        GGML_TYPE_IQ3_S,
++        GGML_TYPE_Q2_K,
++        GGML_TYPE_Q3_K,
++    };
++
++    const bool is_nvidia_turing_plus  = GGML_CUDA_CC_IS_NVIDIA(cc) && cc >= GGML_CUDA_CC_TURING;
++    const bool is_nvidia_pascal_older = GGML_CUDA_CC_IS_NVIDIA(cc) && cc < GGML_CUDA_CC_VOLTA;
++
++    if (is_nvidia_turing_plus) {
++        if (ncols_dst == 1 &&
++                std::find(iq_slow_turing.begin(), iq_slow_turing.end(), type) != iq_slow_turing.end()) {
++            use = false;
++        }
++    } else if ((ncols_dst == 1 && std::find(iq_slow_other.begin(), iq_slow_other.end(), type) != iq_slow_other.end()) ||
++            (is_nvidia_pascal_older && std::find(slow_pascal.begin(), slow_pascal.end(), type) != slow_pascal.end()) ||
++            GGML_CUDA_CC_IS_RDNA(cc)) {
++        use = false;
++    }
++
++    return use;
++}
++
++static bool mmvq_attribution_enabled() {
++    const char * path = std::getenv("GGML_CUDA_MMVQ_ATTRIBUTION_FILE");
++    return path != nullptr && path[0] != '\0';
++}
++
++static uint32_t mmvq_attribution_max_records() {
++    const char * value = std::getenv("GGML_CUDA_MMVQ_ATTRIBUTION_MAX");
++    if (value == nullptr || value[0] == '\0') {
++        return 64;
++    }
++    const long parsed = std::strtol(value, nullptr, 10);
++    return parsed > 0 && parsed <= INT32_MAX ? (uint32_t) parsed : 64;
++}
++
++static void mmvq_attribution_json_string(FILE * file, const char * value) {
++    std::fputc('"', file);
++    for (const unsigned char * p = (const unsigned char *) (value ? value : ""); *p; ++p) {
++        if (*p == '"' || *p == '\\') {
++            std::fputc('\\', file);
++        }
++        if (*p >= 0x20) {
++            std::fputc(*p, file);
++        }
++    }
++    std::fputc('"', file);
++}
++
++static void mmvq_log_attribution(
++        const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * dst,
++        const ggml_cuda_mm_fusion_args_device & fusion, const int device, const int cc, const int warp_size,
++        const mmvq_parameter_table_id table_id, const bool small_k, const int nwarps, const int rows_per_block,
++        const dim3 & grid, const dim3 & block, const hipStreamCaptureStatus capture_status) {
++    static std::atomic<uint32_t> record_count{0};
++    static std::once_flag file_once;
++    static std::mutex file_mutex;
++    static FILE * file = nullptr;
++
++    const uint32_t sequence = record_count.fetch_add(1, std::memory_order_relaxed);
++    if (sequence >= mmvq_attribution_max_records()) {
++        return;
++    }
++
++    std::call_once(file_once, []() {
++        const char * path = std::getenv("GGML_CUDA_MMVQ_ATTRIBUTION_FILE");
++        file = path ? std::fopen(path, "a") : nullptr;
++        if (file == nullptr) {
++            std::fprintf(stderr, "ggml: unable to open MMVQ attribution file\n");
++        }
++    });
++    if (file == nullptr) {
++        return;
++    }
++
++    const bool has_fusion = fusion.gate != nullptr || fusion.x_bias != nullptr || fusion.gate_bias != nullptr ||
++                            fusion.x_scale != nullptr || fusion.gate_scale != nullptr;
++    const char * capture = capture_status == hipStreamCaptureStatusNone ? "none" :
++                          capture_status == hipStreamCaptureStatusActive ? "active" : "invalidated";
++
++    std::lock_guard<std::mutex> lock(file_mutex);
++    std::fprintf(file,
++        "{\"schema\":\"apex.mmvq-attribution.v1\",\"seq\":%u,\"device\":%d,\"cc\":%d,\"wave_size\":%d,"
++        "\"stream_capture\":\"%s\",\"replay_count_unavailable\":%s,\"weight_type\":\"Q6_K\","
++        "\"src1_type\":\"F32\",\"dst_type\":\"F32\",\"ids_present\":false,\"has_fusion\":%s,"
++        "\"fusion_gate\":%s,\"fusion_x_bias\":%s,\"fusion_gate_bias\":%s,\"fusion_x_scale\":%s,\"fusion_gate_scale\":%s,"
++        "\"src0_ne\":[%lld,%lld,%lld,%lld],\"src0_nb\":[%zu,%zu,%zu,%zu],"
++        "\"src1_ne\":[%lld,%lld,%lld,%lld],\"src1_nb\":[%zu,%zu,%zu,%zu],"
++        "\"dst_ne\":[%lld,%lld,%lld,%lld],\"dst_nb\":[%zu,%zu,%zu,%zu],"
++        "\"ncols_x\":%lld,\"nrows_x\":%lld,\"ncols_dst\":%lld,\"table_id\":%d,\"small_k\":%s,"
++        "\"nwarps\":%d,\"rows_per_block\":%d,\"grid\":[%u,%u,%u],\"block\":[%u,%u,%u],\"src0_name\":",
++        sequence, device, cc, warp_size, capture, capture_status == hipStreamCaptureStatusActive ? "true" : "false",
++        has_fusion ? "true" : "false", fusion.gate ? "true" : "false", fusion.x_bias ? "true" : "false",
++        fusion.gate_bias ? "true" : "false", fusion.x_scale ? "true" : "false", fusion.gate_scale ? "true" : "false",
++        (long long) src0->ne[0], (long long) src0->ne[1], (long long) src0->ne[2], (long long) src0->ne[3], src0->nb[0], src0->nb[1], src0->nb[2], src0->nb[3],
++        (long long) src1->ne[0], (long long) src1->ne[1], (long long) src1->ne[2], (long long) src1->ne[3], src1->nb[0], src1->nb[1], src1->nb[2], src1->nb[3],
++        (long long) dst->ne[0], (long long) dst->ne[1], (long long) dst->ne[2], (long long) dst->ne[3], dst->nb[0], dst->nb[1], dst->nb[2], dst->nb[3],
++        (long long) src0->ne[0], (long long) src0->ne[1], (long long) src1->ne[1], (int) table_id, small_k ? "true" : "false",
++        nwarps, rows_per_block, grid.x, grid.y, grid.z, block.x, block.y, block.z);
++    mmvq_attribution_json_string(file, src0->name);
++    std::fputs(",\"src1_name\":", file);
++    mmvq_attribution_json_string(file, src1->name);
++    std::fputs(",\"dst_name\":", file);
++    mmvq_attribution_json_string(file, dst->name);
++    std::fputs("}\n", file);
++    std::fflush(file);
++}
++
+ template <ggml_type type>
+ static void mul_mat_vec_q_switch_ncols_dst(
+         const void * vx, const void * vy, const int32_t * ids, const ggml_cuda_mm_fusion_args_device fusion, float * dst,
+@@ -867,48 +1003,6 @@ static void mul_mat_vec_q_switch_ncols_dst(
+ 
+     const bool has_ids = ids != nullptr;
+ 
+-    const auto should_use_small_k = [&](int c_ncols_dst) {
+-        // When K is small, increase rows_per_block to match nwarps so each warp has more work to do
+-        // Trigger when the full thread block covers all K blocks in a single loop iteration and few threads remain idle.
+-        constexpr int qk                    = ggml_cuda_type_traits<type>::qk;
+-        constexpr int qi                    = ggml_cuda_type_traits<type>::qi;
+-        constexpr int vdr                   = get_vdr_mmvq(type);
+-        const int     blocks_per_row_x      = ncols_x / qk;
+-        const int     blocks_per_iter_1warp = vdr * warp_size / qi;
+-        const int     nwarps                = calc_nwarps(type, c_ncols_dst, table_id);
+-        bool          use                   = nwarps > 1 && blocks_per_row_x < nwarps * blocks_per_iter_1warp;
+-
+-        constexpr std::array<ggml_type, 2> iq_slow_turing = {
+-            GGML_TYPE_IQ3_XXS,
+-            GGML_TYPE_IQ3_S,
+-        };
+-        constexpr std::array<ggml_type, 8> iq_slow_other = {
+-            GGML_TYPE_IQ1_S, GGML_TYPE_IQ1_M,   GGML_TYPE_IQ2_XXS, GGML_TYPE_IQ2_XS,
+-            GGML_TYPE_IQ2_S, GGML_TYPE_IQ3_XXS, GGML_TYPE_IQ3_S,   GGML_TYPE_IQ4_XS,
+-        };
+-        constexpr std::array<ggml_type, 3> slow_pascal = {
+-            GGML_TYPE_IQ3_S,
+-            GGML_TYPE_Q2_K,
+-            GGML_TYPE_Q3_K,
+-        };
+-
+-        const bool is_nvidia_turing_plus  = GGML_CUDA_CC_IS_NVIDIA(cc) && cc >= GGML_CUDA_CC_TURING;
+-        const bool is_nvidia_pascal_older = GGML_CUDA_CC_IS_NVIDIA(cc) && cc < GGML_CUDA_CC_VOLTA;
+-
+-        if (is_nvidia_turing_plus) {
+-            if (ncols_dst == 1 &&
+-                    std::find(iq_slow_turing.begin(), iq_slow_turing.end(), type) != iq_slow_turing.end()) {
+-                use = false;
+-            }
+-        } else if ((ncols_dst == 1 && std::find(iq_slow_other.begin(), iq_slow_other.end(), type) != iq_slow_other.end()) ||
+-                (is_nvidia_pascal_older && std::find(slow_pascal.begin(), slow_pascal.end(), type) != slow_pascal.end()) ||
+-                GGML_CUDA_CC_IS_RDNA(cc)) {
+-            use = false;
+-        }
+-
+-        return use;
+-    };
+-
+     if (has_ids && ncols_dst > 1) {
+         // Multi-token MUL_MAT_ID path - dedicated MoE kernel
+         mul_mat_vec_q_moe_launch<type>(
+@@ -923,7 +1017,7 @@ static void mul_mat_vec_q_switch_ncols_dst(
+         case 1: {
+             constexpr int c_ncols_dst = 1;
+ 
+-            bool use_small_k = should_use_small_k(c_ncols_dst);
++            bool use_small_k = should_use_small_k<type>(c_ncols_dst, ncols_x, cc, warp_size, table_id);
+ 
+             if (use_small_k) {
+                 std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst,
+@@ -1259,6 +1353,25 @@ void ggml_cuda_mul_mat_vec_q(
+ 
+     const int64_t ids_stride = ids ? ids->nb[1] / ggml_type_size(ids->type) : 0;
+ 
++    if (src0->type == GGML_TYPE_Q6_K && ids == nullptr && ncols_dst == 1 && mmvq_attribution_enabled()) {
++        const int device = ggml_cuda_get_device();
++        const int cc = ggml_cuda_info().devices[device].cc;
++        const int warp_size = ggml_cuda_info().devices[device].warp_size;
++        const mmvq_parameter_table_id table_id = get_device_table_id(cc);
++        const bool small_k = should_use_small_k<GGML_TYPE_Q6_K>(1, ne00, cc, warp_size, table_id);
++        const int nwarps = calc_nwarps(GGML_TYPE_Q6_K, 1, table_id);
++        const int rows_per_block = calc_rows_per_block(1, table_id, small_k, nwarps);
++        const std::pair<dim3, dim3> dims = calc_launch_params<GGML_TYPE_Q6_K>(
++            1, ne01, nchannels_dst, ne3, warp_size, table_id, small_k);
++        hipStreamCaptureStatus capture_status = hipStreamCaptureStatusNone;
++        if (hipStreamIsCapturing(stream, &capture_status) != hipSuccess) {
++            capture_status = hipStreamCaptureStatusInvalidated;
++        }
++        mmvq_log_attribution(
++            src0, src1, dst, fusion_local, device, cc, warp_size, table_id, small_k, nwarps, rows_per_block,
++            dims.first, dims.second, capture_status);
++    }
++
+     mul_mat_vec_q_switch_type(
+         src0->data, src0->type, src1_q8_1.get(), ids_d, fusion_local, dst_d, ne00,
+         ne01,              ncols_dst,     s01, stride_col_y,     stride_col_dst,

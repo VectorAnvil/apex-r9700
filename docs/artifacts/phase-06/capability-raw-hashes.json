@@ -1,0 +1,16 @@
+{
+  "capability_json": {
+    "counter-capabilities.json": "522365a9b258840b68de6226876bf64c29120dfc01d887b64a64332b1cd0f39e",
+    "gpu0.json": "cda8b6755bf076c741a8a79e76dc32b72ce4d34bd5a3bde7ec2cc5cead8cf260",
+    "gpu1.json": "620afc71e1adf8479ce5c40d8424827463f0b590c59f29a8a4871257886d8d6d",
+    "selector.json": "b588190cc1d229c1176b5d3978f19c1fda8930e58a781275c1100e59a81bece3"
+  },
+  "raw_evidence": {
+    "rocminfo.txt": "1df73b0d2295c7d2aaf5a0beff9ab35cef6945b5dfd3a26b180035e31299c5ef",
+    "rocm-smi.json": "42ffae45673ae4acf56d309bde811972b98de005a80793e4868b8c99dbc0ab01",
+    "rocprofv3-list-avail-d0.txt": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841",
+    "rocprofv3-list-avail-d1.txt": "651201e54809bd5f80f5723bbf022cb73d850d72ddd1702ccc528ed967913841"
+  },
+  "schema_version": "apex.phase6.capability_raw_hashes.v1",
+  "task_fingerprint": "4542409930c19a8897fad3c35b4c41e066e6e8e14b76c4f863d25fcb777debff"
+}

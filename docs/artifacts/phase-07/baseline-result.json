@@ -1,0 +1,15 @@
+{
+  "limit": 0.05,
+  "median_avg_ts": 815.693745,
+  "next_step": "attribution_permitted",
+  "outlier_removal": false,
+  "passed": true,
+  "relative_spread": 0.0060746230192067485,
+  "schema_version": "apex.phase7.baseline_result.v1.procedure_v1",
+  "task_fingerprint": "eb67a0450b1b348e255289af6fcc3d65e785fb7513997fa43d3a909f7d893088",
+  "values_avg_ts": [
+    812.746964,
+    815.693745,
+    817.701996
+  ]
+}

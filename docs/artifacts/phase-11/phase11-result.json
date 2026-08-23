@@ -1,0 +1,10 @@
+{
+  "schema_version": "apex.phase11.result.v1",
+  "task_fingerprint": "97b597f7014179d7277dd584321c0813758102add929b93ac2b52edbcb193c82",
+  "status": "complete_no_go",
+  "eligible_for_candidate_contract": false,
+  "source_changes": false,
+  "performance_benchmark_run": false,
+  "next_phase": "Phase 12 producer-to-Q8_1 source/trace feasibility",
+  "evidence_manifest_sha256": "a8be1f2001b9a89dcc3a0ef2d294619755b41a34276ecc7b9b308fd7939124f7"
+}

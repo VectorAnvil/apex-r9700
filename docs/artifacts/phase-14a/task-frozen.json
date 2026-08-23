@@ -1,0 +1,71 @@
+{
+  "schema_version": "apex.phase14a.post_cast_rebaseline_task.v1",
+  "immutable_after_fingerprint": true,
+  "scope": {
+    "phase": "PP512",
+    "kind": "measurement_only",
+    "target": "gfx1201",
+    "objective": "refresh post-Phase-13 operation attribution, Q6_K resources/ISA, device balance, and direct-P2P share",
+    "candidate_allowed": false,
+    "performance_claim_allowed": false
+  },
+  "registered_runtime": {
+    "source": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690",
+    "libggml_hip_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "llama_bench": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197/build-gfx1201-p2p/bin/llama-bench",
+    "llama_bench_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+    "model": "/mnt/storage/ai/models/llm/huihui-qwen3.6-27b/Huihui-Qwen3.6-27B-abliterated-ggml-model-Q6_K.gguf",
+    "model_sha256": "c03727f9fdfb7c8c02a8d7a0662563a0b0d7a6e192a03834a45f58300408b4ea",
+    "devices": [0, 1],
+    "split_mode": "tensor",
+    "normal_graphs": true
+  },
+  "workload": [
+    "llama-bench", "-m", "<registered-model>", "-p", "0", "-n", "0",
+    "-pg", "512,0", "-b", "2048", "-ub", "512", "-sm", "tensor",
+    "-fa", "1", "-r", "5", "-o", "jsonl", "-t", "12", "-ngl", "99"
+  ],
+  "instrumentation": {
+    "source": "Phase 7 result-local Q6_K host attribution recorder only",
+    "worktree": "/home/adam/workspaces/ChatGPT/Apex/results_phase14a_post_cast_rebaseline_20260808/worktrees/attribution",
+    "build": "/home/adam/workspaces/ChatGPT/Apex/results_phase14a_post_cast_rebaseline_20260808/builds/attribution",
+    "registered_assets_mutated": false,
+    "profiler_used_for_host_attribution": false
+  },
+  "required_evidence": {
+    "normal_graph_pp_processes": 3,
+    "normal_graph_pp_relative_spread_max": 0.05,
+    "host_records_per_capture_state_per_device": 496,
+    "capture_states": ["none", "active"],
+    "trace_repeats_per_device": 6,
+    "positional_join_unmatched_max": 0,
+    "positional_join_ambiguous_max": 0,
+    "operation_ranking": true,
+    "gate_up_down_exact_shapes_and_shares": true,
+    "q6k_combined_and_per_symbol_time": true,
+    "gpu_balance": true,
+    "direct_copy_count_time_share": true,
+    "graph_runtime_witness": true,
+    "resources": ["VGPR", "SGPR", "dynamic LDS", "private memory", "spills", "workgroup", "wave count", "focused ISA"],
+    "counters": "dynamic gfx1201 query or explicit bounded unavailable evidence"
+  },
+  "decision": {
+    "phase14b_y64_w4_only_if_q6k_remains_largest_actionable_cost": true,
+    "y64_w4_must_use_phase13_baseline": true,
+    "do_not_combine_with_stream_k_or_other_changes": true,
+    "otherwise_select_refreshed_leader": true
+  },
+  "future_tg_backlog": [
+    "Q6_K N=1 K2/K4 software-pipelined MMVQ",
+    "Q6_K MTP N=2/3/4 narrow DP4A after real-shape trace"
+  ],
+  "write_boundary": {
+    "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase14a_post_cast_rebaseline_20260808",
+    "registered_source_mutation": false,
+    "registered_build_mutation": false,
+    "database_mutation": false
+  }
+}

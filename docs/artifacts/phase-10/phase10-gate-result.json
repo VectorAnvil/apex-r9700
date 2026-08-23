@@ -1,0 +1,12 @@
+{
+  "candidate_registration": false,
+  "decision": "rejected",
+  "errors": [
+    "exact-operation timing gate failed",
+    "whole-PP timing gate failed"
+  ],
+  "evidence_sha256": "b026a0ce21e0a230ab655b207db23d8069d88e5d20adada91da788c74445ec5e",
+  "failure_writeup_required": true,
+  "schema_version": "apex.phase10.shared_q81_gate_result.v1",
+  "task_fingerprint": "e5690099bba3770b565276c0d33a186bd49a2fba8decb7696d85c125f380d907"
+}

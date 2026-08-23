@@ -1,0 +1,50 @@
+{
+  "schema_version": "apex.phase16.q6k_tg_kpipe_audit.v1",
+  "immutable_after_fingerprint": true,
+  "objective": "Determine from registered gfx1201 source and ISA whether Q6_K N=1 MMVQ has a real outer-K software-pipeline opportunity",
+  "baseline": {
+    "source": "/home/adam/workspaces/ChatGPT/llama-lab/experiments/llama-hip-p2p-25197",
+    "base_commit": "259f2e2a531af9ed3efa7f66adaa5eb5b53da95f",
+    "registered_lib_sha256": "facd1354c4eba6afec9af0b22694e6ca11bf2b2bd976368158f225d6692c4311",
+    "registered_bench_sha256": "322607640ff73444a16038fd9662aea6592cacbc54578838fc0f9749a72816e3",
+    "p2p_patch_sha256": "36edac6b545c1e244ead573a466eb8f581337c86163d0fde91ce6a2fd04e94e9",
+    "phase13_patch_sha256": "e1c70a02535e516383217ac53154915e701dd9338d1a3dcef37900645dcf5690"
+  },
+  "target": {
+    "architecture": "gfx1201",
+    "type": "GGML_TYPE_Q6_K",
+    "ncols_dst": 1,
+    "symbols": [
+      "mul_mat_vec_q<(ggml_type)14, 1, false, false>",
+      "mul_mat_vec_q<(ggml_type)14, 1, true, false>"
+    ],
+    "material_k": [3072, 5120, 8704],
+    "historical_q6k_tg_share_percent": 70.903,
+    "historical_fused_ffn_up_share_percent": 29.841986,
+    "historical_registered_tg128_ts": 36.72697
+  },
+  "method": {
+    "source_and_isa_only": true,
+    "fresh_registered_code_object_extraction": true,
+    "required_proof": [
+      "material shapes have at least two outer-K iterations",
+      "current ISA has no next-kbx load before current-block consumption",
+      "future-block addresses are independent and safe",
+      "K2 live-range cost is explicitly bounded",
+      "K2 preserves increasing-K accumulation and fused Q8 reuse"
+    ],
+    "closed_prior_ideas": ["explicit vector-load widening", "lane-width changes", "wave-count changes"],
+    "excluded": ["GPU launches", "candidate build", "source edits", "K4 implementation", "Stream-K", "MMQ", "MTP"]
+  },
+  "decision": {
+    "go_only_on_concrete_cross_iteration_scheduling_gap": true,
+    "authorized_successor_on_go": "separately frozen Phase 16B K2-only candidate",
+    "k4_requires_separate_later_task": true
+  },
+  "write_boundary": {
+    "result_root": "/home/adam/workspaces/ChatGPT/Apex/results_phase16_q6k_tg_kpipe_audit_20260808",
+    "registered_source_mutation": false,
+    "registered_build_mutation": false,
+    "prior_result_mutation": false
+  }
+}

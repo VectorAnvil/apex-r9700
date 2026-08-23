@@ -1,0 +1,37 @@
+{
+  "devices": {
+    "0": {
+      "wavefront_size": 32,
+      "max_waves_per_cu": 32,
+      "simd_per_cu": 2,
+      "max_waves_per_simd": 16,
+      "lds_per_cu_bytes": 65536,
+      "lds_allocation_granularity": null,
+      "vgpr_file_bytes": null,
+      "vgpr_allocation_granularity": null,
+      "sgpr_file_bytes": null,
+      "sgpr_allocation_granularity": null,
+      "workgroup_slots_per_cu": null,
+      "workgroup_max_threads": 1024
+    },
+    "1": {
+      "wavefront_size": 32,
+      "max_waves_per_cu": 32,
+      "simd_per_cu": 2,
+      "max_waves_per_simd": 16,
+      "lds_per_cu_bytes": 65536,
+      "lds_allocation_granularity": null,
+      "vgpr_file_bytes": null,
+      "vgpr_allocation_granularity": null,
+      "sgpr_file_bytes": null,
+      "sgpr_allocation_granularity": null,
+      "workgroup_slots_per_cu": null,
+      "workgroup_max_threads": 1024
+    }
+  },
+  "combined_occupancy_bound": {
+    "status": "unavailable",
+    "reason": "gfx1201 register-file sizes/allocation granularities, LDS allocation granularity, and architectural workgroup-slot limit were not exposed by the dynamic queries"
+  },
+  "policy": "do not substitute Instinct limits or compute an optimistic partial minimum"
+}
