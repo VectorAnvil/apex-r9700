@@ -1,0 +1,32 @@
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index 6f6e0ca1b1600711a2fef6a8a7d75e0e55311f90..28a30ac4b8c88a651f2a7ad74f170217adb6cc74 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -615,7 +615,12 @@ static __global__ void mul_mat_vec_q(
+     constexpr int vdr = get_vdr_mmvq(type);
+     constexpr mmvq_parameter_table_id table_id = get_device_table_id();
+     constexpr int nwarps = calc_nwarps(type, geometry_ncols_dst, table_id, small_k, halve_iters);
++#if defined(GGML_USE_HIP) && defined(APEX_V2_Q6_VERIFY_ROWS2)
++    constexpr int rows_per_cuda_block = emulate_eight_on_four && ncols_dst >= 2 && ncols_dst <= 3
++        ? 2 : calc_rows_per_block(geometry_ncols_dst, table_id, small_k, nwarps);
++#else
+     constexpr int rows_per_cuda_block = calc_rows_per_block(geometry_ncols_dst, table_id, small_k, nwarps);
++#endif
+     constexpr int warp_size = ggml_cuda_get_physical_warp_size();
+ 
+     constexpr vec_dot_q_cuda_t vec_dot_q_cuda = get_vec_dot_q_cuda(type);
+@@ -1161,7 +1166,13 @@ static void mul_mat_vec_q_switch_ncols_dst(
+                 fusion.x_scale == nullptr && fusion.gate_scale == nullptr) {
+             static thread_local bool logged = false;
+             if (!logged) { GGML_LOG_INFO("APEX eight-wave reduction on four waves dispatched\n"); logged = true; }
+-            const dim3 grid(nrows_x, 1, 1), block(warp_size, 4, 1);
++#if defined(GGML_USE_HIP) && defined(APEX_V2_Q6_VERIFY_ROWS2)
++            const int rows_per_block = ncols_dst >= 2 ? 2 : 1;
++#else
++            const int rows_per_block = 1;
++#endif
++            GGML_ASSERT(nrows_x % rows_per_block == 0);
++            const dim3 grid(nrows_x / rows_per_block, 1, 1), block(warp_size, 4, 1);
+             const ggml_cuda_kernel_launch_params params(grid, block, 0, stream);
+             if (ncols_dst == 1) {
+                 ggml_cuda_kernel_launch((mul_mat_vec_q<type, 1, false, false, false, 1, true>), params,

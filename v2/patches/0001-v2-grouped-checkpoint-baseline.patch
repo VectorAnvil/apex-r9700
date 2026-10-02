@@ -1,0 +1,2596 @@
+diff --git a/common/common.cpp b/common/common.cpp
+index ae44f054ab51a6d60128a0503c396653eb2cdbc3..7ea42aff7d5d9e4909156d57500d335f133df1ba 100644
+--- a/common/common.cpp
++++ b/common/common.cpp
+@@ -2263,6 +2263,7 @@ void common_prompt_checkpoint::update_tgt(
+         return;
+     }
+ 
++    const int64_t trace_start = getenv("APEX_V2_CKPT_TRACE") ? ggml_time_us() : 0;
+     const size_t ckpt_size = llama_state_seq_get_size_ext(ctx, seq_id, flags);
+ 
+     data_tgt.resize(ckpt_size);
+@@ -2271,6 +2272,10 @@ void common_prompt_checkpoint::update_tgt(
+     if (n != ckpt_size) {
+         GGML_ABORT("checkpoint size mismatch: expected %zu, got %zu\n", ckpt_size, n);
+     }
++    if (trace_start) {
++        LOG_INF("apex_checkpoint operation=save_target pos_max=%d flags=%u bytes=%zu ms=%.3f\n",
++            pos_max, (unsigned) flags, n, (ggml_time_us() - trace_start) / 1000.0);
++    }
+ }
+ 
+ void common_prompt_checkpoint::update_dft(
+@@ -2281,6 +2286,7 @@ void common_prompt_checkpoint::update_dft(
+         return;
+     }
+ 
++    const int64_t trace_start = getenv("APEX_V2_CKPT_TRACE") ? ggml_time_us() : 0;
+     const size_t ckpt_size = llama_state_seq_get_size_ext(ctx, seq_id, flags);
+ 
+     data_dft.resize(ckpt_size);
+@@ -2289,6 +2295,10 @@ void common_prompt_checkpoint::update_dft(
+     if (n != ckpt_size) {
+         GGML_ABORT("checkpoint size mismatch: expected %zu, got %zu\n", ckpt_size, n);
+     }
++    if (trace_start) {
++        LOG_INF("apex_checkpoint operation=save_draft pos_max=%d flags=%u bytes=%zu ms=%.3f\n",
++            pos_max, (unsigned) flags, n, (ggml_time_us() - trace_start) / 1000.0);
++    }
+ }
+ 
+ void common_prompt_checkpoint::load_tgt(
+@@ -2303,10 +2313,15 @@ void common_prompt_checkpoint::load_tgt(
+         return;
+     }
+ 
++    const int64_t trace_start = getenv("APEX_V2_CKPT_TRACE") ? ggml_time_us() : 0;
+     const size_t n = llama_state_seq_set_data_ext(ctx, data_tgt.data(), data_tgt.size(), seq_id, flags);
+     if (n != data_tgt.size()) {
+         GGML_ABORT("checkpoint size mismatch: expected %zu, got %zu\n", data_tgt.size(), n);
+     }
++    if (trace_start) {
++        LOG_INF("apex_checkpoint operation=load_target pos_max=%d flags=%u bytes=%zu ms=%.3f\n",
++            pos_max, (unsigned) flags, n, (ggml_time_us() - trace_start) / 1000.0);
++    }
+ }
+ 
+ void common_prompt_checkpoint::load_dft(
+@@ -2321,10 +2336,15 @@ void common_prompt_checkpoint::load_dft(
+         return;
+     }
+ 
++    const int64_t trace_start = getenv("APEX_V2_CKPT_TRACE") ? ggml_time_us() : 0;
+     const size_t n = llama_state_seq_set_data_ext(ctx, data_dft.data(), data_dft.size(), seq_id, flags);
+     if (n != data_dft.size()) {
+         GGML_ABORT("checkpoint size mismatch: expected %zu, got %zu\n", data_dft.size(), n);
+     }
++    if (trace_start) {
++        LOG_INF("apex_checkpoint operation=load_draft pos_max=%d flags=%u bytes=%zu ms=%.3f\n",
++            pos_max, (unsigned) flags, n, (ggml_time_us() - trace_start) / 1000.0);
++    }
+ }
+ 
+ void common_prompt_checkpoint::clear_tgt() {
+diff --git a/ggml/src/ggml-backend-meta.cpp b/ggml/src/ggml-backend-meta.cpp
+index 7c1c0b864582008106b183b88da63af645b19cb1..df1025a3bf02ef781cc5439f17b3f93491049ad1 100644
+--- a/ggml/src/ggml-backend-meta.cpp
++++ b/ggml/src/ggml-backend-meta.cpp
+@@ -1778,11 +1778,29 @@ static ggml_guid_t ggml_backend_meta_guid() {
+     return &guid;
+ }
+ 
++using ggml_backend_comm_allreduce_fused_rms_t = bool (*)(
++    void * comm_ctx,
++    ggml_tensor ** partials,
++    ggml_tensor ** residuals,
++    ggml_tensor ** add_outputs,
++    ggml_tensor ** weights,
++    ggml_tensor ** outputs,
++    float eps);
++
+ struct ggml_backend_meta_context {
+     struct cgraph_config {
+         ggml_cgraph * cgraph_main = nullptr;
+         int           offset      = 0; // Node offset vs. original graph
+ 
++        int           stop        = 0; // Exclusive node stop vs. original graph
++
++        bool          fused_rms        = false;
++        ggml_tensor * fused_residual   = nullptr;
++        ggml_tensor * fused_add_output = nullptr;
++        ggml_tensor * fused_weight     = nullptr;
++        ggml_tensor * fused_output     = nullptr;
++        float         fused_eps        = 0.0f;
++
+         std::vector<ggml_cgraph *> cgraphs_aux;
+     };
+     struct backend_config {
+@@ -1811,6 +1829,8 @@ struct ggml_backend_meta_context {
+     void *                               comm_ctx       = nullptr;
+     ggml_backend_comm_allreduce_tensor_t comm_allreduce = nullptr;
+ 
++    ggml_backend_comm_allreduce_fused_rms_t comm_allreduce_fused_rms = nullptr;
++
+     ggml_backend_meta_context(ggml_backend_dev_t meta_dev, const char * params) {
+         const size_t n_devs = ggml_backend_meta_dev_n_devs(meta_dev);
+         n_reduce_steps = std::ceil(std::log2(n_devs));
+@@ -1841,6 +1861,12 @@ struct ggml_backend_meta_context {
+                 ggml_backend_reg_get_proc_address(ggml_backend_dev_backend_reg(
+                     ggml_backend_get_device(simple_backends[0])), "ggml_backend_comm_allreduce_tensor");
+             GGML_ASSERT(comm_allreduce != nullptr);
++            auto reg = ggml_backend_dev_backend_reg(ggml_backend_get_device(simple_backends[0]));
++            auto enabled = (bool (*)(void *)) ggml_backend_reg_get_proc_address(reg, "ggml_backend_apex_boundary_enabled");
++            if (enabled && enabled(comm_ctx)) {
++                comm_allreduce_fused_rms = (ggml_backend_comm_allreduce_fused_rms_t)
++                    ggml_backend_reg_get_proc_address(reg, "ggml_backend_apex_boundary");
++            }
+         }
+     }
+ 
+@@ -2185,6 +2211,97 @@ static enum ggml_status ggml_backend_meta_graph_compute(ggml_backend_t backend,
+                 return i_delayed;
+             };
+ 
++            struct fused_rms_match {
++                int add      = -1;
++                int output   = -1;
++                int end      = -1;
++                float eps    = 0.0f;
++            };
++
++            const bool fused_rms_enabled =
++                backend_ctx->comm_allreduce_fused_rms != nullptr &&
++                n_backends == 2;
++
++            auto get_fused_rms = [&](const int i) -> fused_rms_match {
++                fused_rms_match match;
++                if (!fused_rms_enabled || i + 3 >= cgraph->n_nodes) {
++                    return match;
++                }
++
++                ggml_tensor * partial = cgraph->nodes[i];
++                if (partial->type != GGML_TYPE_F32 || partial->ne[0] != 5120 ||
++                        partial->ne[1] < 1 || partial->ne[1] > 8 ||
++                        partial->ne[2] != 1 || partial->ne[3] != 1 ||
++                        !ggml_is_contiguous(partial) || ggml_node_get_use_count(cgraph, i) != 1) {
++                    return match;
++                }
++
++                int cursor = i + 1;
++                ggml_tensor * carrier = partial;
++                if (cgraph->nodes[cursor]->op == GGML_OP_RESHAPE &&
++                        cgraph->nodes[cursor]->src[0] == partial) {
++                    ggml_tensor * reshape = cgraph->nodes[cursor];
++                    if (ggml_nbytes(reshape) != ggml_nbytes(partial) ||
++                            !ggml_is_contiguous(reshape) ||
++                            ggml_node_get_use_count(cgraph, cursor) != 1) {
++                        return match;
++                    }
++                    carrier = reshape;
++                    cursor++;
++                }
++                if (cursor + 2 >= cgraph->n_nodes) {
++                    return match;
++                }
++
++                ggml_tensor * add = cgraph->nodes[cursor];
++                if (add->op != GGML_OP_ADD || add->type != GGML_TYPE_F32 ||
++                        ggml_nelements(add) != ggml_nelements(partial) || !ggml_is_contiguous(add)) {
++                    return match;
++                }
++                ggml_tensor * residual = nullptr;
++                if (add->src[0] == carrier) {
++                    residual = add->src[1];
++                } else if (add->src[1] == carrier) {
++                    residual = add->src[0];
++                } else {
++                    return match;
++                }
++                if (residual == nullptr || residual->type != GGML_TYPE_F32 ||
++                        ggml_nelements(residual) != ggml_nelements(partial) ||
++                        !ggml_is_contiguous(residual) ||
++                        ggml_backend_meta_get_split_state(residual, false).axis != GGML_BACKEND_SPLIT_AXIS_MIRRORED) {
++                    return match;
++                }
++
++                ggml_tensor * rms = cgraph->nodes[cursor + 1];
++                if (rms->op != GGML_OP_RMS_NORM || rms->src[0] != add ||
++                        rms->type != GGML_TYPE_F32 || !ggml_is_contiguous(rms) ||
++                        ggml_node_get_use_count(cgraph, cursor + 1) != 1) {
++                    return match;
++                }
++
++                ggml_tensor * mul = cgraph->nodes[cursor + 2];
++                if (mul->op != GGML_OP_MUL || mul->src[0] != rms ||
++                        mul->type != GGML_TYPE_F32 || !ggml_is_contiguous(mul) ||
++                        ggml_nelements(mul) != ggml_nelements(partial)) {
++                    return match;
++                }
++                ggml_tensor * weight = mul->src[1];
++                if (weight == nullptr || weight->type != GGML_TYPE_F32 ||
++                        ggml_nelements(weight) != 5120 || !ggml_is_contiguous(weight) ||
++                        ggml_backend_meta_get_split_state(weight, false).axis != GGML_BACKEND_SPLIT_AXIS_MIRRORED ||
++                        ggml_backend_meta_get_split_state(add, false).axis != GGML_BACKEND_SPLIT_AXIS_MIRRORED ||
++                        ggml_backend_meta_get_split_state(mul, false).axis != GGML_BACKEND_SPLIT_AXIS_MIRRORED) {
++                    return match;
++                }
++
++                match.add    = cursor;
++                match.output = cursor + 2;
++                match.end    = cursor + 2;
++                match.eps    = ggml_get_op_params_f32(rms, 0);
++                return match;
++            };
++
+             int i_start = 0;
+             for (int i = 0; i < cgraph->n_nodes; i++) {
+                 ggml_tensor * node = cgraph->nodes[i];
+@@ -2201,6 +2318,9 @@ static enum ggml_status ggml_backend_meta_graph_compute(ggml_backend_t backend,
+                 }
+ 
+                 const int i_delayed = get_i_delayed(i);
++                const fused_rms_match fused = i_delayed == i ? get_fused_rms(i) : fused_rms_match{};
++                const bool use_fused_rms = fused.end >= 0;
++                const int i_boundary_end = use_fused_rms ? fused.end : i_delayed;
+ 
+                 // If we can delay the AllReduce we need to consider the interaction with zero-sized tensor slices.
+                 // A backend with such a slice would normally have valid data after participating in the AllReduce with a node that has
+@@ -2217,14 +2337,35 @@ static enum ggml_status ggml_backend_meta_graph_compute(ggml_backend_t backend,
+                     }
+                 }
+ 
+-                i = i_delayed;
+-
+                 for (size_t j = 0; j < n_backends; j++) {
+                     auto & bcj = backend_ctx->backend_configs[j];
+-                    bcj.cgraphs[n_subgraphs].offset = i_start;
++                    auto & cfg = bcj.cgraphs[n_subgraphs];
++                    cfg.offset           = i_start;
++                    cfg.stop             = use_fused_rms ? i + 1 : i_boundary_end + 1;
++                    cfg.fused_rms        = use_fused_rms;
++                    cfg.fused_residual   = nullptr;
++                    cfg.fused_add_output = nullptr;
++                    cfg.fused_weight     = nullptr;
++                    cfg.fused_output     = nullptr;
++                    cfg.fused_eps        = 0.0f;
++                    if (use_fused_rms) {
++                        ggml_tensor * add = cgraph->nodes[fused.add];
++                        ggml_tensor * carrier = add->src[0] == cgraph->nodes[i] ||
++                                (add->src[0]->op == GGML_OP_RESHAPE && add->src[0]->src[0] == cgraph->nodes[i])
++                            ? add->src[0] : add->src[1];
++                        ggml_tensor * residual = add->src[0] == carrier ? add->src[1] : add->src[0];
++                        ggml_tensor * weight = cgraph->nodes[fused.output]->src[1];
++                        cfg.fused_residual   = ggml_backend_meta_buffer_simple_tensor(residual, j);
++                        cfg.fused_add_output = bcj.nodes[fused.add];
++                        cfg.fused_weight     = ggml_backend_meta_buffer_simple_tensor(weight, j);
++                        cfg.fused_output     = bcj.nodes[fused.output];
++                        cfg.fused_eps        = fused.eps;
++                        GGML_ASSERT(cfg.fused_residual && cfg.fused_add_output && cfg.fused_weight && cfg.fused_output);
++                    }
+                 }
+                 n_subgraphs++;
+-                i_start = i + 1;
++                i = i_boundary_end;
++                i_start = i_boundary_end + 1;
+             }
+             GGML_ASSERT(i_start == cgraph->n_nodes);
+         }
+@@ -2276,7 +2417,7 @@ static enum ggml_status ggml_backend_meta_graph_compute(ggml_backend_t backend,
+             for (size_t i_graph = 0; i_graph < n_subgraphs; i_graph++) {
+                 ggml_cgraph * cgraph_ij = bcj.cgraphs[i_graph].cgraph_main;
+                 const size_t i_node_start = bcj.cgraphs[i_graph].offset;
+-                const size_t i_node_stop = i_graph + 1 < n_subgraphs ? bcj.cgraphs[i_graph + 1].offset : cgraph->n_nodes;
++                const size_t i_node_stop = bcj.cgraphs[i_graph].stop;
+                 cgraph_ij->n_nodes = i_node_stop - i_node_start;
+                 ggml_hash_set_reset(&cgraph_ij->visited_hash_set);
+                 for (size_t i_node = i_node_start; i_node < i_node_stop; i_node++) {
+@@ -2448,7 +2589,36 @@ static enum ggml_status ggml_backend_meta_graph_compute(ggml_backend_t backend,
+ 
+         if (n_backends > 1 && i < backend_ctx->n_subgraphs - 1) {
+             bool backend_allreduce_success = false;
+-            if (backend_ctx->comm_ctx) {
++            const bool fused_rms = backend_ctx->backend_configs[0].cgraphs[i].fused_rms;
++            if (fused_rms) {
++                std::vector<ggml_tensor *> partials;
++                std::vector<ggml_tensor *> residuals;
++                std::vector<ggml_tensor *> add_outputs;
++                std::vector<ggml_tensor *> weights;
++                std::vector<ggml_tensor *> outputs;
++                partials.reserve(n_backends);
++                residuals.reserve(n_backends);
++                add_outputs.reserve(n_backends);
++                weights.reserve(n_backends);
++                outputs.reserve(n_backends);
++                for (size_t j = 0; j < n_backends; ++j) {
++                    auto & cfg = backend_ctx->backend_configs[j].cgraphs[i];
++                    ggml_cgraph * cgraph_ij = cfg.cgraph_main;
++                    GGML_ASSERT(cfg.fused_rms && cgraph_ij->n_nodes > 0);
++                    partials.push_back(cgraph_ij->nodes[cgraph_ij->n_nodes - 1]);
++                    residuals.push_back(cfg.fused_residual);
++                    add_outputs.push_back(cfg.fused_add_output);
++                    weights.push_back(cfg.fused_weight);
++                    outputs.push_back(cfg.fused_output);
++                }
++                backend_allreduce_success = backend_ctx->comm_allreduce_fused_rms(
++                    backend_ctx->comm_ctx, partials.data(), residuals.data(), add_outputs.data(),
++                    weights.data(), outputs.data(), backend_ctx->backend_configs[0].cgraphs[i].fused_eps);
++                if (!backend_allreduce_success) {
++                    GGML_LOG_ERROR("Qwen3.8 fused boundary rejected a graph that passed meta validation\n");
++                    return GGML_STATUS_FAILED;
++                }
++            } else if (backend_ctx->comm_ctx) {
+                 std::vector<ggml_tensor *> nodes;
+                 nodes.reserve(n_backends);
+                 for (size_t j = 0; j < n_backends; j++) {
+@@ -2459,7 +2629,7 @@ static enum ggml_status ggml_backend_meta_graph_compute(ggml_backend_t backend,
+                 backend_allreduce_success = backend_ctx->comm_allreduce(backend_ctx->comm_ctx, nodes.data());
+             }
+ 
+-            if (!backend_allreduce_success) {
++            if (!backend_allreduce_success && !fused_rms) {
+                 const ggml_status status = allreduce_fallback(i);
+                 if (status != GGML_STATUS_SUCCESS) {
+                     return status;
+diff --git a/ggml/src/ggml-cuda/allreduce.cu b/ggml/src/ggml-cuda/allreduce.cu
+index 39b23bed75d3555833f80da7b5edf6613c25868c..cb6515ff923a88f6ea2553af827e6558b51a26e7 100644
+--- a/ggml/src/ggml-cuda/allreduce.cu
++++ b/ggml/src/ggml-cuda/allreduce.cu
+@@ -10,6 +10,8 @@
+ #include <cstring>
+ #include <limits>
+ 
++#include "apex-p2p.cuh"
++
+ // ---------------------------------------------------------------------------
+ // AllReduce for tensor-parallel inference across two GPUs (CUDA or
+ // ROCm/HIP).
+@@ -301,6 +303,9 @@ struct ggml_cuda_ar_host_mapping {
+ };
+ 
+ struct ggml_cuda_ar_pipeline {
++#ifdef GGML_USE_HIP
++    apex_p2p_pipeline * p2p = nullptr;
++#endif
+     int      n_devices;
+     int      devices[GGML_CUDA_MAX_DEVICES];
+     size_t   buf_bytes;    // bytes per device in host_buf[]
+@@ -337,6 +342,23 @@ struct ggml_cuda_ar_pipeline {
+     ggml_cuda_ar_host_mapping arrival;
+ };
+ 
++#ifdef GGML_USE_HIP
++bool ggml_cuda_ar_apex_boundary_enabled(ggml_cuda_ar_pipeline * p) {
++    const char * enabled = getenv("APEX_V2_FUSED_BOUNDARY");
++    return p && p->p2p && enabled && strcmp(enabled, "1") == 0;
++}
++
++bool ggml_cuda_ar_apex_boundary(ggml_cuda_ar_pipeline * p, ggml_backend_t * backends,
++        ggml_tensor ** partials, ggml_tensor ** residuals, ggml_tensor ** add_outputs,
++        ggml_tensor ** weights, ggml_tensor ** outputs, float eps) {
++    if (!ggml_cuda_ar_apex_boundary_enabled(p) || !partials[0]) {
++        return false;
++    }
++    const bool bf16 = p->bf16_threshold > 0 && ggml_nbytes(partials[0]) >= p->bf16_threshold;
++    return apex_p2p_boundary(p->p2p, backends, partials, residuals, add_outputs, weights, outputs, eps, bf16);
++}
++#endif
++
+ // Base pointer for the (slot, rank) per-block token block.  The kernel adds
+ // blockIdx.x * (ARRIVAL_STRIDE/sizeof(int)) internally to land on its own slot.
+ static int * ggml_cuda_ar_arrival_ptr(const ggml_cuda_ar_pipeline * p, int slot, int rank) {
+@@ -532,6 +554,9 @@ ggml_cuda_ar_pipeline * ggml_cuda_ar_pipeline_init(const int * devices, size_t n
+         }
+     }
+ 
++#ifdef GGML_USE_HIP
++    p->p2p = apex_p2p_init(devices);
++#endif
+     GGML_LOG_INFO("%s: initialized AllReduce pipeline: %zu GPUs, "
+                   "%zu KB chunked kernel staging + %zu MB copy-engine staging per GPU\n",
+                   __func__, n_devices, p->buf_bytes >> 10, p->copy_bytes >> 20);
+@@ -543,6 +568,9 @@ void ggml_cuda_ar_pipeline_free(ggml_cuda_ar_pipeline * p) {
+     if (!p) {
+         return;
+     }
++#ifdef GGML_USE_HIP
++    apex_p2p_free(p->p2p);
++#endif
+ 
+     // Drain all in-flight kernels before tearing down resources.
+     for (int i = 0; i < p->n_devices; ++i) {
+@@ -771,6 +799,12 @@ bool ggml_cuda_ar_allreduce(
+         p->bf16_threshold > 0 &&
+         input_nbytes >= p->bf16_threshold;
+ 
++#ifdef GGML_USE_HIP
++    if (apex_p2p_allreduce(p->p2p, backends, tensors, use_bf16)) {
++        return true;
++    }
++#endif
++
+     const ggml_type kernel_type = use_bf16 ? GGML_TYPE_BF16 : input_type;
+     const size_t    type_size   = ggml_type_size(kernel_type);
+     GGML_ASSERT(p->buf_bytes >= type_size);
+diff --git a/ggml/src/ggml-cuda/allreduce.cuh b/ggml/src/ggml-cuda/allreduce.cuh
+index 76205d323aa098ebff9571d8af997b04f1f689f0..865edc0e4935e9818e8a6fbd6948dc7a33b6e4e3 100644
+--- a/ggml/src/ggml-cuda/allreduce.cuh
++++ b/ggml/src/ggml-cuda/allreduce.cuh
+@@ -27,3 +27,10 @@ bool ggml_cuda_ar_allreduce(
+     ggml_backend_t        * backends,
+     ggml_tensor           ** tensors);
+ 
++
++#ifdef GGML_USE_HIP
++bool ggml_cuda_ar_apex_boundary_enabled(ggml_cuda_ar_pipeline * p);
++bool ggml_cuda_ar_apex_boundary(ggml_cuda_ar_pipeline * p, ggml_backend_t * backends,
++    ggml_tensor ** partials, ggml_tensor ** residuals, ggml_tensor ** add_outputs,
++    ggml_tensor ** weights, ggml_tensor ** outputs, float eps);
++#endif
+diff --git a/ggml/src/ggml-cuda/apex-p2p.cuh b/ggml/src/ggml-cuda/apex-p2p.cuh
+new file mode 100644
+index 0000000000000000000000000000000000000000..3f2dd75a6fa041eb5c2a58e41055260cd0dc0d23
+--- /dev/null
++++ b/ggml/src/ggml-cuda/apex-p2p.cuh
+@@ -0,0 +1,262 @@
++#pragma once
++
++// Adapted from August APEX's integration of JohnTDI-cpu's HIP P2P AllReduce.
++// Keep upstream wire precision and large-tensor dispatch for a matched A/B.
++#if defined(GGML_USE_HIP)
++struct apex_p2p_pipeline {
++    static constexpr int blocks = 8;
++    static constexpr size_t bytes = 512 * 1024;
++    int devices[2];
++    char * staging[2] = {};
++    unsigned * inbox[2] = {};
++    unsigned * tokens[2] = {};
++    uint64_t calls = 0;
++    uint64_t boundary_calls = 0;
++};
++
++static void apex_p2p_free(apex_p2p_pipeline * p) {
++    if (!p) {
++        return;
++    }
++    GGML_LOG_INFO("APEX P2P launch calls: %llu\n", (unsigned long long) p->calls);
++    GGML_LOG_INFO("APEX fused boundary calls: %llu\n", (unsigned long long) p->boundary_calls);
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(p->devices[i]);
++        CUDA_CHECK(hipDeviceSynchronize());
++        if (p->staging[i]) { CUDA_CHECK(hipFree(p->staging[i])); }
++        if (p->inbox[i])   { CUDA_CHECK(hipFree(p->inbox[i])); }
++        if (p->tokens[i])  { CUDA_CHECK(hipFree(p->tokens[i])); }
++    }
++    delete p;
++}
++
++static apex_p2p_pipeline * apex_p2p_init(const int * devices) {
++    const char * enabled = getenv("APEX_V2_DIRECT_P2P");
++    if (!enabled || strcmp(enabled, "1") != 0) {
++        return nullptr;
++    }
++    for (int i = 0; i < 2; ++i) {
++        hipDeviceProp_t prop;
++        int can = 0;
++        ggml_cuda_set_device(devices[i]);
++        if (hipGetDeviceProperties(&prop, devices[i]) != hipSuccess ||
++            strncmp(prop.gcnArchName, "gfx1201", 7) != 0 ||
++            hipDeviceCanAccessPeer(&can, devices[i], devices[1-i]) != hipSuccess || !can) {
++            GGML_LOG_WARN("APEX P2P requires two gfx1201 devices with peer access; using upstream AllReduce\n");
++            (void) hipGetLastError();
++            return nullptr;
++        }
++        const hipError_t err = hipDeviceEnablePeerAccess(devices[1-i], 0);
++        (void) hipGetLastError();
++        if (err != hipSuccess && err != hipErrorPeerAccessAlreadyEnabled) {
++            return nullptr;
++        }
++    }
++    auto * p = new apex_p2p_pipeline;
++    p->devices[0] = devices[0];
++    p->devices[1] = devices[1];
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(devices[i]);
++        if (hipMalloc((void **) &p->staging[i], 2*p->bytes) != hipSuccess ||
++            hipMalloc((void **) &p->inbox[i], 2*p->blocks*sizeof(unsigned)) != hipSuccess ||
++            hipMalloc((void **) &p->tokens[i], p->blocks*sizeof(unsigned)) != hipSuccess ||
++            hipMemset(p->inbox[i], 0, 2*p->blocks*sizeof(unsigned)) != hipSuccess ||
++            hipMemset(p->tokens[i], 0, p->blocks*sizeof(unsigned)) != hipSuccess) {
++            (void) hipGetLastError();
++            apex_p2p_free(p);
++            return nullptr;
++        }
++    }
++    GGML_LOG_INFO("APEX P2P ready: 2 gfx1201 GPUs, 8 blocks, upstream wire precision, <=512 KiB\n");
++    return p;
++}
++
++template <typename T, typename W>
++static __global__ void apex_p2p_kernel(
++        T * data, W * mine, const W * peer, int count, bool compute,
++        volatile unsigned * inbox, volatile unsigned * peer_inbox, unsigned * tokens) {
++    const int bid = blockIdx.x;
++    const int tid = bid * blockDim.x + threadIdx.x;
++    const int stride = gridDim.x * blockDim.x;
++    for (int i = tid; i < count; i += stride) {
++        mine[i] = compute ? ggml_cuda_cast<W>(data[i]) : ggml_cuda_cast<W>(0.0f);
++    }
++    __threadfence_system();
++    __syncthreads();
++    if (threadIdx.x == 0) {
++        // Device counters advance on graph replay too; host counters do not.
++        const unsigned token = ++tokens[bid];
++        peer_inbox[bid] = token;
++        __threadfence_system();
++        while (inbox[bid] != token) {
++            __builtin_amdgcn_s_sleep(2);
++        }
++    }
++    __syncthreads();
++    __threadfence_system();
++    for (int i = tid; i < count; i += stride) {
++        const float local = compute ? ggml_cuda_cast<float>(ggml_cuda_cast<W>(data[i])) : 0.0f;
++        data[i] = ggml_cuda_cast<T>(local + ggml_cuda_cast<float>(peer[i]));
++    }
++}
++
++template <typename T, typename W = T>
++static void apex_p2p_launch(apex_p2p_pipeline * p, ggml_backend_t * backends, ggml_tensor ** tensors) {
++    const int slot = (++p->calls) % 2;
++    const int count = (int) ggml_nelements(tensors[0]);
++    for (int i = 0; i < 2; ++i) {
++        auto * ctx = static_cast<ggml_backend_cuda_context *>(backends[i]->context);
++        GGML_ASSERT(ctx->device == p->devices[i]);
++        ggml_cuda_set_device(p->devices[i]);
++        apex_p2p_kernel<T, W><<<p->blocks, 256, 0, ctx->stream()>>>(
++            (T *) tensors[i]->data, (W *) (p->staging[i] + slot*p->bytes),
++            (W *) (p->staging[1-i] + slot*p->bytes), count,
++            (tensors[i]->flags & GGML_TENSOR_FLAG_COMPUTE) != 0,
++            p->inbox[i] + slot*p->blocks, p->inbox[1-i] + slot*p->blocks, p->tokens[i]);
++        CUDA_CHECK(cudaGetLastError());
++    }
++}
++
++static bool apex_p2p_allreduce(apex_p2p_pipeline * p, ggml_backend_t * backends,
++                               ggml_tensor ** tensors, bool bf16) {
++    if (!p || ggml_nbytes(tensors[0]) > p->bytes) {
++        return false;
++    }
++    switch (tensors[0]->type) {
++        case GGML_TYPE_F32:
++            if (bf16) { apex_p2p_launch<float, nv_bfloat16>(p, backends, tensors); }
++            else      { apex_p2p_launch<float>(p, backends, tensors); }
++            break;
++        case GGML_TYPE_F16:  apex_p2p_launch<half>(p, backends, tensors); break;
++        case GGML_TYPE_BF16: apex_p2p_launch<nv_bfloat16>(p, backends, tensors); break;
++        default: return false;
++    }
++    return true;
++}
++static __global__ void apex_p2p_fused_rms(
++        const float * __restrict__ partial,
++        const float * __restrict__ residual,
++        float       * __restrict__ add_out,
++        const float * __restrict__ weight,
++        float       * __restrict__ out,
++        float       * __restrict__ buf_mine,
++        const float * __restrict__ buf_peer,
++        int                         rows,
++        float                       eps,
++        volatile unsigned *              my_inbox,
++        volatile unsigned *              peer_inbox,
++        unsigned *                  dev_token,
++        int                         compute_mine,
++        bool                        bf16) {
++    constexpr int ncols = 5120;
++    constexpr int block_size = 1024;
++
++    const int row = blockIdx.x;
++    const int tid = threadIdx.x;
++    if (row >= rows) {
++        return;
++    }
++
++    const int64_t row_off = (int64_t) row * ncols;
++
++    for (int col = tid; col < ncols; col += block_size) {
++        buf_mine[row_off + col] = compute_mine ? (bf16 ? ggml_cuda_cast<float>(ggml_cuda_cast<nv_bfloat16>(partial[row_off + col])) : partial[row_off + col]) : 0.0f;
++    }
++    __threadfence_system();
++    __syncthreads();
++
++    if (tid == 0) {
++        const unsigned token = ++dev_token[row];
++        peer_inbox[row] = token;
++        __threadfence_system();
++        while (my_inbox[row] != token) {
++            __builtin_amdgcn_s_sleep(2);
++        }
++    }
++    __syncthreads();
++    __threadfence_system();
++
++    float sumsq = 0.0f;
++    for (int col = tid; col < ncols; col += block_size) {
++        const float mine = compute_mine ? (bf16 ? ggml_cuda_cast<float>(ggml_cuda_cast<nv_bfloat16>(partial[row_off + col])) : partial[row_off + col]) : 0.0f;
++        const float reduced = mine + buf_peer[row_off + col];
++        const float x = reduced + residual[row_off + col];
++        add_out[row_off + col] = x;
++        sumsq += x * x;
++    }
++
++    extern __shared__ float s_sum[];
++    sumsq = block_reduce<block_reduce_method::SUM, block_size>(sumsq, s_sum);
++    const float scale = rsqrtf(sumsq / ncols + eps);
++
++    for (int col = tid; col < ncols; col += block_size) {
++        out[row_off + col] = scale * add_out[row_off + col] * weight[col];
++    }
++}
++
++static bool apex_p2p_boundary(
++        apex_p2p_pipeline * p,
++        ggml_backend_t        * backends,
++        ggml_tensor           ** partials,
++        ggml_tensor           ** residuals,
++        ggml_tensor           ** add_outputs,
++        ggml_tensor           ** weights,
++        ggml_tensor           ** outputs,
++        float                    eps, bool bf16) {
++    if (p == nullptr || partials[0] == nullptr) {
++        return false;
++    }
++
++    constexpr int64_t ncols = 5120;
++    const int64_t ne = ggml_nelements(partials[0]);
++    if (partials[0]->type != GGML_TYPE_F32 || ne <= 0 || ne % ncols != 0) {
++        return false;
++    }
++    const int rows = (int) (ne / ncols);
++    if (rows < 1 || rows > apex_p2p_pipeline::blocks) {
++        return false;
++    }
++
++    for (int i = 0; i < 2; ++i) {
++        if (partials[i] == nullptr || residuals[i] == nullptr || add_outputs[i] == nullptr ||
++                weights[i] == nullptr || outputs[i] == nullptr ||
++                partials[i]->type != GGML_TYPE_F32 || residuals[i]->type != GGML_TYPE_F32 ||
++                add_outputs[i]->type != GGML_TYPE_F32 || weights[i]->type != GGML_TYPE_F32 ||
++                outputs[i]->type != GGML_TYPE_F32 ||
++                ggml_nelements(partials[i]) != ne || ggml_nelements(residuals[i]) != ne ||
++                ggml_nelements(add_outputs[i]) != ne || ggml_nelements(outputs[i]) != ne ||
++                ggml_nelements(weights[i]) != ncols ||
++                !ggml_is_contiguously_allocated(partials[i]) ||
++                !ggml_is_contiguously_allocated(residuals[i]) ||
++                !ggml_is_contiguously_allocated(add_outputs[i]) ||
++                !ggml_is_contiguously_allocated(weights[i]) ||
++                !ggml_is_contiguously_allocated(outputs[i])) {
++            return false;
++        }
++    }
++
++    const int slot = (int) (++p->calls) % 2;
++    for (int i = 0; i < 2; ++i) {
++        const int peer = 1 - i;
++        auto * ctx = (ggml_backend_cuda_context *) backends[i]->context;
++        ggml_cuda_set_device(p->devices[i]);
++
++        float * mine = (float *) (p->staging[i] + (size_t) slot * apex_p2p_pipeline::bytes);
++        float * peer_buf = (float *) (p->staging[peer] + (size_t) slot * apex_p2p_pipeline::bytes);
++        unsigned * my_inbox = p->inbox[i] + (size_t) slot * apex_p2p_pipeline::blocks;
++        unsigned * peer_inbox = p->inbox[peer] + (size_t) slot * apex_p2p_pipeline::blocks;
++        const int compute = (partials[i]->flags & GGML_TENSOR_FLAG_COMPUTE) != 0;
++
++        apex_p2p_fused_rms<<<rows, 1024, 32 * sizeof(float), ctx->stream()>>>(
++            (const float *) partials[i]->data,
++            (const float *) residuals[i]->data,
++            (float *) add_outputs[i]->data,
++            (const float *) weights[i]->data,
++            (float *) outputs[i]->data,
++            mine, peer_buf, rows, eps, my_inbox, peer_inbox, p->tokens[i], compute, bf16);
++        CUDA_CHECK(cudaGetLastError());
++    }
++    ++p->boundary_calls;
++    return true;
++}
++#endif
+diff --git a/ggml/src/ggml-cuda/fattn-common.cuh b/ggml/src/ggml-cuda/fattn-common.cuh
+index 6d1ce52dbc774d8ad274a931e55f79e3a436ab99..abd5546bc7acf24f10ac816eec79aa91cc7553de 100644
+--- a/ggml/src/ggml-cuda/fattn-common.cuh
++++ b/ggml/src/ggml-cuda/fattn-common.cuh
+@@ -5,6 +5,8 @@
+ #include "vecdotq.cuh"
+ 
+ #include <cstdint>
++#include <set>
++#include <tuple>
+ 
+ #define FATTN_KQ_STRIDE       256
+ #define HALF_MAX_HALF         __float2half(65504.0f/2) // Use neg. of this instead of -INFINITY to initialize KQ max vals to avoid NaN upon subtraction.
+@@ -976,7 +978,7 @@ template <int DV, int ncols1, int ncols2>
+ void launch_fattn(
+     ggml_backend_cuda_context & ctx, ggml_tensor * dst, fattn_kernel_t fattn_kernel, const int nwarps, const size_t nbytes_shared,
+     const int nbatch_fa, const bool need_f16_K, const bool need_f16_V, const bool stream_k, const bool use_sparse,
+-    const int warp_size = WARP_SIZE
++    const int warp_size = WARP_SIZE, const bool canonical_vec = false, fattn_kernel_t canonical_kernel = nullptr, const bool apex_grouped = false
+ ) {
+     constexpr int ncols = ncols1 * ncols2;
+ 
+@@ -1091,6 +1093,7 @@ void launch_fattn(
+     const int gqa_ratio    = Q->ne[2] / K->ne[2];
+     const int ntiles_z_gqa = ((gqa_ratio + ncols2 - 1) / ncols2);
+     const int ntiles_dst   = ntiles_x * ntiles_z_gqa * K->ne[2] * Q->ne[3];
++    const int schedule_tiles = canonical_vec ? ntiles_z_gqa * K->ne[2] * Q->ne[3] : ntiles_dst;
+ 
+     // sparse: a query tile of ncols1 queries shares one index list, the union of the queries' visible columns
+     int32_t n_kv_max = 0;
+@@ -1130,7 +1133,12 @@ void launch_fattn(
+     int max_blocks_per_sm = 1; // Max. number of active blocks limited by occupancy.
+     CUDA_CHECK(cudaOccupancyMaxActiveBlocksPerMultiprocessor(&max_blocks_per_sm, fattn_kernel, block_dim.x * block_dim.y * block_dim.z, nbytes_shared));
+     GGML_ASSERT(max_blocks_per_sm > 0);
+-    int parallel_blocks = max_blocks_per_sm;
++    int schedule_blocks_per_sm = max_blocks_per_sm;
++    if (canonical_vec && canonical_kernel) {
++        CUDA_CHECK(cudaOccupancyMaxActiveBlocksPerMultiprocessor(&schedule_blocks_per_sm, canonical_kernel,
++            block_dim.x * block_dim.y * block_dim.z, nbytes_shared));
++    }
++    int parallel_blocks = schedule_blocks_per_sm;
+ 
+     const int64_t n_kv = use_sparse ? n_kv_max : K->ne[1];
+     const int ntiles_KV = (n_kv + nbatch_fa - 1) / nbatch_fa; // Max. number of parallel blocks limited by KV cache length.
+@@ -1173,6 +1181,21 @@ void launch_fattn(
+             blocks_num.x = nblocks_stream_k;
+         }
+ 
++        if (apex_grouped) {
++            const char * value = getenv("APEX_V2_FA_GROUPED_SPLITS");
++            const int requested = value ? atoi(value) : 32;
++            GGML_ASSERT(requested >= 2 && requested <= 256 && ntiles_KV >= 2);
++            blocks_num.x = ntiles_dst * std::min(requested, ntiles_KV);
++            if (getenv("APEX_V2_FA_TRACE")) {
++                static thread_local std::set<std::tuple<int, int64_t, int64_t, int>> seen;
++                if (seen.emplace(ctx.device, Q->ne[1], K->ne[1], blocks_num.x).second) {
++                    GGML_LOG_INFO("apex_grouped device=%d qrows=%lld kv=%lld workgroups=%u partitions=%u occupancy=%d shared=%zu\n",
++                        ctx.device, (long long) Q->ne[1], (long long) K->ne[1], blocks_num.x,
++                        blocks_num.x/ntiles_dst, max_blocks_per_sm, nbytes_shared);
++                }
++            }
++        }
++
+         if (ntiles_dst % blocks_num.x != 0) { // Fixup is only needed if the SMs work on fractional tiles.
+             dst_tmp_meta.alloc((size_t(blocks_num.x) * ncols * (2 + DV/2)));
+         }
+@@ -1182,11 +1205,11 @@ void launch_fattn(
+ 
+         // If ntiles_total % blocks_per_wave != 0 then some efficiency is lost due to tail effects.
+         // Test whether parallel_blocks can be set to a higher value for better efficiency.
+-        const int blocks_per_wave = nsm * max_blocks_per_sm;
++        const int blocks_per_wave = nsm * schedule_blocks_per_sm;
+         int nwaves_best = 0;
+         int efficiency_percent_best = 0;
+         for (int parallel_blocks_test = parallel_blocks; parallel_blocks_test <= ntiles_KV; ++parallel_blocks_test) {
+-            const int nblocks_total = ntiles_dst * parallel_blocks_test;
++            const int nblocks_total = schedule_tiles * parallel_blocks_test;
+             const int nwaves = (nblocks_total + blocks_per_wave - 1) / blocks_per_wave;
+             const int efficiency_percent = 100 * nblocks_total / (nwaves*blocks_per_wave);
+ 
+@@ -1202,10 +1225,28 @@ void launch_fattn(
+             }
+         }
+ 
++        // Diagnostic only: changing partitions changes floating-point reduction order.
++        if (canonical_vec) {
++            if (const char * value = getenv("APEX_V2_FA_SPLITS")) {
++                const int requested = atoi(value);
++                GGML_ASSERT(requested > 0 && requested <= 256);
++                parallel_blocks = std::min(requested, ntiles_KV);
++            }
++        }
+         blocks_num.x = ntiles_x;
+         blocks_num.y = parallel_blocks;
+         blocks_num.z = ntiles_z_gqa*K->ne[2]*Q->ne[3];
+ 
++        if (getenv("APEX_V2_FA_TRACE") && Q->ne[0] == 256 && Q->ne[1] <= 3 && K->type == GGML_TYPE_Q8_0) {
++            static thread_local std::set<std::tuple<int, int64_t, int64_t, int, int>> seen;
++            if (seen.emplace(ctx.device, Q->ne[1], K->ne[1], ncols1, parallel_blocks).second) {
++                GGML_LOG_INFO("apex_fa device=%d qrows=%lld kv=%lld cols=%d blocks=%d occupancy=%d tiles=%d schedule_tiles=%d canonical=%d reference_occupancy=%d nsm=%d workgroups=%d\n",
++                    ctx.device, (long long) Q->ne[1], (long long) K->ne[1], ncols1, parallel_blocks,
++                    max_blocks_per_sm, ntiles_dst, schedule_tiles, int(canonical_vec), schedule_blocks_per_sm, nsm,
++                    int(blocks_num.x * blocks_num.y * blocks_num.z));
++            }
++        }
++
+         if (parallel_blocks > 1) {
+             dst_tmp.alloc(parallel_blocks*ggml_nelements(KQV));
+             dst_tmp_meta.alloc(parallel_blocks*ggml_nrows(KQV));
+diff --git a/ggml/src/ggml-cuda/fattn-mma-f16.cuh b/ggml/src/ggml-cuda/fattn-mma-f16.cuh
+index abb99a354a2a51cde6df65e3f6dcc92e308cb2e3..9001e2be69026608ed19b619988bf2555e6e60b9 100644
+--- a/ggml/src/ggml-cuda/fattn-mma-f16.cuh
++++ b/ggml/src/ggml-cuda/fattn-mma-f16.cuh
+@@ -389,10 +389,34 @@ static constexpr __device__ int ggml_cuda_fattn_mma_get_nstages(
+ 
+ // ------------------------------------------------------------------------------------------------------------------
+ 
+-template<int stride_tile, bool swz, int nwarps, int nbatch_fa, bool use_cp_async, bool oob_check, bool use_sparse>
++template<int stride_tile, bool swz, int nwarps, int nbatch_fa, bool use_cp_async, bool oob_check, bool use_sparse, bool native_q8 = false>
+ static __device__ __forceinline__ void flash_attn_ext_f16_load_tile(
+         const half2 * const __restrict__ KV, half2 * const __restrict__ tile_KV, const int D2, const int stride_KV,
+-        const int k_VKQ_0, const int i_sup, const int32_t * const __restrict__ indices) {
++        const int k_VKQ_0, const int i_sup, const int32_t * const __restrict__ indices, const int element_offset = 0) {
++    if constexpr (native_q8) {
++        static_assert(!use_cp_async && !use_sparse && !swz, "native Q8 is RDNA dense only");
++        constexpr int warp_size = ggml_cuda_get_physical_warp_size();
++        const int chunks = D2 / 4;
++        for (int chunk = threadIdx.y*warp_size + threadIdx.x; chunk < nbatch_fa*chunks; chunk += nwarps*warp_size) {
++            const int row = chunk / chunks;
++            const int col = chunk % chunks;
++            half2 values[4] = {};
++            if (!oob_check || row < i_sup) {
++                const char * src = (const char *) KV + int64_t(k_VKQ_0 + row)*stride_KV*sizeof(half2);
++                const int element = element_offset + col*8;
++                const block_q8_0 * block = (const block_q8_0 *) src + element/QK8_0;
++                const half2 scale = __half2half2(block->d);
++                int8_t quants[8];
++                ggml_cuda_memcpy_1<8, 2>(quants, block->qs + element%QK8_0);
++#pragma unroll
++                for (int j = 0; j < 4; ++j) {
++                    values[j] = scale * make_half2(quants[2*j], quants[2*j + 1]);
++                }
++            }
++            ggml_cuda_memcpy_1<16>(tile_KV + row*stride_tile + col*4, values);
++        }
++        return;
++    }
+     constexpr int warp_size = ggml_cuda_get_physical_warp_size();
+     // K/V data is loaded with decreasing granularity for D for better memory bandwidth.
+     // The minimum granularity is 16 bytes.
+@@ -580,7 +604,7 @@ static __device__ __forceinline__ void flash_attn_ext_f16_load_mask(
+ }
+ 
+ template<int DKQ, int DV, int ncols1, int ncols2, int nwarps,
+-    bool use_logit_softcap, bool V_is_K_view, bool use_sparse, bool needs_fixup, bool is_fixup, bool last_iter, bool oob_check,
++    bool use_logit_softcap, bool V_is_K_view, bool use_sparse, bool needs_fixup, bool is_fixup, bool last_iter, bool oob_check, bool native_q8,
+     typename T_A_KQ, typename T_B_KQ, typename T_C_KQ, typename T_A_VKQ, typename T_B_VKQ, typename T_C_VKQ>
+ static __device__ __forceinline__ void flash_attn_ext_f16_iter(
+         const float2 * const __restrict__ Q_f2,
+@@ -661,8 +685,8 @@ static __device__ __forceinline__ void flash_attn_ext_f16_iter(
+         if constexpr (nstages <= 1) {
+             const int k0_diff = k0_stop - k0_start;
+             constexpr bool use_cp_async = nstages == 1;
+-            flash_attn_ext_f16_load_tile<stride_tile_K, swz, nwarps, nbatch_fa, use_cp_async, oob_check, use_sparse>
+-                (K_h2 + k0_start, tile_K, k0_diff, stride_K, k_VKQ_0, k_VKQ_sup, indices);
++            flash_attn_ext_f16_load_tile<stride_tile_K, swz, nwarps, nbatch_fa, use_cp_async, oob_check, use_sparse, native_q8>
++                (K_h2 + (native_q8 ? 0 : k0_start), tile_K, k0_diff, stride_K, k_VKQ_0, k_VKQ_sup, indices, native_q8 ? 2*k0_start : 0);
+             if (use_cp_async) {
+                 cp_async_wait_all();
+             }
+@@ -1014,8 +1038,8 @@ static __device__ __forceinline__ void flash_attn_ext_f16_iter(
+             const int i0_diff = i0_stop - i0_start;
+             if (!V_is_K_view || i0_stop > 2*nbatch_K2) {
+                 constexpr bool use_cp_async = nstages == 1;
+-                flash_attn_ext_f16_load_tile<stride_tile_V, swz, nwarps, nbatch_fa, use_cp_async, oob_check, use_sparse>
+-                    (V_h2 + i0_start/2, tile_V, i0_diff/2, stride_V, k_VKQ_0, k_VKQ_sup, indices);
++                flash_attn_ext_f16_load_tile<stride_tile_V, swz, nwarps, nbatch_fa, use_cp_async, oob_check, use_sparse, native_q8>
++                    (V_h2 + (native_q8 ? 0 : i0_start/2), tile_V, i0_diff/2, stride_V, k_VKQ_0, k_VKQ_sup, indices, native_q8 ? i0_start : 0);
+                 if (use_cp_async) {
+                     cp_async_wait_all();
+                 }
+@@ -1195,7 +1219,7 @@ template<int DKQ, int ncols> struct mma_tile_sizes {
+ };
+ #endif // defined(TURING_MMA_AVAILABLE)
+ 
+-template<int DKQ, int DV, int ncols1, int ncols2, int nwarps, bool use_logit_softcap, bool V_is_K_view, bool use_sparse, bool needs_fixup, bool is_fixup>
++template<int DKQ, int DV, int ncols1, int ncols2, int nwarps, bool use_logit_softcap, bool V_is_K_view, bool use_sparse, bool needs_fixup, bool is_fixup, bool native_q8 = false>
+ static __device__ __forceinline__ void flash_attn_ext_f16_process_tile(
+         const float2 * const __restrict__ Q_f2,
+         const half2  * const __restrict__ K_h2,
+@@ -1220,7 +1244,7 @@ static __device__ __forceinline__ void flash_attn_ext_f16_process_tile(
+         const int jt,
+         const int zt_gqa,
+         const int kb0_start,
+-        const int kb0_stop) {
++        const int kb0_stop, const int kb0_step = 1) {
+ #if defined(VOLTA_MMA_AVAILABLE) || defined(TURING_MMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE) || defined(AMD_MFMA_AVAILABLE)
+     //In this kernel Q, K, V are matrices while i, j, k are matrix indices.
+ 
+@@ -1358,11 +1382,11 @@ static __device__ __forceinline__ void flash_attn_ext_f16_process_tile(
+     // kb0_start is always < kb0_stop so the last iter can be executed unconditionally.
+     if constexpr (ncols2 == 1 || use_sparse) {
+         constexpr bool oob_check = true;
+-        for (; kb0 < kb0_stop-1; ++kb0) {
++        for (; kb0 < kb0_stop-kb0_step; kb0 += kb0_step) {
+             constexpr bool last_iter = false;
+             constexpr int  k_VKQ_sup = nbatch_fa;
+             flash_attn_ext_f16_iter
+-                <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check,
++                <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check, native_q8,
+                  T_A_KQ, T_B_KQ, T_C_KQ, T_A_VKQ, T_B_VKQ, T_C_VKQ>
+                 (Q_f2, K_h2, V_h2, mask_h, indices, dstk, dstk_fixup, scale, slope, logit_softcap,
+                  ne01, ne02, stride_K, stride_V, stride_mask, tile_Q, tile_K, tile_V, tile_mask, Q_B, VKQ_C,
+@@ -1371,18 +1395,18 @@ static __device__ __forceinline__ void flash_attn_ext_f16_process_tile(
+         constexpr bool last_iter = true;
+         const     int  k_VKQ_sup = ne11 - kb0*nbatch_fa;
+         flash_attn_ext_f16_iter
+-            <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check,
++            <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check, native_q8,
+               T_A_KQ, T_B_KQ, T_C_KQ, T_A_VKQ, T_B_VKQ, T_C_VKQ>
+             (Q_f2, K_h2, V_h2, mask_h, indices, dstk, dstk_fixup, scale, slope, logit_softcap,
+              ne01, ne02, stride_K, stride_V, stride_mask, tile_Q, tile_K, tile_V, tile_mask, Q_B, VKQ_C,
+              KQ_max, KQ_rowsum, jt, kb0, k_VKQ_sup);
+     } else {
+         constexpr bool oob_check = false;
+-        for (; kb0 < kb0_stop-1; ++kb0) {
++        for (; kb0 < kb0_stop-kb0_step; kb0 += kb0_step) {
+             constexpr bool last_iter = false;
+             constexpr int  k_VKQ_sup = nbatch_fa;
+             flash_attn_ext_f16_iter
+-                <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check,
++                <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check, native_q8,
+                  T_A_KQ, T_B_KQ, T_C_KQ, T_A_VKQ, T_B_VKQ, T_C_VKQ>
+                 (Q_f2, K_h2, V_h2, mask_h, indices, dstk, dstk_fixup, scale, slope, logit_softcap,
+                  ne01, ne02, stride_K, stride_V, stride_mask, tile_Q, tile_K, tile_V, tile_mask, Q_B, VKQ_C,
+@@ -1391,7 +1415,7 @@ static __device__ __forceinline__ void flash_attn_ext_f16_process_tile(
+         constexpr bool last_iter = true;
+         constexpr int  k_VKQ_sup = nbatch_fa;
+         flash_attn_ext_f16_iter
+-            <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check,
++            <DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, last_iter, oob_check, native_q8,
+              T_A_KQ, T_B_KQ, T_C_KQ, T_A_VKQ, T_B_VKQ, T_C_VKQ>
+             (Q_f2, K_h2, V_h2, mask_h, indices, dstk, dstk_fixup, scale, slope, logit_softcap,
+              ne01, ne02, stride_K, stride_V, stride_mask, tile_Q, tile_K, tile_V, tile_mask, Q_B, VKQ_C,
+@@ -1802,7 +1826,7 @@ static constexpr __host__ __device__ bool ggml_cuda_flash_attn_ext_mma_f16_may_u
+            (DKQ == 256 && DV == 256 && ncols1 == 8 && ncols2 == 8);
+ }
+ 
+-template<int DKQ, int DV, int ncols1, int ncols2, bool use_logit_softcap, bool V_is_K_view, bool use_sparse>
++template<int DKQ, int DV, int ncols1, int ncols2, bool use_logit_softcap, bool V_is_K_view, bool use_sparse, bool native_q8 = false>
+ __launch_bounds__(ggml_cuda_fattn_mma_get_nthreads(DKQ, DV, ncols1*ncols2), ggml_cuda_fattn_mma_get_occupancy(DKQ, DV, ncols1*ncols2))
+ static __global__ void flash_attn_ext_f16(
+         const char * Q_ptr,
+@@ -1904,6 +1928,35 @@ static __global__ void flash_attn_ext_f16(
+         KV_max = KV_max_ptr + int64_t(iter_j)*ne33*ne11;
+     }
+ 
++    if constexpr (native_q8) {
++        static_assert(DKQ == 256 && DV == 256 && ncols2 == 8 && !use_sparse && !V_is_K_view);
++        const int partitions = gridDim.x / (iter_j*iter_z_gqa*ne12*ne03);
++        const int tile = blockIdx.x / partitions;
++        const int part = blockIdx.x % partitions;
++        const int sequence = tile / (iter_j*iter_z_gqa*ne12);
++        const int z_KV = (tile / (iter_j*iter_z_gqa)) % ne12;
++        const int zt_gqa = (tile / iter_j) % iter_z_gqa;
++        const int jt = tile % iter_j;
++        const int zt_Q = z_KV*gqa_ratio + zt_gqa*ncols2;
++        const float2 * Q_f2 = (const float2 *) (Q + nb03*sequence + nb02*zt_Q);
++        const half2 * K_h2 = (const half2 *) (K + nb13*sequence + nb12*z_KV);
++        const half2 * V_h2 = (const half2 *) (V + nb23*sequence + nb22*z_KV);
++        const half * mask_h = (const half *) (mask + nb33*(sequence % ne33));
++        float2 * dstk = ((float2 *) dst) + (sequence*ne01.z*ne02 + zt_Q)*(DV/2);
++        if (part == partitions - 1) {
++            flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, true, false, true>
++                (Q_f2, K_h2, V_h2, mask_h, nullptr, nullptr, dstk, dst_meta, scale, 1.0f, logit_softcap,
++                 ne01, ne02, gqa_ratio, ne11, stride_Q1, stride_Q2, stride_K, stride_V, stride_mask, jt, zt_gqa,
++                 part, iter_k, partitions);
++        } else {
++            flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, false, true, true>
++                (Q_f2, K_h2, V_h2, mask_h, nullptr, nullptr, dstk, dst_meta, scale, 1.0f, logit_softcap,
++                 ne01, ne02, gqa_ratio, ne11, stride_Q1, stride_Q2, stride_K, stride_V, stride_mask, jt, zt_gqa,
++                 part, iter_k, partitions);
++        }
++        return;
++    }
++
+     // kbc == k block continuous, current index in continuous ijk space.
+     int       kbc      = int64_t(blockIdx.x + 0)*(iter_k*iter_j*iter_z_gqa*ne12*ne03) / gridDim.x;
+     const int kbc_stop = int64_t(blockIdx.x + 1)*(iter_k*iter_j*iter_z_gqa*ne12*ne03) / gridDim.x;
+@@ -1945,12 +1998,12 @@ static __global__ void flash_attn_ext_f16(
+         constexpr bool is_fixup = false; // All but (potentially) the last iterations write their data to dst rather than the fixup buffer.
+         if (kb0_start == 0) {
+             constexpr bool needs_fixup = false; // CUDA block is working on an entire tile.
+-            flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup>
++            flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, native_q8>
+                 (Q_f2, K_h2, V_h2, mask_h, indices, sinks_f, dstk, dst_meta, scale, slope, logit_softcap,
+                  ne01, ne02, gqa_ratio, ne11, stride_Q1, stride_Q2, stride_K, stride_V, stride_mask, jt, zt_gqa, kb0_start, kb0_stop);
+         } else {
+             constexpr bool needs_fixup = true; // CUDA block is missing the beginning of a tile.
+-            flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup>
++            flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, native_q8>
+                 (Q_f2, K_h2, V_h2, mask_h, indices, sinks_f, dstk, dst_meta, scale, slope, logit_softcap,
+                  ne01, ne02, gqa_ratio, ne11, stride_Q1, stride_Q2, stride_K, stride_V, stride_mask, jt, zt_gqa, kb0_start, kb0_stop);
+         }
+@@ -1994,7 +2047,7 @@ static __global__ void flash_attn_ext_f16(
+ 
+     constexpr bool is_fixup = true; // Last index writes its data to fixup buffer to avoid data races with other blocks.
+     constexpr bool needs_fixup = false;
+-    flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup>
++    flash_attn_ext_f16_process_tile<DKQ, DV, ncols1, ncols2, nwarps, use_logit_softcap, V_is_K_view, use_sparse, needs_fixup, is_fixup, native_q8>
+         (Q_f2, K_h2, V_h2, mask_h, indices, sinks_f, dstk, dst_meta, scale, slope, logit_softcap,
+          ne01, ne02, gqa_ratio, ne11, stride_Q1, stride_Q2, stride_K, stride_V, stride_mask, jt, zt_gqa, kb0_start, kb0_stop);
+ #else
+@@ -2013,7 +2066,7 @@ static __global__ void flash_attn_ext_f16(
+ 
+ bool ggml_cuda_flash_attn_ext_mma_f16_shall_use_sparse(const int cc, const ggml_tensor * dst, const int ncols1, const int ncols2);
+ 
+-template <int DKQ, int DV, int ncols1, int ncols2>
++template <int DKQ, int DV, int ncols1, int ncols2, bool native_q8 = false>
+ void ggml_cuda_flash_attn_ext_mma_f16_case(ggml_backend_cuda_context & ctx, ggml_tensor * dst) {
+     const ggml_tensor * KQV = dst;
+     const int id = ggml_cuda_get_device();
+@@ -2067,7 +2120,7 @@ void ggml_cuda_flash_attn_ext_mma_f16_case(ggml_backend_cuda_context & ctx, ggml
+         if constexpr (ggml_cuda_flash_attn_ext_mma_f16_may_use_sparse(DKQ, DV, ncols1, ncols2)) {
+             if (ggml_cuda_flash_attn_ext_mma_f16_shall_use_sparse(cc, dst, ncols1, ncols2)) {
+                 constexpr bool use_sparse_kernel = true;
+-                fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel>;
++                fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel, native_q8>;
+                 use_sparse = true;
+ 
+                 static bool shared_memory_limit_raised[GGML_CUDA_MAX_DEVICES] = {false};
+@@ -2077,7 +2130,7 @@ void ggml_cuda_flash_attn_ext_mma_f16_case(ggml_backend_cuda_context & ctx, ggml
+                 }
+             } else {
+                 constexpr bool use_sparse_kernel = false;
+-                fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel>;
++                fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel, native_q8>;
+ 
+                 static bool shared_memory_limit_raised[GGML_CUDA_MAX_DEVICES] = {false};
+                 if (!shared_memory_limit_raised[id]) {
+@@ -2089,7 +2142,7 @@ void ggml_cuda_flash_attn_ext_mma_f16_case(ggml_backend_cuda_context & ctx, ggml
+ #endif // !defined(GGML_USE_HIP) && !defined(GGML_USE_MUSA)
+         {
+             constexpr bool use_sparse_kernel = false;
+-            fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel>;
++            fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel, native_q8>;
+ 
+             static bool shared_memory_limit_raised[GGML_CUDA_MAX_DEVICES] = {false};
+             if (!shared_memory_limit_raised[id]) {
+@@ -2100,7 +2153,7 @@ void ggml_cuda_flash_attn_ext_mma_f16_case(ggml_backend_cuda_context & ctx, ggml
+     } else {
+         constexpr bool use_logit_softcap = true;
+         constexpr bool use_sparse_kernel = false;
+-        fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel>;
++        fattn_kernel = flash_attn_ext_f16<DKQ, DV, ncols1, ncols2, use_logit_softcap, V_is_K_view, use_sparse_kernel, native_q8>;
+ 
+         static bool shared_memory_limit_raised[GGML_CUDA_MAX_DEVICES] = {false};
+         if (!shared_memory_limit_raised[id]) {
+@@ -2110,7 +2163,7 @@ void ggml_cuda_flash_attn_ext_mma_f16_case(ggml_backend_cuda_context & ctx, ggml
+     }
+ 
+     launch_fattn<DV, ncols1, ncols2>
+-        (ctx, dst, fattn_kernel, nwarps, nbytes_shared_total, nbatch_fa, true, true, true, use_sparse, warp_size_host);
++        (ctx, dst, fattn_kernel, nwarps, nbytes_shared_total, nbatch_fa, !native_q8, !native_q8, true, use_sparse, warp_size_host, false, nullptr, native_q8);
+ }
+ 
+ 
+@@ -2181,3 +2234,5 @@ extern DECL_FATTN_MMA_F16_CASE(576, 512,  8,  4);
+ extern DECL_FATTN_MMA_F16_CASE(576, 512, 16,  4);
+ extern DECL_FATTN_MMA_F16_CASE(576, 512,  1, 32);
+ extern DECL_FATTN_MMA_F16_CASE(576, 512,  2, 32);
++
++extern template void ggml_cuda_flash_attn_ext_mma_f16_case<256, 256, 4, 8, true>(ggml_backend_cuda_context &, ggml_tensor *);
+diff --git a/ggml/src/ggml-cuda/fattn-vec.cuh b/ggml/src/ggml-cuda/fattn-vec.cuh
+index 57a285565913d18ded0a015c4b145a92009189f9..623f16aaeb9aa9d77fb0d55ed195d13ce0fc5e2f 100644
+--- a/ggml/src/ggml-cuda/fattn-vec.cuh
++++ b/ggml/src/ggml-cuda/fattn-vec.cuh
+@@ -529,7 +529,7 @@ static __global__ void flash_attn_ext_vec(
+ #endif // __clang__
+ 
+ template <int D, int cols_per_block, ggml_type type_K, ggml_type type_V, bool use_logit_softcap>
+-void ggml_cuda_flash_attn_ext_vec_case_impl(ggml_backend_cuda_context & ctx, ggml_tensor * dst) {
++void ggml_cuda_flash_attn_ext_vec_case_impl(ggml_backend_cuda_context & ctx, ggml_tensor * dst, bool canonical = false) {
+     const int cc = ggml_cuda_info().devices[ggml_cuda_get_device()].cc;
+ 
+     const int nthreads = ggml_cuda_fattn_vec_get_nthreads_host(cc);
+@@ -538,7 +538,8 @@ void ggml_cuda_flash_attn_ext_vec_case_impl(ggml_backend_cuda_context & ctx, ggm
+     const bool need_f16_K = type_K == GGML_TYPE_F16;
+     const bool need_f16_V = type_V == GGML_TYPE_F16;
+     constexpr size_t nbytes_shared = 0;
+-    launch_fattn<D, cols_per_block, 1>(ctx, dst, fattn_kernel, nwarps, nbytes_shared, D, need_f16_K, need_f16_V, false, false);
++    fattn_kernel_t reference_kernel = canonical ? flash_attn_ext_vec<D, 1, type_K, type_V, use_logit_softcap> : nullptr;
++    launch_fattn<D, cols_per_block, 1>(ctx, dst, fattn_kernel, nwarps, nbytes_shared, D, need_f16_K, need_f16_V, false, false, WARP_SIZE, canonical, reference_kernel);
+ }
+ 
+ template <int D, ggml_type type_K, ggml_type type_V>
+@@ -549,14 +550,26 @@ void ggml_cuda_flash_attn_ext_vec_case(ggml_backend_cuda_context & ctx, ggml_ten
+     float logit_softcap;
+     memcpy(&logit_softcap, (const float *) KQV->op_params + 2, sizeof(float));
+ 
+-    if (Q->ne[1] == 1) {
++    static const bool enabled = [] {
++        const char * value = getenv("APEX_V2_FA_CANONICAL");
++        return value && strcmp(value, "1") == 0;
++    }();
++    const int cc = ggml_cuda_info().devices[ctx.device].cc;
++    const bool canonical = enabled && GGML_CUDA_CC_IS_RDNA4(cc) && D == 256 &&
++        type_K == GGML_TYPE_Q8_0 && type_V == GGML_TYPE_Q8_0 && Q->ne[1] <= 3;
++
++    static const bool packed = [] {
++        const char * value = getenv("APEX_V2_FA_PACKED");
++        return value && strcmp(value, "1") == 0;
++    }();
++    if (Q->ne[1] == 1 || (canonical && !packed)) {
+         constexpr int cols_per_block = 1;
+         if (logit_softcap == 0.0f) {
+             constexpr bool use_logit_softcap = false;
+-            ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst);
++            ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst, canonical);
+         } else {
+             constexpr bool use_logit_softcap = true;
+-            ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst);
++            ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst, canonical);
+         }
+         return;
+     }
+@@ -564,10 +577,10 @@ void ggml_cuda_flash_attn_ext_vec_case(ggml_backend_cuda_context & ctx, ggml_ten
+     constexpr int cols_per_block = 2;
+     if (logit_softcap == 0.0f) {
+         constexpr bool use_logit_softcap = false;
+-        ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst);
++        ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst, canonical);
+     } else {
+         constexpr bool use_logit_softcap = true;
+-        ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst);
++        ggml_cuda_flash_attn_ext_vec_case_impl<D, cols_per_block, type_K, type_V, use_logit_softcap>(ctx, dst, canonical);
+     }
+ }
+ 
+diff --git a/ggml/src/ggml-cuda/fattn.cu b/ggml/src/ggml-cuda/fattn.cu
+index d1fcf58cb17f23dd79d2f408e095b260aa0142fe..74d993f6812f3dfb906196d7f8a2f7b453dcba60 100644
+--- a/ggml/src/ggml-cuda/fattn.cu
++++ b/ggml/src/ggml-cuda/fattn.cu
+@@ -519,6 +519,7 @@ enum best_fattn_kernel {
+     BEST_FATTN_KERNEL_TILE    = 200,
+     BEST_FATTN_KERNEL_VEC     = 100,
+     BEST_FATTN_KERNEL_MMA_F16 = 400,
++    BEST_FATTN_KERNEL_APEX_GROUPED_Q8 = 401,
+ };
+ 
+ // K/V types for which there is a vector kernel template instance, other kernels convert these to f16:
+@@ -630,10 +631,38 @@ static best_fattn_kernel ggml_cuda_get_best_fattn_kernel(const int device, const
+         return BEST_FATTN_KERNEL_NONE;
+     }
+ 
++    static const bool apex_grouped = [] {
++        const char * value = getenv("APEX_V2_FA_GROUPED");
++        return value && strcmp(value, "1") == 0;
++    }();
++    static const int apex_grouped_min_kv = [] {
++        const char * value = getenv("APEX_V2_FA_GROUPED_MIN_KV");
++        const int result = value ? atoi(value) : 256;
++        GGML_ASSERT(result >= 256 && result % 256 == 0);
++        return result;
++    }();
++    if (apex_grouped && GGML_CUDA_CC_IS_RDNA4(cc) && Q->ne[0] == 256 && V->ne[0] == 256 &&
++            Q->ne[1] <= 3 && gqa_ratio == 6 && K->ne[1] >= apex_grouped_min_kv && K->ne[1] % 256 == 0 &&
++            K->type == GGML_TYPE_Q8_0 && V->type == GGML_TYPE_Q8_0 && mask && !dst->src[4] &&
++            max_bias == 0.0f) {
++        return BEST_FATTN_KERNEL_APEX_GROUPED_Q8;
++    }
++
+     // For small batch sizes the vector kernel may be preferable over the kernels optimized for large batch sizes:
+     // 192 satisfies % 64 == 0 but has no vec instance (DKQ != DV); force it onto the MMA path.
+     const bool can_use_vector_kernel = Q->ne[0] <= 256 && Q->ne[0] % 64 == 0 && Q->ne[0] != 192 && K->ne[1] % FATTN_KQ_STRIDE == 0;
+ 
++    // Diagnostic: use vector attention for small RDNA4 Q8 verification batches.
++    static const bool apex_vec = [] {
++        const char * value = getenv("APEX_V2_FA_VEC");
++        return value != nullptr && strcmp(value, "1") == 0;
++    }();
++    if (apex_vec && GGML_CUDA_CC_IS_RDNA4(cc) && can_use_vector_kernel &&
++            Q->ne[0] == 256 && Q->ne[1] >= 2 && Q->ne[1] <= 3 &&
++            K->type == GGML_TYPE_Q8_0 && V->type == GGML_TYPE_Q8_0) {
++        return BEST_FATTN_KERNEL_VEC;
++    }
++
+     // If Turing tensor cores are available, use them:
+     if (turing_mma_available(cc) && Q->ne[0] != 40 && Q->ne[0] != 72) {
+         if (can_use_vector_kernel) {
+@@ -742,6 +771,7 @@ size_t ggml_cuda_flash_attn_ext_get_alloc_size(int device, const ggml_tensor * d
+             need_f16_K = K->type == GGML_TYPE_F32 || f16_fallback;
+             need_f16_V = V->type == GGML_TYPE_F32 || f16_fallback;
+         } break;
++        case BEST_FATTN_KERNEL_APEX_GROUPED_Q8:
+         case BEST_FATTN_KERNEL_NONE:
+             break;
+     }
+@@ -763,6 +793,13 @@ void ggml_cuda_flash_attn_ext(ggml_backend_cuda_context & ctx, ggml_tensor * dst
+         case BEST_FATTN_KERNEL_VEC:
+             ggml_cuda_flash_attn_ext_vec(ctx, dst);
+             break;
++        case BEST_FATTN_KERNEL_APEX_GROUPED_Q8:
++#if defined(GGML_USE_HIP)
++            ggml_cuda_flash_attn_ext_mma_f16_case<256, 256, 4, 8, true>(ctx, dst);
++#else
++            GGML_ABORT("APEX grouped attention requires HIP");
++#endif
++            break;
+         case BEST_FATTN_KERNEL_MMA_F16:
+             ggml_cuda_flash_attn_ext_mma_f16(ctx, dst);
+             break;
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index b50d05d5f76fb7010d921b8e71bd4ff83af5b23c..f566055104f8776dcd0c11cd0e419b6da987bff6 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -1252,6 +1252,22 @@ static bool ggml_backend_cuda_comm_allreduce_tensor(void * comm_ctx_v, struct gg
+     return comm_ctx->try_allreduce(comm_ctx, tensors);
+ }
+ 
++#ifdef GGML_USE_HIP
++static bool ggml_backend_cuda_apex_boundary_enabled(void * comm) {
++    auto * ctx = static_cast<ggml_backend_cuda_comm_context *>(comm);
++    return ctx && ctx->try_allreduce == ggml_backend_cuda_comm_try_allreduce_internal &&
++        ggml_cuda_ar_apex_boundary_enabled(ctx->ar_pipeline);
++}
++
++static bool ggml_backend_cuda_apex_boundary(void * comm, ggml_tensor ** partials,
++        ggml_tensor ** residuals, ggml_tensor ** add_outputs, ggml_tensor ** weights,
++        ggml_tensor ** outputs, float eps) {
++    auto * ctx = static_cast<ggml_backend_cuda_comm_context *>(comm);
++    return ggml_backend_cuda_apex_boundary_enabled(comm) && ggml_cuda_ar_apex_boundary(
++        ctx->ar_pipeline, ctx->backends.data(), partials, residuals, add_outputs, weights, outputs, eps);
++}
++#endif
++
+ // host buffer type
+ 
+ static const char * ggml_backend_cuda_host_buffer_type_name(ggml_backend_buffer_type_t buft) {
+@@ -3438,6 +3454,55 @@ static bool ggml_cuda_can_fuse(const struct ggml_cgraph *                cgraph,
+     return false;
+ }
+ 
++// try and fuse nodes and return the number of nodes to skip
++static bool ggml_cuda_q6k_swiglu_d4_ffn_down_enabled() {
++#if defined(GGML_USE_HIP)
++    static const bool enabled = []() {
++        const char * value = getenv("APEX_V2_SWIGLU_D4");
++        return value != nullptr && strcmp(value, "1") == 0;
++    }();
++    return enabled;
++#else
++    return false;
++#endif
++}
++
++static bool ggml_cuda_q6k_swiglu_d4_names_match(
++        const ggml_tensor * gate_weight, const ggml_tensor * up_weight, const ggml_tensor * glu,
++        const ggml_tensor * down_weight, const ggml_tensor * dst) {
++    int gate_layer = -1;
++    int up_layer = -1;
++    int glu_layer = -1;
++    int down_layer = -1;
++    int dst_layer = -1;
++    char trailing;
++
++    return sscanf(gate_weight->name, "blk.%d.ffn_gate.weight%c", &gate_layer, &trailing) == 1 &&
++           sscanf(up_weight->name, "blk.%d.ffn_up.weight%c", &up_layer, &trailing) == 1 &&
++           sscanf(glu->name, "ffn_swiglu-%d%c", &glu_layer, &trailing) == 1 &&
++           sscanf(down_weight->name, "blk.%d.ffn_down.weight%c", &down_layer, &trailing) == 1 &&
++           sscanf(dst->name, "ffn_out-%d%c", &dst_layer, &trailing) == 1 &&
++           gate_layer >= 0 && gate_layer == up_layer && gate_layer == glu_layer &&
++           gate_layer == down_layer && gate_layer == dst_layer;
++}
++
++static bool ggml_cuda_q6k_swiglu_d4_shape_matches(const ggml_tensor * tensor, const int64_t ne0, const int64_t ne1) {
++    return tensor->ne[0] == ne0 && tensor->ne[1] == ne1 && tensor->ne[2] == 1 && tensor->ne[3] == 1;
++}
++
++static bool ggml_cuda_q6k_shared_q8_gate_up_names_match(
++        const ggml_tensor * gate_weight, const ggml_tensor * up_weight, const ggml_tensor * input) {
++    int gate_layer = -1;
++    int up_layer   = -1;
++    int input_layer = -1;
++    char trailing;
++
++    return sscanf(gate_weight->name, "blk.%d.ffn_gate.weight%c", &gate_layer, &trailing) == 1 &&
++           sscanf(up_weight->name, "blk.%d.ffn_up.weight%c", &up_layer, &trailing) == 1 &&
++           sscanf(input->name, "attn_post_norm-%d%c", &input_layer, &trailing) == 1 &&
++           gate_layer >= 0 && gate_layer == up_layer && gate_layer == input_layer;
++}
++
+ // try and fuse nodes and return the number of nodes to skip
+ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph * cgraph, int i) {
+ 
+@@ -3448,6 +3513,72 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph
+ 
+     ggml_tensor * node = cgraph->nodes[i];
+ 
++    if (ggml_cuda_q6k_swiglu_d4_ffn_down_enabled() && node->op == GGML_OP_GLU && i >= 2 && i + 1 < cgraph->n_nodes) {
++        ggml_tensor * first = cgraph->nodes[i - 2];
++        ggml_tensor * second = cgraph->nodes[i - 1];
++        ggml_tensor * down = cgraph->nodes[i + 1];
++        const ggml_op ops[] = { GGML_OP_MUL_MAT, GGML_OP_MUL_MAT, GGML_OP_GLU, GGML_OP_MUL_MAT };
++        const int out_nodes[] = { i + 1 };
++
++        if (first->op == GGML_OP_MUL_MAT && second->op == GGML_OP_MUL_MAT && down->op == GGML_OP_MUL_MAT &&
++                ggml_can_fuse_subgraph(cgraph, i - 2, 4, ops, out_nodes, 1) &&
++                ggml_cuda_check_fusion_memory_ranges(cgraph, i, 2, out_nodes, 1)) {
++            ggml_tensor * gate = node->src[0];
++            ggml_tensor * up = node->src[1];
++            const bool projections_match =
++                (gate == first && up == second) || (gate == second && up == first);
++            const int cc = ggml_cuda_info().devices[ggml_cuda_get_device()].cc;
++
++            if (projections_match && down->src[1] == node &&
++                    ggml_get_glu_op(node) == GGML_GLU_OP_SWIGLU && ggml_get_op_params_i32(node, 1) == 0 &&
++                    cc == GGML_CUDA_CC_RDNA4 + 1 &&
++                    gate->src[0]->type == GGML_TYPE_Q6_K && up->src[0]->type == GGML_TYPE_Q6_K &&
++                    down->src[0]->type == GGML_TYPE_Q6_K && gate->type == GGML_TYPE_F32 &&
++                    up->type == GGML_TYPE_F32 && node->type == GGML_TYPE_F32 && down->type == GGML_TYPE_F32 &&
++                    ggml_cuda_q6k_swiglu_d4_shape_matches(gate->src[0], 5120, 8704) &&
++                    ggml_cuda_q6k_swiglu_d4_shape_matches(up->src[0], 5120, 8704) &&
++                    ggml_cuda_q6k_swiglu_d4_shape_matches(gate, 8704, 512) &&
++                    ggml_cuda_q6k_swiglu_d4_shape_matches(up, 8704, 512) &&
++                    ggml_cuda_q6k_swiglu_d4_shape_matches(node, 8704, 512) &&
++                    ggml_cuda_q6k_swiglu_d4_shape_matches(down->src[0], 8704, 5120) &&
++                    ggml_cuda_q6k_swiglu_d4_shape_matches(down, 5120, 512) &&
++                    ggml_is_contiguous(gate->src[0]) && ggml_is_contiguous(up->src[0]) &&
++                    ggml_is_contiguous(down->src[0]) && ggml_is_contiguous(gate) &&
++                    ggml_is_contiguous(up) && ggml_is_contiguous(node) && ggml_is_contiguous(down) &&
++                    gate->src[0]->view_src == nullptr && up->src[0]->view_src == nullptr &&
++                    down->src[0]->view_src == nullptr && gate->view_src == nullptr && up->view_src == nullptr &&
++                    node->view_src == nullptr && down->view_src == nullptr &&
++                    ggml_cuda_q6k_swiglu_d4_names_match(gate->src[0], up->src[0], node, down->src[0], down) &&
++                    ggml_cuda_should_use_mmq(GGML_TYPE_Q6_K, cc, node->ne[1], 0) &&
++                    ggml_cuda_mul_mat_q_swiglu_d4(*cuda_ctx, node, down->src[0], down)) {
++#ifdef GGML_CUDA_DEBUG
++                GGML_LOG_INFO("%s: fused SwiGLU-to-D4 ffn_down for %s\n", __func__, down->name);
++#endif
++                return 1;
++            }
++        }
++    }
++
++    // The PP Q6_K gate/up pair shares an F32 RHS. Reuse its Q8_1 preparation,
++    // but keep the two F32 outputs and the normal GLU node intact.
++    if (i + 2 < cgraph->n_nodes &&
++            ggml_cuda_can_fuse(cgraph, i, { GGML_OP_MUL_MAT, GGML_OP_MUL_MAT, GGML_OP_GLU }, {})) {
++        ggml_tensor * first = cgraph->nodes[i];
++        ggml_tensor * second = cgraph->nodes[i + 1];
++        ggml_tensor * glu  = cgraph->nodes[i + 2];
++        ggml_tensor * gate = glu->src[0];
++        ggml_tensor * up   = glu->src[1];
++
++        if (((gate == first && up == second) || (gate == second && up == first)) && gate->src[1] == up->src[1] &&
++                ggml_cuda_q6k_shared_q8_gate_up_names_match(gate->src[0], up->src[0], gate->src[1]) &&
++                ggml_get_glu_op(glu) == GGML_GLU_OP_SWIGLU && ggml_get_op_params_i32(glu, 1) == 0 &&
++                ggml_cuda_mul_mat_q_pair_shared_q8(*cuda_ctx, gate->src[0], up->src[0], gate->src[1], gate, up)) {
++            return 1;
++        }
++    }
++
++
++
+     if (node->op == GGML_OP_MUL) {
+         ggml_cuda_moe_weighted_reduction_match match;
+         if (ggml_cuda_match_moe_weighted_reduction(cgraph, i, match)) {
+@@ -4441,6 +4572,7 @@ static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend,
+     bool use_cuda_graph             = false;
+     bool cuda_graph_update_required = false;
+     const void * graph_key = nullptr;
++    const char * graph_trace_reason = "disabled";
+ 
+ #ifdef USE_CUDA_GRAPH
+     graph_key = ggml_cuda_graph_get_key(cgraph);
+@@ -4450,8 +4582,10 @@ static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend,
+     ggml_cuda_graph * graph = cuda_ctx->cuda_graph(graph_key);
+     if (graph->is_enabled()) {
+         const bool graph_compatible = ggml_cuda_graph_check_compability(cgraph);
++        graph_trace_reason = "incompatible";
+         if (graph_compatible) {
+             const bool properties_changed = ggml_cuda_graph_update_required(cuda_ctx, cgraph);
++            graph_trace_reason = properties_changed ? "properties_changed" : "stable";
+ 
+             if (!graph->warmup_complete) {
+                 // Warmup: need at least 2 calls with no property change on the 2nd call
+@@ -4489,6 +4623,26 @@ static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend,
+ 
+     ggml_cuda_graph_evaluate_and_capture(cuda_ctx, cgraph, use_cuda_graph, cuda_graph_update_required, graph_key);
+ 
++    if (getenv("APEX_V2_GRAPH_TRACE")) {
++        int fa_calls = 0;
++        int64_t fa_queries = 0, fa_kv_queries = 0, fa_max_kv = 0;
++        for (int i = 0; i < cgraph->n_nodes; ++i) {
++            const ggml_tensor * node = cgraph->nodes[i];
++            if (node->op == GGML_OP_FLASH_ATTN_EXT) {
++                const int64_t queries = node->src[0]->ne[1];
++                const int64_t kv = node->src[1]->ne[1];
++                ++fa_calls;
++                fa_queries += queries;
++                fa_kv_queries += queries * kv;
++                fa_max_kv = std::max(fa_max_kv, kv);
++            }
++        }
++        GGML_LOG_INFO("apex_graph device=%d key=%p nodes=%d action=%s fa_calls=%d fa_queries=%lld fa_kv_queries=%lld fa_max_kv=%lld reason=%s\n",
++            cuda_ctx->device, graph_key, cgraph->n_nodes,
++            use_cuda_graph ? (cuda_graph_update_required ? "capture_launch" : "replay") : "eager",
++            fa_calls, (long long) fa_queries, (long long) fa_kv_queries, (long long) fa_max_kv, graph_trace_reason);
++    }
++
+     return GGML_STATUS_SUCCESS;
+ }
+ 
+@@ -5769,6 +5923,14 @@ static void * ggml_backend_cuda_reg_get_proc_address(ggml_backend_reg_t reg, con
+     if (strcmp(name, "ggml_backend_comm_free") == 0) {
+         return (void *)ggml_backend_cuda_comm_free;
+     }
++#ifdef GGML_USE_HIP
++    if (strcmp(name, "ggml_backend_apex_boundary_enabled") == 0) {
++        return (void *) ggml_backend_cuda_apex_boundary_enabled;
++    }
++    if (strcmp(name, "ggml_backend_apex_boundary") == 0) {
++        return (void *) ggml_backend_cuda_apex_boundary;
++    }
++#endif
+     if (strcmp(name, "ggml_backend_comm_allreduce_tensor") == 0) {
+         return (void *)ggml_backend_cuda_comm_allreduce_tensor;
+     }
+diff --git a/ggml/src/ggml-cuda/mmq-vec-dot.cuh b/ggml/src/ggml-cuda/mmq-vec-dot.cuh
+index 4ca6542d80bf87c79c68304c6baf00dc55a039bc..eee169b39f823b39dc0b71d832a817c5d1038e11 100644
+--- a/ggml/src/ggml-cuda/mmq-vec-dot.cuh
++++ b/ggml/src/ggml-cuda/mmq-vec-dot.cuh
+@@ -1055,7 +1055,7 @@ template <ggml_type type, int J, bool fallback> static __device__ __forceinline_
+                 for (int l = 0; l < tile_C::ne; ++l) {
+                     const int i = i0 + n*tile_C::I + tile_C::get_i(l);
+                     const int8_t * sc = (const int8_t *) (x_sc + i*sram_stride + k00/16);
+-                    sum[(j0/tile_C::J + n)*tile_C::ne + l] += C.x[l] * sc[k01/4] * x_df[i*sram_stride] * dB;
++                    sum[(j0/tile_C::J + n)*tile_C::ne + l] += ((float) C.x[l]) * sc[k01/4] * x_df[i*sram_stride] * dB;
+                 }
+             }
+         }
+diff --git a/ggml/src/ggml-cuda/mmq.cu b/ggml/src/ggml-cuda/mmq.cu
+index 3e1721bbe686407c1e12b79f5ef9ba6db840fc49..fea0b90fdadc63cda92ae58e70276bf0fbe16bfe 100644
+--- a/ggml/src/ggml-cuda/mmq.cu
++++ b/ggml/src/ggml-cuda/mmq.cu
+@@ -2,6 +2,7 @@
+ #include "mmq.cuh"
+ #include "quantize.cuh"
+ #include "mmid.cuh"
++#include "mmvq.cuh"
+ 
+ #include <cstdint>
+ 
+@@ -132,6 +133,190 @@ static ggml_prec ggml_cuda_mmq_get_prec_src1(const ggml_tensor * src0, const ggm
+     return GGML_PREC_Q4;
+ }
+ 
++static void ggml_cuda_mul_mat_q_from_prequantized(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1,
++        const int * src1_q8_1, const int64_t ne10_padded, ggml_tensor * dst) {
++    GGML_TENSOR_BINARY_OP_LOCALS;
++
++    const size_t ts_src0 = ggml_type_size(src0->type);
++    const size_t ts_dst  = ggml_type_size(dst->type);
++    GGML_ASSERT(nb00 == ts_src0);
++    GGML_ASSERT(nb10 == ggml_type_size(src1->type));
++    GGML_ASSERT(nb0  == ts_dst);
++
++    const int64_t s01 = src0->nb[1] / ts_src0;
++    const int64_t s1  =  dst->nb[1] / ts_dst;
++    const int64_t s02 = src0->nb[2] / ts_src0;
++    const int64_t s2  =  dst->nb[2] / ts_dst;
++    const int64_t s03 = src0->nb[3] / ts_src0;
++    const int64_t s3  =  dst->nb[3] / ts_dst;
++    const int64_t s12 = ne11 * ne10_padded * sizeof(block_q8_1) / (QK8_1 * sizeof(int));
++    const int64_t s13 = ne12 * s12;
++
++    const mmq_args args = {
++        (const char *) src0->data, src0->type, src1_q8_1, nullptr, nullptr, (float *) dst->data,
++        nullptr,
++        ne00, ne01, ne1, s01, ne11, s1,
++        ne02, ne12, s02, s12, s2,
++        ne03, ne13, s03, s13, s3,
++        ne1, ne1 };
++    ggml_cuda_mul_mat_q_switch_type(ctx, args, ctx.stream(), GGML_PREC_Q8);
++}
++
++bool ggml_cuda_mul_mat_q_swiglu_d4(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * glu,
++        const ggml_tensor * down_weight, ggml_tensor * dst) {
++#if !defined(GGML_USE_HIP)
++    GGML_UNUSED_VARS(ctx, glu, down_weight, dst);
++    return false;
++#else
++    const ggml_tensor * gate = glu->src[0];
++    const ggml_tensor * up   = glu->src[1];
++    GGML_ASSERT(gate != nullptr && up != nullptr);
++
++    cudaStream_t stream = ctx.stream();
++    if (ggml_backend_buffer_get_usage(down_weight->buffer) == GGML_BACKEND_BUFFER_USAGE_COMPUTE) {
++        const size_t size_data  = ggml_nbytes(down_weight);
++        const size_t size_alloc = ggml_backend_buffer_get_alloc_size(down_weight->buffer, down_weight);
++        if (size_alloc > size_data) {
++            GGML_ASSERT(ggml_is_contiguously_allocated(down_weight));
++            GGML_ASSERT(!down_weight->view_src);
++            CUDA_CHECK(cudaMemsetAsync((char *) down_weight->data + size_data, 0, size_alloc - size_data, stream));
++        }
++    }
++
++    const int cc = ggml_cuda_info().devices[ggml_cuda_get_device()].cc;
++    const int64_t ne10_padded = GGML_PAD(glu->ne[0], MATRIX_ROW_PADDING);
++    const bool fallback = down_weight->ne[1] % 128 != 0;
++    const size_t nbytes_src1_q8_1 = glu->ne[3] * glu->ne[2] * glu->ne[1] * ne10_padded *
++        sizeof(block_q8_1_mmq) / QK8_1_MMQ +
++        ggml_cuda_mmq_get_J_max(down_weight->type, fallback, cc, glu->ne[1]) * sizeof(block_q8_1_mmq);
++    ggml_cuda_pool_alloc<char> src1_q8_1(ctx.pool(), nbytes_src1_q8_1);
++
++    static bool logged = false;
++    if (!logged) { GGML_LOG_INFO("APEX SwiGLU D4 prefill dispatched\n"); logged = true; }
++    quantize_swiglu_mmq_q8_1_d4_cuda(
++        (const float *) gate->data, (const float *) up->data, src1_q8_1.get(), glu->ne[0], glu->ne[1], stream);
++    CUDA_CHECK(cudaGetLastError());
++    ggml_cuda_mul_mat_q_from_prequantized(
++        ctx, down_weight, glu, (const int *) src1_q8_1.get(), ne10_padded, dst);
++    return true;
++#endif
++}
++
++static void ggml_cuda_clear_mul_mat_q_padding(const ggml_tensor * src0, cudaStream_t stream) {
++    if (ggml_backend_buffer_get_usage(src0->buffer) != GGML_BACKEND_BUFFER_USAGE_COMPUTE) {
++        return;
++    }
++
++    const size_t size_data  = ggml_nbytes(src0);
++    const size_t size_alloc = ggml_backend_buffer_get_alloc_size(src0->buffer, src0);
++    if (size_alloc > size_data) {
++        GGML_ASSERT(ggml_is_contiguously_allocated(src0));
++        GGML_ASSERT(!src0->view_src);
++        CUDA_CHECK(cudaMemsetAsync((char *) src0->data + size_data, 0, size_alloc - size_data, stream));
++    }
++}
++
++#if defined(GGML_USE_HIP)
++static bool ggml_cuda_q6k_shared_q8_gate_up_enabled() {
++    static const bool enabled = []() {
++        const char * env = getenv("APEX_V2_SHARED_Q8");
++        return env != nullptr && strcmp(env, "1") == 0;
++    }();
++    return enabled;
++}
++
++static void ggml_cuda_mul_mat_q_from_shared_q8(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1,
++        const int * src1_q8_1, const int64_t ne10_padded, ggml_tensor * dst) {
++    GGML_TENSOR_BINARY_OP_LOCALS;
++
++    const size_t ts_src0 = ggml_type_size(src0->type);
++    const size_t ts_dst  = ggml_type_size(dst->type);
++    GGML_ASSERT(nb00 == ts_src0);
++    GGML_ASSERT(nb10 == ggml_type_size(src1->type));
++    GGML_ASSERT(nb0  == ts_dst);
++
++    const int64_t s01 = src0->nb[1] / ts_src0;
++    const int64_t s1  =  dst->nb[1] / ts_dst;
++    const int64_t s02 = src0->nb[2] / ts_src0;
++    const int64_t s2  =  dst->nb[2] / ts_dst;
++    const int64_t s03 = src0->nb[3] / ts_src0;
++    const int64_t s3  =  dst->nb[3] / ts_dst;
++
++    const int64_t s12 = ne11 * ne10_padded * sizeof(block_q8_1) / (QK8_1 * sizeof(int));
++    const int64_t s13 = ne12 * s12;
++
++    const mmq_args args = {
++        (const char *) src0->data, src0->type, src1_q8_1, nullptr, nullptr, (float *) dst->data,
++        nullptr,
++        ne00, ne01, ne1, s01, ne11, s1,
++        ne02, ne12, s02, s12, s2,
++        ne03, ne13, s03, s13, s3,
++        ne1, ne1 };
++    ggml_cuda_mul_mat_q_switch_type(ctx, args, ctx.stream(), GGML_PREC_Q8);
++}
++#endif
++
++bool ggml_cuda_mul_mat_q_pair_shared_q8(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * gate_weight, const ggml_tensor * up_weight,
++        const ggml_tensor * common_input, ggml_tensor * gate_dst, ggml_tensor * up_dst) {
++#if !defined(GGML_USE_HIP)
++    GGML_UNUSED_VARS(ctx, gate_weight, up_weight, common_input, gate_dst, up_dst);
++    return false;
++#else
++    const int cc = ggml_cuda_info().devices[ggml_cuda_get_device()].cc;
++    if (!ggml_cuda_q6k_shared_q8_gate_up_enabled() || cc != GGML_CUDA_CC_RDNA4 + 1) {
++        return false;
++    }
++
++    if (ggml_cuda_mul_mat_vec_q_pair_shared_q8(
++            ctx, gate_weight, up_weight, common_input, gate_dst, up_dst)) {
++        return true;
++    }
++
++    // Keep this candidate tied to the profiled PP gate/up pair. Broaden only with new evidence.
++    const bool exact_shape =
++        gate_weight->ne[0] == 5120 && gate_weight->ne[1] == 8704 && gate_weight->ne[2] == 1 && gate_weight->ne[3] == 1 &&
++          up_weight->ne[0] == 5120 &&   up_weight->ne[1] == 8704 &&   up_weight->ne[2] == 1 &&   up_weight->ne[3] == 1 &&
++        common_input->ne[0] == 5120 && common_input->ne[1] == 512 && common_input->ne[2] == 1 && common_input->ne[3] == 1 &&
++             gate_dst->ne[0] == 8704 &&      gate_dst->ne[1] == 512 &&      gate_dst->ne[2] == 1 &&      gate_dst->ne[3] == 1 &&
++               up_dst->ne[0] == 8704 &&        up_dst->ne[1] == 512 &&        up_dst->ne[2] == 1 &&        up_dst->ne[3] == 1;
++    if (!exact_shape || gate_weight->type != GGML_TYPE_Q6_K || up_weight->type != GGML_TYPE_Q6_K ||
++            common_input->type != GGML_TYPE_F32 || gate_dst->type != GGML_TYPE_F32 || up_dst->type != GGML_TYPE_F32 ||
++            !ggml_is_contiguous(gate_weight) || !ggml_is_contiguous(up_weight) || !ggml_is_contiguous(common_input) ||
++            !ggml_is_contiguous(gate_dst) || !ggml_is_contiguous(up_dst) ||
++            gate_weight->view_src != nullptr || up_weight->view_src != nullptr || common_input->view_src != nullptr ||
++            gate_dst->view_src != nullptr || up_dst->view_src != nullptr ||
++            !ggml_cuda_should_use_mmq(GGML_TYPE_Q6_K, cc, common_input->ne[1], 0)) {
++        return false;
++    }
++
++    cudaStream_t stream = ctx.stream();
++    ggml_cuda_clear_mul_mat_q_padding(gate_weight, stream);
++    ggml_cuda_clear_mul_mat_q_padding(up_weight, stream);
++
++    const int64_t ne10_padded = GGML_PAD(common_input->ne[0], MATRIX_ROW_PADDING);
++    const size_t nbytes_src1_q8_1 = common_input->ne[3] * common_input->ne[2] * common_input->ne[1] * ne10_padded *
++        sizeof(block_q8_1) / QK8_1 +
++        ggml_cuda_mmq_get_J_max(gate_weight->type, false, cc, common_input->ne[1]) * sizeof(block_q8_1_mmq);
++    ggml_cuda_pool_alloc<char> src1_q8_1(ctx.pool(), nbytes_src1_q8_1);
++
++    const int64_t ts_src1 = ggml_type_size(common_input->type);
++    quantize_mmq_q8_1_cuda((const float *) common_input->data, nullptr, src1_q8_1.get(), gate_weight->type,
++        common_input->ne[0], common_input->nb[1] / ts_src1, common_input->nb[2] / ts_src1, common_input->nb[3] / ts_src1,
++        ne10_padded, common_input->ne[1], common_input->ne[2], common_input->ne[3], stream);
++    CUDA_CHECK(cudaGetLastError());
++
++    static bool logged = false;
++    if (!logged) { GGML_LOG_INFO("APEX shared Q8 prefill dispatched\n"); logged = true; }
++    ggml_cuda_mul_mat_q_from_shared_q8(ctx, gate_weight, common_input, (const int *) src1_q8_1.get(), ne10_padded, gate_dst);
++    ggml_cuda_mul_mat_q_from_shared_q8(ctx,   up_weight, common_input, (const int *) src1_q8_1.get(), ne10_padded,   up_dst);
++    return true;
++#endif
++}
++
+ void ggml_cuda_mul_mat_q(
+         ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * ids, ggml_tensor * dst) {
+     GGML_ASSERT(        src1->type == GGML_TYPE_F32);
+diff --git a/ggml/src/ggml-cuda/mmq.cuh b/ggml/src/ggml-cuda/mmq.cuh
+index 4b50d1dc333bb3e0293e55e2e3ec07bd20ab2fe3..b498ea404de53c71c6ba8d4e1a4d5840e71dc441 100644
+--- a/ggml/src/ggml-cuda/mmq.cuh
++++ b/ggml/src/ggml-cuda/mmq.cuh
+@@ -1617,3 +1617,11 @@ void ggml_cuda_mul_mat_q(
+         ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * ids, ggml_tensor * dst);
+ 
+ bool ggml_cuda_should_use_mmq(enum ggml_type type, int cc, int64_t ne11, int64_t n_experts);
++
++bool ggml_cuda_mul_mat_q_pair_shared_q8(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * gate_weight, const ggml_tensor * up_weight,
++        const ggml_tensor * common_input, ggml_tensor * gate_dst, ggml_tensor * up_dst);
++
++bool ggml_cuda_mul_mat_q_swiglu_d4(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * glu,
++        const ggml_tensor * down_weight, ggml_tensor * dst);
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index a85155360a7ba48014bf8a450fc3a35bafd2aa1d..6f6e0ca1b1600711a2fef6a8a7d75e0e55311f90 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -596,8 +596,8 @@ static constexpr __host__ __device__ int calc_rows_per_block(int ncols_dst, int
+     return 1;
+ }
+ 
+-template <ggml_type type, int ncols_dst, bool has_fusion, bool small_k = false, bool halve_iters = false>
+-__launch_bounds__(calc_nwarps(type, ncols_dst, get_device_table_id(), small_k, halve_iters)*ggml_cuda_get_physical_warp_size(), 1)
++template <ggml_type type, int ncols_dst, bool has_fusion, bool small_k = false, bool halve_iters = false, int geometry_ncols_dst = ncols_dst, bool emulate_eight_on_four = false>
++__launch_bounds__((emulate_eight_on_four ? 4 : calc_nwarps(type, geometry_ncols_dst, get_device_table_id(), small_k, halve_iters))*ggml_cuda_get_physical_warp_size(), 1)
+ static __global__ void mul_mat_vec_q(
+         const void * vx_ptr, const void * vy_ptr, const int32_t * ids_ptr, const ggml_cuda_mm_fusion_args_device fusion, float * dst_ptr,
+         const uint32_t ncols_x, const uint3 nchannels_y, const uint32_t stride_row_x, const uint32_t stride_col_y,
+@@ -614,8 +614,8 @@ static __global__ void mul_mat_vec_q(
+     constexpr int qi  = ggml_cuda_type_traits<type>::qi;
+     constexpr int vdr = get_vdr_mmvq(type);
+     constexpr mmvq_parameter_table_id table_id = get_device_table_id();
+-    constexpr int nwarps = calc_nwarps(type, ncols_dst, table_id, small_k, halve_iters);
+-    constexpr int rows_per_cuda_block = calc_rows_per_block(ncols_dst, table_id, small_k, nwarps);
++    constexpr int nwarps = calc_nwarps(type, geometry_ncols_dst, table_id, small_k, halve_iters);
++    constexpr int rows_per_cuda_block = calc_rows_per_block(geometry_ncols_dst, table_id, small_k, nwarps);
+     constexpr int warp_size = ggml_cuda_get_physical_warp_size();
+ 
+     constexpr vec_dot_q_cuda_t vec_dot_q_cuda = get_vec_dot_q_cuda(type);
+@@ -708,6 +708,8 @@ static __global__ void mul_mat_vec_q(
+     // partial sum for each thread
+     float tmp[ncols_dst][rows_per_cuda_block] = {{0.0f}};
+     float tmp_gate[ncols_dst][rows_per_cuda_block] = {{0.0f}};
++    [[maybe_unused]] float tmp_second[ncols_dst][rows_per_cuda_block] = {{0.0f}};
++    [[maybe_unused]] float tmp_gate_second[ncols_dst][rows_per_cuda_block] = {{0.0f}};
+ 
+     const block_q8_1 * y = ((const block_q8_1 *) vy) + sample_y*stride_sample_y + channel_y*stride_channel_y;
+     const int kbx_offset = sample_x*stride_sample_x + channel_x*stride_channel_x + row0*stride_row_x;
+@@ -754,6 +756,28 @@ static __global__ void mul_mat_vec_q(
+         }
+     }
+ 
++    if constexpr (emulate_eight_on_four) {
++        constexpr int second_tid_offset = 4 * warp_size;
++        for (int kbx = (tid + second_tid_offset) / (qi/vdr); kbx < blocks_per_row_x; kbx += blocks_per_iter) {
++            const int kby = kbx * (qk/QK8_1);
++            const int kqs = vdr * ((tid + second_tid_offset) % (qi/vdr));
++#pragma unroll
++            for (int j = 0; j < ncols_dst; ++j) {
++#pragma unroll
++                for (int i = 0; i < rows_per_cuda_block; ++i) {
++                    tmp_second[j][i] += vec_dot_q_cuda(
++                        vx, &y[j*stride_col_y + kby], kbx_offset + i*stride_row_x + kbx, kqs);
++                    if constexpr (has_fusion) {
++                        if (use_gate) {
++                            tmp_gate_second[j][i] += vec_dot_q_cuda(
++                                vgate, &y[j*stride_col_y + kby], kbx_offset + i*stride_row_x + kbx, kqs);
++                        }
++                    }
++                }
++            }
++        }
++    }
++
+     __shared__ float tmp_shared[nwarps-1 > 0 ? nwarps-1 : 1][ncols_dst][rows_per_cuda_block][warp_size];
+     [[maybe_unused]] __shared__ float tmp_shared_gate[(has_fusion && (nwarps-1 > 0)) ? nwarps-1 : 1][ncols_dst][rows_per_cuda_block][warp_size];
+ 
+@@ -771,6 +795,20 @@ static __global__ void mul_mat_vec_q(
+             }
+         }
+     }
++    if constexpr (emulate_eight_on_four) {
++#pragma unroll
++        for (int j = 0; j < ncols_dst; ++j) {
++#pragma unroll
++            for (int i = 0; i < rows_per_cuda_block; ++i) {
++                tmp_shared[threadIdx.y + 3][j][i][threadIdx.x] = tmp_second[j][i];
++                if constexpr (has_fusion) {
++                    if (use_gate) {
++                        tmp_shared_gate[threadIdx.y + 3][j][i][threadIdx.x] = tmp_gate_second[j][i];
++                    }
++                }
++            }
++        }
++    }
+     __syncthreads();
+     if (threadIdx.y > 0) {
+         return;
+@@ -1096,6 +1134,104 @@ static void mul_mat_vec_q_switch_ncols_dst(
+ 
+     const bool has_ids = ids != nullptr;
+ 
++    // Preserve the one-column Q6_K reduction for each verification row.
++    if constexpr (type == GGML_TYPE_Q6_K) {
++        static const bool apex_emulate = [] {
++            const char * value = getenv("APEX_V2_Q6K_EMULATE8");
++            return value && strcmp(value, "1") == 0;
++        }();
++        static const bool apex_packed = [] {
++            const char * value = getenv("APEX_V2_Q6K_PACKED");
++            return value && strcmp(value, "1") == 0;
++        }();
++        static const bool apex_serial = [] {
++            const char * value = getenv("APEX_V2_Q6K_SERIAL");
++            return value != nullptr && strcmp(value, "1") == 0;
++        }();
++        static const bool apex_concurrent = [] {
++            const char * value = getenv("APEX_V2_Q6K_CONCURRENT");
++            return value != nullptr && strcmp(value, "1") == 0;
++        }();
++        if (apex_emulate && table_id == MMVQ_PARAMETERS_RDNA4 && !has_ids &&
++                (nrows_x == 3072 || nrows_x == 5120 || nrows_x == 8704) &&
++                ncols_dst >= 1 && ncols_dst <= 3 &&
++                nchannels_x == 1 && nchannels_y == 1 && nchannels_dst == 1 &&
++                nsamples_x == 1 && nsamples_dst == 1 && fusion.gate == nullptr &&
++                fusion.x_bias == nullptr && fusion.gate_bias == nullptr &&
++                fusion.x_scale == nullptr && fusion.gate_scale == nullptr) {
++            static thread_local bool logged = false;
++            if (!logged) { GGML_LOG_INFO("APEX eight-wave reduction on four waves dispatched\n"); logged = true; }
++            const dim3 grid(nrows_x, 1, 1), block(warp_size, 4, 1);
++            const ggml_cuda_kernel_launch_params params(grid, block, 0, stream);
++            if (ncols_dst == 1) {
++                ggml_cuda_kernel_launch((mul_mat_vec_q<type, 1, false, false, false, 1, true>), params,
++                        vx, vy, nullptr, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                        channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                        sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, ids_stride);
++            }
++            else if (ncols_dst == 2) {
++                ggml_cuda_kernel_launch((mul_mat_vec_q<type, 2, false, false, false, 1, true>), params,
++                        vx, vy, nullptr, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                        channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                        sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, ids_stride);
++            }
++            else if (ncols_dst == 3) {
++                ggml_cuda_kernel_launch((mul_mat_vec_q<type, 3, false, false, false, 1, true>), params,
++                        vx, vy, nullptr, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                        channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                        sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, ids_stride);
++            }
++            return;
++        }
++        if ((apex_serial || apex_concurrent || apex_packed) && table_id == MMVQ_PARAMETERS_RDNA4 && !has_ids &&
++                ncols_dst >= 2 && ncols_dst <= 3 &&
++                nchannels_x == 1 && nchannels_y == 1 && nchannels_dst == 1 &&
++                nsamples_x == 1 && nsamples_dst == 1 &&
++                fusion.x_bias == nullptr && fusion.gate_bias == nullptr &&
++                fusion.x_scale == nullptr && fusion.gate_scale == nullptr) {
++            if (apex_packed && fusion.gate == nullptr) {
++                static thread_local bool logged = false;
++                if (!logged) { GGML_LOG_INFO("APEX packed Q6_K projections dispatched\n"); logged = true; }
++                const dim3 grid(nrows_x, 1, 1), block(warp_size, 8, 1);
++                const ggml_cuda_kernel_launch_params params(grid, block, 0, stream);
++                if (ncols_dst == 2) {
++                    ggml_cuda_kernel_launch((mul_mat_vec_q<type, 2, false, false, false, 1>), params,
++                        vx, vy, nullptr, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                        channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                        sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, ids_stride);
++                } else {
++                    ggml_cuda_kernel_launch((mul_mat_vec_q<type, 3, false, false, false, 1>), params,
++                        vx, vy, nullptr, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                        channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                        sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst, ids_stride);
++                }
++                return;
++            }
++            if (apex_concurrent) {
++                // Map columns to independent samples; all samples share the weights.
++                mul_mat_vec_q_switch_ncols_dst<type>(
++                    vx, vy, ids, fusion, dst, ncols_x, nrows_x, 1,
++                    stride_row_x, stride_col_y, stride_col_dst,
++                    nchannels_x, nchannels_y, nchannels_dst,
++                    stride_channel_x, stride_channel_y, stride_channel_dst,
++                    1, ncols_dst, stride_sample_x, stride_col_y, stride_col_dst,
++                    ids_stride, stream);
++                return;
++            }
++            for (int col = 0; col < ncols_dst; ++col) {
++                mul_mat_vec_q_switch_ncols_dst<type>(
++                    vx, static_cast<const block_q8_1 *>(vy) + col * stride_col_y,
++                    ids, fusion, dst + col * stride_col_dst, ncols_x, nrows_x, 1,
++                    stride_row_x, stride_col_y, stride_col_dst,
++                    nchannels_x, nchannels_y, nchannels_dst,
++                    stride_channel_x, stride_channel_y, stride_channel_dst,
++                    nsamples_x, nsamples_dst, stride_sample_x, stride_sample_y, stride_sample_dst,
++                    ids_stride, stream);
++            }
++            return;
++        }
++    }
++
+     // How the K loop divides up at the baseline block width, both decisions below use these.
+     constexpr int qk                    = ggml_cuda_type_traits<type>::qk;
+     constexpr int qi                    = ggml_cuda_type_traits<type>::qi;
+@@ -1418,6 +1554,64 @@ static void mul_mat_vec_q_switch_type(
+     }
+ }
+ 
++bool ggml_cuda_mul_mat_vec_q_pair_shared_q8(
++        ggml_backend_cuda_context & ctx, const ggml_tensor * gate_weight, const ggml_tensor * up_weight,
++        const ggml_tensor * common_input, ggml_tensor * gate_dst, ggml_tensor * up_dst) {
++    const char * enabled = getenv("APEX_V2_SHARED_Q8");
++    if (enabled == nullptr || strcmp(enabled, "1") != 0) {
++        return false;
++    }
++    const int cc = ggml_cuda_info().devices[ggml_cuda_get_device()].cc;
++    const int64_t ncols_dst = common_input->ne[1];
++    const bool exact_shape =
++        gate_weight->ne[0] == 5120 && gate_weight->ne[1] == 8704 && gate_weight->ne[2] == 1 && gate_weight->ne[3] == 1 &&
++          up_weight->ne[0] == 5120 &&   up_weight->ne[1] == 8704 &&   up_weight->ne[2] == 1 &&   up_weight->ne[3] == 1 &&
++        common_input->ne[0] == 5120 && ncols_dst >= 1 && ncols_dst <= 3 &&
++        common_input->ne[2] == 1 && common_input->ne[3] == 1 &&
++             gate_dst->ne[0] == 8704 && gate_dst->ne[1] == ncols_dst && gate_dst->ne[2] == 1 && gate_dst->ne[3] == 1 &&
++               up_dst->ne[0] == 8704 &&   up_dst->ne[1] == ncols_dst &&   up_dst->ne[2] == 1 &&   up_dst->ne[3] == 1;
++    if (cc != GGML_CUDA_CC_RDNA4 + 1 || !exact_shape ||
++            gate_weight->type != GGML_TYPE_Q6_K || up_weight->type != GGML_TYPE_Q6_K ||
++            common_input->type != GGML_TYPE_F32 || gate_dst->type != GGML_TYPE_F32 || up_dst->type != GGML_TYPE_F32 ||
++            !ggml_is_contiguous(gate_weight) || !ggml_is_contiguous(up_weight) || !ggml_is_contiguous(common_input) ||
++            !ggml_is_contiguous(gate_dst) || !ggml_is_contiguous(up_dst) ||
++            gate_weight->view_src != nullptr || up_weight->view_src != nullptr || common_input->view_src != nullptr ||
++            gate_dst->view_src != nullptr || up_dst->view_src != nullptr ||
++            !ggml_cuda_should_use_mmvq(GGML_TYPE_Q6_K, cc, ncols_dst)) {
++        return false;
++    }
++
++    cudaStream_t stream = ctx.stream();
++    const int64_t ne10_padded = GGML_PAD(common_input->ne[0], MATRIX_ROW_PADDING);
++    ggml_cuda_pool_alloc<char> src1_q8_1(ctx.pool(), ncols_dst * ne10_padded * sizeof(block_q8_1) / QK8_1);
++    const size_t ts_src1 = ggml_type_size(common_input->type);
++    quantize_row_q8_1_cuda((const float *) common_input->data, nullptr, src1_q8_1.get(), GGML_TYPE_Q6_K,
++        common_input->ne[0], common_input->nb[1] / ts_src1, common_input->nb[2] / ts_src1,
++        common_input->nb[3] / ts_src1, ne10_padded, ncols_dst, 1, 1, stream);
++    CUDA_CHECK(cudaGetLastError());
++
++    const auto launch = [&](const ggml_tensor * weight, ggml_tensor * dst) {
++        const size_t ts_weight = ggml_type_size(weight->type);
++        const size_t ts_dst = ggml_type_size(dst->type);
++        const int64_t stride_row_x = weight->nb[1] / ts_weight;
++        const int64_t stride_col_y = ne10_padded / QK8_1;
++        const int64_t stride_col_dst = dst->nb[1] / ts_dst;
++        const ggml_cuda_mm_fusion_args_device no_fusion{};
++        mul_mat_vec_q_switch_type(
++            weight->data, weight->type, src1_q8_1.get(), nullptr, no_fusion, (float *) dst->data,
++            weight->ne[0], weight->ne[1], ncols_dst,
++            stride_row_x, stride_col_y, stride_col_dst,
++            1, 1, 1, 1, 1, 1,
++            1, 1, 1, 1, 1, 0, stream);
++    };
++
++    static thread_local bool logged = false;
++    if (!logged) { GGML_LOG_INFO("APEX shared Q8 decode dispatched\n"); logged = true; }
++    launch(gate_weight, gate_dst);
++    launch(up_weight, up_dst);
++    return true;
++}
++
+ void ggml_cuda_mul_mat_vec_q(
+         ggml_backend_cuda_context & ctx, const ggml_tensor * src0, const ggml_tensor * src1, const ggml_tensor * ids, ggml_tensor * dst,
+         const ggml_cuda_mm_fusion_args_host * fusion) {
+diff --git a/ggml/src/ggml-cuda/mmvq.cuh b/ggml/src/ggml-cuda/mmvq.cuh
+index 5605bf7a4e60348c047844c771e7171849ba2eec..426bbf6aa8869ff0caea9d246118fddd11363554 100644
+--- a/ggml/src/ggml-cuda/mmvq.cuh
++++ b/ggml/src/ggml-cuda/mmvq.cuh
+@@ -16,3 +16,7 @@ void ggml_cuda_op_mul_mat_vec_q(
+     const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst, const char * src0_dd_i, const float * src1_ddf_i,
+     const char * src1_ddq_i, float * dst_dd_i, const int64_t row_low, const int64_t row_high, const int64_t src1_ncols,
+     const int64_t src1_padded_row_size, cudaStream_t stream);
++
++bool ggml_cuda_mul_mat_vec_q_pair_shared_q8(ggml_backend_cuda_context & ctx,
++    const ggml_tensor * gate_weight, const ggml_tensor * up_weight,
++    const ggml_tensor * common_input, ggml_tensor * gate_dst, ggml_tensor * up_dst);
+diff --git a/ggml/src/ggml-cuda/quantize.cu b/ggml/src/ggml-cuda/quantize.cu
+index bcc7723957b5afb03983a158c237873d2b81f17b..ba15c0254ae6505137f1175215d72966fd3d5e4b 100644
+--- a/ggml/src/ggml-cuda/quantize.cu
++++ b/ggml/src/ggml-cuda/quantize.cu
+@@ -1,4 +1,5 @@
+ #include "quantize.cuh"
++#include "unary.cuh"
+ #include <cstdint>
+ 
+ #if defined(BLACKWELL_MMA_AVAILABLE)
+@@ -695,3 +696,54 @@ void quantize_mmq_fp4_cuda(
+         quantize_mmq_mxfp4<false><<<num_blocks, block_size, 0, stream>>>(x, ids, vy, ne00, s01, s02, s03, ne0, ne1, ne2, /*n_expert_used=*/0);
+     }
+ }
++
++static __global__ void quantize_swiglu_mmq_q8_1_d4(
++        const float * __restrict__ gate, const float * __restrict__ up,
++        block_q8_1_mmq * __restrict__ y, const int64_t ne0, const int64_t ne1) {
++    const int lane = threadIdx.x;
++    const int64_t i0 = (int64_t) blockIdx.x * (4 * QK8_1) + 4 * lane;
++    const int64_t row = blockIdx.y;
++    const int64_t offset = row * ne0 + i0;
++
++    const float4 gate4 = ((const float4 *) gate)[offset / 4];
++    const float4 up4   = ((const float4 *) up)[offset / 4];
++    float4 value;
++    value.x = ggml_cuda_op_silu_single(gate4.x) * up4.x;
++    value.y = ggml_cuda_op_silu_single(gate4.y) * up4.y;
++    value.z = ggml_cuda_op_silu_single(gate4.z) * up4.z;
++    value.w = ggml_cuda_op_silu_single(gate4.w) * up4.w;
++
++    float amax = fabsf(value.x);
++    amax = fmaxf(amax, fabsf(value.y));
++    amax = fmaxf(amax, fabsf(value.z));
++    amax = fmaxf(amax, fabsf(value.w));
++
++#pragma unroll
++    for (int offset_lane = 4; offset_lane > 0; offset_lane >>= 1) {
++        amax = fmaxf(amax, __shfl_xor_sync(0xFFFFFFFF, amax, offset_lane, WARP_SIZE));
++    }
++
++    const float d_inv = 127.0f / amax;
++    char4 q;
++    q.x = roundf(value.x * d_inv);
++    q.y = roundf(value.y * d_inv);
++    q.z = roundf(value.z * d_inv);
++    q.w = roundf(value.w * d_inv);
++
++    block_q8_1_mmq & block = y[(int64_t) blockIdx.x * ne1 + row];
++    ((char4 *) block.qs)[lane] = q;
++    if (lane % 8 == 0) {
++        block.d4[lane / 8] = 1.0f / d_inv;
++    }
++}
++
++void quantize_swiglu_mmq_q8_1_d4_cuda(
++        const float * gate, const float * up, void * vy,
++        const int64_t ne0, const int64_t ne1, cudaStream_t stream) {
++    GGML_ASSERT(ne0 % (4 * QK8_1) == 0);
++
++    const dim3 num_blocks(ne0 / (4 * QK8_1), ne1, 1);
++    const dim3 block_size(WARP_SIZE, 1, 1);
++    quantize_swiglu_mmq_q8_1_d4<<<num_blocks, block_size, 0, stream>>>(
++        gate, up, (block_q8_1_mmq *) vy, ne0, ne1);
++}
+diff --git a/ggml/src/ggml-cuda/quantize.cuh b/ggml/src/ggml-cuda/quantize.cuh
+index 5f08dcbfe331ac176a0321a62cd911125e2e1252..d0e31452798b8dfb20d13c8a71833ab415e0156d 100644
+--- a/ggml/src/ggml-cuda/quantize.cuh
++++ b/ggml/src/ggml-cuda/quantize.cuh
+@@ -68,3 +68,6 @@ void quantize_scatter_mmq_q8_1_cuda(const float *   x,
+                                     int64_t         nrows_dst,
+                                     int             n_expert_used,
+                                     cudaStream_t    stream);
++
++void quantize_swiglu_mmq_q8_1_d4_cuda(const float * gate, const float * up, void * vy,
++    int64_t ne0, int64_t ne1, cudaStream_t stream);
+diff --git a/ggml/src/ggml-cuda/template-instances/fattn-mma-apex-grouped-q8.cu b/ggml/src/ggml-cuda/template-instances/fattn-mma-apex-grouped-q8.cu
+new file mode 100644
+index 0000000000000000000000000000000000000000..4cd7cbba0dff89e92c987b4c3d5fc32b90b2cea4
+--- /dev/null
++++ b/ggml/src/ggml-cuda/template-instances/fattn-mma-apex-grouped-q8.cu
+@@ -0,0 +1,5 @@
++#if defined(GGML_USE_HIP)
++#include "../fattn-mma-f16.cuh"
++
++template void ggml_cuda_flash_attn_ext_mma_f16_case<256, 256, 4, 8, true>(ggml_backend_cuda_context &, ggml_tensor *);
++#endif
+diff --git a/src/llama-memory-hybrid.cpp b/src/llama-memory-hybrid.cpp
+index 62f12de954a0178d327ef6e36ee585ba0104423c..cd77513f6ddec64286f08bccf87189bbe44c3080 100644
+--- a/src/llama-memory-hybrid.cpp
++++ b/src/llama-memory-hybrid.cpp
+@@ -86,7 +86,15 @@ llama_memory_context_ptr llama_memory_hybrid::init_batch(llama_batch_allocr & ba
+                 //   so that the rollback snapshots remain valid
+                 const uint32_t n_rs_seq = mem_recr->n_rs_seq;
+ 
+-                ubatch = balloc.split_equal(n_ubatch, !unified, n_rs_seq > 0 ? n_rs_seq + 1 : 0);
++                static const bool natural = [] {
++                    const char * value = std::getenv("APEX_V2_RECURRENT_NATURAL_SPLIT");
++                    return value && std::string(value) == "1";
++                }();
++                ubatch = balloc.split_equal(n_ubatch, !unified, !natural && n_rs_seq > 0 ? n_rs_seq + 1 : 0);
++                if (std::getenv("APEX_V2_RECURRENT_TRACE") && ubatch.n_tokens > 0) {
++                    LLAMA_LOG_INFO("apex_recurrent n_rs=%u natural=%d pos=%d count=%u\n",
++                        n_rs_seq, int(natural), ubatch.pos[0], ubatch.n_tokens);
++                }
+             }
+ 
+             if (ubatch.n_tokens == 0) {
+diff --git a/src/models/delta-net-base.cpp b/src/models/delta-net-base.cpp
+index ad66126477369412c0b77d13044be9fa909f906c..de25a2a6cde1397578b84b3a22e54ed743c1e27e 100644
+--- a/src/models/delta-net-base.cpp
++++ b/src/models/delta-net-base.cpp
+@@ -3,6 +3,9 @@
+ #include "llama-impl.h"
+ #include "llama-memory-recurrent.h"
+ 
++#include <cstdlib>
++#include <cstring>
++
+ // utility to get one slice from the third dimension
+ // input dim:  [x, y, c, b]
+ // output dim: [x, y, 1, b]
+@@ -563,6 +566,16 @@ ggml_tensor * llm_build_delta_net_base::build_recurrent_attn(
+     const int64_t D = S_v * S_v * H_v;
+     const int64_t K = cparams.n_rs_seq + 1;
+ 
++    const char * prebatch = std::getenv("APEX_V2_GDN_PREBATCH_STATE");
++    if (prebatch && std::strcmp(prebatch, "1") == 0 && 0 < n_seq_tokens && n_seq_tokens < K) {
++        // Keep the state needed to remove the entire short batch.
++        const size_t row_size = hparams.n_embd_s() * ggml_element_size(ssm_states_all);
++        ggml_tensor * pre_src = ggml_reshape_2d(ctx0, s, D, n_seqs);
++        ggml_tensor * pre_dst = ggml_view_2d(ctx0, ssm_states_all, D, n_seqs,
++                ssm_states_all->nb[1], ((size_t) n_seq_tokens * mem_size + kv_head) * row_size);
++        ggml_build_forward_expand(gf, ggml_cpy(ctx0, pre_src, pre_dst));
++    }
++
+     // state s is 4D [S_v, S_v, H_v, n_seqs]; K snapshot slots are written into the output.
+     ggml_tensor * gdn_out = ggml_gated_delta_net(ctx0, q, k, v, g, b, s, K);
+     if (n_seq_tokens > 1) {
+diff --git a/tests/test-backend-ops.cpp b/tests/test-backend-ops.cpp
+index 32c3f3d2a304828ff167b3f67a499197ec0d65a5..e4cc46c7ab641280a5b467264167a6b45ba6be60 100644
+--- a/tests/test-backend-ops.cpp
++++ b/tests/test-backend-ops.cpp
+@@ -7919,7 +7919,11 @@ struct test_flash_attn_ext : public test_case {
+             }
+             ggml_tensor * t;
+             if (is_view) {
+-                ggml_tensor * t0 = ggml_new_tensor_4d(ctx, type, ne_perm[0], 2*ne_perm[1], ne_perm[2], ne_perm[3]);
++                int64_t capacity = 2*ne_perm[1];
++                if (const char * value = getenv("APEX_V2_FA_CAPACITY")) {
++                    capacity = std::max(ne_perm[1], int64_t(atoll(value)));
++                }
++                ggml_tensor * t0 = ggml_new_tensor_4d(ctx, type, ne_perm[0], capacity, ne_perm[2], ne_perm[3]);
+                 t = ggml_view_4d(ctx, t0, ne_perm[0], ne_perm[1], ne_perm[2], ne_perm[3], t0->nb[1], t0->nb[2], t0->nb[3], 0);
+             } else {
+                 t = ggml_new_tensor_4d(ctx, type, ne_perm[0], ne_perm[1], ne_perm[2], ne_perm[3]);
+@@ -10093,6 +10097,14 @@ static std::vector<std::unique_ptr<test_case>> make_test_cases_eval() {
+         test_cases.emplace_back(new test_mul_mat(type_a,    GGML_TYPE_F32, 16,  8, 16*256, { 1,  1}, {1, 1}));
+     }
+ 
++    for (int n : {2, 3}) {
++        for (int k : {1024, 4096}) {
++            test_cases.emplace_back(new test_mul_mat(GGML_TYPE_Q6_K, GGML_TYPE_F32, 17, n, k, {1, 1}, {1, 1}));
++        }
++        test_cases.emplace_back(new test_mul_mat_vec_fusion(GGML_TYPE_Q6_K, GGML_GLU_OP_SWIGLU, n, 32, 4096,
++            false, 1, 1, false, false, true, false, {1, 1}));
++    }
++
+     // Multi-column MMVQ coverage for the Q4_K weight-reuse path and a Q5_K control.
+     for (ggml_type type_a : { GGML_TYPE_Q4_K, GGML_TYPE_Q5_K }) {
+         for (int n = 1; n <= 8; ++n) {
+@@ -11056,6 +11068,13 @@ static std::vector<std::unique_ptr<test_case>> make_test_cases_eval() {
+     test_cases.emplace_back(new test_flash_attn_ext(256, 256, 4, {4, 1},  4096, 512, true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_F16, GGML_TYPE_F16));
+     test_cases.emplace_back(new test_flash_attn_ext(256, 256, 2, {12, 1}, 4096, 512, true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_F16, GGML_TYPE_F16));
+ 
++    for (int nb : {2, 3}) {
++        for (int kv : {512, 4096, 16384}) {
++            test_cases.emplace_back(new test_flash_attn_ext(256, 256, 2, {6, 1}, kv, nb,
++                true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_Q8_0, GGML_TYPE_Q8_0));
++        }
++    }
++
+     // dense-allocated (non-view) quant K/V at batch >= 64, in cache and native layouts
+     test_cases.emplace_back(new test_flash_attn_ext(64, 64, 4, {1, 1}, 512, 75, true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_Q8_0, GGML_TYPE_Q8_0, {0, 2, 1, 3}, false));
+     test_cases.emplace_back(new test_flash_attn_ext(64, 64, 4, {4, 1}, 512, 75, true, false, 0, 0, GGML_PREC_F32, GGML_TYPE_Q8_0, GGML_TYPE_Q8_0, {0, 2, 1, 3}, false));
+@@ -11261,6 +11280,20 @@ static std::vector<std::unique_ptr<test_case>> make_test_cases_eval() {
+ static std::vector<std::unique_ptr<test_case>> make_test_cases_perf() {
+     std::vector<std::unique_ptr<test_case>> test_cases;
+ 
++    if (const char * value = getenv("APEX_V2_FA_SCREEN")) {
++        if (strcmp(value, "1") == 0) {
++            for (int kv : {16384, 65536, 131072, 196608, 262144}) {
++                for (int nb : {1, 2, 3}) {
++                    for (ggml_type type : {GGML_TYPE_Q8_0, GGML_TYPE_F16, GGML_TYPE_Q4_0}) {
++                        test_cases.emplace_back(new test_flash_attn_ext(256, 256, 2, {6, 1}, kv, nb,
++                            true, false, 0, 0, GGML_PREC_F32, type, type));
++                    }
++                }
++            }
++            return test_cases;
++        }
++    }
++
+     // SWIGLU at a 27B-class FFN width, fused [gate|up] vs split operands
+     // note: same bytes either way, so a backend that indexes them differently shows it here
+     for (ggml_type type : {GGML_TYPE_F16, GGML_TYPE_F32}) {
+@@ -11911,6 +11944,11 @@ static bool test_backend(ggml_backend_t backend, ggml_backend_dev_t dev, test_mo
+     if (test_file_path == nullptr) {
+         switch (mode) {
+         case MODE_TEST:
++            if (getenv("APEX_V2_FA_SCREEN")) {
++                test_cases = make_test_cases_perf();
++                break;
++            }
++            [[fallthrough]];
+         case MODE_GRAD:
+         case MODE_SUPPORT:
+             test_cases = make_test_cases_eval();
+diff --git a/tools/server/server-common.h b/tools/server/server-common.h
+index e00408cd4f9e7396994f03a191f228ab9a9c8479..73cb89c5515620b27adc4675ae5cf4fcf69e7775 100644
+--- a/tools/server/server-common.h
++++ b/tools/server/server-common.h
+@@ -177,6 +177,8 @@ public:
+     server_tokens(mtmd::input_chunks & mtmd_chunks, bool has_mtmd);
+     server_tokens(const llama_tokens & tokens, bool has_mtmd);
+ 
++    bool has_media() const { return !map_idx_to_media.empty(); }
++
+     // for debugging
+     std::string str() const;
+ 
+diff --git a/tools/server/server-context.cpp b/tools/server/server-context.cpp
+index e95fb63ab3cca4352f627738edb077ce8413b31f..17cdb7580f5727891020550dcf1d4b793a3365d7 100644
+--- a/tools/server/server-context.cpp
++++ b/tools/server/server-context.cpp
+@@ -26,6 +26,7 @@
+ #include <random>
+ #include <utility>
+ #include <fstream>
++#include <limits>
+ 
+ // fix problem with std::min and std::max
+ #if defined(_WIN32)
+@@ -38,6 +39,14 @@
+ 
+ constexpr int HTTP_POLLING_SECONDS = 1;
+ 
++static int apex_v2_draft_room(llama_pos pos) {
++    static const bool enabled = [] {
++        const char * value = std::getenv("APEX_V2_KV_BOUNDARY");
++        return value != nullptr && std::string(value) == "256";
++    }();
++    return enabled && pos >= 0 ? 255 - pos % 256 : std::numeric_limits<int>::max();
++}
++
+ static common_speculative_output_limits server_output_limits(const common_params & params) {
+     if (params.embedding ||
+             (params.pooling_type != LLAMA_POOLING_TYPE_UNSPECIFIED && params.pooling_type != LLAMA_POOLING_TYPE_NONE)) {
+@@ -496,6 +505,8 @@ struct server_slot {
+             n_draft_max = std::min(n_draft_max, n_remaining() - 1);
+         }
+ 
++        n_draft_max = std::min(n_draft_max, apex_v2_draft_room(prompt.tokens.pos_next()));
++
+         SLT_DBG(*this, "max possible draft: %d\n", n_draft_max);
+ 
+         return n_draft_max;
+@@ -521,6 +532,8 @@ struct server_slot {
+                     sampled, prompt.tokens.size(), spec_draft.size(), prompt.tokens.pos_next());
+ 
+             GGML_ASSERT(spec_i_batch.empty());
++            // Replays retain the original anchor and a shorter accepted prefix.
++            GGML_ASSERT(spec_draft.size() <= size_t(apex_v2_draft_room(prompt.tokens.pos_next())));
+ 
+             spec_i_batch.push_back(batch.size());
+             for (size_t i = 0; i < spec_draft.size(); i++) {
+@@ -659,6 +672,11 @@ struct server_slot {
+         const int32_t n_draft_accepted    = stats.n_draft_accepted;
+         const int32_t n_draft_verif_steps = stats.n_draft_verif_steps;
+ 
++        if (getenv("APEX_V2_SPEC_TRACE")) {
++            SLT_INF(*this, "apex_spec steps=%d accepted=%d drafted=%d generated=%d generation_ms=%.3f\n",
++                n_draft_verif_steps, n_draft_accepted, n_draft_total, (int) stats.n_gen, t_gen_total);
++        }
++
+         if (n_draft_total > 0) {
+             const float  draft_ratio  = (float) n_draft_accepted / n_draft_total;
+             const double mean_acc_len = n_draft_verif_steps > 0 ? 1.0 + (double) n_draft_accepted / (double) n_draft_verif_steps : 1.0;
+@@ -892,6 +910,7 @@ private:
+ 
+     common_context_seq_rm_type ctx_tgt_seq_rm_type = COMMON_CONTEXT_SEQ_RM_TYPE_NO;
+     common_context_seq_rm_type ctx_dft_seq_rm_type = COMMON_CONTEXT_SEQ_RM_TYPE_NO;
++    bool apex_draft_kv_reuse = false;
+ 
+     common_speculative_ptr spec;
+ 
+@@ -1238,6 +1257,11 @@ private:
+         slots.clear();
+ 
+         ctx_tgt_seq_rm_type = common_context_can_seq_rm(ctx_tgt);
++        if (const char * value = std::getenv("APEX_V2_FORCE_REPLAY")) {
++            if (std::string(value) == "1" && params.speculative.need_n_rs_seq() > 0) {
++                ctx_tgt_seq_rm_type = COMMON_CONTEXT_SEQ_RM_TYPE_FULL;
++            }
++        }
+         if (ctx_tgt_seq_rm_type == COMMON_CONTEXT_SEQ_RM_TYPE_NO) {
+             SRV_WRN("%s", "speculative decoding not supported by this context\n");
+         }
+@@ -1284,6 +1308,25 @@ private:
+             return false;
+         }
+ 
++        if (const char * value = std::getenv("APEX_V2_DRAFT_KV_REUSE")) {
++            char arch[64] = {};
++            llama_model_meta_val_str(model_tgt, "general.architecture", arch, sizeof(arch));
++            const auto & types = params_base.speculative.types;
++            const bool mtp_only = std::count(types.begin(), types.end(), COMMON_SPECULATIVE_TYPE_DRAFT_MTP) == 1 &&
++                std::all_of(types.begin(), types.end(), [](auto type) {
++                    return type == COMMON_SPECULATIVE_TYPE_NONE || type == COMMON_SPECULATIVE_TYPE_DRAFT_MTP;
++                });
++            apex_draft_kv_reuse = std::string(value) == "1" && spec && ctx_dft &&
++                std::string(arch) == "qwen35" && params_base.n_parallel == 1 &&
++                mtp_only &&
++                ctx_dft_seq_rm_type == COMMON_CONTEXT_SEQ_RM_TYPE_PART &&
++                llama_model_n_swa(model_tgt) == 0 &&
++                !params_base.ctx_shift && params_base.n_cache_reuse == 0;
++            SRV_INF("apex_draft_kv_reuse eligible=%d arch=%s mtp_only=%d draft_rm=%d shift=%d chunk_reuse=%d\n",
++                int(apex_draft_kv_reuse), arch, int(mtp_only), int(ctx_dft_seq_rm_type),
++                int(params_base.ctx_shift), params_base.n_cache_reuse);
++        }
++
+         for (int i = 0; i < params_base.n_parallel; i++) {
+             server_slot & slot = slots[i];
+ 
+@@ -2305,6 +2348,70 @@ private:
+         return true;
+     }
+ 
++    void audit_draft_checkpoint(const server_slot & slot, const server_prompt_checkpoint & checkpoint) const {
++        const char * audit_dir = std::getenv("APEX_V2_DRAFT_KV_AUDIT");
++        if (!audit_dir) {
++            return;
++        }
++        const auto flags = LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY;
++        std::vector<uint8_t> live(llama_state_seq_get_size_ext(ctx_dft, slot.id, flags));
++        GGML_ASSERT(llama_state_seq_get_data_ext(ctx_dft, live.data(), live.size(), slot.id, flags) == live.size());
++        const auto diff = std::mismatch(live.begin(), live.end(), checkpoint.data_dft.begin(), checkpoint.data_dft.end());
++        const bool exact = live == checkpoint.data_dft;
++        SLT_INF(slot, "apex_draft_audit pos_max=%d bytes=%zu saved_bytes=%zu exact=%d first_difference=%zu\n",
++            checkpoint.dft_pos_max, live.size(), checkpoint.data_dft.size(), int(exact), size_t(diff.first - live.begin()));
++        if (!exact) {
++            const auto prefix = std::string(audit_dir) + "/" + std::to_string(slot.task->id) + "-";
++            std::ofstream(prefix + "live.bin", std::ios::binary).write((const char *) live.data(), live.size());
++            std::ofstream(prefix + "saved.bin", std::ios::binary).write((const char *) checkpoint.data_dft.data(), checkpoint.data_dft.size());
++        }
++    }
++
++    void preserve_draft_checkpoints(server_slot & slot, llama_pos p0) {
++        std::vector<server_prompt_checkpoint *> affected;
++        for (auto it = slot.prompt.checkpoints.begin(); it != slot.prompt.checkpoints.end();) {
++            if (!it->dft_kv_live || it->dft_pos_max < p0) {
++                ++it;
++                continue;
++            }
++            const auto mem = llama_get_memory(ctx_dft);
++            if (llama_memory_seq_pos_min(mem, slot.id) != 0 || llama_memory_seq_pos_max(mem, slot.id) < it->dft_pos_max) {
++                SLT_INF(slot, "apex_draft_checkpoint action=invalidate pos_max=%d\n", it->dft_pos_max);
++                it = slot.prompt.checkpoints.erase(it);
++                continue;
++            }
++            affected.push_back(&*it++);
++        }
++        // Descending extents allow each snapshot to trim only the suffix it no longer needs.
++        std::sort(affected.begin(), affected.end(), [](const auto * a, const auto * b) {
++            return a->dft_pos_max > b->dft_pos_max;
++        });
++        for (auto * checkpoint : affected) {
++            if (!llama_memory_seq_rm(llama_get_memory(ctx_dft), slot.id, checkpoint->dft_pos_max + 1, -1)) {
++                GGML_ABORT("failed to preserve draft checkpoint\n");
++            }
++            audit_draft_checkpoint(slot, *checkpoint);
++            checkpoint->update_dft(ctx_dft, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
++            checkpoint->dft_kv_live = false;
++            SLT_INF(slot, "apex_draft_checkpoint action=materialize pos_max=%d\n", checkpoint->dft_pos_max);
++        }
++    }
++
++    bool apex_prompt_grid(const server_slot & slot) const {
++        static const bool enabled = [] {
++            const char * value = std::getenv("APEX_V2_PROMPT_GRID");
++            return value && std::string(value) == "1";
++        }();
++        return enabled && slots.size() == 1 && params_base.n_ctx_checkpoints > 0 &&
++            !params_base.ctx_shift && llama_model_n_swa(model_tgt) == 0 &&
++            llama_n_batch(ctx_tgt) % llama_n_ubatch(ctx_tgt) == 0 &&
++            slot.task && slot.task->type == SERVER_TASK_TYPE_COMPLETION && slot.can_split() &&
++            slot.lora.empty() && slot.task->params.n_cache_reuse == 0 &&
++            !slot.task->tokens.has_media() && !slot.prompt.tokens.has_media() &&
++            (ctx_tgt_seq_rm_type == COMMON_CONTEXT_SEQ_RM_TYPE_FULL ||
++             ctx_tgt_seq_rm_type == COMMON_CONTEXT_SEQ_RM_TYPE_RS);
++    }
++
+     // n_tokens_cur: the number of tokens added to the batch for the current slot
+     void create_checkpoint(server_slot & slot, const int64_t n_tokens_cur, llama_pos pos_min, llama_pos pos_max) {
+         const int id_task = slot.task->id;
+@@ -2361,7 +2468,20 @@ private:
+         cur.update_pos(slot.prompt.n_tokens() - n_tokens_cur, pos_min, pos_max);
+ 
+         cur.update_tgt(ctx_tgt, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
+-        cur.update_dft(ctx_dft, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
++        if (apex_draft_kv_reuse && slot.lora.empty() && slot.task->params.n_cache_reuse == 0 &&
++                !slot.prompt.tokens.has_media() && !slot.task->tokens.has_media() &&
++                llama_memory_seq_pos_min(llama_get_memory(ctx_dft), slot.id) == 0 &&
++                llama_memory_seq_pos_max(llama_get_memory(ctx_dft), slot.id) == pos_max) {
++            // Prompt-cache eviction still saves the full target and draft state.
++            cur.dft_kv_live = true;
++            cur.dft_pos_max = pos_max;
++            SLT_INF(slot, "apex_draft_checkpoint action=retain pos_max=%d\n", pos_max);
++            if (std::getenv("APEX_V2_DRAFT_KV_AUDIT")) {
++                cur.update_dft(ctx_dft, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
++            }
++        } else {
++            cur.update_dft(ctx_dft, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
++        }
+         // stash the draft's speculative state with the checkpoint
+         common_speculative_get_state(spec.get(), slot.id, cur.data_spec);
+ 
+@@ -3134,6 +3254,7 @@ private:
+                 // this slot still has a prompt to be processed
+                 if (slot.state == SLOT_STATE_PROCESSING_PROMPT || slot.state == SLOT_STATE_STARTED) {
+                     const auto & input_tokens = slot.task->tokens;
++                    const bool apex_grid = apex_prompt_grid(slot);
+ 
+                     // used to determine the number of tokens added to the batch for the current slot
+                     const auto n_tokens_prev = batch.size();
+@@ -3288,6 +3409,16 @@ private:
+                                 n_past = 0;
+                             }
+ 
++                            if (apex_grid) {
++                                // Generated tokens and partial prefill tiles need canonical replay.
++                                const int previous = n_past;
++                                n_past = std::min<int64_t>(n_past, slot.prompt.apex_prefill_prefix);
++                                n_past = std::min(n_past, std::max(0, slot.task->n_tokens() - 1));
++                                n_past -= n_past % n_ubatch;
++                                SLT_INF(slot, "apex_prompt_grid common=%d reuse=%d prefix=%" PRId64 " tile=%d\n",
++                                        previous, n_past, slot.prompt.apex_prefill_prefix, n_ubatch);
++                            }
++
+                             llama_pos pos_next = slot.prompt.tokens.pos_next(n_past);
+ 
+                             // ref: https://github.com/ggml-org/llama.cpp/pull/24110
+@@ -3352,12 +3483,30 @@ private:
+                                         slot.prompt.checkpoints.rbegin(),
+                                         slot.prompt.checkpoints.rend(),
+                                         [&](const auto & cur) {
++                                            if (apex_grid && (cur.n_tokens % n_ubatch != 0 ||
++                                                    cur.n_tokens > slot.prompt.apex_prefill_prefix)) {
++                                                return false;
++                                            }
+                                             // guarantee that a checkpoint will result in at least one token being processed [TAG_PROMPT_LOGITS]
+                                             SLT_TRC(slot, "checking checkpoint with [%d, %d] against %d...\n", cur.pos_min, cur.pos_max, pos_min_thold);
+                                             // workaround for [TAG_CHECKPOINTS_FIX_POS_MIN]
+-                                            if (cur.pos_max > pos_next) {
++                                            if (cur.pos_max > pos_next ||
++                                                    (std::getenv("APEX_V2_CKPT_STRICT_PREFIX") && cur.pos_max == pos_next)) {
+                                                 return false;
+                                             }
++                                            if (cur.dft_kv_live) {
++                                                const auto mem_dft = llama_get_memory(ctx_dft);
++                                                const bool valid = slot.lora.empty() && slot.task->params.n_cache_reuse == 0 &&
++                                                    !slot.prompt.tokens.has_media() &&
++                                                    !slot.task->tokens.has_media() && cur.dft_pos_max < pos_next &&
++                                                    llama_memory_seq_pos_min(mem_dft, slot.id) == 0 &&
++                                                    llama_memory_seq_pos_max(mem_dft, slot.id) >= cur.dft_pos_max &&
++                                                    !std::getenv("APEX_V2_DRAFT_KV_TEST_MISS");
++                                                if (!valid) {
++                                                    SLT_INF(slot, "apex_draft_checkpoint action=reject pos_max=%d\n", cur.dft_pos_max);
++                                                    return false;
++                                                }
++                                            }
+                                             return cur.pos_min < pos_min_thold || cur.pos_min == 0;
+                                         }
+                                     );
+@@ -3367,7 +3516,16 @@ private:
+                                     if (!do_reset) {
+                                         // restore the context checkpoint
+                                         it->load_tgt(ctx_tgt, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
+-                                        it->load_dft(ctx_dft, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
++                                        if (it->dft_kv_live) {
++                                            // Match the saved draft extent before the normal prompt truncation.
++                                            if (!llama_memory_seq_rm(llama_get_memory(ctx_dft), slot.id, it->dft_pos_max + 1, -1)) {
++                                                GGML_ABORT("failed to trim live draft checkpoint\n");
++                                            }
++                                            SLT_INF(slot, "apex_draft_checkpoint action=trim pos_max=%d\n", it->dft_pos_max);
++                                            audit_draft_checkpoint(slot, *it);
++                                        } else {
++                                            it->load_dft(ctx_dft, slot.id, LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY);
++                                        }
+                                         // restore the draft's speculative state
+                                         common_speculative_set_state(spec.get(), slot.id, it->data_spec);
+ 
+@@ -3389,7 +3547,8 @@ private:
+                                 // erase any checkpoints with pos_max > pos_next
+                                 for (auto it = slot.prompt.checkpoints.begin(); it != slot.prompt.checkpoints.end();) {
+                                     const auto & cur = *it;
+-                                    if (cur.pos_max > pos_next) {
++                                    if (cur.pos_max > pos_next ||
++                                            (std::getenv("APEX_V2_CKPT_STRICT_PREFIX") && cur.pos_max == pos_next)) {
+                                         SLT_TRC(slot, "erased invalidated context checkpoint (pos_min = %d, pos_max = %d, n_tokens = %" PRId64 ", n_swa = %d, pos_next = %d, size = %.3f MiB)\n", cur.pos_min, cur.pos_max, cur.n_tokens, n_swa, pos_next, (float) cur.size() / 1024 / 1024);
+                                         it = slot.prompt.checkpoints.erase(it);
+                                     } else {
+@@ -3412,6 +3571,7 @@ private:
+                         metrics.add_prompt_cached(n_past);
+ 
+                         slot.prompt.tokens.keep_first(n_past);
++                        slot.prompt.apex_prefill_prefix = std::min<int64_t>(slot.prompt.apex_prefill_prefix, n_past);
+ 
+                         // this is to signal the client that the request has started processing
+                         if (slot.task->params.stream) {
+@@ -3441,6 +3601,7 @@ private:
+ 
+                     SLT_TRC(slot, "cached n_tokens = %d, memory_seq_rm [%d, end)\n", slot.prompt.n_tokens(), p0);
+ 
++                    preserve_draft_checkpoints(slot, p0);
+                     slot.mem.seq_rm(slot.id, p0, -1);
+ 
+                     // If using an alora, there may be uncached tokens that come
+@@ -3547,7 +3708,7 @@ private:
+                         slot.prompt.tokens.push_back(cur_tok);
+ 
+                         // break at the last user message, or at user messages at least min step past the last checkpoint
+-                        if (do_checkpoint && spans.is_user_start(slot.prompt.n_tokens())) {
++                        if (do_checkpoint && !apex_grid && spans.is_user_start(slot.prompt.n_tokens())) {
+                             const auto pos = slot.prompt.n_tokens();
+                             const auto & checkpoints = slot.prompt.checkpoints;
+ 
+@@ -3561,7 +3722,10 @@ private:
+                         //  - 4 + n_ubatch
+                         //  - 4
+                         // ref: https://github.com/ggml-org/llama.cpp/pull/20288
+-                        if (do_checkpoint) {
++                        if (apex_grid && slot.prompt.n_tokens() % n_ubatch == 0) {
++                            break;
++                        }
++                        if (do_checkpoint && !apex_grid) {
+                             static const int checkpoint_offsets[] = {4 + n_ubatch, 4};
+ 
+                             bool should_break = false;
+@@ -3587,6 +3751,15 @@ private:
+ 
+                     const bool is_user_start = spans.is_user_start(n_tokens_start);
+                     const bool is_last_user_message = n_tokens_start == last_user_pos;
++                    static const bool apex_grid_checkpoints = [] {
++                        const char * value = std::getenv("APEX_V2_GRID_CHECKPOINTS");
++                        return value && std::string(value) == "1";
++                    }();
++                    // Save only completed canonical tiles. Do not change prefill batch geometry.
++                    const bool grid_checkpoint = apex_grid && apex_grid_checkpoints &&
++                        n_tokens_start > 0 && n_tokens_start % n_ubatch == 0 &&
++                        (slot.prompt.checkpoints.empty() || n_tokens_start >=
++                            slot.prompt.checkpoints.back().n_tokens + std::max(n_ubatch, params_base.checkpoint_min_step));
+ 
+                     // entire prompt has been processed
+                     if (slot.prompt.n_tokens() == slot.task->n_tokens()) {
+@@ -3604,7 +3777,7 @@ private:
+                     } else {
+                         // skip ordinary mid-prompt checkpoints, unless the batch starts a user
+                         // message or we are near the end of the prompt
+-                        if (!is_user_start && !near_prompt_end) {
++                        if (!is_user_start && !near_prompt_end && !grid_checkpoint) {
+                             do_checkpoint = false;
+                         }
+                     }
+@@ -3624,7 +3797,7 @@ private:
+                     // no need to create checkpoints that are too close together, unless it's the last user message
+                     do_checkpoint = do_checkpoint && (
+                             slot.prompt.checkpoints.empty() ||
+-                            is_last_user_message || near_prompt_end ||
++                            is_last_user_message || near_prompt_end || grid_checkpoint ||
+                             n_tokens_start > slot.prompt.checkpoints.back().n_tokens + params_base.checkpoint_min_step);
+                     SLT_DBG(slot, "main/do_checkpoint = %s, pos_min = %d, pos_max = %d\n", do_checkpoint ? "yes" : "no", pos_min, pos_max);
+ 
+@@ -3816,6 +3989,8 @@ private:
+             }
+ 
+             if (slot.state == SLOT_STATE_DONE_PROMPT) {
++                slot.prompt.apex_prefill_prefix = apex_prompt_grid(slot) ?
++                    slot.task->n_tokens() / llama_n_ubatch(ctx_tgt) * llama_n_ubatch(ctx_tgt) : 0;
+                 if (slot.task->type == SERVER_TASK_TYPE_EMBEDDING) {
+                     // prompt evaluated for embedding
+                     send_embedding(slot, batch_view);
+@@ -3833,12 +4008,31 @@ private:
+ 
+                 GGML_ASSERT(slot.task->need_sampling());
+ 
++                if (const char * directory = std::getenv("APEX_V2_PROMPT_LOGITS_DIR")) {
++                    const auto path = std::filesystem::path(directory) / (std::to_string(slot.task->id) + ".f32");
++                    const int n_vocab = llama_vocab_n_tokens(llama_model_get_vocab(model_tgt));
++                    const float * logits = llama_get_logits_ith(ctx_tgt, slot.i_batch - off);
++                    std::ofstream out(path, std::ios::binary);
++                    out.write(reinterpret_cast<const char *>(logits), n_vocab * sizeof(float));
++                    if (!out) {
++                        throw std::runtime_error("failed to save experimental prompt logits");
++                    }
++                }
++
+                 // prompt evaluated for next-token prediction
+                 slot.state = SLOT_STATE_GENERATING;
++                if (getenv("APEX_V2_GRAPH_TRACE")) {
++                    SLT_INF(slot, "apex_decode_begin prompt_tokens=%d\n", (int) slot.prompt.n_tokens());
++                }
+ 
+                 if (slot.can_speculate()) {
+                     common_speculative_begin(spec.get(), slot.id, slot.prompt.tokens.get_text_tokens());
+                 }
++                if (apex_prompt_grid(slot) && slot.prompt.n_tokens() % llama_n_ubatch(ctx_tgt) == 0) {
++                    const auto memory = llama_get_memory(ctx_tgt);
++                    create_checkpoint(slot, 0, llama_memory_seq_pos_min(memory, slot.id),
++                            llama_memory_seq_pos_max(memory, slot.id));
++                }
+             } else if (slot.state != SLOT_STATE_GENERATING) {
+                 return;
+             }
+diff --git a/tools/server/server-task.cpp b/tools/server/server-task.cpp
+index 0d3beb313ceabbb903de57d185140a8e5a079e4b..43eb024ebc582d9793928d1855b3f1895d6a084a 100644
+--- a/tools/server/server-task.cpp
++++ b/tools/server/server-task.cpp
+@@ -1780,6 +1780,7 @@ server_prompt_cache_state * server_prompt_cache::alloc(const server_prompt & pro
+         /*.prompt =*/ {
+             /*.tokens      =*/ prompt.tokens.clone(),
+             /*.checkpoints =*/ prompt.checkpoints,
++            /*.apex_prefill_prefix =*/ prompt.apex_prefill_prefix,
+         },
+         /*.data   =*/ {
+             /*.main =*/ std::move(state_data_tgt),
+diff --git a/tools/server/server-task.h b/tools/server/server-task.h
+index 9c99143f8e1983f2cbe45245d68d8e5937b7f6c6..d8867a350782e3e7b94c9451055b409cfcf6a042 100644
+--- a/tools/server/server-task.h
++++ b/tools/server/server-task.h
+@@ -563,14 +563,21 @@ struct server_task_result_apply_lora : server_task_result {
+     virtual json to_json() override;
+ };
+ 
++struct server_prompt_checkpoint : common_prompt_checkpoint {
++    bool dft_kv_live = false;
++    llama_pos dft_pos_max = -1;
++};
++
+ struct server_prompt {
+     server_tokens tokens;
+ 
+-    std::list<common_prompt_checkpoint> checkpoints;
++    std::list<server_prompt_checkpoint> checkpoints;
++    int64_t apex_prefill_prefix = 0;
+ 
+     void clear() {
+         tokens.clear();
+         checkpoints.clear();
++        apex_prefill_prefix = 0;
+     }
+ 
+     int n_tokens() const {
+@@ -581,6 +588,7 @@ struct server_prompt {
+         return server_prompt {
+             tokens.clone(),
+             checkpoints,
++            apex_prefill_prefix,
+         };
+     }
+ };

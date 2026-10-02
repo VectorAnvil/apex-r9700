@@ -1,0 +1,7 @@
+{
+  "paired_cases": 24,
+  "exact_logits_messages_work": true,
+  "baseline_passes": 24,
+  "candidate_passes": 24,
+  "scope": "Same24 completed tasks as qualified scheduling/Q6; saved reference, full first-step logits and complete messages. This tests transport compatibility, not general model capability."
+}

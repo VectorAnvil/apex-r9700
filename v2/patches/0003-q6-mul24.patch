@@ -1,0 +1,17 @@
+diff --git a/ggml/src/ggml-cuda/vecdotq.cuh b/ggml/src/ggml-cuda/vecdotq.cuh
+index f2a6f2009c9ac907b6002667a49dcb6c2e75be56..5b59e4503d9a9af0245d8caf50674a4974333737 100644
+--- a/ggml/src/ggml-cuda/vecdotq.cuh
++++ b/ggml/src/ggml-cuda/vecdotq.cuh
+@@ -640,7 +640,12 @@ static __device__ __forceinline__ float vec_dot_q6_K_q8_1_impl_mmvq(
+ 
+         const int vi = __vsubss4((vil | vih), 0x20202020); // vi = (vil | vih) - 32
+ 
++#if defined(GGML_USE_HIP) && defined(APEX_V2_Q6_MUL24)
++        // Both signed operands fit 24 bits; their product fits signed 32 bits.
++        sumf += d8[i] * __mul24(ggml_cuda_dp4a(vi, u[i], 0), sc);
++#else
+         sumf += d8[i] * (ggml_cuda_dp4a(vi, u[i], 0) * sc); // SIMD dot product
++#endif
+     }
+ 
+     return d*sumf;

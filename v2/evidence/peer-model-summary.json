@@ -1,0 +1,130 @@
+{
+  "curve": [
+    {
+      "context": 8192,
+      "baseline_pp": 1129.6427029211372,
+      "candidate_pp": 1235.9426982445602,
+      "pp_change_percent": 9.410054617140663,
+      "pp_by_order": {
+        "model-curve": 9.32181367116478,
+        "model-reverse": 9.498763878663308
+      },
+      "baseline_tg": 67.13864606197478,
+      "candidate_tg": 67.17194603342386,
+      "tg_change_percent": 0.04959881290775847,
+      "tg_by_order": {
+        "model-curve": -0.4931992214115444,
+        "model-reverse": 0.5951664466961937
+      },
+      "baseline_repeat_prompt_plus_generation_ms": 2589.03825,
+      "candidate_repeat_prompt_plus_generation_ms": 2544.79175,
+      "repeat_prompt_plus_generation_change_percent": -1.7089936774785097
+    },
+    {
+      "context": 32768,
+      "baseline_pp": 1055.8409302914777,
+      "candidate_pp": 1153.109532582032,
+      "pp_change_percent": 9.212429590478388,
+      "pp_by_order": {
+        "model-curve": 9.022247839040087,
+        "model-reverse": 9.403061909345434
+      },
+      "baseline_tg": 66.15903929781817,
+      "candidate_tg": 64.92947100119456,
+      "tg_change_percent": -1.858503856273741,
+      "tg_by_order": {
+        "model-curve": -2.105230894973442,
+        "model-reverse": -1.611364877193644
+      },
+      "baseline_repeat_prompt_plus_generation_ms": 2704.292,
+      "candidate_repeat_prompt_plus_generation_ms": 2698.8525,
+      "repeat_prompt_plus_generation_change_percent": -0.2011432197410623
+    },
+    {
+      "context": 65536,
+      "baseline_pp": 907.6893314347134,
+      "candidate_pp": 977.0993513915856,
+      "pp_change_percent": 7.646891679024281,
+      "pp_by_order": {
+        "model-curve": 7.241143950559437,
+        "model-reverse": 8.053673104050606
+      },
+      "baseline_tg": 63.67829125572963,
+      "candidate_tg": 63.20526594424374,
+      "tg_change_percent": -0.7428360625856611,
+      "tg_by_order": {
+        "model-curve": -0.8216065834036446,
+        "model-reverse": -0.6640679918829884
+      },
+      "baseline_repeat_prompt_plus_generation_ms": 2892.40725,
+      "candidate_repeat_prompt_plus_generation_ms": 2868.13075,
+      "repeat_prompt_plus_generation_change_percent": -0.8393181838415198
+    },
+    {
+      "context": 131072,
+      "baseline_pp": 737.0668841382985,
+      "candidate_pp": 782.5077065274083,
+      "pp_change_percent": 6.165088049266321,
+      "pp_by_order": {
+        "model-curve": 5.6053400758379945,
+        "model-reverse": 6.725537659492087
+      },
+      "baseline_tg": 59.673945321750644,
+      "candidate_tg": 59.36167502754826,
+      "tg_change_percent": -0.5232941990322315,
+      "tg_by_order": {
+        "model-curve": -0.6824913058878779,
+        "model-reverse": -0.3640187180238952
+      },
+      "baseline_repeat_prompt_plus_generation_ms": 3255.423,
+      "candidate_repeat_prompt_plus_generation_ms": 3224.3625,
+      "repeat_prompt_plus_generation_change_percent": -0.9541156402716244
+    },
+    {
+      "context": 196608,
+      "baseline_pp": 589.2995293392926,
+      "candidate_pp": 615.383563255778,
+      "pp_change_percent": 4.4262777446522295,
+      "pp_by_order": {
+        "model-curve": 4.3824182045728355,
+        "model-reverse": 4.470158851572692
+      },
+      "baseline_tg": 53.53488867641205,
+      "candidate_tg": 53.56843267096529,
+      "tg_change_percent": 0.06265819427773156,
+      "tg_by_order": {
+        "model-curve": -0.10082564036296704,
+        "model-reverse": 0.22629618657692419
+      },
+      "baseline_repeat_prompt_plus_generation_ms": 3724.13325,
+      "candidate_repeat_prompt_plus_generation_ms": 3683.83825,
+      "repeat_prompt_plus_generation_change_percent": -1.0819967303801525
+    },
+    {
+      "context": 261632,
+      "baseline_pp": 490.00261869075274,
+      "candidate_pp": 508.7985797116209,
+      "pp_change_percent": 3.835889912402801,
+      "pp_by_order": {
+        "model-curve": 3.8408513831982294,
+        "model-reverse": 3.830921301267609
+      },
+      "baseline_tg": 48.531320901226636,
+      "candidate_tg": 48.32148014400943,
+      "tg_change_percent": -0.4323821262649852,
+      "tg_by_order": {
+        "model-curve": -0.4608593053869847,
+        "model-reverse": -0.40391409592670513
+      },
+      "baseline_repeat_prompt_plus_generation_ms": 3966.53175,
+      "candidate_repeat_prompt_plus_generation_ms": 3943.3535,
+      "repeat_prompt_plus_generation_change_percent": -0.5843455053649804
+    }
+  ],
+  "paired_cases": 42,
+  "history_comparisons": 52,
+  "exact_logits_tokens_work": true,
+  "checkpoint_coverage_passed": true,
+  "method": "Harmonic means pool equal prompt work or equal cached-generation token counts. Two process orders, not independent context samples or a formal confidence interval.",
+  "scope": "Increment over qualified scheduling/Q6/MTP2. PP is growing-prefix throughput. Cached repeat prompt+generation sums server timing fields, not client latency/TTFT. New transport only; original grouped/Core differences remain."
+}

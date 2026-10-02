@@ -1,0 +1,83 @@
+diff --git a/ggml/src/ggml-cuda/fattn-mma-f16.cuh b/ggml/src/ggml-cuda/fattn-mma-f16.cuh
+index 9001e2be69026608ed19b619988bf2555e6e60b9..96a9ab3c99e9b1682b54bfbbb3c7d7aba7183a30 100644
+--- a/ggml/src/ggml-cuda/fattn-mma-f16.cuh
++++ b/ggml/src/ggml-cuda/fattn-mma-f16.cuh
+@@ -715,6 +715,9 @@ static __device__ __forceinline__ void flash_attn_ext_f16_iter(
+ #endif // defined(AMD_WMMA_AVAILABLE) || defined(AMD_MFMA_AVAILABLE)
+                     }
+                 }
++#if defined(APEX_V2_PREFILL_SCHEDULE) && defined(AMD_WMMA_AVAILABLE)
++                __builtin_amdgcn_sched_barrier(0);
++#endif
+             }
+         } else {
+             constexpr int stride_tile_Q = DKQ/2 + 4;
+@@ -1071,6 +1074,9 @@ static __device__ __forceinline__ void flash_attn_ext_f16_iter(
+ #endif // defined(AMD_WMMA_AVAILABLE) || defined(AMD_MFMA_AVAILABLE)
+                 }
+             }
++#if defined(APEX_V2_PREFILL_SCHEDULE) && defined(AMD_WMMA_AVAILABLE)
++            __builtin_amdgcn_sched_barrier(0);
++#endif
+         }
+ #else // Volta
+         constexpr int i0_stride = 2*T_C_VKQ::J;
+diff --git a/ggml/src/ggml-cuda/fattn.cu b/ggml/src/ggml-cuda/fattn.cu
+index 74d993f6812f3dfb906196d7f8a2f7b453dcba60..a1f05e0b8b911c685ad8a5572d356bc91ed323c6 100644
+--- a/ggml/src/ggml-cuda/fattn.cu
++++ b/ggml/src/ggml-cuda/fattn.cu
+@@ -5,6 +5,10 @@
+ #include "fattn-vec.cuh"
+ #include "fattn.cuh"
+ 
++#if defined(GGML_USE_HIP)
++void apex_v2_prefill_schedule(ggml_backend_cuda_context & ctx, ggml_tensor * dst);
++#endif
++
+ #if !defined(GGML_USE_HIP) && !defined(GGML_USE_MUSA)
+ // one list per group of ncols1 queries: a column is selected if any query of the group can see it
+ template <int ncols1, bool oob>
+@@ -156,6 +160,25 @@ static void ggml_cuda_flash_attn_ext_mma_f16_switch_ncols1(ggml_backend_cuda_con
+     const int cc = ggml_cuda_info().devices[ggml_cuda_get_device()].cc;
+     const ggml_tensor * Q = dst->src[0];
+ 
++#if defined(GGML_USE_HIP)
++    if constexpr (DKQ == 256 && DV == 256 && ncols2 == 2) {
++        static const bool apex_schedule = [] {
++            const char * value = getenv("APEX_V2_FA_PREFILL_SCHEDULE");
++            return value && strcmp(value, "1") == 0;
++        }();
++        if (apex_schedule && GGML_CUDA_CC_IS_RDNA4(cc) && Q->ne[1] >= 32 &&
++                Q->ne[2] / dst->src[1]->ne[2] == 6 &&
++                dst->src[1]->type == GGML_TYPE_Q8_0 && dst->src[2]->type == GGML_TYPE_Q8_0) {
++            if (getenv("APEX_V2_FA_TRACE")) {
++                GGML_LOG_INFO("apex_prefill_schedule device=%d qrows=%lld kv=%lld\n",
++                    ctx.device, (long long) Q->ne[1], (long long) dst->src[1]->ne[1]);
++            }
++            apex_v2_prefill_schedule(ctx, dst);
++            return;
++        }
++    }
++#endif
++
+ #if !defined(GGML_USE_HIP) && !defined(GGML_USE_MUSA)
+     if constexpr (ggml_cuda_flash_attn_ext_mma_f16_may_use_sparse(DKQ, DV, 1, ncols2)) {
+         // a sparse variant at the full tile width gathers the union of its queries once, prefer it for large batches
+diff --git a/ggml/src/ggml-cuda/template-instances/fattn-mma-apex-prefill-schedule.cu b/ggml/src/ggml-cuda/template-instances/fattn-mma-apex-prefill-schedule.cu
+new file mode 100644
+index 0000000000000000000000000000000000000000..50042ff9d82e49d45b7eb995c697555016e6da16
+--- /dev/null
++++ b/ggml/src/ggml-cuda/template-instances/fattn-mma-apex-prefill-schedule.cu
+@@ -0,0 +1,12 @@
++#if defined(GGML_USE_HIP)
++#define APEX_V2_PREFILL_SCHEDULE
++#define launch_fattn apex_v2_prefill_schedule_launch
++#define ggml_cuda_flash_attn_ext_mma_f16_case apex_v2_prefill_schedule_case
++#include "../fattn-mma-f16.cuh"
++
++template void apex_v2_prefill_schedule_case<256, 256, 32, 2, false>(ggml_backend_cuda_context &, ggml_tensor *);
++
++void apex_v2_prefill_schedule(ggml_backend_cuda_context & ctx, ggml_tensor * dst) {
++    apex_v2_prefill_schedule_case<256, 256, 32, 2, false>(ctx, dst);
++}
++#endif

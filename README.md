@@ -4,7 +4,11 @@ Reproducible llama.cpp patches, runtime configuration, and benchmark evidence fo
 
 This repository contains the actual promoted source delta. It is based on llama.cpp commit [`4695f001fece1660d8bb1b3748f50726ddcc100b`](https://github.com/ggml-org/llama.cpp/commit/4695f001fece1660d8bb1b3748f50726ddcc100b), build 10457.
 
-## Headline results
+## V2 experimental update - October 2, 2026
+
+The [V2 research snapshot](v2/README.md) publishes the September 27-30 work: grouped long-context attention, paired checkpoint coverage, prefill scheduling, Q6 verification and large peer-copy AllReduce. It includes a six-patch source export, compact evidence, the full 8K-262K curve and known accuracy differences. Near 262K the combined experimental fixture measured 508.80 prompt tok/s and 48.32 generated tok/s; prompt rates are growing-prefix measurements. V2 is a controlled experimental trial, not a replacement for the frozen August production claim below.
+
+## August headline results
 
 | Change | Workload | Baseline | Promoted | Result |
 |---|---:|---:|---:|---:|

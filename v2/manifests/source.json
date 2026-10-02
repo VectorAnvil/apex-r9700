@@ -1,0 +1,57 @@
+{
+  "upstream_repository": "https://github.com/ggml-org/llama.cpp",
+  "upstream_commit": "d7fb90e8e2494b2908934d956a3202fd60152ee0",
+  "upstream_build": 11211,
+  "frozen_grouped_checkpoint_commit": "cbc3985b552cdfa9f555ceb69d590abf48c7cbe2",
+  "status": "experimental; grouped practical capability parity with Core not established",
+  "patches": [
+    {
+      "file": "0001-v2-grouped-checkpoint-baseline.patch",
+      "sha256": "04edf5304d0e012fa50d7a7fd26de5bce3cab7f0b197d43e751eeafb218cd65c",
+      "source_commits": [
+        "cbc3985b552cdfa9f555ceb69d590abf48c7cbe2"
+      ]
+    },
+    {
+      "file": "0002-prefill-scheduling.patch",
+      "sha256": "1efe908c83b760cc17337116f875ca13eeb3457e2238fcd3183fd1c2d3ca9a4c",
+      "source_commits": [
+        "e98a42c6b687debede13e7c43ae70e2b3cd79c89"
+      ]
+    },
+    {
+      "file": "0003-q6-mul24.patch",
+      "sha256": "2374447954dadc1d2f5e26126715cfd62451681a0f2a0968c1b2784ee1404105",
+      "source_commits": [
+        "637ec670f897b873ea464ef0bae9d19267a0ee4c"
+      ]
+    },
+    {
+      "file": "0004-q6-two-row-verification.patch",
+      "sha256": "09652f5d0e03eeee1fb0e94476dc33942710780c9ba3c2fcac83d9fcc9555d59",
+      "source_commits": [
+        "86b79424af49b98f3ef96713a439b696d861a172"
+      ]
+    },
+    {
+      "file": "0005-large-peer-copy.patch",
+      "sha256": "4659050a31acfb1303522af36eeb6be0610b5d727e8c22f65c4df8a019d7ca3d",
+      "source_commits": [
+        "075c19fa6914aa3f4b284539d496bb44212f6147"
+      ]
+    },
+    {
+      "file": "0006-peer-copy-contract-guard.patch",
+      "sha256": "727215538ba6f9975afe97e2ec2463940d95c508057ba4b76d1fcb085a21a8f2",
+      "source_commits": [
+        "644bc8958c9f97efafebacfeef8ed915f2983b25"
+      ]
+    }
+  ],
+  "compile_definitions": {
+    "APEX_V2_Q6_MUL24": 1,
+    "APEX_V2_Q6_VERIFY_ROWS2": 1,
+    "APEX_V2_AR_PEER_COPY": 1
+  },
+  "scope": "Source export of the measured object composition. Patch application and source equivalence are checked separately from a fresh full build or fresh performance qualification."
+}

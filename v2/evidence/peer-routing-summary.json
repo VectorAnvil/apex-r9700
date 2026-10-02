@@ -1,0 +1,85 @@
+{
+  "peer_api_calls": 16554,
+  "engine_peer_calls": 2584,
+  "shader_peer_calls": 13970,
+  "five_mib_collectives": 307,
+  "five_mib_copy_chunks": 2456,
+  "five_mib_chunk_bytes": 1310720,
+  "all_five_mib_chunks_use_hsa_copy_engine": true,
+  "routing": [
+    {
+      "route": "hsa_copy_engine",
+      "chunk_bytes": 1310720,
+      "calls": 2456
+    },
+    {
+      "route": "hsa_copy_engine",
+      "chunk_bytes": 1310722,
+      "calls": 96
+    },
+    {
+      "route": "hsa_copy_engine",
+      "chunk_bytes": 2097152,
+      "calls": 32
+    },
+    {
+      "route": "shader_copy",
+      "chunk_bytes": 8,
+      "calls": 2
+    },
+    {
+      "route": "shader_copy",
+      "chunk_bytes": 16,
+      "calls": 582
+    },
+    {
+      "route": "shader_copy",
+      "chunk_bytes": 262144,
+      "calls": 582
+    },
+    {
+      "route": "shader_copy",
+      "chunk_bytes": 524272,
+      "calls": 582
+    },
+    {
+      "route": "shader_copy",
+      "chunk_bytes": 524288,
+      "calls": 7566
+    },
+    {
+      "route": "shader_copy",
+      "chunk_bytes": 524292,
+      "calls": 2328
+    },
+    {
+      "route": "shader_copy",
+      "chunk_bytes": 655360,
+      "calls": 2328
+    }
+  ],
+  "memory_copy_direction_counts": {
+    "qualified": {
+      "MEMORY_COPY_HOST_TO_DEVICE": 16448,
+      "MEMORY_COPY_DEVICE_TO_HOST": 16304
+    },
+    "peer1": {
+      "MEMORY_COPY_HOST_TO_DEVICE": 478,
+      "MEMORY_COPY_DEVICE_TO_HOST": 334,
+      "MEMORY_COPY_DEVICE_TO_DEVICE": 2584
+    }
+  },
+  "trace_file_sha256": {
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/qualified/cornelius/2616874_hip_api_trace.csv": "c2a7bdf582ec404d4bb0d3e48b6eb30e2cafa94f63bc88580513d259c6013eae",
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/qualified/cornelius/2616874_hsa_api_trace.csv": "cd22bca8da97c8a669b28fd13d1183c12218fe7f73f203b3f0bb4f44d77a1520",
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/qualified/cornelius/2616874_kernel_trace.csv": "fc054a323a7eea6d717c9fb0778c3ba958761726861b9592628a507657cb5ba8",
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/qualified/cornelius/2616874_memory_copy_trace.csv": "0b52d609fc58b972c248b9d2f399cbc90577d3a9f2d461cf181a4f2f79d7d973",
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/peer1/cornelius/2616952_hip_api_trace.csv": "c1edda282feacd632b1d988b1a671dbb2c49470d52512699fc2f64ee47c6cb84",
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/peer1/cornelius/2616952_hsa_api_trace.csv": "fd9aa635e105ce2c8919dac87d2b6a75585b2cdb6d138a7e5e073ad86a2fd890",
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/peer1/cornelius/2616952_kernel_trace.csv": "5651ffe8b6992627a8a37bd679606ce862d3de470305b17ddb1e8d2a6ba223fc",
+    "<workspace>/apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/peer1/cornelius/2616952_memory_copy_trace.csv": "e3e375b403ffac92e72b7d4a16c9c0999c6563cc8766ae4952667265c41d003a"
+  },
+  "harness_source_sha256": "519a0c91902493c745de98a1fb3914ac6d6831dab5496798f6d4adcccca46d2b",
+  "evidence": "Shader dispatches join HIP correlation IDs. HSA copy-engine calls join by same-thread containment inside HIP calls and by correlation ID to device-to-device completion records. Ordered chunk sizes are reconstructed from the pinned harness and unchanged threshold/chunk heuristic; CSV does not record byte counts.",
+  "limits": "Diagnostic standalone trace, not model profiling or speed evidence. The CSV does not identify the physical SDMA engine. Its D2D source/destination agent labels are the same agent, so do not interpret them as physical allocation ownership; explicit peer API arguments are established by the inspected source."
+}

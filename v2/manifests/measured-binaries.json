@@ -1,0 +1,17 @@
+{
+  "description": "Hashes of the measured composed September 30 experimental artifacts, not promised hashes of a fresh build. Binaries are not distributed.",
+  "sha256": {
+    "apex-teacher-force": "94231748c9f8175e72cb43439f7cf5ee81aaaa41dbbca7007da9bd5b3b9153de",
+    "libggml-cpu.so.0.25.3": "38ca75a74b0838b6dc472af247b46764035e0ed185dbca5a423253a0473a9a96",
+    "libllama-common.so.0.5.0": "a356108e85fdf41f0b86b815ac18323ecf2a7f89e4d53e7e7c7a8cb26ad9d37a",
+    "libllama.so.0.5.0": "b3863bb3340cf6cc6027ee77f2295f660718483263551fada5111cc356c02e34",
+    "llama-server": "ffefa9ec5c62a32c4fbfbaeedd06b880260a04df7391f33e8bb7ce673d33b9ee",
+    "libggml.so.0.25.3": "b50fcdcf080a4a1ea2a73eef53de3153c52160f4c3212776b59d4cee1be5a689",
+    "libggml-hip.so.0.25.3": "faf8774de7e4ad9081ba4d51155b98a41b7740c1ef8588bb86c170ed1a6f059d",
+    "libmtmd.so.0.5.0": "50347d98913bca69182b04aecf577ace8eeda5ace9c0da5e35ff8736d34bb220",
+    "libggml-base.so.0.25.3": "ec84f06cf796b980e65be27bc3a133d66be4a03e9970e795996ab0ca7dad486d",
+    "test-backend-ops": "6a4503f758eed796d29be84f7dc16eb3d8d83466d6bd42b65728cb91a634e296",
+    "libllama-server-impl.so": "11925f8a54a2539b36eab2ace5614a346577ec21c88a3f2a65f86cf8b23d6ffc"
+  },
+  "composition": "Qualified scheduling/Q6 objects; only allreduce.cu rebuilt from isolated baseline-derived peer-copy worktree."
+}

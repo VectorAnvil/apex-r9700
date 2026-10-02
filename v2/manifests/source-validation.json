@@ -1,0 +1,117 @@
+{
+  "validation": "All six patches apply to clean pinned upstream; reconstructed modified files match recorded scheduling/Q6/peer source hashes or frozen cbc3985 sources. No fresh compilation or GPU run in publication pass.",
+  "files": {
+    "ggml/src/ggml-cuda/fattn.cu": {
+      "sha256": "a32f8265f8e014425237efe4b5c8396fc8f0f392ad84390e7434716af9be5b24",
+      "matches_measured_source": true
+    },
+    "ggml/src/ggml-cuda/template-instances/fattn-mma-apex-prefill-schedule.cu": {
+      "sha256": "2e053ff1d64baebff3e90d9ba6f1526ff407e930afda34006693bb3e09723145",
+      "matches_measured_source": true
+    },
+    "ggml/src/ggml-cuda/mmvq.cu": {
+      "sha256": "fdd566c92f67ec780b166d6d5b31d9e8a984116df89ea82e2461b15ce3e1ae84",
+      "matches_measured_source": true
+    },
+    "ggml/src/ggml-cuda/fattn-mma-f16.cuh": {
+      "sha256": "a041d4125d3af9fd62d343ae46a9a5f799bd20909c96a6fc97f2f1f88b14bea2",
+      "matches_measured_source": true
+    },
+    "ggml/src/ggml-cuda/fattn-common.cuh": {
+      "sha256": "766183d1b330969a7a4d9fcc16bfa58f307943e54bf21aa02e568487d1020fe2",
+      "matches_measured_source": true
+    },
+    "ggml/src/ggml-cuda/vecdotq.cuh": {
+      "sha256": "c9486417f66935d2678cbc265d42e872e132d2233bb94e56e9f8c68387e9e1b6",
+      "matches_measured_source": true
+    },
+    "ggml/src/ggml-cuda/common.cuh": {
+      "sha256": "6010078d639db19b1e8a2f78c4661ad240659b7bfa5a22864e315a2cbbc8da9b",
+      "matches_measured_source": true
+    },
+    "ggml/src/ggml-cuda/allreduce.cu": {
+      "sha256": "8b76a7a4b209bad7546030f47bf9d8f95a80fdc6c108d105a25745b3ccd36b9d",
+      "matches_measured_source": true
+    },
+    "common/common.cpp": {
+      "sha256": "3cd4fe0a671e8c70c2e0d4f748fbd179e968620d61c8fd6aa4ddc1dc5bc379cc",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-backend-meta.cpp": {
+      "sha256": "532fb1c51be8e99fa991630d18bc9d903af44ec546437feacdbae0cbf4f954fe",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/allreduce.cuh": {
+      "sha256": "7d52ac3f9513fa9a850ca0107beacaf73586acf98a31067f81bb2f2eaa56c8a7",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/apex-p2p.cuh": {
+      "sha256": "056202994a0d17c14243e513d66992d56b207da19d977c07adc49505d4631285",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/fattn-vec.cuh": {
+      "sha256": "4077ec498771cac46a28d449d0bac49d63886938f37c3b7a44dd31b56bf1b8d9",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/ggml-cuda.cu": {
+      "sha256": "f4cf7594b58c86046b17f8bbb50b604f942ffeb798e105cecd71d6f0cbbbae10",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/mmq-vec-dot.cuh": {
+      "sha256": "9c7a24c165b862220bb534e11eda98d0b6fab17a81e76dc90248cc51036067b0",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/mmq.cu": {
+      "sha256": "d709b6364aa74b6105fde1944b9f40c23ffa8a086db2113bf31bdd07218a8fed",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/mmq.cuh": {
+      "sha256": "f5a68a99ecbcd4e05f6e3812bc2d95d69b2fae53a7e587c2249776a900afb948",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/mmvq.cuh": {
+      "sha256": "dc045b7c8efc9e9f4eeba6b5590121c4df3bd5bd0632c0a0560b2d01e60e4d42",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/quantize.cu": {
+      "sha256": "4d62f20ecb96cf40ef76caa4e440bc2a78b0d3b739d3c7532b8e3048967b996b",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/quantize.cuh": {
+      "sha256": "622433bf2d4d8362e71578c032eeb2a1a7aa6d39a0c09e4d9edaf5dd7b72ad0c",
+      "matches_frozen_source": true
+    },
+    "ggml/src/ggml-cuda/template-instances/fattn-mma-apex-grouped-q8.cu": {
+      "sha256": "8e242f76715158edb6529823ef6b6ef1a7534a341e1861d9659ea309eba8e2b4",
+      "matches_frozen_source": true
+    },
+    "src/llama-memory-hybrid.cpp": {
+      "sha256": "c1c547f82cfe33447361f91282867bdac443f5569648d40ed394263d1a0bed65",
+      "matches_frozen_source": true
+    },
+    "src/models/delta-net-base.cpp": {
+      "sha256": "2242658af4d9b9660f958e2509de495b12f22b6a46cfc1836991999ea9f8602c",
+      "matches_frozen_source": true
+    },
+    "tests/test-backend-ops.cpp": {
+      "sha256": "2c5f0c27611340b883f7db605b89c8217d0599e87f80e12828471779a28d25ec",
+      "matches_frozen_source": true
+    },
+    "tools/server/server-common.h": {
+      "sha256": "93552c216acabd55430c378b89eaa452a31a179cf44566bfa44a56c527f8cdfb",
+      "matches_frozen_source": true
+    },
+    "tools/server/server-context.cpp": {
+      "sha256": "1ed01ff085f5a6a726a6eb8abcf2f6d808d9236e1f05264aad135986ef81dc2d",
+      "matches_frozen_source": true
+    },
+    "tools/server/server-task.cpp": {
+      "sha256": "2583ba60d8206aa2cd4120d67e800ded23ad651465bb420b0d701aa8ea4d788b",
+      "matches_frozen_source": true
+    },
+    "tools/server/server-task.h": {
+      "sha256": "e7d4dc5003bdad6c9fd8d6b7ec8bbd4363162f5c69bdcbb3ba8d07585b42d4e5",
+      "matches_frozen_source": true
+    }
+  }
+}

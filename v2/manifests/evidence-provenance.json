@@ -1,0 +1,86 @@
+[
+  {
+    "export": "reports/upstream-comparison.md",
+    "source": "apex-r9700/docs/LLAMA_CPP_UPSTREAM_COMPARISON_20260927.md",
+    "original_sha256": "8b239fb15552be93b819fdf6b6b1ba680f9aebeb8fffbe672fe70725783324f2",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/four-build-benchmark.md",
+    "source": "apex-r9700/docs/LLAMA_CPP_BENCHMARK_20260927.md",
+    "original_sha256": "643400c2d17e0bede255a25044f1a96b9e9c0d1c24807105a5ff53d333eaaa5a",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/core-integration.md",
+    "source": "apex-v2/apex/AUGUST_INTEGRATION_20260927.md",
+    "original_sha256": "05fbeac0575e7be0bab1a1ef9824df27b13f4c8a6e969f8b714a7f8ae7b55870",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/grouped-parity.md",
+    "source": "apex-v2-experiments/20260929-grouped-parity/GROUPED_PARITY_REPORT_20260929.md",
+    "original_sha256": "ee1657eac8c292e55889acbcbee5c0a9650c408528056befb9492ef983421bd4",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/cache-coverage.md",
+    "source": "apex-v2-experiments/20260929-grouped-cache-coverage/src/apex/CACHE_COVERAGE_20260929.md",
+    "original_sha256": "974daa9e3f6ec4ddc6d2d3c0da1b8092558f57866383e3d1b7ca73368de96376",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/prefill-scheduling.md",
+    "source": "apex-v2-experiments/20260930-prefill-schedule/src/apex/PREFILL_SCHEDULE_20260930.md",
+    "original_sha256": "75137a0c36b934bfefd4578722af835d2f153fb4aaadeec4c00fcd524bbeda4f",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/schedule-mtp2.md",
+    "source": "apex-v2-experiments/20260930-schedule-mtp2-stack/src/apex/SCHEDULE_MTP2_STACK_20260930.md",
+    "original_sha256": "a6fef0c2f7a7a5a9bbf87784f853929c254700d815861014b50bed09c927a811",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/q6-stack.md",
+    "source": "apex-v2-experiments/20260930-schedule-q6-stack/src/apex/SCHEDULE_Q6_STACK_20260930.md",
+    "original_sha256": "0e825a31ef68a5cc442ccdaa50e2267b64daee4a924680d6929e79a648e7fcb2",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/allreduce-tuning.md",
+    "source": "apex-v2-experiments/20260930-allreduce-tuning/src/apex/ALLREDUCE_TUNING_20260930.md",
+    "original_sha256": "9ebd4da58b8ca4f73bed90113f39c435fa50b4585fdedfa65cc4dd2a6055541b",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/peer-copy.md",
+    "source": "apex-v2-experiments/20260930-allreduce-peer-copy/src/apex/ALLREDUCE_PEER_COPY_20260930.md",
+    "original_sha256": "f203f2050b1ef1ba1b01ec03d2aeae282d7e0c86e4cb71325b0f98355ccce827",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "reports/discovery-review.md",
+    "source": "apex-v2-experiments/20260930-allreduce-peer-copy/src/apex/DISCOVERY_REVIEW_20260930.md",
+    "original_sha256": "26037af0940ad3faa9b20087498ef1d0d7d677ca9ea89184e30d6f9710c583a4",
+    "editing": "Added historical notice; normalized local paths and links; report findings retained."
+  },
+  {
+    "export": "evidence/peer-model-summary.json",
+    "source": "apex-v2-experiments/20260930-allreduce-peer-copy/MODEL_SUMMARY.json",
+    "original_sha256": "4a21dad1855637971ef11d176852dbd87686c3b9a0d7df2e0ca8f049a72566c5",
+    "editing": "Normalized local workspace paths only."
+  },
+  {
+    "export": "evidence/peer-completed-tasks.json",
+    "source": "apex-v2-experiments/20260930-allreduce-peer-copy/capability-check/PASSED.json",
+    "original_sha256": "4ef20f43f15f1c150115bfed640769b23e523f65384343b55a4df0fb547b1356",
+    "editing": "Normalized local workspace paths only."
+  },
+  {
+    "export": "evidence/peer-routing-summary.json",
+    "source": "apex-v2-experiments/20260930-allreduce-peer-copy/transport-trace/ANALYSIS.json",
+    "original_sha256": "33341720fe1e80f94a3f869d2da8867e849a64a5c466c965c4c6b96c87d40aea",
+    "editing": "Normalized local workspace paths only."
+  }
+]

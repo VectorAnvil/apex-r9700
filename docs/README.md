@@ -2,6 +2,10 @@
 
 This directory is the durable index for Apex and llama.cpp optimization work on two Radeon AI PRO R9700 GPUs. It separates promoted production changes, validated but unpromoted candidates, rejected experiments, and raw evidence.
 
+## Latest experimental research
+
+See the [October 2 V2 publication](../v2/README.md) for the September 27-30 results, reproducible patch export, whole-context curve, checkpoint work, negative results and grouped-attention accuracy limits. The production records below describe the frozen August release.
+
 ## Current production stack
 
 The promoted Qwen3.8 Heretic Q6_K service uses llama.cpp build 10457 with:

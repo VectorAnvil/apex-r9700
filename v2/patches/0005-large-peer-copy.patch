@@ -1,0 +1,126 @@
+diff --git a/ggml/src/ggml-cuda/allreduce.cu b/ggml/src/ggml-cuda/allreduce.cu
+index cb6515ff923a88f6ea2553af827e6558b51a26e7..ded9c4224d93d4f20d32c09dbfb428ac9569b86f 100644
+--- a/ggml/src/ggml-cuda/allreduce.cu
++++ b/ggml/src/ggml-cuda/allreduce.cu
+@@ -12,6 +12,14 @@
+ 
+ #include "apex-p2p.cuh"
+ 
++#ifndef APEX_V2_AR_PEER_COPY
++#define APEX_V2_AR_PEER_COPY 0
++#endif
++#if APEX_V2_AR_PEER_COPY && !defined(GGML_USE_HIP)
++#error "APEX peer-copy experiment requires HIP"
++#endif
++
++
+ // ---------------------------------------------------------------------------
+ // AllReduce for tensor-parallel inference across two GPUs (CUDA or
+ // ROCm/HIP).
+@@ -459,6 +467,22 @@ ggml_cuda_ar_pipeline * ggml_cuda_ar_pipeline_init(const int * devices, size_t n
+         p->devices[i] = devices[i];
+     }
+ 
++#if APEX_V2_AR_PEER_COPY
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(p->devices[i]);
++        int accessible = 0;
++        CUDA_CHECK(hipDeviceCanAccessPeer(&accessible, p->devices[i], p->devices[1 - i]));
++        GGML_ASSERT(accessible == 1);
++        const hipError_t rc = hipDeviceEnablePeerAccess(p->devices[1 - i], 0);
++        if (rc == hipErrorPeerAccessAlreadyEnabled) {
++            (void) hipGetLastError();
++        } else {
++            CUDA_CHECK(rc);
++        }
++    }
++    GGML_LOG_INFO("APEX AllReduce large peer-copy enabled; original wire and sum precision retained\n");
++#endif
++
+     // Per-device streams and event pools.
+     for (size_t i = 0; i < n_devices; ++i) {
+         ggml_cuda_set_device(p->devices[i]);
+@@ -617,6 +641,65 @@ void ggml_cuda_ar_pipeline_free(ggml_cuda_ar_pipeline * p) {
+ // Dispatch
+ // ---------------------------------------------------------------------------
+ 
++#if APEX_V2_AR_PEER_COPY
++template <typename T_src, typename T_dst>
++static bool ggml_cuda_ar_allreduce_peer_copy_impl(
++        ggml_cuda_ar_pipeline * p,
++        ggml_backend_t * backends,
++        T_src * const src_buf[GGML_CUDA_MAX_DEVICES],
++        T_dst * const dst_buf[GGML_CUDA_MAX_DEVICES],
++        const bool compute[GGML_CUDA_MAX_DEVICES],
++        int64_t ne,
++        size_t nbytes) {
++    GGML_ASSERT(p->n_devices == 2 && nbytes <= p->copy_bytes);
++    GGML_ASSERT(ne <= std::numeric_limits<int>::max());
++    const size_t chunk_bytes = ggml_cuda_ar_chunk_bytes(p, nbytes);
++    GGML_ASSERT(chunk_bytes > 0);
++    const int slot = ggml_cuda_ar_acquire_slot(p).slot;
++    ggml_backend_cuda_context * ctx[2] = {};
++
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(p->devices[i]);
++        ctx[i] = static_cast<ggml_backend_cuda_context *>(backends[i]->context);
++        GGML_ASSERT(ctx[i]->device == p->devices[i]);
++        if (!compute[i]) {
++            CUDA_CHECK(cudaMemsetAsync(src_buf[i], 0, nbytes, ctx[i]->stream()));
++        }
++        ggml_cuda_ar_wait_for_compute(p, ctx[i], i, slot);
++        if (p->dev_tmp_kernel_done_valid) {
++            CUDA_CHECK(cudaStreamWaitEvent(p->streams[i], p->dev_tmp_kernel_done[i]));
++        }
++    }
++
++    for (int i = 0; i < 2; ++i) {
++        const int peer = 1 - i;
++        ggml_cuda_set_device(p->devices[i]);
++        CUDA_CHECK(cudaStreamWaitEvent(p->streams[i], p->ev_pool[peer][slot].app));
++        for (size_t offset = 0; offset < nbytes; offset += chunk_bytes) {
++            const size_t size = std::min(chunk_bytes, nbytes - offset);
++            CUDA_CHECK(hipMemcpyPeerAsync(p->dev_tmp[i] + offset, p->devices[i],
++                reinterpret_cast<const char *>(src_buf[peer]) + offset, p->devices[peer], size, p->streams[i]));
++        }
++        CUDA_CHECK(cudaEventRecord(p->ev_pool[i][slot].h2d, p->streams[i]));
++    }
++
++    // Both reads must finish before in-place writes or pooled source reuse.
++    for (int i = 0; i < 2; ++i) {
++        ggml_cuda_set_device(p->devices[i]);
++        CUDA_CHECK(cudaStreamWaitEvent(ctx[i]->stream(), p->ev_pool[i][slot].h2d));
++        CUDA_CHECK(cudaStreamWaitEvent(ctx[i]->stream(), p->ev_pool[1 - i][slot].h2d));
++        const int blocks = (int) std::min(int64_t(1024), (ne + 255) / 256);
++        ggml_cuda_ar_add_kernel<T_dst, T_src><<<blocks, 256, 0, ctx[i]->stream()>>>(
++            dst_buf[i], reinterpret_cast<const T_src *>(p->dev_tmp[i]), (int) ne);
++        CUDA_CHECK(cudaGetLastError());
++        CUDA_CHECK(cudaEventRecord(p->dev_tmp_kernel_done[i], ctx[i]->stream()));
++        CUDA_CHECK(cudaEventRecord(p->ev_pool[i][slot].ker, ctx[i]->stream()));
++    }
++    p->dev_tmp_kernel_done_valid = true;
++    return true;
++}
++#endif
++
+ // Asymmetric copy_impl: data sent over PCIe in T_src precision (one element of
+ // nbytes per ne element); accumulated locally into a T_dst buffer.  When
+ // T_src == T_dst this is the original homogeneous reduction.  When they differ
+@@ -632,6 +715,9 @@ static bool ggml_cuda_ar_allreduce_copy_impl(
+         const bool              compute[GGML_CUDA_MAX_DEVICES],
+         int64_t                 ne,
+         size_t                  nbytes) {
++#if APEX_V2_AR_PEER_COPY
++    return ggml_cuda_ar_allreduce_peer_copy_impl(p, backends, src_buf, dst_buf, compute, ne, nbytes);
++#else
+     GGML_ASSERT(p->n_devices == 2);
+     GGML_ASSERT(nbytes <= p->copy_bytes);
+     GGML_ASSERT(ne <= std::numeric_limits<int>::max());
+@@ -737,6 +823,7 @@ static bool ggml_cuda_ar_allreduce_copy_impl(
+     p->dev_tmp_kernel_done_valid = true;
+ 
+     return true;
++#endif
+ }
+ 
+ // Outer-level chunker: copy_impl handles up to copy_bytes per call (limited by

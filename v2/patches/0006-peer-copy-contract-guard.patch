@@ -1,0 +1,33 @@
+diff --git a/ggml/src/ggml-cuda/allreduce.cu b/ggml/src/ggml-cuda/allreduce.cu
+index ded9c4224d93d4f20d32c09dbfb428ac9569b86f..ad6b067118e4364a8ffcd2a022ae2fe5c065c55e 100644
+--- a/ggml/src/ggml-cuda/allreduce.cu
++++ b/ggml/src/ggml-cuda/allreduce.cu
+@@ -9,6 +9,7 @@
+ #include <cstdlib>
+ #include <cstring>
+ #include <limits>
++#include <type_traits>
+ 
+ #include "apex-p2p.cuh"
+ 
+@@ -716,8 +717,10 @@ static bool ggml_cuda_ar_allreduce_copy_impl(
+         int64_t                 ne,
+         size_t                  nbytes) {
+ #if APEX_V2_AR_PEER_COPY
+-    return ggml_cuda_ar_allreduce_peer_copy_impl(p, backends, src_buf, dst_buf, compute, ne, nbytes);
+-#else
++    if constexpr (std::is_same<T_src, nv_bfloat16>::value && std::is_same<T_dst, float>::value) {
++        return ggml_cuda_ar_allreduce_peer_copy_impl(p, backends, src_buf, dst_buf, compute, ne, nbytes);
++    }
++#endif
+     GGML_ASSERT(p->n_devices == 2);
+     GGML_ASSERT(nbytes <= p->copy_bytes);
+     GGML_ASSERT(ne <= std::numeric_limits<int>::max());
+@@ -823,7 +826,6 @@ static bool ggml_cuda_ar_allreduce_copy_impl(
+     p->dev_tmp_kernel_done_valid = true;
+ 
+     return true;
+-#endif
+ }
+ 
+ // Outer-level chunker: copy_impl handles up to copy_bytes per call (limited by
